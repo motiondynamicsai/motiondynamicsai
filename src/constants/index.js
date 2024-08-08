@@ -1,23 +1,17 @@
 import { Stu, Max, Diar, Genia, Jon, facebook, instagram, linkedin, twitter, airbnb, binance, coinbase, dropbox, send, shield, star  } from "../assets";
+import video1 from '../assets/Muted solo.mp4';
+import gif1 from '../assets/Squash motionbuilder GIF.gif';
+import video2 from '../assets/DualSkeleton.mp4';
+import gif2 from '../assets/Marked person to capture the motion.gif';
 
 export const navLinks = [
-  {
-    id: "home",
-    title: "Home",
-  },
-  {
-    id: "aboutus",
-    title: "About Us",
-  },
-  {
-    id: "services",
-    title: "Services",
-  },
-  {
-    id: "team",
-    title: "Team",
-  },
+  { id: 'home', title: 'Home' },
+  { id: 'services', title: 'Services' },
+  { id: 'demos', title: 'Demos' },
+  { id: 'team', title: 'Team' },
+  { id: 'contact', title: 'Contact' }, // Ensure this is at the end
 ];
+
 
 export const features = [
   {
@@ -41,6 +35,30 @@ export const features = [
       "AI models can analyse gameplay, generating training programs, providing detailed analysis of your game, and automatically generate replays and highlights .",
   },
 ];
+
+export const demos = [
+  {
+    src: video1,
+    alt: 'Feature Video 1',
+    type: 'video',
+  },
+  {
+    src: gif1,
+    alt: 'Feature GIF 1',
+    type: 'gif',
+  },
+  {
+    src: video2,
+    alt: 'Feature Video 2',
+    type: 'video',
+  },
+  {
+    src: gif2,
+    alt: 'Feature GIF 2',
+    type: 'gif',
+  },
+];
+
 
 export const team = [
   {
@@ -179,22 +197,22 @@ export const socialMedia = [
   {
     id: "social-media-1",
     icon: instagram,
-    link: "https://www.instagram.com/",
+    link: "https://www.instagram.com/thesquash_ai?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   {
     id: "social-media-2",
     icon: facebook,
-    link: "https://www.facebook.com/",
+    link: "",
   },
   {
     id: "social-media-3",
     icon: twitter,
-    link: "https://www.twitter.com/",
+    link: "",
   },
   {
     id: "social-media-4",
     icon: linkedin,
-    link: "https://www.linkedin.com/",
+    link: "",
   },
 ];
 
