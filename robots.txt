@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
+User-agent: *
+Disallow: /jon_bio.html
+Disallow: /stu_bio.html
+Disallow: /max_bio.html
+Disallow: /diar_bio.html
+Disallow: /Genia_bio.html
+
 
 Sitemap: https://motiondynamics.ai/sitemap.xml
