@@ -1,44 +1,89 @@
-import { Stu, Max, Diar, Genia, Jon, facebook, instagram, linkedin, twitter, airbnb, binance, coinbase, dropbox, send, shield, star  } from "../assets";
+import { Stu, Max, Diar, Genia, Jon, facebook, instagram, linkedin, twitter, ObiRoboticslogo, UOB, PSA, squashTV, WSF, send, shield, star  } from "../assets";
 import video1 from '../assets/Muted solo.mp4';
 import gif1 from '../assets/Squash motionbuilder GIF.gif';
-import video2 from '../assets/DualSkeleton.mp4';
+import video2 from '../assets/RalleySkeleton.mp4';
 import gif2 from '../assets/Marked person to capture the motion.gif';
+import video3 from '../assets/Qualysis.mp4'
+import { FcComboChart, FcScatterPlot } from "react-icons/fc";
+
 
 export const navLinks = [
-  { id: 'home', title: 'Home' },
-  { id: 'services', title: 'Services' },
-  { id: 'demos', title: 'Demos' },
-  { id: 'team', title: 'Team' },
-  { id: 'contact', title: 'Contact' }, // Ensure this is at the end
+  {
+    id: "home",
+    title: "Home",
+    link: "/#home",
+  },
+  {
+    id: "services",
+    title: "Services",
+    link: "/#services",
+  },
+  {
+    id: "demos",
+    title: "Demos",
+    link: "/#demos", // demos section
+  },
+  {
+    id: "team",
+    title: "Team",
+    link: "/#team",
+  },
+  {
+    id: "contact",
+    title: "Contact",
+    link: "/#contact",
+  },
 ];
+
 
 
 export const features = [
   {
     id: "feature-1",
     icon: star,
-    title: "Data Collection",
+    title: "Scalable Data Collection",
     content:
-      "Leveraging existing data from online sources, AI models can be trained to analyse training and match play, enhancing their understanding of motioncapture data",
+      "Train models using existing match footage and open datasets. Seamlessly build strategic and biomechanical insight pipelines.",
   },
   {
     id: "feature-2",
     icon: shield,
-    title: "Real time analysis",
-    content: "Our technology empowers models to process live data, providing immediate insights for analysis, which can be used to improve training, comptetion, spectating and refereeing",
+    title: "Real-Time Tactical Feedback",
+    content:
+      "Deliver live biomechanical and strategic insights to coaches, analysts, and officials—improving decision-making during both training and competition.",
   },
   {
     id: "feature-3",
     icon: send,
-    title: "Data analysis",
+    title: "Automated Performance Insights",
     content:
-      "AI models can analyse gameplay, generating training programs, providing detailed analysis of your game, and automatically generate replays and highlights .",
+      "Generate tailored reports, training recommendations, and tactical replays—automatically. Designed for fast ROI and easy integration into existing workflows.",
   },
-];
+  {
+    id: "feature-data-extraction",
+    icon: FcComboChart, //icon: <FcComboChart className="w-8 h-8" />, 
+    title: "High-Fidelity Data Extraction",
+    content:
+      "Extract structured, frame-level data from raw sports footage—including player positions, biomechanics, and movement events—ready for analysis, modeling, or integration into proprietary systems.",
+  },
+  {
+    id: "feature-data-extraction",
+    icon: FcScatterPlot, //icon: <FcComboChart className="w-8 h-8" />, 
+    title: "Statistical Match Analysis",
+    content:
+      "Our data collection pipeline can interface with predictive match models, to estimate likely point-by-point match outcomes"
+  }
+]
+
 
 export const demos = [
   {
     src: video1,
+    alt: 'Feature Video 1',
+    type: 'video',
+  },
+  {
+    src: video3,
     alt: 'Feature Video 1',
     type: 'video',
   },
@@ -62,45 +107,45 @@ export const demos = [
 
 export const team = [
   {
-    id: "Team-1",
+    id: "Diar Karim",
     content:
-      "Money is only a tool. It will take you wherever you wish, but it will not replace you as the driver.",
+      "Diar Karim is a postdoctoral research scientist at the University of Birmingham (UK) currently working on  immersive augmented and virtual reality technologies training ensemble musicians with virtual players in real-time. I use my skills in research-or software development, expertise in motion capture and psychophysics to create scientific exper from first principles.",
     name: "Diar Karim",
     title: "Post-doctoral Research Fellow",
     subtitle: "Founder and leader",
     img: Diar,
   },
   {
-    id: "Team-2",
+    id: "Stuart Macgregor",
     content:
-      "Money makes your life easier. If you're lucky to have it, you're lucky.",
+      "Stuart MacGregor is a professional Squash Player and research assistant at the University of Birmingham. With a BSc in Human Biology and a Masters in Computer Science, Stuart's interests lie in artificial intelligence, motion capture, and their applications in enhancing sports experiences.",
     name: "Stuart MacGregor",
     title: "MSc Computer Science graduate",
     subtitle: "Founder and leader",
     img: Stu,
   },
   {
-    id: "Team-3",
+    id: "Jonathan Tate",
     content:
-      "It is usually people in the money business, finance, and international trade that are really rich.",
+      "",
     name: "Jonathan Tate",
     title: "University of Birmingham Head Squash Coach",
     subtitle: "Director",
     img: Jon,
   },
   {
-    id: "Team-4",
+    id: "Max Di Luca",
     content:
-      "It is usually people in the money business, finance, and international trade that are really rich.",
+      "Max Di Luca is Associate Professor at the University of Birmingham in the CNCR research centre. Using psychophysical methods and computational models, he investigates how the human brain processes multisensory information for perception and action. He earned the Laurea in Psychology from the Università di Trieste in 2000 and the PhD in Cognitive Science from Brown University in 2006. During his career, Dr Di Luca has been Scientist at the Max Planck Institute for Biological Cybernetics in Tübingen, Visiting Scientist at Oculus Research and Research Scientist at Facebook Reality Labs.",
     name: "Max Di Luca",
     title: "Associate Professor",
     subtitle: "Co-founder",
     img: Max,
   },
   {
-    id: "Team-5",
+    id: "Genia Penksik",
     content:
-      "It is usually people in the money business, finance, and international trade that are really rich.",
+      "",
     name: "Genia Penksik",
     title: "Research assistant",
     subtitle: "Co-founder",
@@ -112,18 +157,18 @@ export const team = [
 export const stats = [
   {
     id: "stats-1",
-    title: "Installations",
-    value: "360+",
+    title: "Sport applications",
+    value: "Multi",
   },
   {
     id: "stats-2",
-    title: "Professional broadcasting",
-    value: "Worldwide",
+    title: "Tracking",
+    value: "Markerless",
   },
   {
     id: "stats-3",
-    title: "Users",
-    value: "1M+",
+    title: "Accuaracy",
+    value: "95%",
   },
 ];
 
@@ -133,23 +178,23 @@ export const footerLinks = [
     links: [
       {
         name: "Content",
-        link: "https://www.hoobank.com/content/",
+        link: "",
       },
       {
         name: "How it Works",
-        link: "https://www.hoobank.com/how-it-works/",
+        link: "#services",
       },
       {
         name: "Create",
-        link: "https://www.hoobank.com/create/",
+        link: "",
       },
       {
         name: "Explore",
-        link: "https://www.hoobank.com/explore/",
+        link: "",
       },
       {
         name: "Terms & Services",
-        link: "https://www.hoobank.com/terms-and-services/",
+        link: "",
       },
     ],
   },
@@ -158,23 +203,23 @@ export const footerLinks = [
     links: [
       {
         name: "Help Center",
-        link: "https://www.hoobank.com/help-center/",
+        link: "",
       },
       {
         name: "Partners",
-        link: "https://www.hoobank.com/partners/",
+        link: "#collaborations",
       },
       {
         name: "Suggestions",
-        link: "https://www.hoobank.com/suggestions/",
+        link: "",
       },
       {
         name: "Blog",
-        link: "https://www.hoobank.com/blog/",
+        link: "",
       },
       {
         name: "Newsletters",
-        link: "https://www.hoobank.com/newsletters/",
+        link: "",
       },
     ],
   },
@@ -182,12 +227,12 @@ export const footerLinks = [
     title: "Partner",
     links: [
       {
-        name: "Our Partner",
-        link: "https://www.hoobank.com/our-partner/",
+        name: "Our Partners",
+        link: "#collaborations", // Update link to scroll to collaborations section
       },
       {
         name: "Become a Partner",
-        link: "https://www.hoobank.com/become-a-partner/",
+        link: "#contact", // Update link to scroll to collaborations section
       },
     ],
   },
@@ -197,7 +242,7 @@ export const socialMedia = [
   {
     id: "social-media-1",
     icon: instagram,
-    link: "https://www.instagram.com/thesquash_ai?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+    link: "https://www.instagram.com/motiondynamicsai/",
   },
   {
     id: "social-media-2",
@@ -219,18 +264,23 @@ export const socialMedia = [
 export const clients = [
   {
     id: "client-1",
-    logo: airbnb,
+    logo: squashTV,
   },
   {
     id: "client-2",
-    logo: binance,
+    logo: PSA,
   },
   {
     id: "client-3",
-    logo: coinbase,
+    logo: ObiRoboticslogo,
   },
   {
     id: "client-4",
-    logo: dropbox,
+    logo: UOB,
+  },
+  {
+    id: "client-5",
+    logo: WSF,
   },
 ];
+

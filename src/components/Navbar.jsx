@@ -1,51 +1,58 @@
-import { useState } from 'react';
-import MDlogo from '../assets/MDlogo.png';  // Import the PNG logo
+import { useState, useEffect } from 'react';
+import { HashLink } from 'react-router-hash-link';
+import Logo2 from '../assets/Logo2.png';
 import { navLinks } from '../constants';
-import { close, menu } from '../assets';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="w-full flex py-6 justify-between items-center navbar">
-      <img src={MDlogo} alt="motiondynamics" className="h-[150px] auto-width" />
+    <nav className={`w-full z-50 fixed top-0 left-0 bg-primary/90 backdrop-blur-sm border-b border-gray-900 transition-all ${scrolled ? 'shadow-md' : ''}`}>
+      <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
 
-      <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-        {navLinks.map((nav, index) => (
-          <li
-            key={nav.id}
-            className={`font-poppins font-normal cursor-pointer text-[18px] ${index === navLinks.length - 1 ? 'mr-0' : 'mr-10'} text-white`}
-          >
-            <a href={`#${nav.id}`}>
-              {nav.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-      <div className="sm:hidden flex flex-1 justify-end items-center relative">
-        <img 
-          src={toggle ? close : menu}
-          alt="menu"
-          className="w-[24px] h-[24px] object-contain z-50"
-          onClick={() => setToggle((prev) => !prev)}
-        />
+        {/* Logo */}
+        <div className="flex items-center">
+          <img src={Logo2} alt="Logo" className="h-20" />
 
-        <div 
-          className={`transition-transform transition-opacity duration-300 ease-in-out ${toggle ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'} p-6 bg-black-gradient absolute top-10 right-0 mx-0 my-0 min-w-[140px] rounded-lg sidebar z-40`}
-        >
-          <ul className="list-none flex-col justify-end items-center flex-1">
-            {navLinks.map((nav, index) => (
-              <li
-                key={nav.id}
-                className={`font-poppins font-normal cursor-pointer text-[18px] ${index === navLinks.length - 1 ? 'mr-0' : 'mb-4'} text-white`}
-              >
-                <a href={`#${nav.id}`}>
-                  {nav.title}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
+
+       {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-14 items-center text-xl">
+          {navLinks.map((link) => (
+            <HashLink
+              key={link.id}
+              smooth
+              to={link.link}
+              className="text-dimWhite hover:text-white transition-colors font-medium"
+            >
+              {link.title}
+            </HashLink>
+          ))}
+          <Link
+            to="/storyboard"
+            className="text-dimWhite hover:text-white transition-colors font-medium"
+          >
+            Partnerships
+          </Link>
+        </div>
+
+
+        {/* Contact Button */}
+        <HashLink smooth to="/#contact">
+          <button className="ml-4 px-5 py-2 rounded-md bg-gradient-to-r from-secondary to-accent text-white font-semibold hover:shadow-md transition-all">
+            Contact
+          </button>
+        </HashLink>
       </div>
     </nav>
   );

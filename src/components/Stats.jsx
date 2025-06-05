@@ -2,15 +2,26 @@ import { stats } from '../constants';
 import styles from '../style';
 
 const Stats = () => (
-    <section className={`${styles.flexCenter} flex-row flex-wrap sm:mb-20 mb-6`}>
+  <section className="w-full bg-primary py-12">
+    <div className={`${styles.flexCenter} flex-col text-center`}>
+      <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
+        Trusted by Athletes, Coaches, and Organisations
+      </h2>
+      
+      <div className="flex flex-wrap justify-center gap-8">
         {stats.map((stat) => (
-            <div key={stat.id} className={`flex-1 flex justify-start items-center flex-row m-3` }>
-                <h4 className="font-popping font-semibold xs:text-[40px] text-[30px] xs:leading-[53px] leading-[43px] text-white">{stat.value} </h4>
-                <p className="font-popping font-normal xs:text-[20px] text-[15px] xs:leading-[26px] leading-[21px] text-gradient uppercase ml-3">{stat.title}</p>
-            </div>
+          <div key={stat.id} className="flex flex-col items-center min-w-[150px]">
+            <h4 className="text-4xl md:text-5xl font-extrabold text-gradient mb-1">
+              {stat.value}
+            </h4>
+            <p className="text-white text-sm md:text-base uppercase tracking-wide font-medium">
+              {stat.title}
+            </p>
+          </div>
         ))}
+      </div>
+    </div>
+  </section>
+);
 
-    </section>
-  )
-
-export default Stats
+export default Stats;

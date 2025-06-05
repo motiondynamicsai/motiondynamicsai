@@ -1,38 +1,68 @@
+import React from 'react';
+import { Helmet } from 'react-helmet';
 import styles from '../style';
-import GetStarted from './GetStarted'
-import logocropped from '../assets/logocropped.png'; 
+import { TennisImage } from '../assets';
+import { motion } from 'framer-motion';
 
 const Hero = () => (
-    <section id = "home" className= {'flex md:flex-row flex-col ${styles.paddingY'}>
-      <div className={`flex-1 ${styles.flexStart} flex-col xl:px-0 sm:px-16 px-6`}>
-        <div className="flex flex-row justofy-between items-center w-full">
-          <h1 className="flex-1 font-poppings font-semibold ss:text-[72px] text-[52px] text-white ss:leading-[100px] leading-[75px]">
-            Next <br className = "sm:block hidden" /> {" "}
-            <span className = "text-gradient"> Generation</span> {" "}
+  <section className="relative min-h-screen flex items-center bg-primary pt-[96px]">
+    {/* Background overlays */}
+    <div className="absolute inset-0 bg-gradient-to-b from-primary/90 to-dark/90 z-0" />
+    <div className="absolute inset-0 bg-grid-white/[0.02] z-0" />
+
+    {/* Content container */}
+    <div className="container mx-auto px-6 relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-12">
+        
+        {/* Text content */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent">
+              Precision Sports Analytics
+            </span>
           </h1>
-
-          <div className="ss:flex hidden md:mr-4 mr-0"> 
-            <GetStarted/>
+          <p className="text-lg md:text-xl text-dimWhite mb-8 max-w-xl leading-relaxed">
+            Delivering simple, scalable AI-powered motion capture and biomechanical analytics that integrate seamlessly into your workflow—driving measurable ROI for sports teams, training centers, and institutions worldwide.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <a
+              href="/#contact"
+              aria-label="Book a demo"
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-secondary to-accent text-white font-semibold hover:shadow-xl transition-all"
+            >
+              Book a Demo
+            </a>
+            <a
+              href="/#services"
+              aria-label="Learn more"
+              className="px-6 py-3 rounded-lg border-2 border-accent text-accent font-semibold hover:bg-accent/10 transition-all"
+            >
+              Learn More
+            </a>
           </div>
-        </div>
-        <h1 className="font-poppings font-semibold ss:text-[68px] text-[52px] text-white ss:leading-[100px] leading-[75px] w-full"> Motion Capture. </h1>
-        <p className={`${styles.paragraph} max-w-[470px] mt-5`}>
-          Our team of experts use a methodology to redesign they way sport is analysed, visualised and presented. We use motion caputre technology to give a detail analysis of any users performance 
-        </p>
+        </motion.div>
+
+        {/* Image content */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative"
+        >
+          <img
+            src={TennisImage}
+            alt="Tennis player tracked with motion capture"
+            className="w-full max-w-2xl mx-auto rounded-2xl shadow-xl border border-gray-700"
+          />
+          <div className="absolute -z-10 w-full h-full bg-accent/10 blur-3xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+        </motion.div>
       </div>
+    </div>
+  </section>
+);
 
-      <div className={`flex-1 flex ${styles.flexCenter} md:my-0 my-10 relative`}> 
-        <img src={logocropped} alt="billing" className="w-[100%] auto-height relative z-[5]"/>
-        <div className="absolute z-[0] w-[40%] h-[35%] top-0 orange__gradient"/>
-        <div className="absolute z-[1] w-[80%] h-[80%] rounded-full bottom-40 white__gradient"/>
-        <div className="absolute z-[0] w-[50%] h-[50%] right-20 bottom-20 blue__gradient"/>
-      </div>
-      <div className={`ss:hidden ${styles.flexCenter}`}>
-        <GetStarted/>
-      </div>
-
-    </section>  
-  )
-
-
-export default Hero
+export default Hero;

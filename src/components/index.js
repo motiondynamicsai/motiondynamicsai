@@ -8,16 +8,18 @@ import Team from "./Team";
 import Info from "./Info";
 import Navbar from "./Navbar";
 import Stats from "./Stats";
+import Storyboard from "./Partners"; // ✅ include Storyboard here
 
 export {
     About,
     Button,
-    Contact, 
+    Contact,
     Footer,
     Hero,
     Services,
     Team,
-    Info, 
+    Info,
     Navbar,
-    Stats
+    Stats,
+    Storyboard, // ✅ export it for use in App.jsx
 };
