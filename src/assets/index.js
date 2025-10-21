@@ -22,8 +22,6 @@ import PSA from "./PSA.png"
 import squashTV from "./squashTV.png"
 import ObiRoboticslogo from "./ObiRoboticslogo.png" 
 import UOB from "./UOB.png"
-import imageMain from "./imageMain.jpg"
-import MainImage from "./MainImage.png"
 import GraphRPM from "./GraphRPM.png"
 import Graphshowacc from "./Graphshowacc.png"
 import Graphplayerwin from "./Graphplayerwin.png"
@@ -39,6 +37,8 @@ import skeleton_overlay_tennis from "./skeleton_overlay_tennis_v2.mp4"
 import tennis_reconstruction from "./3d_tennis_reconstruction.mp4"
 import hand_tracking_gif from "./hand_tracking(2).gif"
 import padel from "./padel_analysis.webm"
+import tennis_strobe from "./tennis_strobe.mov"
+import golf_strobe from "./golf_strobe.mov"
 
 export {
   logo,
@@ -65,8 +65,6 @@ export {
   ObiRoboticslogo,
   squashTV,
   UOB,
-  imageMain,
-  MainImage,
   GraphRPM,
   Graphshowacc,
   Graphplayerwin,
@@ -81,6 +79,7 @@ export {
   skeleton_overlay_tennis,
   tennis_reconstruction,
   hand_tracking_gif,
-  padel
-
+  padel,
+  tennis_strobe,
+  golf_strobe
 };
