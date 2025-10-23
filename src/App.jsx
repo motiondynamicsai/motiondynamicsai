@@ -102,6 +102,20 @@ const HeroVideo = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </a>
+
+             {/* New Demo Button */}
+            {/* <a
+              href="https://demo.aimocap.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-center px-8 py-4 text-base font-medium text-indigo-50 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full hover:from-indigo-500 hover:to-purple-500 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
+            >
+              Tech week demo
+              <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a> */}
+
           </div>
         </div>
       </div>
