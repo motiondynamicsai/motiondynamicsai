@@ -247,7 +247,7 @@ export const socialMedia = [
   {
     id: "social-media-1",
     icon: instagram,
-    link: "https://www.instagram.com/motiondynamicsai/",
+    link: "https://www.instagram.com/motiondynamics_ai/",
   },
   {
     id: "social-media-2",
