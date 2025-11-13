@@ -39,6 +39,7 @@ import hand_tracking_gif from "./hand_tracking(2).gif"
 import padel from "./padel_analysis.webm"
 import tennis_strobe from "./tennis_strobe.mov"
 import golf_strobe from "./golf_strobe.mov"
+import RalleyForm from "./RalleyForm.png";
 
 export {
   logo,
@@ -81,5 +82,6 @@ export {
   hand_tracking_gif,
   padel,
   tennis_strobe,
-  golf_strobe
+  golf_strobe,
+  RalleyForm,
 };

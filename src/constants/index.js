@@ -1,4 +1,4 @@
-import { Stu, Max, Diar, Genia, Jon, facebook, instagram, linkedin, twitter, ObiRoboticslogo, UOB, PSA, squashTV, WSF, send, shield, star  } from "../assets";
+import { Stu, Max, Diar, Genia, Jon, facebook, instagram, linkedin, twitter, ObiRoboticslogo, UOB, PSA, squashTV, WSF, send, shield, star, RalleyForm } from "../assets";
 import video1 from '../assets/Muted solo.mp4';
 import gif1 from '../assets/Squash motionbuilder GIF.gif';
 import video2 from '../assets/RalleySkeleton.mp4';
@@ -22,6 +22,11 @@ export const navLinks = [
     id: "demos",
     title: "Demos",
     link: "/#demos", // demos section
+  },
+  {
+    id: "solutions",
+    title: "Solutions",
+    link: "/#solutions"
   },
   {
     id: "team",
@@ -257,7 +262,7 @@ export const socialMedia = [
   {
     id: "social-media-4",
     icon: linkedin,
-    link: "",
+    link: "https://www.linkedin.com/company/motion-dynamics-software/",
   },
 ];
 
@@ -282,5 +287,9 @@ export const clients = [
     id: "client-5",
     logo: WSF,
   },
+  {
+    id: "client-6",
+    logo: RalleyForm,
+  }
 ];
 

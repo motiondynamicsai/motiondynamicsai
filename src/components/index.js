@@ -9,6 +9,7 @@ import Info from "./Info";
 import Navbar from "./Navbar";
 import Stats from "./Stats";
 import Storyboard from "./Partners"; // ✅ include Storyboard here
+import Solutions from "./Solutions";
 
 export {
     About,
@@ -21,5 +22,6 @@ export {
     Info,
     Navbar,
     Stats,
-    Storyboard, // ✅ export it for use in App.jsx
+    Storyboard, 
+    Solutions,
 };

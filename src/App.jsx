@@ -10,6 +10,7 @@ import {
   Team,
   Navbar,
   Stats,
+  Solutions,
 } from "./components";
 import Collaborations from "./components/Collaborations";
 import TeamMemberDetail from "./components/TeamMemberDetail";
@@ -102,20 +103,6 @@ const HeroVideo = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </a>
-
-             {/* New Demo Button */}
-            {/* <a
-              href="https://demo.aimocap.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center px-8 py-4 text-base font-medium text-indigo-50 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full hover:from-indigo-500 hover:to-purple-500 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
-            >
-              Tech week demo
-              <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a> */}
-
           </div>
         </div>
       </div>
@@ -136,9 +123,12 @@ const HeroVideo = () => {
 const App = () => {
   useEffect(() => {
     AOS.init({ 
-      duration: 1000,
-      once: true,
-      easing: 'ease-out-cubic'
+      duration: 1200,
+      once: false,
+      easing: 'ease-out-cubic',
+      offset: 50,
+      delay: 0,
+      anchorPlacement: 'top-bottom'
     });
   }, []);
 
@@ -205,46 +195,150 @@ const App = () => {
               animation-delay: 800ms;
             }
             
-            /* Reduced section spacing for tighter layout */
+            /* Smooth section transitions with overlapping gradients */
+            .section-transition {
+              position: relative;
+              isolation: isolate;
+            }
+            
+            .section-transition::before {
+              content: '';
+              position: absolute;
+              top: -50px;
+              left: 0;
+              right: 0;
+              height: 100px;
+              background: linear-gradient(to bottom, transparent, rgba(15, 23, 42, 0.3), transparent);
+              pointer-events: none;
+              z-index: 1;
+            }
+            
+            /* Minimal section spacing for tighter layout */
             .section-padding {
-              padding-top: 3rem;
-              padding-bottom: 3rem;
+              padding-top: 2rem;
+              padding-bottom: 2rem;
+              position: relative;
             }
             
             @media (min-width: 768px) {
+              .section-padding {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+              }
+            }
+            
+            @media (min-width: 1024px) {
               .section-padding {
                 padding-top: 4rem;
                 padding-bottom: 4rem;
               }
             }
             
-            @media (min-width: 1024px) {
-              .section-padding {
-                padding-top: 5rem;
-                padding-bottom: 5rem;
-              }
-            }
-            
-            /* Smooth scroll behavior */
+            /* Smooth scroll behavior with offset */
             html {
               scroll-behavior: smooth;
+              scroll-padding-top: 80px;
             }
             
             /* Premium glass effect for components */
             .glass-effect {
-              background: rgba(255, 255, 255, 0.05);
-              backdrop-filter: blur(10px);
-              border: 1px solid rgba(255, 255, 255, 0.1);
+              background: rgba(255, 255, 255, 0.03);
+              backdrop-filter: blur(20px);
+              -webkit-backdrop-filter: blur(20px);
+              border: 1px solid rgba(255, 255, 255, 0.05);
             }
             
             /* Professional hover transitions */
             .hover-lift {
-              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             }
             
             .hover-lift:hover {
-              transform: translateY(-4px);
-              box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+              transform: translateY(-6px);
+              box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            }
+            
+            /* Seamless background flow between sections */
+            .bg-flow-dark {
+              background: linear-gradient(180deg, 
+                rgba(15, 23, 42, 0) 0%,
+                rgba(15, 23, 42, 0.5) 20%,
+                rgba(15, 23, 42, 0.8) 50%,
+                rgba(15, 23, 42, 0.5) 80%,
+                rgba(15, 23, 42, 0) 100%
+              );
+            }
+            
+            .bg-flow-light {
+              background: linear-gradient(180deg,
+                rgba(30, 41, 59, 0) 0%,
+                rgba(30, 41, 59, 0.3) 20%,
+                rgba(30, 41, 59, 0.5) 50%,
+                rgba(30, 41, 59, 0.3) 80%,
+                rgba(30, 41, 59, 0) 100%
+              );
+            }
+            
+            /* Subtle section dividers */
+            .section-divider {
+              position: absolute;
+              bottom: 0;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 100%;
+              height: 1px;
+              background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(99, 102, 241, 0.1) 20%,
+                rgba(99, 102, 241, 0.2) 50%,
+                rgba(99, 102, 241, 0.1) 80%,
+                transparent 100%
+              );
+            }
+            
+            /* Floating gradient orbs for ambient effect */
+            @keyframes float {
+              0%, 100% { transform: translate(0, 0) scale(1); }
+              33% { transform: translate(30px, -30px) scale(1.05); }
+              66% { transform: translate(-20px, 20px) scale(0.95); }
+            }
+            
+            .floating-gradient {
+              position: absolute;
+              border-radius: 50%;
+              filter: blur(80px);
+              opacity: 0.15;
+              animation: float 20s infinite ease-in-out;
+              pointer-events: none;
+            }
+            
+            .gradient-orb-1 {
+              width: 600px;
+              height: 600px;
+              background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
+              top: -300px;
+              left: -300px;
+            }
+            
+            .gradient-orb-2 {
+              width: 800px;
+              height: 800px;
+              background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+              bottom: -400px;
+              right: -400px;
+              animation-delay: -10s;
+            }
+            
+            /* Content fade-in on scroll */
+            .content-reveal {
+              opacity: 0;
+              transform: translateY(20px);
+              transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .content-reveal.aos-animate {
+              opacity: 1;
+              transform: translateY(0);
             }
           `}</style>
         </Helmet>
@@ -268,7 +362,7 @@ const App = () => {
                   />
                 </Helmet>
 
-                {/* Hero Video Section - Now properly positioned below navbar */}
+                {/* Hero Video Section - Seamlessly flows into next section */}
                 <div id="home" className={`${styles.flexStart}`}>
                   <div className={`${styles.boxWidth}`}>
                     <HeroVideo />
@@ -276,67 +370,107 @@ const App = () => {
                   </div>
                 </div>
 
-                {/* Stats Section with refined styling */}
-                <div 
-                  id="stats" 
-                  className={`section-padding bg-gradient-to-b from-slate-900 to-slate-950 ${styles.paddingX} ${styles.flexStart}`} 
+                {/* Stats Section with smooth transition */}
+                <div
+                  id="stats"
+                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-16 md:-mt-20 lg:-mt-24`}
                   data-aos="fade-up"
+                  data-aos-duration="1000"
                 >
-                  <div className={`${styles.boxWidth}`}>
+                  <div className="floating-gradient gradient-orb-1"></div>
+                  <div className={`${styles.boxWidth} relative z-10`}>
                     <Stats />
                   </div>
+                  <div className="section-divider"></div>
                 </div>
 
-                {/* Services Section with professional spacing */}
+                {/* Solutions Section with gradient flow */}
+                <div
+                  id="solutions"
+                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
+                  style={{
+                    background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.3))'
+                  }}
+                  data-aos="fade-up"
+                  data-aos-duration="1000"
+                >
+                  <div className={`${styles.boxWidth} relative z-10`}>
+                    <Solutions />
+                  </div>
+                  <div className="section-divider"></div>
+                </div>
+
+                {/* Services Section with elegant background blend */}
                 <div 
                   id="services" 
-                  className={`section-padding bg-gradient-to-b from-slate-950 to-slate-900 ${styles.paddingX} ${styles.flexStart}`} 
+                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 50%, rgba(15, 23, 42, 0.95) 100%)'
+                  }}
                   data-aos="fade-up"
-                  data-aos-delay="100"
+                  data-aos-duration="1000"
+                  data-aos-delay="50"
                 >
-                  <div className={`${styles.boxWidth}`}>
+                  <div className="floating-gradient gradient-orb-2"></div>
+                  <div className={`${styles.boxWidth} relative z-10`}>
                     <Services />
                   </div>
+                  <div className="section-divider"></div>
                 </div>
 
-                {/* Collaborations Section */}
+                {/* Collaborations Section with subtle gradient */}
                 <div 
                   id="collaborations" 
-                  className={`section-padding bg-gradient-to-b from-slate-900 to-slate-950 ${styles.paddingX} ${styles.flexStart}`} 
+                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
+                  style={{
+                    background: 'linear-gradient(to bottom, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6), rgba(30, 41, 59, 0.4))'
+                  }}
                   data-aos="fade-up"
-                  data-aos-delay="100"
+                  data-aos-duration="1000"
+                  data-aos-delay="50"
                 >
-                  <div className={`${styles.boxWidth}`}>
+                  <div className={`${styles.boxWidth} relative z-10`}>
                     <Collaborations />
                   </div>
+                  <div className="section-divider"></div>
                 </div>
 
-                {/* Team Section with elegant background */}
+                {/* Team Section with indigo accent gradient */}
                 <div 
                   id="team" 
-                  className={`section-padding bg-gradient-to-b from-slate-950 via-indigo-950/10 to-slate-950 ${styles.paddingX} ${styles.flexStart}`} 
+                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
+                  style={{
+                    background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(49, 46, 129, 0.1) 50%, rgba(15, 23, 42, 0.9) 100%)'
+                  }}
                   data-aos="fade-up"
-                  data-aos-delay="100"
+                  data-aos-duration="1000"
+                  data-aos-delay="50"
                 >
-                  <div className={`${styles.boxWidth}`}>
+                  <div className="floating-gradient gradient-orb-1"></div>
+                  <div className={`${styles.boxWidth} relative z-10`}>
                     <Team />
                   </div>
+                  <div className="section-divider"></div>
                 </div>
 
-                {/* Contact Section with premium feel */}
+                {/* Contact Section with premium gradient */}
                 <div 
                   id="contact" 
-                  className={`section-padding bg-gradient-to-b from-slate-950 to-slate-900 ${styles.paddingX} ${styles.flexStart}`} 
+                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
+                  style={{
+                    background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.95))'
+                  }}
                   data-aos="fade-up"
-                  data-aos-delay="100"
+                  data-aos-duration="1000"
+                  data-aos-delay="50"
                 >
-                  <div className={`${styles.boxWidth}`}>
+                  <div className={`${styles.boxWidth} relative z-10`}>
                     <Contact />
                   </div>
                 </div>
 
-                {/* Footer with subtle styling */}
-                <div className={`bg-slate-950 border-t border-slate-800/50 ${styles.paddingX} ${styles.flexStart}`}>
+                {/* Footer with smooth transition from contact */}
+                <div className={`bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800/30 ${styles.paddingX} ${styles.flexStart}`}>
                   <div className={`${styles.boxWidth}`}>
                     <Footer />
                   </div>
