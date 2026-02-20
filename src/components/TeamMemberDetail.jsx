@@ -12,44 +12,44 @@ const TeamMemberDetail = () => {
 
   if (!member) {
     return (
-      <section className="min-h-screen bg-dark flex items-center justify-center">
+      <section className="min-h-screen bg-primary flex items-center justify-center">
         <p className="text-white text-2xl">Member not found</p>
       </section>
     );
   }
 
   return (
-    <section className="min-h-screen pt-32 bg-dark px-6">
-      <div className="max-w-5xl mx-auto flex flex-col items-center">
+    <section className="min-h-screen pt-32 bg-primary px-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/[0.02] pointer-events-none" />
+
+      <div className="max-w-5xl mx-auto flex flex-col items-center relative">
         {/* Name and Titles */}
         <div className="text-center mb-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent">
-            {member.name}
-          </h2>
-          <p className="text-accent text-lg">{member.title}</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">{member.name}</h2>
+          <p className="text-secondary/90 text-lg font-medium">{member.title}</p>
           <p className="text-dimWhite text-md mt-1">{member.subtitle}</p>
         </div>
 
         {/* Image */}
         <div className="relative mb-10">
+          <div className="absolute inset-0 -z-10 rounded-full bg-secondary/10 blur-3xl" />
           <img
             src={member.img}
             alt={member.name}
-            className="w-64 h-64 rounded-full object-cover shadow-lg border-4 border-dark-300"
+            className="w-64 h-64 rounded-full object-cover shadow-lg ring-4 ring-secondary/25"
           />
-          <div className="absolute -bottom-8 -left-10 w-40 h-40 orange__gradient z-0 blur-xl rounded-full opacity-30" />
-          <div className="absolute -top-10 -right-14 w-32 h-32 blue__gradient z-0 blur-xl rounded-full opacity-20" />
         </div>
 
         {/* Content */}
-        <div className="max-w-3xl text-center text-dimWhite text-lg leading-relaxed px-4">
+        <div className="relative max-w-3xl w-full text-center text-dimWhite text-lg leading-relaxed px-6 py-6 bg-dark/40 border border-white/10 rounded-lg backdrop-blur-sm">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
           {member.content}
         </div>
 
         {/* Back Button */}
         <Link
           to="/#team"
-          className="mt-12 inline-block text-white text-sm border border-accent px-6 py-2 rounded-full hover:bg-accent hover:text-dark transition-all"
+          className="mt-12 inline-block text-secondary/90 text-sm border border-secondary/30 px-6 py-2 rounded-full hover:bg-secondary hover:text-black transition-all"
         >
           ← Back to Team
         </Link>

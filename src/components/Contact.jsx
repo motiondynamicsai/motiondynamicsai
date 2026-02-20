@@ -17,7 +17,7 @@ const InputField = ({ label, type, name, id, placeholder, required }) => (
       placeholder={placeholder}
       required={required}
       aria-label={label}
-      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent transition-all"
+      className="w-full px-4 py-3 bg-primary/40 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-secondary/25 focus:border-secondary/35 transition-all"
     />
   </div>
 );
@@ -34,7 +34,7 @@ const TextAreaField = ({ label, name, id, placeholder, rows, required }) => (
       rows={rows}
       required={required}
       aria-label={label}
-      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-accent transition-all"
+      className="w-full px-4 py-3 bg-primary/40 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-secondary/25 focus:border-secondary/35 transition-all"
     />
   </div>
 );
@@ -68,24 +68,29 @@ const Contact = () => {
         <meta name="description" content="Get in touch with the Motion Dynamics AI team for collaboration, investment, or product inquiries." />
       </Helmet>
 
-      <div className="absolute w-[60%] h-[60%] right-20 bottom-0 bg-gradient-to-r from-secondary/20 to-accent/20 rounded-full blur-3xl z-0" />
+      <div className="absolute w-[60%] h-[60%] right-20 bottom-0 bg-secondary/10 rounded-full blur-3xl z-0" />
 
       <div className="container mx-auto px-4 z-10 relative">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent">
-              Get In Touch
-            </span>
+          <div className="flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.32em] text-dimWhite">
+            <span className="h-px w-10 bg-secondary/60" />
+            Contact
+            <span className="h-px w-10 bg-accent/40" />
+          </div>
+          <h2 className="mt-6 text-4xl md:text-5xl font-extrabold text-white">
+            Get In <span className="text-secondary">Touch</span>
           </h2>
-          <p className="text-lg text-dimWhite max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-dimWhite max-w-2xl mx-auto">
             Ready to accelerate your sports development? Contact our team today.
           </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="max-w-2xl mx-auto bg-dark border border-gray-800 shadow-xl rounded-xl p-8"
+          className="relative max-w-2xl mx-auto bg-dark/40 backdrop-blur-sm border border-white/10 shadow-[0_20px_60px_-50px_rgba(0,0,0,0.85)] rounded-lg p-8"
         >
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
+
           <div className="grid md:grid-cols-2 gap-6 mb-6">
             <InputField
               label="Full Name"

@@ -100,9 +100,9 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center bg-gradient-to-b from-slate-950 to-slate-900 pt-[96px]"
+      className="relative min-h-screen flex items-center bg-gradient-to-b from-primary to-dark pt-[96px]"
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 to-slate-900/90 z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 to-dark/90 z-0" />
       <div className="absolute inset-0 bg-grid-white/[0.02] z-0" />
 
       <div className="container mx-auto px-6 relative z-10">
@@ -113,11 +113,9 @@ const Hero = () => {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
-                Precision Sports Analytics
-              </span>
+              Precision <span className="text-secondary">Sports</span> Analytics
             </h1>
-            <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-xl leading-relaxed">
+            <p className="text-lg md:text-xl text-dimWhite mb-8 max-w-xl leading-relaxed">
               Delivering simple, scalable AI-powered motion capture and biomechanical analytics that integrate seamlessly into your workflow—driving measurable ROI for sports teams, training centers, and institutions worldwide.
             </p>
 
@@ -125,14 +123,14 @@ const Hero = () => {
               <a
                 href="/#contact"
                 aria-label="Book a demo"
-                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold hover:shadow-xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300"
+                className="px-8 py-3.5 rounded-md bg-secondary/90 text-black font-semibold hover:bg-secondary transform hover:scale-[1.02] transition-all duration-300 shadow-[0_18px_50px_-34px_rgb(var(--md-secondary)_/_0.35)]"
               >
                 Book a Demo
               </a>
               <a
                 href="/#services"
                 aria-label="Learn more"
-                className="px-8 py-3.5 rounded-full border-2 border-purple-400/50 text-purple-300 font-semibold hover:bg-purple-400/10 hover:border-purple-400 backdrop-blur-sm transition-all duration-300"
+                className="px-8 py-3.5 rounded-md border-2 border-white/10 text-dimWhite font-semibold hover:bg-black/10 hover:border-secondary/30 hover:text-white backdrop-blur-sm transition-all duration-300"
               >
                 Learn More
               </a>
@@ -140,7 +138,7 @@ const Hero = () => {
 
             <button
               onClick={toggleVideo}
-              className="text-sm text-gray-400 hover:text-purple-400 transition-colors duration-300 flex items-center gap-2"
+              className="text-sm text-dimWhite/70 hover:text-secondary transition-colors duration-300 flex items-center gap-2"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -160,7 +158,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700/50 bg-slate-900">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-dark">
               <video
                 ref={videoRef}
                 src={currentVideo === 'tennis' ? tennisVideo : golfVideo}
@@ -171,17 +169,17 @@ const Hero = () => {
               />
 
               {!isVideoLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
+                <div className="absolute inset-0 flex items-center justify-center bg-dark">
                   <div className="text-center">
-                    <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-4" />
-                    <p className="text-gray-400">Loading video...</p>
+                    <div className="w-12 h-12 border-4 border-secondary/30 border-t-secondary rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-dimWhite/70">Loading video...</p>
                   </div>
                 </div>
               )}
 
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-800/50">
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
                 <div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-[width] duration-150"
+                  className="h-full bg-secondary/80 transition-[width] duration-150"
                   style={{ width: `${videoProgress * 100}%` }}
                 />
               </div>
@@ -208,7 +206,7 @@ const Hero = () => {
               )}
             </div>
 
-            <div className="absolute -z-10 w-full h-full bg-gradient-to-r from-indigo-500/20 to-purple-500/20 blur-3xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute -z-10 w-full h-full bg-secondary/10 blur-3xl rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
           </motion.div>
         </div>
 
@@ -222,10 +220,10 @@ const Hero = () => {
             (feature, index) => (
               <div
                 key={index}
-                className="px-4 py-2 bg-slate-800/50 backdrop-blur-sm rounded-full border border-slate-700/50 flex items-center gap-2"
+                className="px-4 py-2 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 flex items-center gap-2"
               >
-                <div className="w-2 h-2 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full" />
-                <span className="text-sm text-gray-300">{feature}</span>
+                <div className="w-2 h-2 bg-secondary/70 rounded-full" />
+                <span className="text-sm text-dimWhite">{feature}</span>
               </div>
             )
           )}

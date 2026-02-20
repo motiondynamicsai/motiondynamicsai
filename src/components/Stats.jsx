@@ -11,7 +11,7 @@ const Stats = () => (
       <div className="flex flex-wrap justify-center gap-8">
         {stats.map((stat) => (
           <div key={stat.id} className="flex flex-col items-center min-w-[150px]">
-            <h4 className="text-4xl md:text-5xl font-extrabold text-gradient mb-1">
+            <h4 className="text-4xl md:text-5xl font-extrabold text-secondary mb-1">
               {stat.value}
             </h4>
             <p className="text-white text-sm md:text-base uppercase tracking-wide font-medium">

@@ -13,20 +13,10 @@ import facebook from "./facebook.svg";
 import instagram from "./instagram.svg";
 import linkedin from "./linkedin.svg";
 import twitter from "./twitter.svg";
-import Diar from "./Diar.png"
-import Jon from "./Jon.jpg"
-import Stu from "./Stu.jpg"
-import Max from "./Max.png"
-import Genia from "./Genia.png"
-import PSA from "./PSA.png"
-import squashTV from "./squashTV.png"
-import ObiRoboticslogo from "./ObiRoboticslogo.png" 
-import UOB from "./UOB.png"
 import GraphRPM from "./GraphRPM.png"
 import Graphshowacc from "./Graphshowacc.png"
 import Graphplayerwin from "./Graphplayerwin.png"
 import Graphmatchwin from "./Graphmatchwin.png"
-import WSF from "./WSF.png"
 import videoAnalysis from "./videoAnalysis.mp4"
 import phone from "./phone.gif"
 import PhoneAnalysis2 from "./PhoneAnalysis2.jpg"
@@ -39,7 +29,30 @@ import hand_tracking_gif from "./hand_tracking(2).gif"
 import padel from "./padel_analysis.webm"
 import tennis_strobe from "./tennis_strobe.mov"
 import golf_strobe from "./golf_strobe.mov"
-import RalleyForm from "./RalleyForm.png";
+
+// partners
+import UOB from "./pics/logo/UOB.webp"
+import PSA from "./pics/logo/PSA.png"
+import squashTV from "./pics/logo/squashTV.png"
+import ObiRoboticslogo from "./pics/logo/ObiRoboticslogo.png" 
+import WSF from "./pics/logo/WSF.png"
+import RalleyForm from "./pics/logo/RalleyForm.png";
+import Teknik from "./pics/logo/Teknik.png"
+import MOD from "./pics/logo/MOD.png"
+import PGA from "./pics/logo/PGA.png"
+import SquashPerformance from "./pics/logo/squashPerformance.png"
+
+// people
+import Diar from "./pics/people/Diar.png"
+import Jon from "./pics/people/Jon.jpg"
+import Stu from "./pics/people/Stu.jpg"
+import Max from "./pics/people/Max.png"
+import Genia from "./pics/people/Genia.png"
+import Maria from "./pics/people/Maria.jpg"
+import John from "./pics/people/John.png"
+import Angel from "./pics/people/Angel.jpg"
+import Vishwanath from "./pics/people/Vishwanath.png"
+import MaxWard from "./pics/people/MaxWard.jpg"
 
 export {
   logo,
@@ -57,20 +70,33 @@ export {
   instagram,
   linkedin,
   twitter,
+
   Jon,
   Diar,
   Max,
   Genia,
   Stu,
+  Maria,
+  John,
+  Angel,
+  Vishwanath,
+  MaxWard,
+  
   PSA,
   ObiRoboticslogo,
   squashTV,
   UOB,
+  WSF,
+  RalleyForm,
+  Teknik,
+  PGA,
+  MOD,
+  SquashPerformance,
+
   GraphRPM,
   Graphshowacc,
   Graphplayerwin,
   Graphmatchwin,
-  WSF,
   videoAnalysis,
   phone,
   PhoneAnalysis2,
@@ -83,5 +109,4 @@ export {
   padel,
   tennis_strobe,
   golf_strobe,
-  RalleyForm,
 };

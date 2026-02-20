@@ -14,13 +14,13 @@ const GetStarted = () => {
       title="Explore Our Services"
       className="fixed bottom-6 right-6 z-50 cursor-pointer"
     >
-      <div className="w-[80px] h-[80px] rounded-full bg-gradient-to-br from-secondary to-accent p-[2px] hover:scale-105 transition-transform duration-300 shadow-lg">
-        <div className="bg-primary w-full h-full rounded-full flex flex-col items-center justify-center">
+      <div className="w-[80px] h-[80px] rounded-full border border-secondary/25 bg-black/20 backdrop-blur-sm p-[2px] hover:scale-105 transition-transform duration-300 shadow-[0_18px_50px_-38px_rgba(0,0,0,0.85)]">
+        <div className="bg-primary/80 w-full h-full rounded-full flex flex-col items-center justify-center">
           <div className="flex items-center space-x-1">
-            <p className="text-sm font-semibold text-gradient">Get</p>
+            <p className="text-sm font-semibold text-secondary">Get</p>
             <img src={arrowUp} alt="arrow" className="w-[20px] h-[20px]" />
           </div>
-          <p className="text-sm font-semibold text-gradient">Started</p>
+          <p className="text-sm font-semibold text-secondary">Started</p>
         </div>
       </div>
     </div>

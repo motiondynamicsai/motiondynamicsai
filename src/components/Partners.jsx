@@ -25,7 +25,8 @@ const professionalMilestones = [
 ];
 
 const MilestoneCard = ({ date, title, description, media, size }) => (
-  <div className="flex flex-col md:flex-row md:items-center md:space-x-10 bg-[#1c1c24] rounded-xl p-6 shadow-md">
+  <div className="relative flex flex-col md:flex-row md:items-center md:space-x-10 bg-dark/40 backdrop-blur-sm border border-white/10 rounded-lg p-6 shadow-[0_20px_60px_-52px_rgba(0,0,0,0.85)]">
+    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
     <div className="md:w-1/3">
       {media.endsWith('.mp4') ? (
         <video src={media} controls className="rounded-lg w-full" />
@@ -39,8 +40,8 @@ const MilestoneCard = ({ date, title, description, media, size }) => (
     </div>
     <div className="md:w-2/3 mt-4 md:mt-0">
       <h2 className="text-2xl font-semibold">{title}</h2>
-      <p className="text-sm text-gray-400">{date}</p>
-      <p className="mt-2 text-base text-gray-300">{description}</p>
+      <p className="text-sm text-dimWhite/70">{date}</p>
+      <p className="mt-2 text-base text-dimWhite">{description}</p>
     </div>
   </div>
 );
@@ -57,11 +58,18 @@ const Partnerships = () => {
         />
       </Helmet>
 
-      <h1 className="text-4xl font-bold mb-12 text-center">Our 18-Month Journey</h1>
+      <div className="max-w-5xl mx-auto text-center mb-12">
+        <div className="flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.32em] text-dimWhite">
+          <span className="h-px w-10 bg-secondary/60" />
+          Partnerships
+          <span className="h-px w-10 bg-accent/40" />
+        </div>
+        <h1 className="mt-6 text-4xl font-extrabold">Our 18-Month Journey</h1>
+      </div>
 
       {/* Academic Section */}
       <section className="mb-20">
-        <h2 className="text-3xl font-semibold mb-6 text-accent text-center">Academic Collaboration</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-secondary text-center">Academic Collaboration</h2>
         <div className="space-y-12">
           {academicMilestones.map((item, index) => (
             <MilestoneCard key={index} {...item} />
@@ -71,7 +79,7 @@ const Partnerships = () => {
 
       {/* Professional Section */}
       <section>
-        <h2 className="text-3xl font-semibold mb-6 text-accent text-center">Professional Application</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-secondary text-center">Professional Application</h2>
         <div className="space-y-12">
           {professionalMilestones.map((item, index) => (
             <MilestoneCard key={index} {...item} />
