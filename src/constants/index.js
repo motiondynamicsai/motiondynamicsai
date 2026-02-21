@@ -207,13 +207,13 @@ export const teamGroups = [
     memberIds: ["Vishwanath", "Angel Yao"],
   },
   {
+    title: "Marketing Team",
+    memeberIds: ["Maria Kononova",]
+  },
+  {
     title: "Collaborators",
     memberIds: ["Jonathan Tate",],
   },
-  {
-    title: "Marketing Team",
-    memeberIds: ["Maria Kononova",]
-  }
 ];
 
 

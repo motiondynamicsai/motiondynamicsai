@@ -49,9 +49,10 @@ const TeamCard = ({ id, img, name, title, subtitle, featured = false }) => (
 const Team = () => {
   const groupPriority = {
     'core team': 0,
-    'technical team': 1,
-    'business supports': 2,
-    collaborators: 3,
+    'business supports': 1,
+    'technical team': 2,
+    'marketing team': 3,
+    'collaborators': 4,
   };
 
   const orderedGroups = [...teamGroups].sort((a, b) => {
