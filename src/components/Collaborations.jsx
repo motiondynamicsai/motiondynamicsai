@@ -29,12 +29,15 @@ const Collaborations = () => {
       <div className={`relative z-10 ${styles.paddingX}`}>
         {/* Header */}
         <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-4xl font-bold text-white">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent">
-              Collaborations & Partners
-            </span>
+          <div className="flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.32em] text-dimWhite">
+            <span className="h-px w-10 bg-secondary/60" />
+            Collaborations
+            <span className="h-px w-10 bg-accent/40" />
+          </div>
+          <h2 className="mt-6 text-2xl md:text-4xl font-extrabold text-white">
+            Collaborations & <span className="text-secondary">Partners</span>
           </h2>
-          <p className="text-dimWhite mt-3">
+          <p className="mt-4 text-dimWhite">
             We team up with leading organizations across sport, media, and research.
           </p>
         </div>

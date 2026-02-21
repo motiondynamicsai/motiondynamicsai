@@ -1,4 +1,8 @@
-import { Stu, Max, Diar, Genia, Jon, facebook, instagram, linkedin, twitter, ObiRoboticslogo, UOB, PSA, squashTV, WSF, send, shield, star, RalleyForm } from "../assets";
+import { 
+  Stu, Max, Diar, Genia, Jon, Maria, John, Angel, Vishwanath, MaxWard, 
+  facebook, instagram, linkedin, twitter, 
+  ObiRoboticslogo, UOB, PSA, squashTV, WSF, RalleyForm, SquashPerformance, PGA, Teknik, MOD,
+  send, shield, star, } from "../assets";
 import video1 from '../assets/Muted solo.mp4';
 import gif1 from '../assets/Squash motionbuilder GIF.gif';
 import video2 from '../assets/RalleySkeleton.mp4';
@@ -32,11 +36,6 @@ export const navLinks = [
     id: "team",
     title: "Team",
     link: "/#team",
-  },
-  {
-    id: "contact",
-    title: "Contact",
-    link: "/#contact",
   },
 ];
 
@@ -72,7 +71,7 @@ export const features = [
       "Extract structured, frame-level data from raw sports footage—including player positions, biomechanics, and movement events—ready for analysis, modeling, or integration into proprietary systems.",
   },
   {
-    id: "feature-data-extraction",
+    id: "feature-statistical-match-analysis",
     icon: FcScatterPlot, //icon: <FcComboChart className="w-8 h-8" />, 
     title: "Statistical Match Analysis",
     content:
@@ -135,7 +134,7 @@ export const team = [
       "",
     name: "Jonathan Tate",
     title: "University of Birmingham Head Squash Coach",
-    subtitle: "Director",
+    subtitle: "",
     img: Jon,
   },
   {
@@ -148,13 +147,72 @@ export const team = [
     img: Max,
   },
   {
-    id: "Genia Penksik",
+    id: "Maria Kononova",
     content:
       "",
-    name: "Genia Penksik",
-    title: "Research assistant",
-    subtitle: "Co-founder",
-    img: Genia,
+    name: "Maria Kononova",
+    title: "Marketing",
+    subtitle: "",
+    img: Maria,
+  },
+  {
+    id: "Vishwanath",
+    content:
+      "",
+    name: "Vishwanath",
+    title: "Machine Learning Engineer",
+    subtitle: "",
+    img: Vishwanath,
+  },
+  {
+    id: "John Cook",
+    content:
+      "",
+    name: "John Cook",
+    title: "Buisiness Advisor",
+    subtitle: "",
+    img: John,
+  },
+  {
+    id: "Max Ward",
+    content:
+      "",
+    name: "Max Ward",
+    title: "Buisiness Advisor",
+    subtitle: "",
+    img: MaxWard,
+  },
+  {
+    id: "Angel Yao",
+    content:
+      "",
+    name: "Angel Yao",
+    title: "Machine Learning Engineer",
+    subtitle: "",
+    img: Angel,
+  },
+];
+
+export const teamGroups = [
+  {
+    title: "Core team",
+    memberIds: ["Diar Karim", "Stuart Macgregor"],
+  },
+  {
+    title: "Business Supports",
+    memberIds: ["Max Di Luca", "John Cook", "Max Ward"],
+  },
+  {
+    title: "Technical Team",
+    memberIds: ["Vishwanath", "Angel Yao"],
+  },
+  {
+    title: "Marketing Team",
+    memeberIds: ["Maria Kononova",]
+  },
+  {
+    title: "Collaborators",
+    memberIds: ["Jonathan Tate",],
   },
 ];
 
@@ -249,16 +307,16 @@ export const socialMedia = [
     icon: instagram,
     link: "https://www.instagram.com/motiondynamics_ai/",
   },
-  {
-    id: "social-media-2",
-    icon: facebook,
-    link: "",
-  },
-  {
-    id: "social-media-3",
-    icon: twitter,
-    link: "",
-  },
+  // {
+  //   id: "social-media-2",
+  //   icon: facebook,
+  //   link: "",
+  // },
+  // {
+  //   id: "social-media-3",
+  //   icon: twitter,
+  //   link: "",
+  // },
   {
     id: "social-media-4",
     icon: linkedin,
@@ -290,6 +348,22 @@ export const clients = [
   {
     id: "client-6",
     logo: RalleyForm,
-  }
+  },
+  {
+    id: "client-7",
+    logo: SquashPerformance,
+  },
+  {
+    id: "client-8",
+    logo: MOD,
+  },
+  {
+    id: "client-9",
+    logo: PGA,
+  },
+  {
+    id: "client-10",
+    logo: Teknik,
+  },
 ];
 

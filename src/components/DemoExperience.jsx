@@ -108,7 +108,7 @@ const DemoExperience = () => {
           </p>
           <button 
             onClick={handleGetInTouchClick} 
-            className="inline-block bg-blue-gradient text-white font-poppins font-medium text-[14px] md:text-[16px] py-3 px-6 rounded-lg shadow-lg">
+            className="inline-block bg-blue-gradient text-black font-poppins font-medium text-[14px] md:text-[16px] py-3 px-6 rounded-lg shadow-[0_18px_50px_-42px_rgb(var(--md-secondary)_/_0.28)] hover:opacity-95 transition-opacity">
             Get in Touch
           </button>
         </section>

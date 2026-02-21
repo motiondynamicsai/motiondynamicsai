@@ -4,19 +4,20 @@ export const mode = "jit";
 export const theme = {
   extend: {
     colors: {
-      primary: "#0f172a",
-      secondary: "#7c3aed",
-      accent: "#10b981",
-      dark: "#1e293b",
-      dimBlue: "#334155",
-      dimWhite: "#e2e8f0",
-      white: "#f8fafc",
+      primary: "rgb(var(--md-primary) / <alpha-value>)",
+      dark: "rgb(var(--md-dark) / <alpha-value>)",
+      dimBlue: "rgb(var(--md-surface) / <alpha-value>)",
+      secondary: "rgb(var(--md-secondary) / <alpha-value>)",
+      accent: "rgb(var(--md-accent) / <alpha-value>)",
+      highlight: "rgb(var(--md-highlight) / <alpha-value>)",
+      dimWhite: "rgb(var(--md-dimWhite) / <alpha-value>)",
+      white: "rgb(var(--md-white) / <alpha-value>)",
       success: "#22c55e",
       warning: "#f59e0b"
     },
     fontFamily: {
-      poppins: ["Poppins", "sans-serif"],
-      inter: ["Inter", "sans-serif"],
+      poppins: ["Sora", "Poppins", "sans-serif"],
+      inter: ["Inter", "system-ui", "sans-serif"],
     },
   },
   screens: {

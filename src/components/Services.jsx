@@ -8,13 +8,15 @@ const ServiceCard = ({ icon, title, content, index }) => {
 
   return (
     <motion.div
-      className="bg-dark p-6 rounded-2xl border border-gray-700 hover:border-accent hover:shadow-lg transition-all duration-300 group"
+      className="relative bg-dark/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-secondary/30 hover:bg-dark/50 transition-all duration-300 group"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
     >
-      <div className="w-14 h-14 bg-dimBlue rounded-xl flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-all">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
+
+      <div className="w-14 h-14 bg-black/20 border border-white/10 rounded-md flex items-center justify-center mb-5 group-hover:bg-secondary/10 group-hover:border-secondary/20 transition-all">
         {isComponent ? (
           React.createElement(icon, { className: 'w-7 h-7 text-white' })
         ) : (
@@ -33,12 +35,15 @@ const Services = () => (
     <div className="container mx-auto px-6 relative z-10">
       {/* Section Header */}
       <div className="text-center mb-16 max-w-3xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent">
-            What We Offer
-          </span>
+        <div className="flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.32em] text-dimWhite">
+          <span className="h-px w-10 bg-secondary/60" />
+          Services
+          <span className="h-px w-10 bg-accent/40" />
+        </div>
+        <h2 className="mt-6 text-3xl md:text-5xl font-extrabold text-white">
+          What We <span className="text-secondary">Offer</span>
         </h2>
-        <p className="text-dimWhite text-lg">
+        <p className="mt-4 text-dimWhite text-lg">
           AI-powered tools and analytics that drive performance, decision-making, and player development.
         </p>
       </div>

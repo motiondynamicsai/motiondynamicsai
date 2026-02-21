@@ -3,7 +3,7 @@ import Logo2 from '../assets/Logo2.png';
 import { footerLinks, socialMedia } from "../constants";
 
 const Footer = () => (
-  <footer className="bg-dark border-t border-gray-700 py-16">
+  <footer className="bg-dark border-t border-white/5 py-16">
     <div className="container mx-auto px-6">
       <div className="flex flex-col lg:flex-row justify-between gap-12">
         
@@ -19,7 +19,7 @@ const Footer = () => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 flex-1">
           {footerLinks.map((section) => (
             <div key={section.title}>
-              <h4 className="text-accent text-base font-semibold mb-4">{section.title}</h4>
+              <h4 className="text-secondary/80 text-base font-semibold mb-4">{section.title}</h4>
               <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link.name}>
@@ -38,7 +38,7 @@ const Footer = () => (
       </div>
 
       {/* Footer Bottom Line */}
-      <div className="mt-12 border-t border-gray-700 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500">
+      <div className="mt-12 border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-dimWhite/60">
         <p>&copy; {new Date().getFullYear()} Motion Dynamics. All rights reserved.</p>
         <div className="flex space-x-4 mt-4 sm:mt-0">
           {socialMedia.map((media) => (

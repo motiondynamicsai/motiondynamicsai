@@ -30,12 +30,12 @@ const HeroVideo = () => {
   return (
     <section 
       id="hero-video" 
-      className="relative w-full overflow-hidden bg-gradient-to-b from-slate-950 to-slate-900 min-h-[600px] lg:min-h-[700px]" 
+      className="relative w-full overflow-hidden bg-gradient-to-b from-primary to-dark min-h-[600px] lg:min-h-[700px]" 
       data-aos="fade-up"
       style={{ marginTop: '80px' }} // Ensures video stays below navbar
     >
       {/* Premium gradient background while video loads */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/20 via-slate-900 to-purple-950/20" />
+      <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 via-primary to-secondary/5" />
       
       {/* Video layer with smooth fade-in */}
       <div className={`absolute inset-0 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
@@ -66,20 +66,20 @@ const HeroVideo = () => {
         <div className="max-w-3xl">
           {/* Animated accent line */}
           <div className="flex items-center mb-6 opacity-0 animate-slideInLeft">
-            <div className="h-1 w-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
-            <div className="h-1 w-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full ml-2" />
+            <div className="h-1 w-12 bg-secondary/70 rounded-[2px]" />
+            <div className="h-1 w-8 bg-accent/35 rounded-[2px] ml-2" />
           </div>
           
           {/* Main heading with professional typography */}
-          <h1 className="text-white font-light tracking-tight opacity-0 animate-slideInLeft animation-delay-200">
-            <span className="block text-5xl md:text-6xl lg:text-7xl mb-2">Motion</span>
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white via-indigo-100 to-white bg-clip-text text-transparent">
+          <h1 className="text-white tracking-tight opacity-0 animate-slideInLeft animation-delay-200">
+            <span className="block text-5xl md:text-6xl lg:text-7xl mb-2 font-medium">Motion</span>
+            <span className="block text-5xl md:text-6xl lg:text-7xl font-extrabold text-secondary">
               Dynamics
             </span>
           </h1>
           
           {/* Refined description */}
-          <p className="mt-6 text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl opacity-0 animate-slideInLeft animation-delay-400">
+          <p className="mt-6 text-lg md:text-xl text-dimWhite leading-relaxed max-w-2xl opacity-0 animate-slideInLeft animation-delay-400">
             AI-Powered Motion Intelligence for Sports and Human Performance
             For organizations committed to improving athletic performance and rehabilitation outcomes, our platform delivers actionable insights into movement, efficiency, and recovery—helping businesses enhance results, engagement, and client success.          </p>
           
@@ -87,7 +87,7 @@ const HeroVideo = () => {
           <div className="mt-10 flex flex-col sm:flex-row gap-4 opacity-0 animate-slideInLeft animation-delay-600">
             <a
               href="#contact"
-              className="group inline-flex items-center justify-center px-8 py-4 text-base font-medium text-slate-900 bg-white rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
+              className="group inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-black bg-secondary/90 rounded-md transform hover:scale-[1.02] transition-all duration-300 shadow-[0_18px_50px_-30px_rgba(0,0,0,0.85)] hover:shadow-[0_24px_60px_-34px_rgb(var(--md-secondary)_/_0.35)]"
             >
               Get in touch
               <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +96,7 @@ const HeroVideo = () => {
             </a>
             <a
               href="#services"
-              className="group inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white border-2 border-white/30 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 hover:border-white/50 transform hover:scale-105 transition-all duration-300"
+              className="group inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white border-2 border-white/10 bg-black/10 backdrop-blur-sm rounded-md hover:bg-black/20 hover:border-secondary/30 transform hover:scale-[1.02] transition-all duration-300"
             >
               Explore services
               <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,7 +134,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 w-full overflow-hidden">
+      <div className="bg-primary w-full overflow-hidden">
         <Helmet>
           <meta charSet="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -208,7 +208,7 @@ const App = () => {
               left: 0;
               right: 0;
               height: 100px;
-              background: linear-gradient(to bottom, transparent, rgba(15, 23, 42, 0.3), transparent);
+              background: linear-gradient(to bottom, transparent, rgb(var(--md-primary) / 0.55), transparent);
               pointer-events: none;
               z-index: 1;
             }
@@ -242,10 +242,10 @@ const App = () => {
             
             /* Premium glass effect for components */
             .glass-effect {
-              background: rgba(255, 255, 255, 0.03);
+              background: rgb(var(--md-white) / 0.03);
               backdrop-filter: blur(20px);
               -webkit-backdrop-filter: blur(20px);
-              border: 1px solid rgba(255, 255, 255, 0.05);
+              border: 1px solid rgb(var(--md-white) / 0.06);
             }
             
             /* Professional hover transitions */
@@ -261,21 +261,21 @@ const App = () => {
             /* Seamless background flow between sections */
             .bg-flow-dark {
               background: linear-gradient(180deg, 
-                rgba(15, 23, 42, 0) 0%,
-                rgba(15, 23, 42, 0.5) 20%,
-                rgba(15, 23, 42, 0.8) 50%,
-                rgba(15, 23, 42, 0.5) 80%,
-                rgba(15, 23, 42, 0) 100%
+                rgb(var(--md-primary) / 0) 0%,
+                rgb(var(--md-primary) / 0.55) 20%,
+                rgb(var(--md-primary) / 0.88) 50%,
+                rgb(var(--md-primary) / 0.55) 80%,
+                rgb(var(--md-primary) / 0) 100%
               );
             }
             
             .bg-flow-light {
               background: linear-gradient(180deg,
-                rgba(30, 41, 59, 0) 0%,
-                rgba(30, 41, 59, 0.3) 20%,
-                rgba(30, 41, 59, 0.5) 50%,
-                rgba(30, 41, 59, 0.3) 80%,
-                rgba(30, 41, 59, 0) 100%
+                rgb(var(--md-dark) / 0) 0%,
+                rgb(var(--md-dark) / 0.40) 20%,
+                rgb(var(--md-dark) / 0.60) 50%,
+                rgb(var(--md-dark) / 0.40) 80%,
+                rgb(var(--md-dark) / 0) 100%
               );
             }
             
@@ -289,9 +289,9 @@ const App = () => {
               height: 1px;
               background: linear-gradient(90deg,
                 transparent 0%,
-                rgba(99, 102, 241, 0.1) 20%,
-                rgba(99, 102, 241, 0.2) 50%,
-                rgba(99, 102, 241, 0.1) 80%,
+                rgb(var(--md-secondary) / 0.10) 20%,
+                rgb(var(--md-accent) / 0.16) 50%,
+                rgb(var(--md-secondary) / 0.10) 80%,
                 transparent 100%
               );
             }
@@ -307,7 +307,7 @@ const App = () => {
               position: absolute;
               border-radius: 50%;
               filter: blur(80px);
-              opacity: 0.15;
+              opacity: 0.08;
               animation: float 20s infinite ease-in-out;
               pointer-events: none;
             }
@@ -315,7 +315,7 @@ const App = () => {
             .gradient-orb-1 {
               width: 600px;
               height: 600px;
-              background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
+              background: radial-gradient(circle, rgb(var(--md-secondary) / 0.18) 0%, transparent 70%);
               top: -300px;
               left: -300px;
             }
@@ -323,7 +323,7 @@ const App = () => {
             .gradient-orb-2 {
               width: 800px;
               height: 800px;
-              background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+              background: radial-gradient(circle, rgb(var(--md-accent) / 0.14) 0%, transparent 70%);
               bottom: -400px;
               right: -400px;
               animation-delay: -10s;
@@ -389,7 +389,7 @@ const App = () => {
                   id="solutions"
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
-                    background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.3))'
+                    background: 'linear-gradient(to bottom, rgb(var(--md-primary) / 0.12), rgb(var(--md-dark) / 0.52), rgb(var(--md-primary) / 0.12))',
                   }}
                   data-aos="fade-up"
                   data-aos-duration="1000"
@@ -405,7 +405,7 @@ const App = () => {
                   id="services" 
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
-                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 50%, rgba(15, 23, 42, 0.95) 100%)'
+                    background: 'linear-gradient(135deg, rgb(var(--md-primary) / 0.96) 0%, rgb(var(--md-dark) / 0.92) 50%, rgb(var(--md-primary) / 0.96) 100%)',
                   }}
                   data-aos="fade-up"
                   data-aos-duration="1000"
@@ -423,7 +423,7 @@ const App = () => {
                   id="collaborations" 
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
-                    background: 'linear-gradient(to bottom, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6), rgba(30, 41, 59, 0.4))'
+                    background: 'linear-gradient(to bottom, rgb(var(--md-dark) / 0.40), rgb(var(--md-primary) / 0.78), rgb(var(--md-dark) / 0.40))',
                   }}
                   data-aos="fade-up"
                   data-aos-duration="1000"
@@ -440,7 +440,7 @@ const App = () => {
                   id="team" 
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
-                    background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(49, 46, 129, 0.1) 50%, rgba(15, 23, 42, 0.9) 100%)'
+                    background: 'linear-gradient(180deg, rgb(var(--md-primary) / 0.92) 0%, rgb(var(--md-secondary) / 0.05) 50%, rgb(var(--md-primary) / 0.92) 100%)',
                   }}
                   data-aos="fade-up"
                   data-aos-duration="1000"
@@ -458,7 +458,7 @@ const App = () => {
                   id="contact" 
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
-                    background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.95))'
+                    background: 'linear-gradient(to bottom, rgb(var(--md-primary) / 0.70), rgb(var(--md-dark) / 0.95))',
                   }}
                   data-aos="fade-up"
                   data-aos-duration="1000"
@@ -470,7 +470,7 @@ const App = () => {
                 </div>
 
                 {/* Footer with smooth transition from contact */}
-                <div className={`bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800/30 ${styles.paddingX} ${styles.flexStart}`}>
+                <div className={`bg-dark border-t border-white/10 ${styles.paddingX} ${styles.flexStart}`}>
                   <div className={`${styles.boxWidth}`}>
                     <Footer />
                   </div>

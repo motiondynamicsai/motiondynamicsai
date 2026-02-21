@@ -2,11 +2,12 @@ import { Helmet } from 'react-helmet';
 import { d_reconstruction, skeleton_overlay_squash, skeleton_overlay_tennis, tennis_reconstruction, padel } from '../assets';
 
 const VideoCard = ({ src, alt, type = 'video' }) => (
-  <div className="flex flex-col items-center w-[420px] mx-4">
+  <div className="relative flex flex-col items-center w-full max-w-[420px] mx-0 sm:mx-4 bg-dark/40 backdrop-blur-sm border border-white/10 rounded-lg p-4">
+    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
     {type === 'video' ? (
       <video
         controls
-        className="w-full h-auto rounded-xl shadow-lg hover:shadow-xl transition duration-300"
+        className="w-full h-auto rounded-md border border-white/10 shadow-[0_18px_50px_-42px_rgba(0,0,0,0.85)] transition duration-300"
       >
         <source src={src} type="video/mp4" />
         Your browser does not support the video tag.
@@ -15,7 +16,7 @@ const VideoCard = ({ src, alt, type = 'video' }) => (
       <img
         src={src}
         alt={alt}
-        className="w-full h-auto rounded-xl shadow-lg hover:shadow-xl transition duration-300"
+        className="w-full h-auto rounded-md border border-white/10 shadow-[0_18px_50px_-42px_rgba(0,0,0,0.85)] transition duration-300"
       />
     )}
     <p className="text-white text-center text-lg mt-4 font-medium">{alt}</p>
@@ -48,7 +49,8 @@ const Info = () => {
   ];
 
   return (
-    <section id="demos" className={`py-20 bg-dark`}>
+    <section id="demos" className="py-20 bg-primary relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/[0.02] z-0 pointer-events-none" />
       <Helmet>
         <title>Explore Our Demos - Cutting-Edge Body Tracking Technology</title>
         <meta
@@ -61,15 +63,18 @@ const Info = () => {
         />
       </Helmet>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 relative z-10">
         {/* Title */}
         <div className="text-center mb-16 max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent">
-              Explore Our Demos
-            </span>
+          <div className="flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.32em] text-dimWhite">
+            <span className="h-px w-10 bg-secondary/60" />
+            Demos
+            <span className="h-px w-10 bg-accent/40" />
+          </div>
+          <h2 className="mt-6 text-4xl md:text-5xl font-extrabold text-white">
+            Explore Our <span className="text-secondary">Demos</span>
           </h2>
-          <p className="text-dimWhite text-lg">
+          <p className="mt-4 text-dimWhite text-lg">
             Watch how our AI-powered tracking and 3D reconstruction technologies transform sports performance analysis.
           </p>
         </div>
