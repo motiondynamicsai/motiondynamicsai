@@ -35,15 +35,15 @@ const Info = () => {
     },
     {
       src: tennis_reconstruction,
-      alt: '3D pose Reconstruction - Tennis'
+      alt: '3D Pose Reconstruction - Tennis'
     },
     {
       src: skeleton_overlay_tennis,
-      alt: 'Skeleton Overlay and ball tracking- Tennis',
+      alt: 'Skeleton Overlay and Ball Tracking- Tennis',
     },
     {
       src: padel,
-      alt: '4 person 3D pose Reconstruction - Padel',
+      alt: '4 person 3D Pose Reconstruction - Padel',
     },
     
   ];

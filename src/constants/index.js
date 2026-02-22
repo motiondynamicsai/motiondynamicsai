@@ -169,7 +169,7 @@ export const team = [
     content:
       "",
     name: "John Cook",
-    title: "Buisiness Advisor",
+    title: "Business Advisor",
     subtitle: "",
     img: John,
   },
@@ -178,7 +178,7 @@ export const team = [
     content:
       "",
     name: "Max Ward",
-    title: "Buisiness Advisor",
+    title: "Business Advisor",
     subtitle: "",
     img: MaxWard,
   },
@@ -230,7 +230,7 @@ export const stats = [
   },
   {
     id: "stats-3",
-    title: "Accuaracy",
+    title: "Accuracy",
     value: "95%",
   },
 ];
