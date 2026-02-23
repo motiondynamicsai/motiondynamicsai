@@ -1,6 +1,6 @@
 import { 
   Stu, Max, Diar, Genia, Jon, Maria, John, Angel, Vishwanath, MaxWard, 
-  facebook, instagram, linkedin, twitter, 
+  facebook, instagram, linkedin, twitter,
   ObiRoboticslogo, UOB, PSA, squashTV, WSF, RalleyForm, SquashPerformance, PGA, Teknik, MOD,
   send, shield, star, } from "../assets";
 import video1 from '../assets/Muted solo.mp4';
@@ -118,6 +118,9 @@ export const team = [
     title: "Post-doctoral Research Fellow",
     subtitle: "Founder and leader",
     img: Diar,
+    github: "https://github.com/DiarKarim",
+    linkedin: "https://www.linkedin.com/in/diar-karim/",
+    website: "https://www.diarkarim.com/",
   },
   {
     id: "Stuart Macgregor",
@@ -127,6 +130,9 @@ export const team = [
     title: "MSc Computer Science graduate",
     subtitle: "Founder and leader",
     img: Stu,
+    github: "",
+    linkedin: "https://www.linkedin.com/in/stuart-macgregor-739359270/",
+    website: "",
   },
   {
     id: "Jonathan Tate",
@@ -145,6 +151,9 @@ export const team = [
     title: "Associate Professor",
     subtitle: "Co-founder",
     img: Max,
+    github: "https://github.com/maxdiluca",
+    linkedin: "https://www.linkedin.com/in/maxdiluca/",
+    website: "https://massimilianodiluca.info/",
   },
   {
     id: "Maria Kononova",
@@ -154,15 +163,21 @@ export const team = [
     title: "Marketing",
     subtitle: "",
     img: Maria,
+    github: "",
+    linkedin: "https://www.linkedin.com/in/maria-kononova-9b7603254/",
+    website: "",
   },
   {
     id: "Vishwanath",
     content:
       "",
-    name: "Vishwanath",
+    name: "Vishwanath Nair",
     title: "Machine Learning Engineer",
     subtitle: "",
     img: Vishwanath,
+    github: "",
+    linkedin: "https://www.linkedin.com/in/viswanath-nair-07a446208/",
+    website: "",
   },
   {
     id: "John Cook",
@@ -181,6 +196,9 @@ export const team = [
     title: "Business Advisor",
     subtitle: "",
     img: MaxWard,
+    github: "",
+    linkedin: "https://www.linkedin.com/in/max-ward-77545574/",
+    website: "",
   },
   {
     id: "Angel Yao",
@@ -190,6 +208,9 @@ export const team = [
     title: "Machine Learning Engineer",
     subtitle: "",
     img: Angel,
+    github: "",
+    linkedin: "https://www.linkedin.com/in/ang3l-y/",
+    website: "",
   },
 ];
 
