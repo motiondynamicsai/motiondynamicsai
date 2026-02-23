@@ -111,10 +111,10 @@ export const demos = [
 
 export const team = [
   {
-    id: "Diar Karim",
+    id: "Diar Abdlkarim",
     content:
-      "Diar Karim is a postdoctoral research scientist at the University of Birmingham (UK) currently working on  immersive augmented and virtual reality technologies training ensemble musicians with virtual players in real-time. I use my skills in research-or software development, expertise in motion capture and psychophysics to create scientific exper from first principles.",
-    name: "Diar Karim",
+      "As AI becomes the dominant interface to computing, my work explores how the brain adapts at neural and behavioral levels. I integrate HCI, HRI, XR, and brain–computer interface (BCI) research to study how perception–action circuits encode, predict, and recalibrate during interaction with intelligent systems. I develop non-invasive neuroprosthetic platforms, alongside AI-based motion analytics systems for sports, and build custom tracking, haptic, and XR tools that capture fine-grained sensorimotor signals in real time. My goal is to design brain-informed technologies that enhance perception, movement, and human–machine collaboration.",
+    name: "Diar Abdlkarim",
     title: "Post-doctoral Research Fellow",
     subtitle: "Founder and leader",
     img: Diar,
@@ -196,7 +196,7 @@ export const team = [
 export const teamGroups = [
   {
     title: "Core team",
-    memberIds: ["Diar Karim", "Stuart Macgregor"],
+    memberIds: ["Diar Abdlkarim", "Stuart Macgregor"],
   },
   {
     title: "Business Supports",
