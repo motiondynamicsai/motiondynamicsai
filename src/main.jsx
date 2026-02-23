@@ -12,8 +12,7 @@ const getInitialTheme = () => {
   const prefersContrast = window.matchMedia?.('(prefers-contrast: more)').matches;
   if (prefersContrast) return 'contrast';
 
-  const prefersLight = window.matchMedia?.('(prefers-color-scheme: light)').matches;
-  return prefersLight ? 'light' : 'dark';
+  return 'dark';
 };
 
 try {

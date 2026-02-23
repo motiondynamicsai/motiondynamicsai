@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { team } from '../constants';
+import { github, linkedin, website } from "../assets/index.js"
 
 const TeamMemberDetail = () => {
   const { id } = useParams();
@@ -45,6 +46,58 @@ const TeamMemberDetail = () => {
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
           {member.content}
         </div>
+
+        {/* Links */}
+        <div className="relative max-w-3xl w-full flex items-center gap-3 text-dimWhite text-lg leading-relaxed px-6 py-6 backdrop-blur-sm">
+          {member?.github?.trim() && (
+            <a 
+              href={member.github} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <img 
+                src={github} 
+                height={20} 
+                width={20} 
+                style={{ paddingTop: 10 }} 
+                alt="GitHub profile"
+              />
+            </a>
+          )}
+
+          {member?.linkedin?.trim() && (
+            <a 
+              href={member.linkedin} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <img 
+                src={linkedin} 
+                height={20} 
+                width={20} 
+                style={{ paddingTop: 10 }} 
+                alt="GitHub profile"
+              />
+            </a>
+          )}          
+          
+          {member?.website?.trim() && (
+            <a 
+              href={member.website} 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <img 
+                src={website} 
+                height={20} 
+                width={20} 
+                style={{ paddingTop: 10 }} 
+                alt="GitHub profile"
+              />
+            </a>
+          )}          
+        </div>
+        
 
         {/* Back Button */}
         <Link
