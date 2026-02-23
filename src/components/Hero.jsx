@@ -4,7 +4,6 @@ import styles from '../style';
 import tennisVideo from '../assets/tennis_strobe.mov';
 import golfVideo from '../assets/golf_strobe.mov';
 
-const SCROLL_SPAN_PX = 800; // How many pixels of scroll to scrub the entire video
 const LERP_ALPHA = 0.18; // 0..1 — higher = snappier, lower = smoother
 
 const Hero = () => {
@@ -71,13 +70,14 @@ const Hero = () => {
     const onScroll = () => {
       if (!isVideoLoaded || !video.duration) return;
 
-      const sectionTop = section.offsetTop;
-      const viewY = window.scrollY + window.innerHeight * 0.5; // center of viewport
-      const delta = viewY - sectionTop;
-      const progress = Math.max(0, Math.min(1, delta / SCROLL_SPAN_PX));
+      const rect = section.getBoundingClientRect();
+      // Start scrubbing when section top is 20% of the viewport below the top edge,
+      // and complete when ~55% of the section has scrolled off — a middle ground.
+      const leadIn = window.innerHeight * 0.2;
+      const scrolledPast = -rect.top + leadIn;
+      const progress = Math.max(0, Math.min(1, scrolledPast / (rect.height * 0.55 + leadIn)));
 
-      const targetTime = progress * video.duration;
-      targetTimeRef.current = targetTime;
+      targetTimeRef.current = progress * video.duration;
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
