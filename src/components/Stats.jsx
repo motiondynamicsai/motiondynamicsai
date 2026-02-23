@@ -5,7 +5,7 @@ const Stats = () => (
   <section className="w-full bg-primary py-12">
     <div className={`${styles.flexCenter} flex-col text-center`}>
       <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
-        Trusted by Athletes, Coaches, and Organisations
+        Trusted by Athletes, Coaches, and Organizations
       </h2>
       
       <div className="flex flex-wrap justify-center gap-8">
