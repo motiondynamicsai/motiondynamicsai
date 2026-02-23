@@ -122,7 +122,7 @@ export const team = [
   {
     id: "Stuart Macgregor",
     content:
-      "Stuart MacGregor is a professional Squash Player and research assistant at the University of Birmingham. With a BSc in Human Biology and a Masters in Computer Science, Stuart's interests lie in artificial intelligence, motion capture, and their applications in enhancing sports experiences.",
+      "Stuart MacGregor is a former Professional Athlete with industry experience in Sports and Data Engineering, and Research. With a BSc in Human Biology and a Masters in Computer Science, Stuart's interests lie in artificial intelligence, motion capture, and their applications in enhancing sports experiences.",
     name: "Stuart MacGregor",
     title: "MSc Computer Science graduate",
     subtitle: "Founder and leader",
