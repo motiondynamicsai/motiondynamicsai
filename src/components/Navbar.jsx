@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import Logo2 from '../assets/Logo2.png';
+import Logo_light from '../assets/Motion_Dynamics_Logo_Light.svg'
+import Logo_Dark from '../assets/Motion_Dynamics_Logo_Dark.svg'
 import { navLinks } from '../constants';
 import { Link } from 'react-router-dom';
 
@@ -51,13 +53,19 @@ const Navbar = () => {
     return 'Dark';
   }, [theme]);
 
+
   return (
     <nav className={`w-full z-50 fixed top-0 left-0 bg-primary/75 backdrop-blur-md border-b border-white/5 transition-all ${scrolled ? 'shadow-md' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex justify-between items-center">
 
         {/* Logo */}
         <div className="flex items-center">
-          <img src={Logo2} alt="Logo" className="h-12 sm:h-16 md:h-20" />
+          {document.documentElement.dataset.theme == 'dark' ? (
+            <img src={Logo_light} alt="Logo" className="h-12 sm:h-16 md:h-20" />
+          ) : (
+            <img src={Logo_Dark} alt="Logo" className="h-12 sm:h-16 md:h-20" />
+          )}
+          
 
         </div>
 
