@@ -217,7 +217,7 @@ export const team = [
     content:
       "",
     name: "Genia Penksik",
-    title: "Research assistant",
+    title: "Technical Consultant",
     subtitle: "Co-Founder",
     img: Genia,
     github: "",
@@ -233,11 +233,11 @@ export const teamGroups = [
   },
   {
     title: "Business Supports",
-    memberIds: ["Max Di Luca", "John Cook", "Max Ward", "Genia Penksik"],
+    memberIds: ["Max Di Luca", "John Cook", "Max Ward",],
   },
   {
     title: "Technical Team",
-    memberIds: ["Vishwanath", "Angel Yao"],
+    memberIds: ["Vishwanath", "Angel Yao", "Genia Penksik"],
   },
   {
     title: "Marketing Team",
