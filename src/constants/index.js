@@ -212,6 +212,18 @@ export const team = [
     linkedin: "https://www.linkedin.com/in/ang3l-y/",
     website: "",
   },
+  {
+    id: "Genia Penksik",
+    content:
+      "",
+    name: "Genia Penksik",
+    title: "Research assistant",
+    subtitle: "Co-Founder",
+    img: Genia,
+    github: "",
+    linkedin: "https://www.linkedin.com/in/genia-penksik/",
+    website: "",
+  },
 ];
 
 export const teamGroups = [
@@ -221,7 +233,7 @@ export const teamGroups = [
   },
   {
     title: "Business Supports",
-    memberIds: ["Max Di Luca", "John Cook", "Max Ward"],
+    memberIds: ["Max Di Luca", "John Cook", "Max Ward", "Genia Penksik"],
   },
   {
     title: "Technical Team",
