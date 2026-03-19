@@ -4,8 +4,17 @@ import { team } from '../constants';
 import { github, linkedin, website } from "../assets/index.js"
 
 const TeamMemberDetail = () => {
-  const { id } = useParams();
-  const member = team.find((m) => m.id === id);
+  const { id: routeId = '' } = useParams();
+  const decodedId = (() => {
+    try {
+      return decodeURIComponent(routeId);
+    } catch {
+      return routeId;
+    }
+  })();
+  const member = team.find(
+    (m) => m.id === decodedId || encodeURIComponent(m.id) === routeId
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);

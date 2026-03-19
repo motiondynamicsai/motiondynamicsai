@@ -191,7 +191,7 @@ export const team = [
   {
     id: "Max Ward",
     content:
-      "",
+      "Max brings 15+ years of experience in marketing, building brands through advertising, innovation, and product development. At Motion Dynamics, he leads business and product strategy, helping ensure cutting-edge solutions translate into real-world impact and client value.",
     name: "Max Ward",
     title: "Business Advisor",
     subtitle: "",

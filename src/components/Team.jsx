@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const TeamCard = ({ id, img, name, title, subtitle, featured = false }) => (
   <Link
-    to={`/team/${id}`}
+    to={`/team/${encodeURIComponent(id)}`}
     aria-label={`View ${name}'s profile`}
     className="group block w-full max-w-md"
   >
