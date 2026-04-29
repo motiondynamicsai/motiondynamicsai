@@ -1,6 +1,16 @@
-import { team, teamGroups } from '../constants';
-
+import { useReducedMotion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { team, teamGroups } from '../constants';
+import { WordReveal } from './shared/WordReveal';
+
+const HEADLINE_WORDS = [
+  'Built',
+  'by',
+  'engineers,',
+  'athletes,',
+  'and',
+  'researchers.',
+] as const;
 
 interface TeamCardProps {
   id: string;
@@ -8,60 +18,82 @@ interface TeamCardProps {
   name: string;
   title: string;
   subtitle?: string;
-  featured?: boolean;
 }
 
-const TeamCard = ({ id, img, name, title, subtitle, featured = false }: TeamCardProps) => (
+const TeamCard = ({ id, img, name, title, subtitle }: TeamCardProps) => (
   <Link
     to={`/team/${encodeURIComponent(id)}`}
     aria-label={`View ${name}'s profile`}
-    className="group block w-full max-w-md"
+    className="group block w-full"
   >
-    <article className="relative h-full overflow-hidden rounded-lg border border-white/10 bg-dark/40 backdrop-blur-sm shadow-[0_18px_50px_-28px_rgba(0,0,0,0.75)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/30 hover:bg-dark/50 hover:shadow-[0_26px_70px_-34px_rgba(0,0,0,0.78)]">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
+    <article
+      className="flex flex-col"
+      style={{
+        transition: 'transform 350ms cubic-bezier(0.22, 1, 0.36, 1)',
+      }}
+    >
+      <div
+        className="relative aspect-square w-full overflow-hidden rounded-md"
+        style={{
+          backgroundColor: 'var(--color-md-surface)',
+          border: '1px solid color-mix(in oklab, var(--color-md-text-mid) 12%, transparent)',
+        }}
+      >
+        <img
+          src={img}
+          alt={`${name} - ${title}`}
+          loading="lazy"
+          className="h-full w-full object-cover"
+          style={{
+            filter: 'grayscale(100%)',
+            transition:
+              'filter 350ms cubic-bezier(0.22, 1, 0.36, 1), transform 350ms cubic-bezier(0.22, 1, 0.36, 1)',
+          }}
+          onMouseEnter={(event) => {
+            event.currentTarget.style.filter = 'grayscale(0%)';
+          }}
+          onMouseLeave={(event) => {
+            event.currentTarget.style.filter = 'grayscale(100%)';
+          }}
+        />
+      </div>
 
-      <div className={featured ? "flex gap-5 p-5" : "flex gap-4 p-4"}>
-        <div
-          className={
-            featured
-              ? "relative h-28 w-28 sm:h-32 sm:w-32 shrink-0 overflow-hidden rounded-md border border-white/10 bg-black/10"
-              : "relative h-20 w-20 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-md border border-white/10 bg-black/10"
-          }
+      <div className="mt-4">
+        <h4
+          className="text-base sm:text-lg font-semibold leading-snug truncate tracking-tight"
+          style={{ color: 'var(--color-md-text-hi)' }}
         >
-          <img
-            src={img}
-            alt={`${name} - ${title}`}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-black/10 transition-colors duration-300 group-hover:bg-black/0" />
-        </div>
-
-        <div className="min-w-0 flex-1">
-          <h4 className="text-white text-base sm:text-lg font-semibold leading-snug truncate">{name}</h4>
-          <p className="mt-1 text-secondary/90 text-sm font-medium leading-snug">{title}</p>
-          {subtitle ? <p className="mt-2 text-dimWhite text-xs leading-snug">{subtitle}</p> : null}
-
-          <div className="mt-4 flex items-center justify-between">
-            <span className="text-[11px] text-dimWhite/70 uppercase tracking-[0.28em]">Profile</span>
-            <span className="text-secondary/70 text-sm transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </div>
-        </div>
+          {name}
+        </h4>
+        <p
+          className="mt-1 text-sm font-medium leading-snug"
+          style={{ color: 'var(--color-md-accent)' }}
+        >
+          {title}
+        </p>
+        {subtitle ? (
+          <p
+            className="mt-2 text-xs leading-snug"
+            style={{ color: 'var(--color-md-text-mid)' }}
+          >
+            {subtitle}
+          </p>
+        ) : null}
       </div>
     </article>
   </Link>
 );
 
-
 const Team = () => {
+  const prefersReducedMotion = useReducedMotion();
+  const reduced = prefersReducedMotion ?? false;
+
   const groupPriority: Record<string, number> = {
     'core team': 0,
     'business supports': 1,
     'technical team': 2,
     'marketing team': 3,
-    'collaborators': 4,
+    collaborators: 4,
   };
 
   const orderedGroups = [...teamGroups].sort((a, b) => {
@@ -71,32 +103,59 @@ const Team = () => {
   });
 
   return (
-    <section id="team" className="py-24 bg-primary relative overflow-hidden">
-      <div className="absolute inset-0 bg-grid-white/[0.02] pointer-events-none" />
-
+    <section
+      id="team"
+      aria-labelledby="team-heading"
+      className="relative py-24 overflow-hidden"
+      style={{ backgroundColor: 'var(--color-md-bg)' }}
+    >
       <div className="container mx-auto px-6 relative">
         {/* Section Header */}
         <div className="mb-14">
-          <div className="flex items-center gap-4 text-[11px] uppercase tracking-[0.32em] text-dimWhite">
-            <span className="h-px w-10 bg-secondary/60" />
+          <div
+            className="flex items-center gap-4 text-[11px] uppercase tracking-[0.32em]"
+            style={{ color: 'var(--color-md-text-mid)' }}
+          >
+            <span
+              className="h-px w-10"
+              style={{ backgroundColor: 'color-mix(in oklab, var(--color-md-accent) 60%, transparent)' }}
+            />
             Team
-            <span className="h-px flex-1 bg-white/10" />
+            <span
+              className="h-px flex-1"
+              style={{ backgroundColor: 'color-mix(in oklab, var(--color-md-text-mid) 18%, transparent)' }}
+            />
           </div>
 
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-end">
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-              Built by engineers, athletes, and researchers.
+            <h2
+              id="team-heading"
+              className="text-4xl md:text-5xl font-semibold tracking-tight"
+              style={{ color: 'var(--color-md-text-hi)' }}
+            >
+              <WordReveal
+                words={HEADLINE_WORDS}
+                reduced={reduced}
+                className="flex flex-wrap"
+              />
             </h2>
-            <p className="text-lg text-dimWhite max-w-xl md:justify-self-end">
-              An industrial-grade team focused on shipping real-world motion intelligence—fast, reliable, and measurable.
+            <p
+              className="text-lg max-w-xl md:justify-self-end leading-relaxed"
+              style={{ color: 'var(--color-md-text-mid)' }}
+            >
+              An industrial-grade team focused on shipping real-world motion intelligence — fast, reliable, and measurable.
             </p>
           </div>
         </div>
 
         {/* Hierarchy */}
-        <div className="space-y-10">
+        <div className="space-y-12">
           {orderedGroups.map((group, groupIndex) => {
-            const groupRecord = group as { memberIds?: string[]; memeberIds?: string[]; title?: string };
+            const groupRecord = group as {
+              memberIds?: string[];
+              memeberIds?: string[];
+              title?: string;
+            };
             const rawMemberIds = groupRecord.memberIds ?? groupRecord.memeberIds ?? [];
             const memberIds = Array.isArray(rawMemberIds) ? rawMemberIds : [];
 
@@ -107,42 +166,58 @@ const Team = () => {
             const isCoreTeam = String(group.title ?? '').toLowerCase() === 'core team';
             const groupNumber = String(groupIndex + 1).padStart(2, '0');
             const gridCols = isCoreTeam
-              ? "grid-cols-1 sm:grid-cols-2"
+              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
               : members.length <= 1
-                ? "grid-cols-1"
+                ? 'grid-cols-1 sm:grid-cols-2'
                 : members.length === 2
-                  ? "grid-cols-1 sm:grid-cols-2"
-                  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+                  ? 'grid-cols-2 sm:grid-cols-3'
+                  : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4';
 
             return (
               <div
                 key={group.title}
-                className="rounded-lg border border-white/10 bg-dark/20 backdrop-blur-sm p-6 md:p-8"
+                className="rounded-md p-6 md:p-8"
+                style={{
+                  backgroundColor: 'color-mix(in oklab, var(--color-md-surface) 60%, transparent)',
+                  border: '1px solid color-mix(in oklab, var(--color-md-text-mid) 10%, transparent)',
+                }}
               >
                 <div className="flex items-center gap-4 mb-8">
-                  <span className="text-secondary/80 text-xs font-semibold tracking-[0.32em]">{groupNumber}</span>
-                  <h3 className="text-lg md:text-xl font-semibold text-white uppercase tracking-wide">{group.title}</h3>
-                  <div className="h-px flex-1 bg-white/10" />
-                  <span className="text-xs text-dimWhite/70">{members.length}</span>
+                  <span
+                    className="text-xs font-semibold tracking-[0.32em] tabular-nums"
+                    style={{ color: 'var(--color-md-accent)' }}
+                  >
+                    {groupNumber}
+                  </span>
+                  <h3
+                    className="text-lg md:text-xl font-semibold uppercase tracking-wide"
+                    style={{ color: 'var(--color-md-text-hi)' }}
+                  >
+                    {group.title}
+                  </h3>
+                  <div
+                    className="h-px flex-1"
+                    style={{ backgroundColor: 'color-mix(in oklab, var(--color-md-text-mid) 14%, transparent)' }}
+                  />
+                  <span
+                    className="text-xs tabular-nums"
+                    style={{ color: 'var(--color-md-text-mid)' }}
+                  >
+                    {members.length}
+                  </span>
                 </div>
 
-                <div
-                  className={`grid ${gridCols} gap-8 justify-items-center`}
-                >
-                  {members.map((member) => {
-                    const featured = isCoreTeam;
-                    return (
-                      <TeamCard
-                        key={member.id}
-                        id={member.id}
-                        featured={featured}
-                        img={member.img}
-                        name={member.name}
-                        title={member.title}
-                        subtitle={member.subtitle}
-                      />
-                    );
-                  })}
+                <div className={`grid ${gridCols} gap-6 md:gap-8`}>
+                  {members.map((member) => (
+                    <TeamCard
+                      key={member.id}
+                      id={member.id}
+                      img={member.img}
+                      name={member.name}
+                      title={member.title}
+                      subtitle={member.subtitle}
+                    />
+                  ))}
                 </div>
               </div>
             );

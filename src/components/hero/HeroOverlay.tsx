@@ -1,4 +1,5 @@
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from 'framer-motion';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -95,13 +96,29 @@ const WordReveal = ({ words, delay, className, reduced, highlightIndex }: WordRe
 export const HeroOverlay = () => {
   const prefersReducedMotion = useReducedMotion();
   const reduced = prefersReducedMotion ?? false;
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+
+  // Beat 1: scroll-tied blur + lift on the headline. Scroll is measured
+  // relative to the hero overlay block; the effect runs from start-of-view
+  // (no blur) to the bottom leaving the viewport (12px blur, -60px lift).
+  const { scrollYProgress } = useScroll({
+    target: overlayRef,
+    offset: ['start start', 'end start'],
+  });
+  const blurStrength = useTransform(scrollYProgress, [0, 1], [0, 12]);
+  const filter = useTransform(blurStrength, (b) => `blur(${b}px)`);
+  const liftY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const fadeOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.7, 0]);
 
   const ctaInitial = reduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 };
   const ctaAnimate = { opacity: 1, y: 0 };
 
   return (
-    <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-8 py-32 md:py-40 lg:py-48">
-      <div className="max-w-3xl">
+    <div ref={overlayRef} className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-8 py-32 md:py-40 lg:py-48">
+      <motion.div
+        className="max-w-3xl"
+        style={reduced ? undefined : { filter, y: liftY, opacity: fadeOpacity }}
+      >
         <h1
           className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05] tabular-nums"
           style={{ color: HEADLINE_COLOR_HI }}
@@ -189,7 +206,7 @@ export const HeroOverlay = () => {
             }
           />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

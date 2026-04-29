@@ -54,9 +54,7 @@ html[data-theme="contrast"] {
   color-scheme: dark;
 }
 
-* {
-  scroll-behavior: smooth;
-}
+/* Lenis owns smooth scrolling; native scroll-behavior is removed so the two don't fight. */
 
 html,
 body {

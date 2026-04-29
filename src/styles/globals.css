@@ -126,9 +126,8 @@
   }
 }
 
-/* Smooth scroll behavior with offset (replaced by Lenis in Phase 5) */
+/* Lenis owns smooth scrolling. We keep scroll-padding so anchor jumps clear the navbar. */
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 80px;
 }
 

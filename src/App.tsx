@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
 import styles from './style';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useLenis } from './hooks/useLenis';
+import ScrollProgress from './components/ScrollProgress';
 import {
   Contact,
   Footer,
@@ -24,8 +26,10 @@ const REVEAL_INITIAL = { opacity: 0, y: 24 } as const;
 const REVEAL_WHILE_IN_VIEW = { opacity: 1, y: 0 } as const;
 
 const App = () => {
+  useLenis();
   return (
     <Router>
+      <ScrollProgress />
       <div className="bg-primary w-full overflow-hidden">
         <Helmet>
           <meta charSet="UTF-8" />
