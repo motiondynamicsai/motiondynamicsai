@@ -16,6 +16,7 @@ import Collaborations from './components/Collaborations';
 import TeamMemberDetail from './components/TeamMemberDetail';
 import Storyboard from './components/Partners';
 import { HeroVideo } from './components/HeroVideo';
+import Accuracy from './components/Accuracy';
 
 const REVEAL_VIEWPORT = { once: true, margin: '-20%' } as const;
 const REVEAL_TRANSITION = { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const };
@@ -98,6 +99,21 @@ const App = () => {
                 >
                   <div className={`${styles.boxWidth} relative z-10`}>
                     <Solutions />
+                  </div>
+                  <div className="section-divider"></div>
+                </motion.div>
+
+                {/* Accuracy / PINNs side-by-side */}
+                <motion.div
+                  id="accuracy"
+                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
+                  initial={REVEAL_INITIAL}
+                  whileInView={REVEAL_WHILE_IN_VIEW}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={REVEAL_TRANSITION}
+                >
+                  <div className={`${styles.boxWidth} relative z-10`}>
+                    <Accuracy />
                   </div>
                   <div className="section-divider"></div>
                 </motion.div>
