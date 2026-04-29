@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   base: "/", // This should point to the root if using a custom domain
   server: {
     host: true,
@@ -22,4 +23,3 @@ export default defineConfig({
     }
   }
 });
-

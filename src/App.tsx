@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet';
-import styles from "./style";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import styles from './style';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
   Contact,
   Footer,
@@ -11,14 +12,16 @@ import {
   Navbar,
   Stats,
   Solutions,
-} from "./components";
-import Collaborations from "./components/Collaborations";
-import TeamMemberDetail from "./components/TeamMemberDetail";
-import Storyboard from "./components/Partners";
-import advertVideo from "./assets/advert_h264.mp4";
+} from './components';
+import Collaborations from './components/Collaborations';
+import TeamMemberDetail from './components/TeamMemberDetail';
+import Storyboard from './components/Partners';
+import advertVideo from './assets/advert_h264.mp4';
 
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+const REVEAL_VIEWPORT = { once: true, margin: '-20%' } as const;
+const REVEAL_TRANSITION = { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const };
+const REVEAL_INITIAL = { opacity: 0, y: 24 } as const;
+const REVEAL_WHILE_IN_VIEW = { opacity: 1, y: 0 } as const;
 
 const HeroVideo = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -28,15 +31,18 @@ const HeroVideo = () => {
   }, []);
 
   return (
-    <section 
-      id="hero-video" 
-      className="relative w-full overflow-hidden bg-gradient-to-b from-primary to-dark min-h-[600px] lg:min-h-[700px]" 
-      data-aos="fade-up"
-      style={{ marginTop: '80px' }} // Ensures video stays below navbar
+    <motion.section
+      id="hero-video"
+      className="relative w-full overflow-hidden bg-gradient-to-b from-primary to-dark min-h-[600px] lg:min-h-[700px]"
+      initial={REVEAL_INITIAL}
+      whileInView={REVEAL_WHILE_IN_VIEW}
+      viewport={REVEAL_VIEWPORT}
+      transition={REVEAL_TRANSITION}
+      style={{ marginTop: '80px' }}
     >
       {/* Premium gradient background while video loads */}
       <div className="absolute inset-0 bg-gradient-to-br from-secondary/10 via-primary to-secondary/5" />
-      
+
       {/* Video layer with smooth fade-in */}
       <div className={`absolute inset-0 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <video
@@ -55,7 +61,7 @@ const HeroVideo = () => {
           Your browser does not support the video tag.
         </video>
 
-        
+
         {/* Professional gradient overlays for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/90" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
@@ -69,7 +75,7 @@ const HeroVideo = () => {
             <div className="h-1 w-12 bg-secondary/70 rounded-[2px]" />
             <div className="h-1 w-8 bg-accent/35 rounded-[2px] ml-2" />
           </div>
-          
+
           {/* Main heading with professional typography */}
           <h1 className="text-white tracking-tight opacity-0 animate-slideInLeft animation-delay-200">
             <span className="block text-5xl md:text-6xl lg:text-7xl mb-2 font-medium">Motion</span>
@@ -77,12 +83,12 @@ const HeroVideo = () => {
               Dynamics
             </span>
           </h1>
-          
+
           {/* Refined description */}
           <p className="mt-6 text-lg md:text-xl text-dimWhite leading-relaxed max-w-2xl opacity-0 animate-slideInLeft animation-delay-400">
             AI-Powered Motion Intelligence for Sports and Human Performance
             For organizations committed to improving athletic performance and rehabilitation outcomes, our platform delivers actionable insights into movement, efficiency, and recovery—helping businesses enhance results, engagement, and client success.          </p>
-          
+
           {/* Professional CTA buttons */}
           <div className="mt-10 flex flex-col sm:flex-row gap-4 opacity-0 animate-slideInLeft animation-delay-600">
             <a
@@ -116,22 +122,11 @@ const HeroVideo = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
 const App = () => {
-  useEffect(() => {
-    AOS.init({ 
-      duration: 1200,
-      once: false,
-      easing: 'ease-out-cubic',
-      offset: 50,
-      delay: 0,
-      anchorPlacement: 'top-bottom'
-    });
-  }, []);
-
   return (
     <Router>
       <div className="bg-primary w-full overflow-hidden">
@@ -148,199 +143,6 @@ const App = () => {
             name="keywords"
             content="motion capture, sport motion capture, squash motion capture, tennis motion capture, sports performance analysis, Motion Dynamics"
           />
-          
-          {/* Add custom styles for animations */}
-          <style>{`
-            @keyframes slideInLeft {
-              from {
-                opacity: 0;
-                transform: translateX(-30px);
-              }
-              to {
-                opacity: 1;
-                transform: translateX(0);
-              }
-            }
-            
-            @keyframes fadeIn {
-              from {
-                opacity: 0;
-              }
-              to {
-                opacity: 1;
-              }
-            }
-            
-            .animate-slideInLeft {
-              animation: slideInLeft 0.8s ease-out forwards;
-            }
-            
-            .animate-fadeIn {
-              animation: fadeIn 1s ease-out forwards;
-            }
-            
-            .animation-delay-200 {
-              animation-delay: 200ms;
-            }
-            
-            .animation-delay-400 {
-              animation-delay: 400ms;
-            }
-            
-            .animation-delay-600 {
-              animation-delay: 600ms;
-            }
-            
-            .animation-delay-800 {
-              animation-delay: 800ms;
-            }
-            
-            /* Smooth section transitions with overlapping gradients */
-            .section-transition {
-              position: relative;
-              isolation: isolate;
-            }
-            
-            .section-transition::before {
-              content: '';
-              position: absolute;
-              top: -50px;
-              left: 0;
-              right: 0;
-              height: 100px;
-              background: linear-gradient(to bottom, transparent, rgb(var(--md-primary) / 0.55), transparent);
-              pointer-events: none;
-              z-index: 1;
-            }
-            
-            /* Minimal section spacing for tighter layout */
-            .section-padding {
-              padding-top: 2rem;
-              padding-bottom: 2rem;
-              position: relative;
-            }
-            
-            @media (min-width: 768px) {
-              .section-padding {
-                padding-top: 3rem;
-                padding-bottom: 3rem;
-              }
-            }
-            
-            @media (min-width: 1024px) {
-              .section-padding {
-                padding-top: 4rem;
-                padding-bottom: 4rem;
-              }
-            }
-            
-            /* Smooth scroll behavior with offset */
-            html {
-              scroll-behavior: smooth;
-              scroll-padding-top: 80px;
-            }
-            
-            /* Premium glass effect for components */
-            .glass-effect {
-              background: rgb(var(--md-white) / 0.03);
-              backdrop-filter: blur(20px);
-              -webkit-backdrop-filter: blur(20px);
-              border: 1px solid rgb(var(--md-white) / 0.06);
-            }
-            
-            /* Professional hover transitions */
-            .hover-lift {
-              transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .hover-lift:hover {
-              transform: translateY(-6px);
-              box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-            }
-            
-            /* Seamless background flow between sections */
-            .bg-flow-dark {
-              background: linear-gradient(180deg, 
-                rgb(var(--md-primary) / 0) 0%,
-                rgb(var(--md-primary) / 0.55) 20%,
-                rgb(var(--md-primary) / 0.88) 50%,
-                rgb(var(--md-primary) / 0.55) 80%,
-                rgb(var(--md-primary) / 0) 100%
-              );
-            }
-            
-            .bg-flow-light {
-              background: linear-gradient(180deg,
-                rgb(var(--md-dark) / 0) 0%,
-                rgb(var(--md-dark) / 0.40) 20%,
-                rgb(var(--md-dark) / 0.60) 50%,
-                rgb(var(--md-dark) / 0.40) 80%,
-                rgb(var(--md-dark) / 0) 100%
-              );
-            }
-            
-            /* Subtle section dividers */
-            .section-divider {
-              position: absolute;
-              bottom: 0;
-              left: 50%;
-              transform: translateX(-50%);
-              width: 100%;
-              height: 1px;
-              background: linear-gradient(90deg,
-                transparent 0%,
-                rgb(var(--md-secondary) / 0.10) 20%,
-                rgb(var(--md-accent) / 0.16) 50%,
-                rgb(var(--md-secondary) / 0.10) 80%,
-                transparent 100%
-              );
-            }
-            
-            /* Floating gradient orbs for ambient effect */
-            @keyframes float {
-              0%, 100% { transform: translate(0, 0) scale(1); }
-              33% { transform: translate(30px, -30px) scale(1.05); }
-              66% { transform: translate(-20px, 20px) scale(0.95); }
-            }
-            
-            .floating-gradient {
-              position: absolute;
-              border-radius: 50%;
-              filter: blur(80px);
-              opacity: 0.08;
-              animation: float 20s infinite ease-in-out;
-              pointer-events: none;
-            }
-            
-            .gradient-orb-1 {
-              width: 600px;
-              height: 600px;
-              background: radial-gradient(circle, rgb(var(--md-secondary) / 0.18) 0%, transparent 70%);
-              top: -300px;
-              left: -300px;
-            }
-            
-            .gradient-orb-2 {
-              width: 800px;
-              height: 800px;
-              background: radial-gradient(circle, rgb(var(--md-accent) / 0.14) 0%, transparent 70%);
-              bottom: -400px;
-              right: -400px;
-              animation-delay: -10s;
-            }
-            
-            /* Content fade-in on scroll */
-            .content-reveal {
-              opacity: 0;
-              transform: translateY(20px);
-              transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .content-reveal.aos-animate {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          `}</style>
         </Helmet>
 
         <Navbar />
@@ -371,103 +173,111 @@ const App = () => {
                 </div>
 
                 {/* Stats Section with smooth transition */}
-                <div
+                <motion.div
                   id="stats"
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-16 md:-mt-20 lg:-mt-24`}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
+                  initial={REVEAL_INITIAL}
+                  whileInView={REVEAL_WHILE_IN_VIEW}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={REVEAL_TRANSITION}
                 >
                   <div className="floating-gradient gradient-orb-1"></div>
                   <div className={`${styles.boxWidth} relative z-10`}>
                     <Stats />
                   </div>
                   <div className="section-divider"></div>
-                </div>
+                </motion.div>
 
                 {/* Solutions Section with gradient flow */}
-                <div
+                <motion.div
                   id="solutions"
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
                     background: 'linear-gradient(to bottom, rgb(var(--md-primary) / 0.12), rgb(var(--md-dark) / 0.52), rgb(var(--md-primary) / 0.12))',
                   }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
+                  initial={REVEAL_INITIAL}
+                  whileInView={REVEAL_WHILE_IN_VIEW}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={REVEAL_TRANSITION}
                 >
                   <div className={`${styles.boxWidth} relative z-10`}>
                     <Solutions />
                   </div>
                   <div className="section-divider"></div>
-                </div>
+                </motion.div>
 
                 {/* Services Section with elegant background blend */}
-                <div 
-                  id="services" 
+                <motion.div
+                  id="services"
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
                     background: 'linear-gradient(135deg, rgb(var(--md-primary) / 0.96) 0%, rgb(var(--md-dark) / 0.92) 50%, rgb(var(--md-primary) / 0.96) 100%)',
                   }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-delay="50"
+                  initial={REVEAL_INITIAL}
+                  whileInView={REVEAL_WHILE_IN_VIEW}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={REVEAL_TRANSITION}
                 >
                   <div className="floating-gradient gradient-orb-2"></div>
                   <div className={`${styles.boxWidth} relative z-10`}>
                     <Services />
                   </div>
                   <div className="section-divider"></div>
-                </div>
+                </motion.div>
 
                 {/* Collaborations Section with subtle gradient */}
-                <div 
-                  id="collaborations" 
+                <motion.div
+                  id="collaborations"
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
                     background: 'linear-gradient(to bottom, rgb(var(--md-dark) / 0.40), rgb(var(--md-primary) / 0.78), rgb(var(--md-dark) / 0.40))',
                   }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-delay="50"
+                  initial={REVEAL_INITIAL}
+                  whileInView={REVEAL_WHILE_IN_VIEW}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={REVEAL_TRANSITION}
                 >
                   <div className={`${styles.boxWidth} relative z-10`}>
                     <Collaborations />
                   </div>
                   <div className="section-divider"></div>
-                </div>
+                </motion.div>
 
                 {/* Team Section with indigo accent gradient */}
-                <div 
-                  id="team" 
+                <motion.div
+                  id="team"
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
                     background: 'linear-gradient(180deg, rgb(var(--md-primary) / 0.92) 0%, rgb(var(--md-secondary) / 0.05) 50%, rgb(var(--md-primary) / 0.92) 100%)',
                   }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-delay="50"
+                  initial={REVEAL_INITIAL}
+                  whileInView={REVEAL_WHILE_IN_VIEW}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={REVEAL_TRANSITION}
                 >
                   <div className="floating-gradient gradient-orb-1"></div>
                   <div className={`${styles.boxWidth} relative z-10`}>
                     <Team />
                   </div>
                   <div className="section-divider"></div>
-                </div>
+                </motion.div>
 
                 {/* Contact Section with premium gradient */}
-                <div 
-                  id="contact" 
+                <motion.div
+                  id="contact"
                   className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
                   style={{
                     background: 'linear-gradient(to bottom, rgb(var(--md-primary) / 0.70), rgb(var(--md-dark) / 0.95))',
                   }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-delay="50"
+                  initial={REVEAL_INITIAL}
+                  whileInView={REVEAL_WHILE_IN_VIEW}
+                  viewport={REVEAL_VIEWPORT}
+                  transition={REVEAL_TRANSITION}
                 >
                   <div className={`${styles.boxWidth} relative z-10`}>
                     <Contact />
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Footer with smooth transition from contact */}
                 <div className={`bg-dark border-t border-white/10 ${styles.paddingX} ${styles.flexStart}`}>
@@ -487,4 +297,5 @@ const App = () => {
   );
 };
 
+export { App };
 export default App;

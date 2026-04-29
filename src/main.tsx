@@ -1,11 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './styles/globals.css';
+import './index.css';
 
 const THEME_KEY = 'md-theme';
+type Theme = 'dark' | 'light' | 'contrast';
 
-const getInitialTheme = () => {
+const getInitialTheme = (): Theme => {
   const stored = localStorage.getItem(THEME_KEY);
   if (stored === 'dark' || stored === 'light' || stored === 'contrast') return stored;
 
@@ -21,8 +23,13 @@ try {
   // ignore storage/matchMedia errors
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const rootEl = document.getElementById('root');
+if (!rootEl) {
+  throw new Error('Root element #root not found');
+}
+
+ReactDOM.createRoot(rootEl).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-)
+);

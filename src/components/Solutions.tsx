@@ -1,8 +1,17 @@
-import React from "react";
+import React, { type ComponentType, type SVGProps } from "react";
 import { motion } from "framer-motion";
 
+type FeatureIcon = string | ComponentType<{ className?: string }>;
+
+interface FeatureCardProps {
+  icon: FeatureIcon;
+  title: string;
+  content: string;
+  index: number;
+}
+
 // --- Inline SVG icons to avoid extra deps ---
-const IconMotion = (props) => (
+const IconMotion = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
     <path d="M3 12h4m2 0h4m2 0h6" strokeWidth="2" strokeLinecap="round"/>
     <circle cx="9" cy="12" r="2" strokeWidth="2"/>
@@ -10,27 +19,27 @@ const IconMotion = (props) => (
   </svg>
 );
 
-const IconLLM = (props) => (
+const IconLLM = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
     <path d="M4 5h16v10H5l-1 4V5z" strokeWidth="2" strokeLinejoin="round"/>
     <path d="M8 9h8M8 12h6" strokeWidth="2" strokeLinecap="round"/>
   </svg>
 );
 
-const IconRehab = (props) => (
+const IconRehab = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
     <path d="M12 21s7-4.35 7-10A7 7 0 1 0 5 11c0 5.65 7 10 7 10z" strokeWidth="2"/>
     <path d="M9.5 11l2 2 3-4" strokeWidth="2" strokeLinecap="round"/>
   </svg>
 );
 
-const IconClub = (props) => (
+const IconClub = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
     <path d="M3 9l9-6 9 6v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z" strokeWidth="2" strokeLinejoin="round"/>
   </svg>
 );
 
-const IconBroadcast = (props) => (
+const IconBroadcast = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
     <circle cx="12" cy="12" r="3" strokeWidth="2"/>
     <path d="M5 12a7 7 0 0 1 7-7M19 12a7 7 0 0 0-7 7" strokeWidth="2" strokeLinecap="round"/>
@@ -38,14 +47,14 @@ const IconBroadcast = (props) => (
   </svg>
 );
 
-const IconClinic = (props) => (
+const IconClinic = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
     <path d="M12 2l7 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7l7-5z" strokeWidth="2"/>
     <path d="M12 8v8M8 12h8" strokeWidth="2" strokeLinecap="round"/>
   </svg>
 );
 
-const IconUniversity = (props) => (
+const IconUniversity = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
     <path d="M2 10l10-6 10 6-10 6-10-6z" strokeWidth="2"/>
     <path d="M6 12v5l6 3 6-3v-5" strokeWidth="2" strokeLinejoin="round"/>
@@ -53,7 +62,7 @@ const IconUniversity = (props) => (
 );
 
 // --- Card component styled to match your Services snippet ---
-const FeatureCard = ({ icon, title, content, index }) => {
+const FeatureCard = ({ icon, title, content, index }: FeatureCardProps) => {
   const isComponent = typeof icon === "function";
   return (
     <motion.div
@@ -67,9 +76,9 @@ const FeatureCard = ({ icon, title, content, index }) => {
 
       <div className="w-14 h-14 bg-black/20 border border-white/10 rounded-md flex items-center justify-center mb-5 group-hover:bg-secondary/10 group-hover:border-secondary/20 transition-all">
         {isComponent ? (
-          React.createElement(icon, { className: "w-7 h-7 text-white" })
+          React.createElement(icon as ComponentType<{ className?: string }>, { className: "w-7 h-7 text-white" })
         ) : (
-          <img src={icon} alt={title} className="w-7 h-7" />
+          <img src={icon as string} alt={title} className="w-7 h-7" />
         )}
       </div>
       <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
@@ -152,7 +161,7 @@ const Solutions = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {solutionCards.map((f, idx) => (
-              <FeatureCard key={f.id} index={idx} {...f} />
+              <FeatureCard key={f.id} index={idx} icon={f.icon} title={f.title} content={f.content} />
             ))}
           </div>
         </div>
@@ -173,7 +182,7 @@ const Solutions = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
             {industries.map((f, idx) => (
-              <FeatureCard key={f.id} index={idx} {...f} />
+              <FeatureCard key={f.id} index={idx} icon={f.icon} title={f.title} content={f.content} />
             ))}
           </div>
         </div>
@@ -182,4 +191,5 @@ const Solutions = () => {
   );
 };
 
+export { Solutions };
 export default Solutions;

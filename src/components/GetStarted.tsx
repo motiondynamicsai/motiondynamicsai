@@ -27,4 +27,5 @@ const GetStarted = () => {
   );
 };
 
+export { GetStarted };
 export default GetStarted;

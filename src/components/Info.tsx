@@ -1,7 +1,13 @@
 import { Helmet } from 'react-helmet';
 import { d_reconstruction, skeleton_overlay_squash, skeleton_overlay_tennis, tennis_reconstruction, padel } from '../assets';
 
-const VideoCard = ({ src, alt, type = 'video' }) => (
+interface VideoCardProps {
+  src: string;
+  alt: string;
+  type?: 'video' | 'image';
+}
+
+const VideoCard = ({ src, alt, type = 'video' }: VideoCardProps) => (
   <div className="relative flex flex-col items-center w-full max-w-[420px] mx-0 sm:mx-4 bg-dark/40 backdrop-blur-sm border border-white/10 rounded-lg p-4">
     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
     {type === 'video' ? (
@@ -90,4 +96,5 @@ const Info = () => {
   );
 };
 
+export { Info };
 export default Info;

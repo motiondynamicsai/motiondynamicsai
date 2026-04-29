@@ -6,12 +6,14 @@ import Logo_Dark from '../assets/Motion_Dynamics_Logo_Dark.svg'
 import { navLinks } from '../constants';
 import { Link } from 'react-router-dom';
 
+type ThemeName = 'dark' | 'light' | 'contrast';
+
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState<ThemeName>('dark');
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
-  const themeMenuRef = useRef(null);
+  const themeMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,13 +25,16 @@ const Navbar = () => {
 
   useEffect(() => {
     const current = document.documentElement.dataset.theme;
-    if (current) setTheme(current);
+    if (current === 'dark' || current === 'light' || current === 'contrast') {
+      setTheme(current);
+    }
   }, []);
 
   useEffect(() => {
-    const handlePointerDown = (event) => {
+    const handlePointerDown = (event: PointerEvent) => {
       if (!themeMenuRef.current) return;
-      if (themeMenuRef.current.contains(event.target)) return;
+      const target = event.target;
+      if (target instanceof Node && themeMenuRef.current.contains(target)) return;
       setThemeMenuOpen(false);
     };
 
@@ -37,7 +42,7 @@ const Navbar = () => {
     return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, []);
 
-  const applyTheme = (nextTheme) => {
+  const applyTheme = (nextTheme: ThemeName) => {
     setTheme(nextTheme);
     document.documentElement.dataset.theme = nextTheme;
     try {
@@ -248,4 +253,5 @@ const Navbar = () => {
   );
 };
 
+export { Navbar };
 export default Navbar;

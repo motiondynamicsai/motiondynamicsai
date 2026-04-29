@@ -9,8 +9,8 @@ const academicMilestones = [
     title: "Peer-Reviewed Academic Validation",
     description:
       "Our system was used in a successful PhD research project exploring fine-grained body motion, resulting in a published paper. The project also processed over 50,000 videos—demonstrating both research-grade accuracy and platform scalability.",
-    media:hand_tracking_gif,
-    size: "small"
+    media: hand_tracking_gif,
+    size: "small" as const,
   },
 ];
 
@@ -24,7 +24,15 @@ const professionalMilestones = [
   },
 ];
 
-const MilestoneCard = ({ date, title, description, media, size }) => (
+interface MilestoneCardProps {
+  date: string;
+  title: string;
+  description: string;
+  media: string;
+  size?: 'small' | 'large';
+}
+
+const MilestoneCard = ({ date, title, description, media, size }: MilestoneCardProps) => (
   <div className="relative flex flex-col md:flex-row md:items-center md:space-x-10 bg-dark/40 backdrop-blur-sm border border-white/10 rounded-lg p-6 shadow-[0_20px_60px_-52px_rgba(0,0,0,0.85)]">
     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-secondary/60 to-accent/40 opacity-80" />
     <div className="md:w-1/3">
@@ -90,4 +98,5 @@ const Partnerships = () => {
   );
 };
 
+export { Partnerships };
 export default Partnerships;

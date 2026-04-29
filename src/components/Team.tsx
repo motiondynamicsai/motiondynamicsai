@@ -2,7 +2,16 @@ import { team, teamGroups } from '../constants';
 
 import { Link } from 'react-router-dom';
 
-const TeamCard = ({ id, img, name, title, subtitle, featured = false }) => (
+interface TeamCardProps {
+  id: string;
+  img: string;
+  name: string;
+  title: string;
+  subtitle?: string;
+  featured?: boolean;
+}
+
+const TeamCard = ({ id, img, name, title, subtitle, featured = false }: TeamCardProps) => (
   <Link
     to={`/team/${encodeURIComponent(id)}`}
     aria-label={`View ${name}'s profile`}
@@ -47,7 +56,7 @@ const TeamCard = ({ id, img, name, title, subtitle, featured = false }) => (
 
 
 const Team = () => {
-  const groupPriority = {
+  const groupPriority: Record<string, number> = {
     'core team': 0,
     'business supports': 1,
     'technical team': 2,
@@ -87,12 +96,13 @@ const Team = () => {
         {/* Hierarchy */}
         <div className="space-y-10">
           {orderedGroups.map((group, groupIndex) => {
-            const rawMemberIds = group.memberIds ?? group.memeberIds ?? [];
+            const groupRecord = group as { memberIds?: string[]; memeberIds?: string[]; title?: string };
+            const rawMemberIds = groupRecord.memberIds ?? groupRecord.memeberIds ?? [];
             const memberIds = Array.isArray(rawMemberIds) ? rawMemberIds : [];
 
             const members = memberIds
               .map((memberId) => team.find((m) => m.id === memberId))
-              .filter(Boolean);
+              .filter((m): m is NonNullable<typeof m> => Boolean(m));
 
             const isCoreTeam = String(group.title ?? '').toLowerCase() === 'core team';
             const groupNumber = String(groupIndex + 1).padStart(2, '0');
@@ -121,7 +131,17 @@ const Team = () => {
                 >
                   {members.map((member) => {
                     const featured = isCoreTeam;
-                    return <TeamCard key={member.id} id={member.id} featured={featured} {...member} />;
+                    return (
+                      <TeamCard
+                        key={member.id}
+                        id={member.id}
+                        featured={featured}
+                        img={member.img}
+                        name={member.name}
+                        title={member.title}
+                        subtitle={member.subtitle}
+                      />
+                    );
                   })}
                 </div>
               </div>
@@ -133,4 +153,5 @@ const Team = () => {
   );
 };
 
+export { Team };
 export default Team;

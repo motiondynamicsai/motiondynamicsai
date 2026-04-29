@@ -1,21 +1,22 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import styles from '../style';
 import tennisVideo from '../assets/tennis_strobe.mov';
 import golfVideo from '../assets/golf_strobe.mov';
 
 const LERP_ALPHA = 0.18; // 0..1 — higher = snappier, lower = smoother
 
+type VideoVariant = 'tennis' | 'golf';
+
 const Hero = () => {
-  const videoRef = useRef(null);
-  const sectionRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
   const [videoProgress, setVideoProgress] = useState(0);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const [currentVideo, setCurrentVideo] = useState('tennis');
+  const [currentVideo, setCurrentVideo] = useState<VideoVariant>('tennis');
 
   const targetTimeRef = useRef(0);
-  const rafIdRef = useRef(null);
+  const rafIdRef = useRef<number | null>(null);
 
   // Smoothly ease currentTime toward targetTime
   const startRaf = () => {
@@ -233,4 +234,5 @@ const Hero = () => {
   );
 };
 
+export { Hero };
 export default Hero;

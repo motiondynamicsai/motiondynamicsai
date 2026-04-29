@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { type ComponentType } from 'react';
 import { features } from '../constants';
 import { motion } from 'framer-motion';
 
-// Updated ServiceCard to handle both image strings and React component icons
-const ServiceCard = ({ icon, title, content, index }) => {
+type ServiceIcon = string | ComponentType<{ className?: string }>;
+
+interface ServiceCardProps {
+  icon: ServiceIcon;
+  title: string;
+  content: string;
+  index: number;
+}
+
+// ServiceCard handles both image strings and React component icons.
+const ServiceCard = ({ icon, title, content, index }: ServiceCardProps) => {
   const isComponent = typeof icon === 'function';
 
   return (
@@ -18,9 +27,9 @@ const ServiceCard = ({ icon, title, content, index }) => {
 
       <div className="w-14 h-14 bg-black/20 border border-white/10 rounded-md flex items-center justify-center mb-5 group-hover:bg-secondary/10 group-hover:border-secondary/20 transition-all">
         {isComponent ? (
-          React.createElement(icon, { className: 'w-7 h-7 text-white' })
+          React.createElement(icon as ComponentType<{ className?: string }>, { className: 'w-7 h-7 text-white' })
         ) : (
-          <img src={icon} alt={title} className="w-7 h-7" />
+          <img src={icon as string} alt={title} className="w-7 h-7" />
         )}
       </div>
       <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
@@ -51,11 +60,18 @@ const Services = () => (
       {/* Grid of Services */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {features.map((feature, index) => (
-          <ServiceCard key={feature.id} index={index} {...feature} />
+          <ServiceCard
+            key={feature.id}
+            index={index}
+            icon={feature.icon as ServiceIcon}
+            title={feature.title}
+            content={feature.content}
+          />
         ))}
       </div>
     </div>
   </section>
 );
 
+export { Services };
 export default Services;

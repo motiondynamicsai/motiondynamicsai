@@ -24,4 +24,5 @@ const Stats = () => (
   </section>
 );
 
+export { Stats };
 export default Stats;

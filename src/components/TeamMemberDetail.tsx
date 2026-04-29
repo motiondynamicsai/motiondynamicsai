@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { team } from '../constants';
-import { github, linkedin, website } from "../assets/index.js"
+import { github, linkedin, website } from '../assets';
 
 const TeamMemberDetail = () => {
   const { id: routeId = '' } = useParams();
@@ -120,4 +120,5 @@ const TeamMemberDetail = () => {
   );
 };
 
+export { TeamMemberDetail };
 export default TeamMemberDetail;
