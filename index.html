@@ -4,12 +4,32 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/CircleLogo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0A0E14" />
     <meta name="google-site-verification" content="kU_Gc8iIkmwQ67ro4Pdmog45Yq5Zh3lb22UitH6_hnE" />
-    <title>Motion Dynamics | Motion Capture in Sports, Squash, Tennis</title>
-    <meta name="description" content="Explore advanced motion capture technology for sports including squash and tennis. Learn how Motion Dynamics can enhance athletic performance." />
+    <title>Motion Dynamics — Movement Intelligence from any video</title>
+    <meta name="description" content="Hardware-free pose, biomechanics, and physics-validated insight. Motion Dynamics extracts physics-validated 3D pose, biomechanics, and kinematics from any standard video." />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Motion Dynamics" />
+    <meta property="og:title" content="Motion Dynamics — Movement Intelligence from any video" />
+    <meta property="og:description" content="Hardware-free pose, biomechanics, and physics-validated insight." />
+    <meta property="og:url" content="https://motiondynamics.ai/" />
+    <meta property="og:image" content="https://motiondynamics.ai/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Motion Dynamics — Movement Intelligence from any video" />
+    <meta name="twitter:description" content="Hardware-free pose, biomechanics, and physics-validated insight." />
+    <meta name="twitter:image" content="https://motiondynamics.ai/og.png" />
+
+    <!-- Preload the GLB so the hero scene boots faster -->
+    <link rel="preload" href="/skeletons/nfl.glb" as="fetch" type="model/gltf-binary" crossorigin="anonymous" />
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
