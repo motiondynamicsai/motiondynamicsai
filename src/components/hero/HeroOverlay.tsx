@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform, type Variants } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform, type Variants } from 'framer-motion';
+import { useHeadlineOverride } from './useHeroState';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -23,6 +24,10 @@ interface WordRevealProps {
   className: string;
   reduced: boolean;
   highlightIndex?: number;
+  // When true, words appear immediately without the stagger reveal —
+  // used after a headline override has cleared so the original copy
+  // simply fades back in rather than re-staggering.
+  skipStagger?: boolean;
 }
 
 const containerVariants = (delay: number, reduced: boolean): Variants => ({
@@ -43,12 +48,12 @@ const wordVariants: Variants = {
   },
 };
 
-const WordReveal = ({ words, delay, className, reduced, highlightIndex }: WordRevealProps) => (
+const WordReveal = ({ words, delay, className, reduced, highlightIndex, skipStagger }: WordRevealProps) => (
   <motion.span
     className={className}
-    initial={reduced ? 'visible' : 'hidden'}
+    initial={reduced || skipStagger ? 'visible' : 'hidden'}
     animate="visible"
-    variants={containerVariants(delay, reduced)}
+    variants={containerVariants(delay, reduced || skipStagger === true)}
   >
     {words.map((word, index) => {
       const isHighlight = highlightIndex === index;
@@ -97,6 +102,10 @@ export const HeroOverlay = () => {
   const prefersReducedMotion = useReducedMotion();
   const reduced = prefersReducedMotion ?? false;
   const overlayRef = useRef<HTMLDivElement | null>(null);
+  const headlineOverride = useHeadlineOverride();
+  const hasShownOverrideRef = useRef(false);
+  if (headlineOverride !== null) hasShownOverrideRef.current = true;
+  const suppressStagger = hasShownOverrideRef.current;
 
   // Beat 1: scroll-tied blur + lift on the headline. Scroll is measured
   // relative to the hero overlay block; the effect runs from start-of-view
@@ -122,14 +131,48 @@ export const HeroOverlay = () => {
         <h1
           className="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.05] tabular-nums"
           style={{ color: HEADLINE_COLOR_HI }}
+          aria-live="polite"
         >
-          <WordReveal
-            words={HEADLINE_WORDS}
-            delay={0}
-            className="flex flex-wrap"
-            reduced={reduced}
-            highlightIndex={1}
-          />
+          <AnimatePresence mode="wait" initial={false}>
+            {headlineOverride ? (
+              <motion.span
+                key={`override-${headlineOverride}`}
+                className="block"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={
+                  reduced
+                    ? { duration: 0 }
+                    : { duration: 0.45, ease: EASE }
+                }
+              >
+                {headlineOverride}
+              </motion.span>
+            ) : (
+              <motion.span
+                key="default"
+                className="block"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={
+                  reduced
+                    ? { duration: 0 }
+                    : { duration: 0.45, ease: EASE }
+                }
+              >
+                <WordReveal
+                  words={HEADLINE_WORDS}
+                  delay={0}
+                  className="flex flex-wrap"
+                  reduced={reduced}
+                  highlightIndex={1}
+                  skipStagger={suppressStagger}
+                />
+              </motion.span>
+            )}
+          </AnimatePresence>
         </h1>
 
         <p
