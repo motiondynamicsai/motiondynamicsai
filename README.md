@@ -1,8 +1,22 @@
-# React + Vite
+# Fairway Motion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React scroll-video landing experience. The golf video stays permanently visible, uses `object-fit: contain`, and is scrubbed by page scroll progress.
 
-Currently, two official plugins are available:
+## Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
+
+The video file lives at:
+
+```text
+assets/video/golf-video.mp4
+```
+
+For the smoothest scrubbing, encode the MP4 with frequent keyframes:
+
+```bash
+ffmpeg -i input.mp4 -vf "scale=1280:-2" -an -c:v libx264 -preset medium -crf 22 -g 6 -keyint_min 6 -sc_threshold 0 -pix_fmt yuv420p -movflags +faststart assets/video/golf-video.mp4
+```
