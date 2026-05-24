@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 import {
   collaborationsIntro,
   contactContent,
+  demoIntro,
+  demoMetrics,
   features,
   footerLinks,
   industries,
@@ -14,17 +16,21 @@ import {
   stats,
   team,
   teamIntro,
+  testimonials,
+  testimonialsIntro,
 } from '../assets/Consts';
 import {
   CollaborationSection,
   ClubhouseSection,
   ContactSection,
+  DemoSection,
   Footer,
   Header,
   HeroSection,
   MotionSection,
   ProgramStrip,
   TeamSection,
+  TestimonialsSection,
   VideoBackground,
 } from './Components';
 import './styles.css';
@@ -487,6 +493,8 @@ function App() {
           sectionId="industries"
           stripClassName="industry-strip"
         />
+        <TestimonialsSection intro={testimonialsIntro} testimonials={testimonials} />
+        <DemoSection intro={demoIntro} metrics={demoMetrics} />
         <CollaborationSection intro={collaborationsIntro} partnerLogos={partnerLogos} />
         <TeamSection intro={teamIntro} members={team} />
         <ContactSection content={contactContent} />

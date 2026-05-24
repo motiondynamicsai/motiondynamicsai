@@ -1,10 +1,12 @@
 export { CollaborationSection } from './CollaborationSection';
 export { ClubhouseSection } from './ClubhouseSection';
 export { ContactSection } from './ContactSection';
+export { DemoSection } from './DemoSection';
 export { Footer } from './Footer';
 export { Header } from './Header';
 export { HeroSection } from './HeroSection';
 export { MotionSection } from './MotionSection';
 export { ProgramStrip } from './ProgramStrip';
 export { TeamSection } from './TeamSection';
+export { TestimonialsSection } from './TestimonialsSection';
 export { VideoBackground } from './VideoBackground';

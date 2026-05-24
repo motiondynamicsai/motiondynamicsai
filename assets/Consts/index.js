@@ -60,7 +60,7 @@ export const team = [
     title: 'Post-doctoral Research Fellow',
     subtitle: 'Founder and leader',
     group: 'Core team',
-    image: '/assets/Staff images/Diar.png',
+    image: '/assets/Staff images/Diar-NoBG.png',
     content:
       'Designs brain-informed technologies that enhance perception, movement, and human-machine collaboration through HCI, HRI, XR, BCI, and AI-based motion analytics.',
   },
@@ -70,7 +70,7 @@ export const team = [
     title: 'MSc Computer Science graduate',
     subtitle: 'Founder and leader',
     group: 'Core team',
-    image: '/assets/Staff images/Stu.png',
+    image: '/assets/Staff images/Stu-NoBG.png',
     content:
       'Former professional athlete with sports, data engineering, and research experience across artificial intelligence, motion capture, and enhanced sports experiences.',
   },
@@ -80,7 +80,7 @@ export const team = [
     title: 'Associate Professor',
     subtitle: 'Co-founder',
     group: 'Business Supports',
-    image: '/assets/Staff images/Max.png',
+    image: '/assets/Staff images/Max-NoBG.png',
     content:
       'Researches how the human brain processes multisensory information for perception and action using psychophysical methods and computational models.',
   },
@@ -90,7 +90,7 @@ export const team = [
     title: 'Business Advisor',
     subtitle: '',
     group: 'Business Supports',
-    image: '/assets/Staff images/ChatGPT Image May 20, 2026, 07_09_14 PM.png',
+    image: '/assets/Staff images/JonCook-NoBG.png',
   },
   {
     id: 'Max Ward',
@@ -98,7 +98,7 @@ export const team = [
     title: 'Business Advisor',
     subtitle: '',
     group: 'Business Supports',
-    image: '/assets/Staff images/MaxWard.png',
+    image: '/assets/Staff images/MaxWard-NoBG.png',
   },
   {
     id: 'Vishwanath Nair',
@@ -106,7 +106,7 @@ export const team = [
     title: 'Machine Learning Engineer',
     subtitle: '',
     group: 'Technical Team',
-    image: '/assets/Staff images/Vishwanath.png',
+    image: '/assets/Staff images/Vishwanath-NoBG.png',
   },
   {
     id: 'Angel Yao',
@@ -114,7 +114,7 @@ export const team = [
     title: 'Machine Learning Engineer',
     subtitle: '',
     group: 'Technical Team',
-    image: '/assets/Staff images/Angel.png',
+    image: '/assets/Staff images/Angel-NoBG.png',
   },
   {
     id: 'Genia Penksik',
@@ -122,7 +122,23 @@ export const team = [
     title: 'Technical Consultant',
     subtitle: 'Co-Founder',
     group: 'Technical Team',
-    image: '/assets/Staff images/Genia.png',
+    image: '/assets/Staff images/Genia-NoBG.png',
+  },
+  {
+    id: 'Melika Hashemi',
+    name: 'Melika Hashemi',
+    title: 'Full Stack Developer',
+    subtitle: '',
+    group: 'Technical Team',
+    image: '/assets/Staff images/Melika-NoBG.png',
+  },
+  {
+    id: 'Erfan Echresh',
+    name: 'Erfan Echresh',
+    title: 'Full Stack Developer',
+    subtitle: '',
+    group: 'Technical Team',
+    image: '/assets/Staff images/Erfan-NoBG.png',
   },
   {
     id: 'Maria Kononova',
@@ -130,7 +146,7 @@ export const team = [
     title: 'Marketing',
     subtitle: '',
     group: 'Marketing Team',
-    image: '/assets/Staff images/Maria.png',
+    image: '/assets/Staff images/Maria-NoBG.png',
   },
   {
     id: 'Jonathan Tate',
@@ -138,7 +154,7 @@ export const team = [
     title: 'University of Birmingham Head Squash Coach',
     subtitle: '',
     group: 'Collaborators',
-    image: '/assets/Staff images/Jon.png',
+    image: '/assets/Staff images/Jon-NoBG.png',
   },
 ];
 
@@ -181,6 +197,115 @@ export const industries = [
     content: 'Research integrations, data access, and validation.',
   },
 ];
+
+export const testimonialsIntro = {
+  title: 'Teams turning movement into measurable outcomes',
+  text:
+    'Stories from sport, media, rehab, and research teams using Motion Dynamics to make performance intelligence easier to capture, share, and act on.',
+};
+
+export const testimonials = [
+  {
+    id: 'testimonial-performance-academy',
+    eyebrow: 'Academy performance',
+    title: 'How a youth performance lab turned weekly training video into coaching-ready movement reports.',
+    quote:
+      'Motion Dynamics helped our coaches move from subjective review to clear, repeatable evidence after every session.',
+    author: 'Performance Director',
+    company: 'Junior Performance Lab',
+    metric: '3x',
+    metricLabel: 'faster review cycles',
+    image: '/assets/Missing profile photos/luthfi-alfarizi-0piYmLeSgTQ-unsplash.jpg',
+  },
+  {
+    id: 'testimonial-broadcast',
+    eyebrow: 'Broadcast analytics',
+    title: 'How a media team transformed raw match footage into real-time tactical graphics.',
+    quote:
+      'The automated overlays made complex movement stories simple enough for fans to understand instantly.',
+    author: 'Production Lead',
+    company: 'Sports Media Studio',
+    metric: 'Live',
+    metricLabel: 'graphics pipeline',
+    image: '/assets/Missing profile photos/luthfi-alfarizi-gEf9bOMTZtk-unsplash.jpg',
+  },
+  {
+    id: 'testimonial-rehab',
+    eyebrow: 'Rehab tracking',
+    title: 'How clinicians used markerless tracking to monitor recovery without slowing appointments.',
+    quote:
+      'We can show athletes progress in plain language while still keeping the data rigorous enough for clinicians.',
+    author: 'Clinical Lead',
+    company: 'Movement Rehab Clinic',
+    metric: '95%',
+    metricLabel: 'tracking accuracy target',
+    image: '/assets/Missing profile photos/luthfi-alfarizi-jlJpDBK17Hw-unsplash.jpg',
+  },
+  {
+    id: 'testimonial-research',
+    eyebrow: 'University research',
+    title: 'How researchers connected motion capture, AI models, and repeatable validation workflows.',
+    quote:
+      'The platform gave our team a practical bridge between lab-grade analysis and real-world sport footage.',
+    author: 'Research Partner',
+    company: 'University Sports Lab',
+    metric: 'Multi',
+    metricLabel: 'sport deployment',
+    image: '/assets/Missing profile photos/luthfi-alfarizi-xRMK0ea-Of4-unsplash.jpg',
+  },
+  {
+    id: 'testimonial-club',
+    eyebrow: 'Club operations',
+    title: 'How a club identified technical trends across players without adding wearable sensors.',
+    quote:
+      'Coaches finally had a shared language for movement quality, workload, and development priorities.',
+    author: 'Head Coach',
+    company: 'Elite Training Club',
+    metric: '0',
+    metricLabel: 'wearables required',
+    image: '/assets/Missing profile photos/luthfi-alfarizi-yXAGGbVuhEY-unsplash.jpg',
+  },
+  {
+    id: 'testimonial-talent',
+    eyebrow: 'Talent ID',
+    title: 'How scouting teams compared athletes using consistent biomechanical and tactical indicators.',
+    quote:
+      'Instead of isolated clips, we now review structured signals that make selection meetings more objective.',
+    author: 'Talent Lead',
+    company: 'Performance Pathway Team',
+    metric: 'Frame',
+    metricLabel: 'level insights',
+    image: '/assets/Missing profile photos/luthfi-alfarizi-0piYmLeSgTQ-unsplash.jpg',
+  },
+];
+
+export const demoIntro = {
+  title: 'Interactive swing intelligence demo',
+  text:
+    'Explore the same movement metrics coaches, analysts, and athletes use to understand speed, launch, path, face control, and shot outcome.',
+};
+
+export const demoMetrics = [
+  'Club Speed',
+  'Ball Speed',
+  'Carry Distance',
+  'Total Distance',
+  'Smash Factor',
+  'Attack Angle',
+  'Launch Angle',
+  'Dynamic Loft',
+  'Spin Axis',
+  'Club Path',
+  'Face Angle',
+  'Face to Path',
+  'Shot Dispersion',
+  'Shot Apex',
+].map((name, index) => ({
+  id: name.toLowerCase().replaceAll(' ', '-'),
+  name,
+  value: index < 4 ? `${88 + index * 13}` : index < 8 ? `${(1.2 + index * 0.18).toFixed(1)}` : `${index - 5}`,
+  unit: index < 2 ? 'mph' : index < 4 ? 'yd' : index < 8 ? 'deg' : index < 13 ? 'deg' : 'ft',
+}));
 
 export const socialMedia = [
   {

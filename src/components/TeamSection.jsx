@@ -1,6 +1,15 @@
 export function TeamSection({ intro, members }) {
-  const coreMembers = members.filter((member) => member.group === 'Core team');
-  const supportingMembers = members.filter((member) => member.group !== 'Core team');
+  const groups = [
+    'Core team',
+    'Business Supports',
+    'Technical Team',
+    'Marketing Team',
+    'Collaborators',
+  ].map((group) => ({
+    id: group.toLowerCase().replaceAll(' ', '-'),
+    title: group,
+    members: members.filter((member) => member.group === group),
+  }));
 
   return (
     <section className="scene team-section" id="team">
@@ -11,16 +20,24 @@ export function TeamSection({ intro, members }) {
       </div>
 
       <div className="team-board">
-        <div className="team-row team-row-core" aria-label="Core team">
-          {coreMembers.map((member) => (
-            <TeamCard member={member} important key={member.id} />
-          ))}
-        </div>
-        <div className="team-row team-row-support" aria-label="Team members">
-          {supportingMembers.map((member) => (
-            <TeamCard member={member} key={member.id} />
-          ))}
-        </div>
+        {groups.map((group) =>
+          group.members.length ? (
+            <section className="team-group" key={group.id}>
+              <div className="team-group-heading">
+                <small>{String(group.members.length).padStart(2, '0')}</small>
+                <h3>{group.title}</h3>
+              </div>
+              <div
+                className={`team-row ${group.title === 'Core team' ? 'team-row-core' : 'team-row-support'}`}
+                aria-label={group.title}
+              >
+                {group.members.map((member) => (
+                  <TeamCard member={member} important={group.title === 'Core team'} key={member.id} />
+                ))}
+              </div>
+            </section>
+          ) : null
+        )}
       </div>
     </section>
   );
