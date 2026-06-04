@@ -8,16 +8,16 @@ export const navLinks = [
 ];
 
 export const partnerLogos = [
-  { id: 'client-1', alt: 'Client 1', src: 'https://motiondynamics.ai/assets/squashTV-CsykA7VI.png' },
-  { id: 'client-2', alt: 'Client 2', src: 'https://motiondynamics.ai/assets/PSA-BCeZdZk3.png' },
-  { id: 'client-3', alt: 'Client 3', src: 'https://motiondynamics.ai/assets/ObiRoboticslogo-yhuays8O.png' },
-  { id: 'client-4', alt: 'Client 4', src: 'https://motiondynamics.ai/assets/UOB-nJYLSrb5.webp' },
-  { id: 'client-5', alt: 'Client 5', src: 'https://motiondynamics.ai/assets/WSF-B7YhakB-.png' },
-  { id: 'client-6', alt: 'Client 6', src: 'https://motiondynamics.ai/assets/RalleyForm-tKoqTQvd.png' },
-  { id: 'client-7', alt: 'Client 7', src: 'https://motiondynamics.ai/assets/squashPerformance-tItjKd6m.png' },
-  { id: 'client-8', alt: 'Client 8', src: 'https://motiondynamics.ai/assets/MOD-DB55fuNa.png' },
-  { id: 'client-9', alt: 'Client 9', src: 'https://motiondynamics.ai/assets/PGA-CQgozaSt.png' },
-  { id: 'client-10', alt: 'Client 10', src: 'https://motiondynamics.ai/assets/Teknik-imDi5Elw.png' },
+  { id: 'squash-tv', alt: 'Squash TV', src: '/assets/Clients/squashTV.png' },
+  { id: 'psa', alt: 'PSA Squash Tour', src: '/assets/Clients/PSA.png' },
+  { id: 'obi-robotics', alt: 'Obi Robotics', src: '/assets/Clients/ObiRoboticslogo.png' },
+  { id: 'university-of-birmingham', alt: 'University of Birmingham', src: '/assets/Clients/UOB.webp' },
+  { id: 'world-squash-federation', alt: 'World Squash Federation', src: '/assets/Clients/WSF.png' },
+  { id: 'rally-form', alt: 'Rally Form', src: '/assets/Clients/RalleyForm.png' },
+  { id: 'squash-performance', alt: 'Squash Performance', src: '/assets/Clients/squashPerformance.png' },
+  { id: 'mod', alt: 'MOD', src: '/assets/Clients/MOD.png' },
+  { id: 'pga', alt: 'PGA', src: '/assets/Clients/PGA.png' },
+  { id: 'teknik', alt: 'Teknik', src: '/assets/Clients/Teknik.png' },
 ];
 
 export const features = [

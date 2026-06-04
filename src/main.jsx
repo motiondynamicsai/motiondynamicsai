@@ -50,17 +50,21 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
-function useScrollVideo(videoRef, endingVideoRef) {
+function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
   const [progress, setProgress] = useState(0);
   const [videoTime, setVideoTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isEndingLoop, setIsEndingLoop] = useState(false);
+  const [isReverseActive, setIsReverseActive] = useState(false);
   const frame = useRef(null);
   const lastFrameAt = useRef(0);
   const lastSeekAt = useRef(0);
   const lastStateAt = useRef(0);
   const targetTime = useRef(0);
   const smoothTime = useRef(0);
+  const reverseActive = useRef(false);
+  const reverseNativePlaying = useRef(false);
+  const reversePlaybackRate = useRef(1);
   const ready = useRef(false);
   const endingMode = useRef(false);
   const nativePlaying = useRef(false);
@@ -92,10 +96,74 @@ function useScrollVideo(videoRef, endingVideoRef) {
       return true;
     }
 
+    function syncReverseVideo(time, force = false) {
+      const reverseVideo = reverseVideoRef.current;
+      if (!reverseVideo || !video.duration) return;
+      const reverseTime = reverseTimeFor(time);
+      if (!force && Math.abs(reverseVideo.currentTime - reverseTime) < 0.01) return;
+      reverseVideo.currentTime = reverseTime;
+    }
+
+    function reverseTimeFor(forwardTime) {
+      const reverseVideo = reverseVideoRef.current;
+      const reverseDuration = reverseVideo?.duration || video.duration || 0;
+      if (!video.duration || !reverseDuration) return 0;
+      return clamp(reverseDuration - (forwardTime / video.duration) * reverseDuration, 0, reverseDuration);
+    }
+
+    function setReverseVisibility(active) {
+      if (reverseActive.current === active) return;
+      reverseActive.current = active;
+      setIsReverseActive(active);
+    }
+
     function pauseNativePlayback() {
       if (!nativePlaying.current) return;
       video.pause();
       nativePlaying.current = false;
+    }
+
+    function pauseReversePlayback() {
+      const reverseVideo = reverseVideoRef.current;
+      if (!reverseVideo || !reverseNativePlaying.current) return;
+      reverseVideo.pause();
+      reverseNativePlaying.current = false;
+    }
+
+    function playReverseTowardTarget() {
+      const reverseVideo = reverseVideoRef.current;
+      if (!reverseVideo || !video.duration) return;
+
+      const reverseTarget = reverseTimeFor(targetTime.current);
+      const distance = reverseTarget - reverseVideo.currentTime;
+
+      if (distance <= 0.02) {
+        pauseReversePlayback();
+        if (Math.abs(distance) > 0.08) {
+          reverseVideo.currentTime = reverseTarget;
+        }
+        return;
+      }
+
+      const nextRate = clamp(distance * 3.1, 0.5, 2.35);
+      reversePlaybackRate.current += (nextRate - reversePlaybackRate.current) * 0.28;
+      reverseVideo.playbackRate = reversePlaybackRate.current;
+      if (reverseNativePlaying.current) return;
+      reverseVideo.play()
+        .then(() => {
+          reverseNativePlaying.current = true;
+        })
+        .catch(() => {
+          reverseNativePlaying.current = false;
+        });
+    }
+
+    function prepareReverseVideo() {
+      const reverseVideo = reverseVideoRef.current;
+      if (!reverseVideo) return;
+      reverseVideo.muted = true;
+      reverseVideo.playsInline = true;
+      reverseVideo.load();
     }
 
     function prepareEndingVideo() {
@@ -150,27 +218,27 @@ function useScrollVideo(videoRef, endingVideoRef) {
     function render(now = performance.now()) {
       const delta = Math.min(now - (lastFrameAt.current || now), 64);
       const actualTime = video.currentTime || smoothTime.current;
-      const distance = targetTime.current - actualTime;
+      const distance = targetTime.current - smoothTime.current;
       const movingBackward = scrollDirection.current < 0 || distance < -0.01;
-      const ease = 1 - Math.exp(-delta / (movingBackward ? 190 : 135));
-      const seekGap = movingBackward ? 24 : 42;
-      const minStep = movingBackward ? 0.012 : 0.012;
-      const settleDistance = movingBackward ? 0.018 : 0.018;
+      const ease = 1 - Math.exp(-delta / (movingBackward ? 155 : 135));
+      const seekGap = movingBackward ? 30 : 42;
+      const minStep = movingBackward ? 0.008 : 0.012;
+      const settleDistance = movingBackward ? 0.012 : 0.018;
       const shouldSeek = now - lastSeekAt.current > seekGap;
 
       if (movingBackward) {
         pauseNativePlayback();
-        smoothTime.current = targetTime.current;
-
-        if (shouldSeek && Math.abs(video.currentTime - smoothTime.current) > minStep) {
-          if (seek(smoothTime.current, true)) {
-            lastSeekAt.current = now;
-          }
-        }
+        setReverseVisibility(true);
+        smoothTime.current += (targetTime.current - smoothTime.current) * ease;
+        playReverseTowardTarget();
       } else if (distance > 0.055 && distance < 1.25) {
+        setReverseVisibility(false);
+        pauseReversePlayback();
         playTowardTarget(distance);
         smoothTime.current = actualTime;
       } else {
+        setReverseVisibility(false);
+        pauseReversePlayback();
         pauseNativePlayback();
         smoothTime.current += (targetTime.current - smoothTime.current) * ease;
 
@@ -182,7 +250,7 @@ function useScrollVideo(videoRef, endingVideoRef) {
       }
 
       if (now - lastStateAt.current > 90 && video.duration) {
-        const nextTime = video.currentTime || smoothTime.current;
+        const nextTime = movingBackward ? smoothTime.current : (video.currentTime || smoothTime.current);
         setProgress(clamp(nextTime / video.duration, 0, 1));
         setVideoTime(nextTime);
         lastStateAt.current = now;
@@ -194,8 +262,10 @@ function useScrollVideo(videoRef, endingVideoRef) {
         frame.current = requestAnimationFrame(render);
       } else {
         pauseNativePlayback();
+        pauseReversePlayback();
         smoothTime.current = targetTime.current;
         seek(smoothTime.current, movingBackward);
+        syncReverseVideo(smoothTime.current, true);
         setProgress(video.duration ? clamp(smoothTime.current / video.duration, 0, 1) : 0);
         setVideoTime(smoothTime.current);
         frame.current = null;
@@ -209,6 +279,8 @@ function useScrollVideo(videoRef, endingVideoRef) {
 
       if (nextProgress >= FULL_VIDEO_SCROLL_END) {
         pauseNativePlayback();
+        pauseReversePlayback();
+        setReverseVisibility(false);
         targetTime.current = video.duration;
         smoothTime.current = video.duration;
         seek(video.duration, true);
@@ -231,22 +303,32 @@ function useScrollVideo(videoRef, endingVideoRef) {
           endingVideo.currentTime = 0;
         }
         pauseNativePlayback();
-        smoothTime.current = clamp(
+        smoothTime.current = video.duration;
+        targetTime.current = clamp(
           (nextProgress / FULL_VIDEO_SCROLL_END) * video.duration,
           0,
           video.duration,
         );
-        targetTime.current = smoothTime.current;
         scrollDirection.current = -1;
-        seek(smoothTime.current, true);
+        seek(video.duration, true);
+        syncReverseVideo(video.duration, true);
+        setReverseVisibility(true);
       }
 
       const mappedProgress = nextProgress / FULL_VIDEO_SCROLL_END;
       const nextTime = clamp(mappedProgress * video.duration, 0, video.duration);
+      const previousDirection = scrollDirection.current;
       scrollDirection.current = nextTime >= targetTime.current ? 1 : -1;
       targetTime.current = nextTime;
       if (scrollDirection.current < 0) {
         pauseNativePlayback();
+        if (previousDirection >= 0) {
+          syncReverseVideo(smoothTime.current, true);
+        }
+        setReverseVisibility(true);
+      } else {
+        pauseReversePlayback();
+        setReverseVisibility(false);
       }
       if (!frame.current) frame.current = requestAnimationFrame(render);
     }
@@ -255,8 +337,22 @@ function useScrollVideo(videoRef, endingVideoRef) {
       try {
         video.muted = true;
         video.playsInline = true;
+        prepareReverseVideo();
         await video.play();
         video.pause();
+        const reverseVideo = reverseVideoRef.current;
+        if (reverseVideo) {
+          reverseVideo.muted = true;
+          reverseVideo.playsInline = true;
+          try {
+            await reverseVideo.play();
+            reverseVideo.pause();
+            reverseNativePlaying.current = false;
+            syncReverseVideo(0.001, true);
+          } catch (_) {
+            reverseNativePlaying.current = false;
+          }
+        }
         seek(0.001);
         update();
       } catch (_) {
@@ -269,6 +365,7 @@ function useScrollVideo(videoRef, endingVideoRef) {
       endingMode.current = false;
       setIsEndingLoop(false);
       prepareEndingVideo();
+      prepareReverseVideo();
       smoothTime.current = 0;
       targetTime.current = 0;
       setDuration(video.duration || 0);
@@ -299,11 +396,13 @@ function useScrollVideo(videoRef, endingVideoRef) {
       window.clearTimeout(seekUnlockTimer.current);
       if (frame.current) cancelAnimationFrame(frame.current);
       pauseNativePlayback();
+      pauseReversePlayback();
+      if (reverseVideoRef.current) reverseVideoRef.current.pause();
       if (endingVideoRef.current) endingVideoRef.current.pause();
     };
-  }, [endingVideoRef, videoRef]);
+  }, [endingVideoRef, reverseVideoRef, videoRef]);
 
-  return { duration, isEndingLoop, progress, videoTime };
+  return { duration, isEndingLoop, isReverseActive, progress, videoTime };
 }
 
 function useMotionSectionState(sectionId, chapterCount) {
@@ -392,11 +491,12 @@ function useMotionPanelVisibility() {
 
 function App() {
   const videoRef = useRef(null);
+  const reverseVideoRef = useRef(null);
   const endingVideoRef = useRef(null);
   const motionPanelVideoRef = useRef(null);
   const autoScrollTimer = useRef(null);
   const [isMotionPanelPlaying, setIsMotionPanelPlaying] = useState(true);
-  const { duration, isEndingLoop, progress, videoTime } = useScrollVideo(videoRef, endingVideoRef);
+  const { duration, isEndingLoop, isReverseActive, progress, videoTime } = useScrollVideo(videoRef, reverseVideoRef, endingVideoRef);
   const { activeIndex: activeChapter, sectionProgress: motionProgress } = useMotionSectionState('motion', chapters.length);
   const motionPanel = useMotionPanelVisibility();
   const percent = Math.round(progress * 100);
@@ -458,7 +558,13 @@ function App() {
 
   return (
     <>
-      <VideoBackground endingVideoRef={endingVideoRef} isEndingLoop={isEndingLoop} videoRef={videoRef} />
+      <VideoBackground
+        endingVideoRef={endingVideoRef}
+        isEndingLoop={isEndingLoop}
+        isReverseActive={isReverseActive}
+        reverseVideoRef={reverseVideoRef}
+        videoRef={videoRef}
+      />
       <Header navLinks={navLinks} />
       <div className="motion-video-panel" style={{ '--panel-bottom': `${motionPanel.bottom}px`, '--panel-visibility': motionPanel.visibility }}>
         <video ref={motionPanelVideoRef} autoPlay controls={false} controlsList="nodownload nofullscreen noremoteplayback" loop muted playsInline src="/assets/Box Video/videoplayback.mp4" />

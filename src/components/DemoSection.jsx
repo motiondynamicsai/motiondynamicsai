@@ -1,8 +1,26 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 export function DemoSection({ intro, metrics }) {
   const [activeMetric, setActiveMetric] = useState(metrics[0]);
+  const modelViewerRef = useRef(null);
   const graph = useMemo(() => buildGraph(activeMetric, metrics), [activeMetric, metrics]);
+
+  useEffect(() => {
+    const viewer = modelViewerRef.current;
+    if (!viewer) return;
+
+    function speedUpModel() {
+      viewer.timeScale = 4;
+      if (viewer.availableAnimations?.length && !viewer.animationName) {
+        viewer.animationName = viewer.availableAnimations[0];
+      }
+      viewer.play?.();
+    }
+
+    speedUpModel();
+    viewer.addEventListener('load', speedUpModel);
+    return () => viewer.removeEventListener('load', speedUpModel);
+  }, []);
 
   return (
     <section className="scene demo-section" id="demo">
@@ -22,18 +40,16 @@ export function DemoSection({ intro, metrics }) {
             <model-viewer
               alt="Interactive 3D motion figure"
               ar
+              autoplay
               auto-rotate
               camera-controls
               camera-orbit="0deg 78deg 3.6m"
               exposure="0.95"
               interaction-prompt="none"
+              ref={modelViewerRef}
               shadow-intensity="0.35"
               src="/assets/3D figure/multiview_pose_2_rig.glb"
-            >
-              <a className="model-fallback" href="/assets/3D figure/multiview_pose_2_rig.glb">
-                Open 3D figure
-              </a>
-            </model-viewer>
+            />
           </div>
         </div>
 

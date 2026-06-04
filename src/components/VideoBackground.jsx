@@ -1,9 +1,9 @@
-export function VideoBackground({ endingVideoRef, isEndingLoop, videoRef }) {
+export function VideoBackground({ endingVideoRef, isEndingLoop, isReverseActive, reverseVideoRef, videoRef }) {
   return (
     <>
       <video
         ref={videoRef}
-        className={isEndingLoop ? 'scroll-video is-hidden' : 'scroll-video'}
+        className={isEndingLoop || isReverseActive ? 'scroll-video is-hidden' : 'scroll-video'}
         controls={false}
         controlsList="nodownload nofullscreen noremoteplayback"
         muted
@@ -13,6 +13,20 @@ export function VideoBackground({ endingVideoRef, isEndingLoop, videoRef }) {
         aria-label="Scroll-synced golf video background"
       >
         <source src="/assets/video/golf-video-scroll.mp4" type="video/mp4" />
+      </video>
+
+      <video
+        ref={reverseVideoRef}
+        className={isEndingLoop || !isReverseActive ? 'scroll-video reverse-video is-hidden' : 'scroll-video reverse-video'}
+        controls={false}
+        controlsList="nodownload nofullscreen noremoteplayback"
+        muted
+        playsInline
+        preload="auto"
+        poster="/assets/video/poster.svg"
+        aria-label="Reverse scroll-synced golf video background"
+      >
+        <source src="/assets/video/golf-video-scroll-reverse.mp4" type="video/mp4" />
       </video>
 
       <video
