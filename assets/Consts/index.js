@@ -23,21 +23,21 @@ export const partnerLogos = [
 export const features = [
   {
     id: 'feature-1',
-    title: 'Scalable Data Intelligence',
+    title: 'See what the eye misses.',
     content:
-      'Train models using match footage and open datasets to build reliable tactical, biomechanical, and movement data pipelines.',
+      'Turn the footage you already have into intelligence you can build on. We model tactics, movement, and biomechanics from standard video - no sensors, no suits, no special setup. And the more you capture, the smarter it gets.',
   },
   {
     id: 'feature-2',
-    title: 'Real-Time Performance Feedback',
+    title: 'See it Live. Act on it Live.',
     content:
-      'Deliver live insights to coaches, analysts, and athletes during training and competition, improving decision-making in real time.',
+      'The best decision is the one you make in time. We stream live insight to coaches, analysts, and athletes as the action unfolds - so the right call comes before the whistle, not after the replay.',
   },
   {
     id: 'feature-3',
-    title: 'Automated Match & Player Insights',
+    title: "Know what's coming.",
     content:
-      'Extract frame-level data, analyze performance patterns, and generate tailored reports, recommendations, and predictive match outcomes.',
+      'Understand every moment. Anticipate the next one. We turn frame-level detail into tailored reports, clear recommendations, and predictive outcomes - generated automatically, ready when you are.',
   },
   {
     id: 'feature-data-extraction',
