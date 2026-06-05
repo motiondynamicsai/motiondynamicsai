@@ -9,7 +9,6 @@ export function VideoBackground({ endingVideoRef, isEndingLoop, isReverseActive,
         muted
         playsInline
         preload="auto"
-        poster="/assets/video/poster.svg"
         aria-label="Scroll-synced golf video background"
       >
         <source src="/assets/video/golf-video-scroll.mp4" type="video/mp4" />
@@ -23,7 +22,6 @@ export function VideoBackground({ endingVideoRef, isEndingLoop, isReverseActive,
         muted
         playsInline
         preload="auto"
-        poster="/assets/video/poster.svg"
         aria-label="Reverse scroll-synced golf video background"
       >
         <source src="/assets/video/golf-video-scroll-reverse.mp4" type="video/mp4" />
