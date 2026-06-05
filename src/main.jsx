@@ -33,7 +33,7 @@ import {
   TeamSection,
   TestimonialsSection,
   VideoBackground,
-} from './Components';
+} from './components';
 import './styles.css';
 
 const chapters = features.slice(0, 3).map((feature, index) => ({
