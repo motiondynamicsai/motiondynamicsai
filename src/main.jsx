@@ -13,6 +13,7 @@ import {
   partnerLogos,
   socialMedia,
   solutionIntro,
+  solutionItems,
   stats,
   team,
   teamIntro,
@@ -501,7 +502,7 @@ function App() {
   const motionPanel = useMotionPanelVisibility();
   const percent = Math.round(progress * 100);
   const keepPlayerClear = !duration || videoTime < PLAYER_CLEAR_SECONDS;
-  const programItems = features.slice(2, 5);
+  const programItems = solutionItems;
 
   function handleStartMotion(event) {
     event.preventDefault();
@@ -589,13 +590,13 @@ function App() {
           progress={progress}
         />
         <ClubhouseSection stats={stats} />
-        <ProgramStrip intro={solutionIntro} items={programItems} />
+        <ProgramStrip intro={solutionIntro} items={programItems} label="SOLUTION" />
         <ProgramStrip
           className="scene-industries"
           columns={4}
           intro={industriesIntro}
           items={industries}
-          label="Industry"
+          label="INDUSTRY"
           sectionId="industries"
           stripClassName="industry-strip"
         />

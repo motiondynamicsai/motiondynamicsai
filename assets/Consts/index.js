@@ -53,6 +53,27 @@ export const features = [
   },
 ];
 
+export const solutionItems = [
+  {
+    id: 'solution-footage-forecast',
+    title: 'From footage to forecast.',
+    content:
+      'Understand every moment. Anticipate the next one. We turn frame-level detail into tailored reports, clear recommendations, and predictive outcomes - generated automatically, ready when you are.',
+  },
+  {
+    id: 'solution-coaching-plain-english',
+    title: 'Coaching, in plain English.',
+    content:
+      'Your biomechanics, explained the way a coach would say it. We turn the numbers into session summaries, player-specific reports, and goal-led plans - clear, personal, and ready to act on instantly.',
+  },
+  {
+    id: 'solution-evidence',
+    title: 'Evidence you can stand behind.',
+    content:
+      'For the hospitals, universities, and labs that need answers they can defend. Secure pipelines, custom dashboards, and explainable metrics - so you can license datasets, evaluate interventions, and move research forward, faster.',
+  },
+];
+
 export const team = [
   {
     id: 'Diar Abdlkarim',
@@ -167,41 +188,41 @@ export const stats = [
 export const solutionIntro = {
   title: 'Built for impact',
   text:
-    'We combine computer vision and large language models to transform raw movement into insight, coaching, and measurable impact.',
+    'We turn raw movement into insight, coaching, and results. The AI does the heavy lifting - you make the call.',
 };
 
 export const industriesIntro = {
-  title: 'Industries We Serve',
-  text: 'Purpose-built for organizations across sport, media, and healthcare.',
+  title: 'One platform, many fields',
+  text: 'One platform, shaped around how you work - across sport, media, and healthcare.',
 };
 
 export const industries = [
   {
     id: 'industry-sports-clubs',
     title: 'Sports Clubs',
-    content: 'Player monitoring, skills tracking, and talent ID.',
+    content: 'Know every player inside out - monitor form, develop talent, and spot the next signing first.',
   },
   {
     id: 'industry-broadcasters',
     title: 'Broadcasters',
-    content: 'Real-time graphics, highlights, and automated storytelling.',
+    content: 'Turn live action into instant story - real-time graphics, automatic highlights, stats that keep viewers watching.',
   },
   {
     id: 'industry-rehab-clinics',
     title: 'Rehab Clinics',
-    content: 'Progress tracking and personalized recovery insights.',
+    content: 'Get patients back to their best - track every step of recovery, with insight tailored to each one.',
   },
   {
     id: 'industry-universities',
     title: 'Universities',
-    content: 'Research integrations, data access, and validation.',
+    content: 'Research-grade data, ready to use - integrate, access, and validate so your studies move faster.',
   },
 ];
 
 export const testimonialsIntro = {
-  title: 'Teams turning movement into measurable outcomes',
+  title: 'What teams do with the data',
   text:
-    'Stories from sport, media, rehab, and research teams using Motion Dynamics to make performance intelligence easier to capture, share, and act on.',
+    'How real teams in sport, media, rehab, and research put their movement data to work, every day.',
 };
 
 export const testimonials = [
@@ -280,9 +301,9 @@ export const testimonials = [
 ];
 
 export const demoIntro = {
-  title: 'Interactive swing intelligence demo',
+  title: 'See every metric in a single swing',
   text:
-    'Explore the same movement metrics coaches, analysts, and athletes use to understand speed, launch, path, face control, and shot outcome.',
+    'Explore the exact metrics the pros use to read a swing, from speed to shot outcome.',
 };
 
 export const demoMetrics = [
@@ -321,13 +342,13 @@ export const socialMedia = [
 ];
 
 export const collaborationsIntro = {
-  title: 'Collaborations & Partners',
-  text: 'We team up with leading organizations across sport, media, and research.',
+  title: 'In good company',
+  text: 'From governing bodies to research labs, we build alongside the organizations shaping the field.',
 };
 
 export const teamIntro = {
   title: 'Built by engineers, athletes, and researchers.',
-  text: 'An industrial-grade team focused on shipping real-world motion intelligence, fast, reliable, and measurable.',
+  text: "People who've competed, coached, and engineered the tech - building motion intelligence that's fast, reliable, and measurable.",
 };
 
 export const contactContent = {
