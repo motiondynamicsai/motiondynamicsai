@@ -1349,6 +1349,7 @@ p {
   .team-row-core,
   .team-row-support {
     width: min(100%, 36rem);
+    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1360,6 +1361,10 @@ p {
 @media (max-width: 560px) {
   .site-header {
     position: absolute;
+  }
+
+  .site-header nav {
+    display: none;
   }
 
   .brand {
