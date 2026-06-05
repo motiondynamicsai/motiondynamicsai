@@ -14,7 +14,6 @@ import {
   socialMedia,
   solutionIntro,
   solutionItems,
-  stats,
   team,
   teamIntro,
   testimonials,
@@ -608,7 +607,7 @@ function App() {
           percent={percent}
           progress={progress}
         />
-        <ClubhouseSection stats={stats} />
+        <ClubhouseSection />
         <ProgramStrip intro={solutionIntro} items={programItems} label="SOLUTION" />
         <ProgramStrip
           className="scene-industries"
