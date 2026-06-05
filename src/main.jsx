@@ -79,6 +79,7 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
     if (!video) return undefined;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersDirectScrub = window.matchMedia('(pointer: coarse), (max-width: 820px)').matches;
 
     function pageProgress() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -95,6 +96,18 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
       }, 140);
       video.currentTime = safeTime;
       return true;
+    }
+
+    function scrubTo(time) {
+      const safeTime = clamp(time, 0, video.duration || 0);
+      targetTime.current = safeTime;
+      smoothTime.current = safeTime;
+      pauseNativePlayback();
+      pauseReversePlayback();
+      setReverseVisibility(false);
+      seek(safeTime, true);
+      setProgress(video.duration ? clamp(safeTime / video.duration, 0, 1) : 0);
+      setVideoTime(safeTime);
     }
 
     function syncReverseVideo(time, force = false) {
@@ -318,6 +331,12 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
 
       const mappedProgress = nextProgress / FULL_VIDEO_SCROLL_END;
       const nextTime = clamp(mappedProgress * video.duration, 0, video.duration);
+
+      if (prefersDirectScrub) {
+        scrubTo(nextTime);
+        return;
+      }
+
       const previousDirection = scrollDirection.current;
       scrollDirection.current = nextTime >= targetTime.current ? 1 : -1;
       targetTime.current = nextTime;
