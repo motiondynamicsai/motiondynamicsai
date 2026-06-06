@@ -58,19 +58,19 @@ export const solutionItems = [
     id: 'solution-footage-forecast',
     title: 'From footage to forecast.',
     content:
-      'Understand every moment. Anticipate the next one. We turn frame-level detail into tailored reports, clear recommendations, and predictive outcomes - generated automatically, ready when you are.',
+      'We turn frame-level detail into tailored reports, clear recommendations, and predictive outcomes, automatically, ready when you are.',
   },
   {
     id: 'solution-coaching-plain-english',
     title: 'Coaching, in plain English.',
     content:
-      'Your biomechanics, explained the way a coach would say it. We turn the numbers into session summaries, player-specific reports, and goal-led plans - clear, personal, and ready to act on instantly.',
+      'Your biomechanics, explained like a coach would. Session summaries, player-specific reports, and goal-led plans, clear, personal, and ready to act on.',
   },
   {
     id: 'solution-evidence',
     title: 'Evidence you can stand behind.',
     content:
-      'For the hospitals, universities, and labs that need answers they can defend. Secure pipelines, custom dashboards, and explainable metrics - so you can license datasets, evaluate interventions, and move research forward, faster.',
+      'For hospitals, universities, and labs that need defensible answers. Secure pipelines, custom dashboards, and explainable metrics, so you can license datasets, evaluate interventions, and move research forward, faster.',
   },
 ];
 

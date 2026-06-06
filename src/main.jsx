@@ -618,10 +618,10 @@ function App() {
           sectionId="industries"
           stripClassName="industry-strip"
         />
-        <TestimonialsSection intro={testimonialsIntro} testimonials={testimonials} />
         <DemoSection intro={demoIntro} metrics={demoMetrics} />
         <CollaborationSection intro={collaborationsIntro} partnerLogos={partnerLogos} />
         <TeamSection intro={teamIntro} members={team} />
+        <TestimonialsSection intro={testimonialsIntro} testimonials={testimonials} />
         <ContactSection content={contactContent} />
       </main>
       <Footer footerLinks={footerLinks} socialMedia={socialMedia} />

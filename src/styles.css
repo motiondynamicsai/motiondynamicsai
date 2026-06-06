@@ -203,24 +203,6 @@ main {
   isolation: isolate;
 }
 
-.scene-programs::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(84, 26, 26, 0) 0%,
-      rgba(84, 26, 26, 0.88) 16%,
-      var(--wine) 34%,
-      var(--wine) 66%,
-      rgba(84, 26, 26, 0.88) 84%,
-      rgba(84, 26, 26, 0) 100%
-    );
-  pointer-events: none;
-}
-
 .scene-industries {
   min-height: 95vh;
   display: flex;
@@ -580,11 +562,12 @@ p {
 }
 
 .testimonials-section {
-  min-height: 110vh;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(2rem, 4vw, 3rem);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  padding-block: clamp(4rem, 7vw, 5.5rem);
 }
 
 .testimonials-intro {
@@ -592,18 +575,18 @@ p {
 }
 
 .testimonial-grid {
-  width: min(100%, 1120px);
+  width: min(100%, 980px);
   margin-inline: auto;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1rem, 2vw, 1.35rem);
+  gap: clamp(0.75rem, 1.4vw, 1rem);
 }
 
 .testimonial-card {
-  min-height: 19rem;
+  min-height: 14rem;
   display: flex;
   flex-direction: column;
-  padding: clamp(1.1rem, 2vw, 1.45rem);
+  padding: clamp(0.9rem, 1.5vw, 1.15rem);
   border: 1px solid rgba(220, 195, 170, 0.36);
   border-radius: 8px;
   background: linear-gradient(145deg, rgba(241, 226, 209, 0.88), rgba(220, 195, 170, 0.76));
@@ -632,7 +615,7 @@ p {
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
 }
 
 .testimonial-card-top small {
@@ -658,25 +641,25 @@ p {
 .testimonial-card h3 {
   margin: 0;
   color: inherit;
-  font-size: clamp(1.25rem, 2vw, 2rem);
-  line-height: 1.04;
+  font-size: clamp(1rem, 1.45vw, 1.45rem);
+  line-height: 1.08;
 }
 
 .testimonial-card blockquote {
-  margin: 1.2rem 0 0;
+  margin: 0.85rem 0 0;
   color: rgba(84, 26, 26, 0.72);
-  font-size: 1rem;
-  line-height: 1.55;
+  font-size: 0.9rem;
+  line-height: 1.45;
 }
 
 .testimonial-card.featured blockquote {
   color: rgba(241, 226, 209, 0.82);
-  font-size: clamp(1.05rem, 1.3vw, 1.22rem);
+  font-size: clamp(0.95rem, 1.1vw, 1.06rem);
 }
 
 .testimonial-card footer {
   margin-top: auto;
-  padding-top: 1.35rem;
+  padding-top: 0.9rem;
   display: grid;
   gap: 0.25rem;
 }
@@ -707,9 +690,9 @@ p {
 }
 
 .testimonial-person {
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-bottom: 1rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  margin-bottom: 0.75rem;
   overflow: hidden;
   border: 2px solid rgba(241, 226, 209, 0.72);
   border-radius: 999px;
@@ -1333,12 +1316,30 @@ p {
     top: 38vh;
   }
 
+  .scene-motion.player-clear .chapter-stack {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   .progress-rail {
     display: none;
   }
 
   .program-strip {
     grid-template-columns: 1fr;
+  }
+
+  .scene-industries {
+    gap: 1.15rem;
+  }
+
+  .scene-industries .section-intro p,
+  .industry-strip p {
+    line-height: 1.38;
+  }
+
+  .industry-strip {
+    gap: 1rem;
   }
 
   .testimonial-grid {
