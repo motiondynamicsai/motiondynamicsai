@@ -78,7 +78,7 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
     if (!video) return undefined;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const prefersDirectScrub = window.matchMedia('(pointer: coarse), (max-width: 820px)').matches;
+    const prefersDirectScrub = false;
 
     function pageProgress() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
