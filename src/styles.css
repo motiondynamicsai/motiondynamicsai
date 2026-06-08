@@ -1413,9 +1413,6 @@ p {
     grid-template-columns: 1fr 1fr;
   }
 
-  .site-footer {
-    background: transparent;
-  }
 }
 
 @media (max-width: 560px) {

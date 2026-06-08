@@ -11,7 +11,6 @@ export function VideoBackground({ endingVideoRef, isEndingLoop, isReverseActive,
         preload="auto"
         aria-label="Scroll-synced golf video background"
       >
-        <source src="/assets/video/golf-video-scroll.webm" type="video/webm" />
         <source src="/assets/video/golf-video-scroll.mp4" type="video/mp4" />
       </video>
 
@@ -25,7 +24,6 @@ export function VideoBackground({ endingVideoRef, isEndingLoop, isReverseActive,
         preload="auto"
         aria-label="Reverse scroll-synced golf video background"
       >
-        <source src="/assets/video/golf-video-scroll-reverse.webm" type="video/webm" />
         <source src="/assets/video/golf-video-scroll-reverse.mp4" type="video/mp4" />
       </video>
 
@@ -40,7 +38,6 @@ export function VideoBackground({ endingVideoRef, isEndingLoop, isReverseActive,
         preload="auto"
         aria-label="Looping ending video background"
       >
-        <source src="/assets/video/EndingVideo.webm" type="video/webm" />
         <source src="/assets/video/EndingVideo.mp4" type="video/mp4" />
       </video>
     </>
