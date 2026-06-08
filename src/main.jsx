@@ -82,7 +82,19 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
 
     function pageProgress() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      return maxScroll <= 0 ? 0 : clamp(window.scrollY / maxScroll, 0, 1);
+      if (maxScroll <= 0) return 0;
+
+      const isMobile = window.matchMedia('(max-width: 820px)').matches;
+      const industries = document.getElementById('industries');
+
+      if (isMobile && industries) {
+        const industriesBottom = industries.getBoundingClientRect().bottom + window.scrollY;
+        const postIndustriesScroll = Math.max(window.scrollY - industriesBottom, 0);
+        const boostedScrollY = window.scrollY + postIndustriesScroll * 0.35;
+        return clamp(boostedScrollY / maxScroll, 0, 1);
+      }
+
+      return clamp(window.scrollY / maxScroll, 0, 1);
     }
 
     function seek(time, force = false) {
