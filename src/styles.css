@@ -1327,7 +1327,7 @@ p {
 
   .program-strip {
     grid-template-columns: 1fr;
-    gap: 0.85rem;
+    gap: 1.7rem;
   }
 
   .program-strip article {
@@ -1346,7 +1346,7 @@ p {
   }
 
   .industry-strip {
-    gap: 0.85rem;
+    gap: 1.7rem;
   }
 
   .testimonial-grid {
