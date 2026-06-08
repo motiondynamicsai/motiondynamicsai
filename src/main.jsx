@@ -78,13 +78,14 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
     if (!video) return undefined;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobileViewport = window.matchMedia('(max-width: 820px)');
     const prefersDirectScrub = false;
 
     function pageProgress() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (maxScroll <= 0) return 0;
 
-      const isMobile = window.matchMedia('(max-width: 820px)').matches;
+      const isMobile = isMobileViewport.matches;
       const industries = document.getElementById('industries');
 
       if (isMobile && industries) {
@@ -95,6 +96,20 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
       }
 
       return clamp(window.scrollY / maxScroll, 0, 1);
+    }
+
+    function mobilePlaybackTime(time) {
+      if (!isMobileViewport.matches || !video.duration) return time;
+
+      const speedStart = 6;
+      const speedEnd = 8;
+      const compressedEnd = speedStart + (speedEnd - speedStart) / 2;
+
+      if (time <= speedStart) return time;
+      if (time <= compressedEnd) {
+        return clamp(speedStart + (time - speedStart) * 2, 0, video.duration);
+      }
+      return clamp(time + (speedEnd - compressedEnd), 0, video.duration);
     }
 
     function seek(time, force = false) {
@@ -245,13 +260,25 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
       const actualTime = video.currentTime || smoothTime.current;
       const distance = targetTime.current - smoothTime.current;
       const movingBackward = scrollDirection.current < 0 || distance < -0.01;
-      const ease = 1 - Math.exp(-delta / (movingBackward ? 155 : 135));
-      const seekGap = movingBackward ? 30 : 42;
-      const minStep = movingBackward ? 0.008 : 0.012;
+      const mobileBackward = isMobileViewport.matches && movingBackward;
+      const ease = 1 - Math.exp(-delta / (mobileBackward ? 240 : movingBackward ? 155 : 135));
+      const seekGap = mobileBackward ? 90 : movingBackward ? 30 : 42;
+      const minStep = mobileBackward ? 0.045 : movingBackward ? 0.008 : 0.012;
       const settleDistance = movingBackward ? 0.012 : 0.018;
       const shouldSeek = now - lastSeekAt.current > seekGap;
 
-      if (movingBackward) {
+      if (mobileBackward) {
+        setReverseVisibility(false);
+        pauseReversePlayback();
+        pauseNativePlayback();
+        smoothTime.current += (targetTime.current - smoothTime.current) * ease;
+
+        if (shouldSeek && Math.abs(video.currentTime - smoothTime.current) > minStep) {
+          if (seek(smoothTime.current)) {
+            lastSeekAt.current = now;
+          }
+        }
+      } else if (movingBackward) {
         pauseNativePlayback();
         setReverseVisibility(true);
         smoothTime.current += (targetTime.current - smoothTime.current) * ease;
@@ -341,7 +368,7 @@ function useScrollVideo(videoRef, reverseVideoRef, endingVideoRef) {
       }
 
       const mappedProgress = nextProgress / FULL_VIDEO_SCROLL_END;
-      const nextTime = clamp(mappedProgress * video.duration, 0, video.duration);
+      const nextTime = mobilePlaybackTime(clamp(mappedProgress * video.duration, 0, video.duration));
 
       if (prefersDirectScrub) {
         scrubTo(nextTime);
