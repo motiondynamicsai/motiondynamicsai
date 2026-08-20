@@ -1,490 +1,295 @@
-import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import styles from "./style";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {
-  Contact,
-  Footer,
-  Hero,
-  Services,
-  Team,
-  Navbar,
-  Stats,
-  Solutions,
-} from "./components";
-import Collaborations from "./components/Collaborations";
-import TeamMemberDetail from "./components/TeamMemberDetail";
-import Storyboard from "./components/Partners";
-import advertVideo from "./assets/advert_h264.mp4";
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Link, NavLink, Route, Routes, useLocation, useParams } from 'react-router-dom';
 
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+const team = [
+  {
+    id: 'diar-karim',
+    name: 'Diar Karim',
+    title: 'Post-doctoral Research Fellow',
+    subtitle: 'Founder and leader',
+    image: '/media/team/diar.png',
+    content:
+      'Diar Karim is a postdoctoral research scientist at the University of Birmingham currently working on immersive augmented and virtual reality technologies. He brings research, software development, motion capture, and psychophysics together to create scientific experiences from first principles.',
+  },
+  {
+    id: 'stuart-macgregor',
+    name: 'Stuart MacGregor',
+    title: 'MSc Computer Science graduate',
+    subtitle: 'Founder and leader',
+    image: '/media/team/stuart.jpg',
+    content:
+      "Stuart MacGregor is a professional squash player and research assistant at the University of Birmingham. With a BSc in Human Biology and a Masters in Computer Science, Stuart's interests lie in artificial intelligence, motion capture, and their applications in enhancing sports experiences.",
+  },
+  {
+    id: 'jonathan-tate',
+    name: 'Jonathan Tate',
+    title: 'University of Birmingham Head Squash Coach',
+    subtitle: 'Director',
+    image: '/media/team/jonathan.jpg',
+    content:
+      'Jonathan Tate is the Head Squash Coach at the University of Birmingham and a director at Motion Dynamics, connecting high-performance coaching with the practical needs of athletes and teams.',
+  },
+  {
+    id: 'max-di-luca',
+    name: 'Max Di Luca',
+    title: 'Associate Professor',
+    subtitle: 'Co-founder',
+    image: '/media/team/max.jpg',
+    content:
+      'Max Di Luca is an Associate Professor at the University of Birmingham in the CNCR research centre. Using psychophysical methods and computational models, he investigates how the human brain processes multisensory information for perception and action. He earned the Laurea in Psychology from the Universita di Trieste and a PhD in Cognitive Science from Brown University, and has worked with the Max Planck Institute, Oculus Research, and Facebook Reality Labs.',
+  },
+  {
+    id: 'genia-penksik',
+    name: 'Genia Penksik',
+    title: 'Research assistant',
+    subtitle: 'Co-founder',
+    image: '/media/team/genia.png',
+    content:
+      'Genia Penksik is a research assistant and co-founder, supporting the team as it turns motion data into useful tools for athletes, coaches, and broadcast partners.',
+  },
+];
 
-const HeroVideo = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
+const asset = (name) => `/media/${name}`;
+
+function useReveal() {
+  const location = useLocation();
 
   useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+    window.scrollTo(0, 0);
+    const items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach((item) => item.classList.add('in'));
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          observer.unobserve(entry.target);
+        }
+      }),
+      { threshold: 0.12 },
+    );
+    items.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, [location.pathname]);
+}
+
+function Navigation({ teamPage = false }) {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  const sectionLink = (id) => `/#${id}`;
 
   return (
-    <section 
-      id="hero-video" 
-      className="relative w-full overflow-hidden bg-gradient-to-b from-slate-950 to-slate-900 min-h-[600px] lg:min-h-[700px]" 
-      data-aos="fade-up"
-      style={{ marginTop: '80px' }} // Ensures video stays below navbar
-    >
-      {/* Premium gradient background while video loads */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/20 via-slate-900 to-purple-950/20" />
-      
-      {/* Video layer with smooth fade-in */}
-      <div className={`absolute inset-0 transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-        <video
-          className="w-full h-full object-cover scale-105"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          onLoadedData={() => setIsLoaded(true)}
-        >
-          {/* Safari-preferred HEVC */}
-          <source src={advertVideo} type='video/mp4; codecs="hvc1"' />
-          {/* Universal fallback */}
-          <source src={advertVideo} type='video/mp4; codecs="avc1.640028, mp4a.40.2"' />
-          Your browser does not support the video tag.
-        </video>
-
-        
-        {/* Professional gradient overlays for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
+    <nav className="site-nav">
+      <div className="nav-in">
+        <Link className="logo" to="/" onClick={close}>MOTION<b>DYNAMICS</b></Link>
+        <button className="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+          <span /><span />
+        </button>
+        <ul className={`nav-links ${open ? 'open' : ''}`}>
+          <li><NavLink className={teamPage ? 'active' : ''} to="/team" onClick={close}>Team</NavLink></li>
+          <li><a href={sectionLink('case')} onClick={close}>Squash Open 2026</a></li>
+          <li><a href={sectionLink('pipeline')} onClick={close}>Pipeline</a></li>
+          <li><a href={sectionLink('uses')} onClick={close}>Use cases</a></li>
+          <li><a className="btn btn-primary btn-sm" href={sectionLink('contact')} onClick={close}>Book a demo</a></li>
+        </ul>
       </div>
-
-      {/* Content overlay with refined typography */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-8 py-32 md:py-40 lg:py-48">
-        <div className="max-w-3xl">
-          {/* Animated accent line */}
-          <div className="flex items-center mb-6 opacity-0 animate-slideInLeft">
-            <div className="h-1 w-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
-            <div className="h-1 w-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full ml-2" />
-          </div>
-          
-          {/* Main heading with professional typography */}
-          <h1 className="text-white font-light tracking-tight opacity-0 animate-slideInLeft animation-delay-200">
-            <span className="block text-5xl md:text-6xl lg:text-7xl mb-2">Motion</span>
-            <span className="block text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white via-indigo-100 to-white bg-clip-text text-transparent">
-              Dynamics
-            </span>
-          </h1>
-          
-          {/* Refined description */}
-          <p className="mt-6 text-lg md:text-xl text-gray-200 leading-relaxed max-w-2xl opacity-0 animate-slideInLeft animation-delay-400">
-            AI-Powered Motion Intelligence for Sports and Human Performance
-            For organizations committed to improving athletic performance and rehabilitation outcomes, our platform delivers actionable insights into movement, efficiency, and recovery—helping businesses enhance results, engagement, and client success.          </p>
-          
-          {/* Professional CTA buttons */}
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 opacity-0 animate-slideInLeft animation-delay-600">
-            <a
-              href="#contact"
-              className="group inline-flex items-center justify-center px-8 py-4 text-base font-medium text-slate-900 bg-white rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"
-            >
-              Get in touch
-              <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-            <a
-              href="#services"
-              className="group inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white border-2 border-white/30 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 hover:border-white/50 transform hover:scale-105 transition-all duration-300"
-            >
-              Explore services
-              <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Animated scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 animate-fadeIn animation-delay-800">
-        <div className="flex flex-col items-center text-white/60 hover:text-white/80 transition-colors cursor-pointer">
-          <span className="text-xs uppercase tracking-widest mb-2">Scroll</span>
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-bounce" />
-          </div>
-        </div>
-      </div>
-    </section>
+    </nav>
   );
-};
+}
 
-const App = () => {
-  useEffect(() => {
-    AOS.init({ 
-      duration: 1200,
-      once: false,
-      easing: 'ease-out-cubic',
-      offset: 50,
-      delay: 0,
-      anchorPlacement: 'top-bottom'
-    });
-  }, []);
+function Eyebrow({ children, className = '' }) {
+  return <p className={`eyebrow ${className}`}>{children}</p>;
+}
 
+function Viewport({ image, poster, video, alt = '', className = '', children }) {
   return (
-    <Router>
-      <div className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 w-full overflow-hidden">
-        <Helmet>
-          <meta charSet="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <meta name="robots" content="index, follow" />
-          <title>Motion Dynamics | Motion Capture in Sports, Squash, Tennis</title>
-          <meta
-            name="description"
-            content="Motion Dynamics offers advanced motion capture solutions for sports like squash and tennis. Improve your game with our cutting-edge technology."
-          />
-          <meta
-            name="keywords"
-            content="motion capture, sport motion capture, squash motion capture, tennis motion capture, sports performance analysis, Motion Dynamics"
-          />
-          
-          {/* Add custom styles for animations */}
-          <style>{`
-            @keyframes slideInLeft {
-              from {
-                opacity: 0;
-                transform: translateX(-30px);
-              }
-              to {
-                opacity: 1;
-                transform: translateX(0);
-              }
-            }
-            
-            @keyframes fadeIn {
-              from {
-                opacity: 0;
-              }
-              to {
-                opacity: 1;
-              }
-            }
-            
-            .animate-slideInLeft {
-              animation: slideInLeft 0.8s ease-out forwards;
-            }
-            
-            .animate-fadeIn {
-              animation: fadeIn 1s ease-out forwards;
-            }
-            
-            .animation-delay-200 {
-              animation-delay: 200ms;
-            }
-            
-            .animation-delay-400 {
-              animation-delay: 400ms;
-            }
-            
-            .animation-delay-600 {
-              animation-delay: 600ms;
-            }
-            
-            .animation-delay-800 {
-              animation-delay: 800ms;
-            }
-            
-            /* Smooth section transitions with overlapping gradients */
-            .section-transition {
-              position: relative;
-              isolation: isolate;
-            }
-            
-            .section-transition::before {
-              content: '';
-              position: absolute;
-              top: -50px;
-              left: 0;
-              right: 0;
-              height: 100px;
-              background: linear-gradient(to bottom, transparent, rgba(15, 23, 42, 0.3), transparent);
-              pointer-events: none;
-              z-index: 1;
-            }
-            
-            /* Minimal section spacing for tighter layout */
-            .section-padding {
-              padding-top: 2rem;
-              padding-bottom: 2rem;
-              position: relative;
-            }
-            
-            @media (min-width: 768px) {
-              .section-padding {
-                padding-top: 3rem;
-                padding-bottom: 3rem;
-              }
-            }
-            
-            @media (min-width: 1024px) {
-              .section-padding {
-                padding-top: 4rem;
-                padding-bottom: 4rem;
-              }
-            }
-            
-            /* Smooth scroll behavior with offset */
-            html {
-              scroll-behavior: smooth;
-              scroll-padding-top: 80px;
-            }
-            
-            /* Premium glass effect for components */
-            .glass-effect {
-              background: rgba(255, 255, 255, 0.03);
-              backdrop-filter: blur(20px);
-              -webkit-backdrop-filter: blur(20px);
-              border: 1px solid rgba(255, 255, 255, 0.05);
-            }
-            
-            /* Professional hover transitions */
-            .hover-lift {
-              transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .hover-lift:hover {
-              transform: translateY(-6px);
-              box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-            }
-            
-            /* Seamless background flow between sections */
-            .bg-flow-dark {
-              background: linear-gradient(180deg, 
-                rgba(15, 23, 42, 0) 0%,
-                rgba(15, 23, 42, 0.5) 20%,
-                rgba(15, 23, 42, 0.8) 50%,
-                rgba(15, 23, 42, 0.5) 80%,
-                rgba(15, 23, 42, 0) 100%
-              );
-            }
-            
-            .bg-flow-light {
-              background: linear-gradient(180deg,
-                rgba(30, 41, 59, 0) 0%,
-                rgba(30, 41, 59, 0.3) 20%,
-                rgba(30, 41, 59, 0.5) 50%,
-                rgba(30, 41, 59, 0.3) 80%,
-                rgba(30, 41, 59, 0) 100%
-              );
-            }
-            
-            /* Subtle section dividers */
-            .section-divider {
-              position: absolute;
-              bottom: 0;
-              left: 50%;
-              transform: translateX(-50%);
-              width: 100%;
-              height: 1px;
-              background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(99, 102, 241, 0.1) 20%,
-                rgba(99, 102, 241, 0.2) 50%,
-                rgba(99, 102, 241, 0.1) 80%,
-                transparent 100%
-              );
-            }
-            
-            /* Floating gradient orbs for ambient effect */
-            @keyframes float {
-              0%, 100% { transform: translate(0, 0) scale(1); }
-              33% { transform: translate(30px, -30px) scale(1.05); }
-              66% { transform: translate(-20px, 20px) scale(0.95); }
-            }
-            
-            .floating-gradient {
-              position: absolute;
-              border-radius: 50%;
-              filter: blur(80px);
-              opacity: 0.15;
-              animation: float 20s infinite ease-in-out;
-              pointer-events: none;
-            }
-            
-            .gradient-orb-1 {
-              width: 600px;
-              height: 600px;
-              background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
-              top: -300px;
-              left: -300px;
-            }
-            
-            .gradient-orb-2 {
-              width: 800px;
-              height: 800px;
-              background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
-              bottom: -400px;
-              right: -400px;
-              animation-delay: -10s;
-            }
-            
-            /* Content fade-in on scroll */
-            .content-reveal {
-              opacity: 0;
-              transform: translateY(20px);
-              transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .content-reveal.aos-animate {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          `}</style>
-        </Helmet>
-
-        <Navbar />
-
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Helmet>
-                  <title>Home - Motion Dynamics | Motion Capture in Sports</title>
-                  <meta
-                    name="description"
-                    content="Welcome to Motion Dynamics, where we use advanced motion capture technology to enhance your squash or tennis game. Explore our services and expertise in sports performance analysis."
-                  />
-                  <meta
-                    name="keywords"
-                    content="motion capture, sport motion capture, squash motion capture, tennis motion capture, sports analysis"
-                  />
-                </Helmet>
-
-                {/* Hero Video Section - Seamlessly flows into next section */}
-                <div id="home" className={`${styles.flexStart}`}>
-                  <div className={`${styles.boxWidth}`}>
-                    <HeroVideo />
-                    <Hero />
-                  </div>
-                </div>
-
-                {/* Stats Section with smooth transition */}
-                <div
-                  id="stats"
-                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-16 md:-mt-20 lg:-mt-24`}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                >
-                  <div className="floating-gradient gradient-orb-1"></div>
-                  <div className={`${styles.boxWidth} relative z-10`}>
-                    <Stats />
-                  </div>
-                  <div className="section-divider"></div>
-                </div>
-
-                {/* Solutions Section with gradient flow */}
-                <div
-                  id="solutions"
-                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
-                  style={{
-                    background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.3))'
-                  }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                >
-                  <div className={`${styles.boxWidth} relative z-10`}>
-                    <Solutions />
-                  </div>
-                  <div className="section-divider"></div>
-                </div>
-
-                {/* Services Section with elegant background blend */}
-                <div 
-                  id="services" 
-                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 50%, rgba(15, 23, 42, 0.95) 100%)'
-                  }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-delay="50"
-                >
-                  <div className="floating-gradient gradient-orb-2"></div>
-                  <div className={`${styles.boxWidth} relative z-10`}>
-                    <Services />
-                  </div>
-                  <div className="section-divider"></div>
-                </div>
-
-                {/* Collaborations Section with subtle gradient */}
-                <div 
-                  id="collaborations" 
-                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
-                  style={{
-                    background: 'linear-gradient(to bottom, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.6), rgba(30, 41, 59, 0.4))'
-                  }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-delay="50"
-                >
-                  <div className={`${styles.boxWidth} relative z-10`}>
-                    <Collaborations />
-                  </div>
-                  <div className="section-divider"></div>
-                </div>
-
-                {/* Team Section with indigo accent gradient */}
-                <div 
-                  id="team" 
-                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
-                  style={{
-                    background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(49, 46, 129, 0.1) 50%, rgba(15, 23, 42, 0.9) 100%)'
-                  }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-delay="50"
-                >
-                  <div className="floating-gradient gradient-orb-1"></div>
-                  <div className={`${styles.boxWidth} relative z-10`}>
-                    <Team />
-                  </div>
-                  <div className="section-divider"></div>
-                </div>
-
-                {/* Contact Section with premium gradient */}
-                <div 
-                  id="contact" 
-                  className={`section-padding section-transition ${styles.paddingX} ${styles.flexStart} relative overflow-hidden -mt-8 md:-mt-10 lg:-mt-12`}
-                  style={{
-                    background: 'linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.95))'
-                  }}
-                  data-aos="fade-up"
-                  data-aos-duration="1000"
-                  data-aos-delay="50"
-                >
-                  <div className={`${styles.boxWidth} relative z-10`}>
-                    <Contact />
-                  </div>
-                </div>
-
-                {/* Footer with smooth transition from contact */}
-                <div className={`bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800/30 ${styles.paddingX} ${styles.flexStart}`}>
-                  <div className={`${styles.boxWidth}`}>
-                    <Footer />
-                  </div>
-                </div>
-              </>
-            }
-          />
-
-          <Route path="/team/:id" element={<TeamMemberDetail />} />
-          <Route path="/storyboard" element={<Storyboard />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className={`viewport ${className}`}>
+      {video ? <video src={video} poster={poster} autoPlay muted loop playsInline aria-label={alt} /> : image ? <img src={image} alt={alt} /> : null}
+      <span className="corner" />
+      {children}
+    </div>
   );
-};
+}
+
+function Hud({ position, children }) {
+  return <span className={`hud ${position}`}>{children}</span>;
+}
+
+function SiteFooter() {
+  return (
+    <footer>
+      <div className="wrap foot">
+        <Link className="logo" to="/">MOTION<b>DYNAMICS</b></Link>
+        <span className="mono">MOTIONDYNAMICS.AI · EST. FIELD-PROVEN</span>
+        <small>© 2026 Motion Dynamics. All rights reserved.</small>
+      </div>
+    </footer>
+  );
+}
+
+function HomePage() {
+  useReveal();
+  return (
+    <>
+      <Navigation />
+      <main>
+        <header className="hero" id="top">
+          <div className="wrap">
+            <div>
+              <Eyebrow>Video-to-intelligence pipelines</Eyebrow>
+              <h1>Live video in.<br /><span className="dim">Live intelligence out.</span></h1>
+              <p className="lede">Bespoke tracking pipelines for the world&apos;s fastest sports. Real-time. Broadcast-grade. Built around you.</p>
+              <div className="cta-row">
+                <a className="btn btn-primary" href="#case">See it live</a>
+                <a className="btn btn-ghost" href="#contact">Book a demo</a>
+              </div>
+            </div>
+            <Viewport className="hero-viewport reveal" video={asset('template/assets/hero.mp4')} poster={asset('template/assets/hero-poster.jpg')} alt="Live motion tracking footage">
+              <Hud position="tl">CAM_01 · 120FPS</Hud>
+              <Hud position="tr"><span className="rec" />LIVE</Hud>
+              <Hud position="br">LATENCY 0.00s</Hud>
+            </Viewport>
+          </div>
+        </header>
+
+        <section className="proof" style={{ paddingTop: 0 }}>
+          <div className="wrap">
+            <div className="stat-bar reveal">
+              <div className="stat"><div className="n"><em>0%</em> downtime</div><div className="l">Seven days live</div></div>
+              <div className="stat"><div className="n"><em>100%</em> real-time</div><div className="l">Zero-delay intelligence</div></div>
+              <div className="stat"><div className="n"><em>120</em>FPS+</div><div className="l">Ingest rate, minimum</div></div>
+              <div className="stat"><div className="n"><em>100%</em> coverage</div><div className="l">Every match, both draws</div></div>
+            </div>
+            <div className="logo-row reveal" aria-label="Partners">
+              <div className="logo-chip"><img src={asset('template/assets/PSA_LOGO.png')} alt="PSA" /></div>
+              <div className="logo-chip"><img src={asset('template/assets/squashtv_logo.png')} alt="SquashTV" /></div>
+              <div className="logo-chip"><img src={asset('template/assets/Teknik_logo.png')} alt="Teknik" /></div>
+              <div className="logo-chip text-chip">MOTION DATA<br />PARTNERS</div>
+            </div>
+          </div>
+        </section>
+
+        <section className="case" id="case">
+          <div className="wrap">
+            <Eyebrow className="reveal">Proven live · Squash Open 2026 × PSA</Eyebrow>
+            <h2 className="reveal">Seven days. Every match.<br />Zero downtime.</h2>
+            <p className="sub reveal">The world&apos;s premier squash tournament. 40,000+ live viewers on SquashTV. No second takes.</p>
+            <div className="case-grid">
+              <div className="media-stack reveal">
+                <Viewport video={asset('template/assets/squash-open-2026-womens.mp4')} poster={asset('template/assets/squash-open-2026-womens-poster.jpg')} alt="Squash Open 2026 live match footage">
+                  <Hud position="tl">MATCH 47 · FINAL</Hud>
+                  <Hud position="tr"><span className="rec" />ON AIR</Hud>
+                </Viewport>
+                <div className="media-row">
+                  <Viewport className="square" image={asset('event/squash-open-audience.jpg')} alt="Audience at Squash Open 2026"><Hud position="br">AUDIENCE</Hud></Viewport>
+                  <Viewport className="square" image={asset('event/squash-open-court.jpg')} alt="Squash court at Squash Open 2026"><Hud position="br">COURT FEED</Hud></Viewport>
+                </div>
+                <Viewport className="gallery-wide" image={asset('event/squash-open-control-room.jpg')} alt="Squash Open production control room"><Hud position="br">PRODUCTION</Hud></Viewport>
+              </div>
+              <div className="case-copy">
+                <div className="fact reveal"><h3>The challenge</h3><p>One of the fastest sports on earth. Live to a global audience. Any failure happens on air.</p></div>
+                <div className="fact reveal"><h3>What we built</h3><p>A full video-to-intelligence pipeline feeding SquashTV&apos;s live broadcast. Data, visuals, and stories — as the rally happens.</p></div>
+                <div className="fact result reveal"><h3>The result</h3><p>Every match tracked. Men&apos;s and women&apos;s. Day 1 to day 7. Nothing missed, nothing dropped.</p></div>
+                <div className="reveal"><a className="btn btn-ghost btn-sm" href="#contact">Build your live pipeline →</a></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="pipeline" id="pipeline">
+          <div className="wrap">
+            <Eyebrow className="reveal">What we do</Eyebrow>
+            <h2 className="reveal">One pipeline.<br />Video to intelligence.</h2>
+            <p className="sub reveal">We don&apos;t sell software off the shelf. We build the pipeline your sport actually needs.</p>
+            <div className="pipe-grid">
+              <div className="pipe-card reveal"><div className="step">Ingest</div><h3>Any camera. Any feed.</h3><p>120FPS+ video ingest from broadcast, venue, or training footage.</p></div>
+              <div className="pipe-card reveal"><div className="step">Intelligence</div><h3>Tracked in real time.</h3><p>Players, ball, and movement — extracted live, with frame-level detail.</p></div>
+              <div className="pipe-card reveal"><div className="step">Impact</div><h3>Stories, instantly.</h3><p>Broadcast graphics, coaching insights, scouting data. Ready the moment it happens.</p></div>
+            </div>
+            <div className="bespoke reveal"><p>No one else covers broadcast, development, and scouting in one package. <em>That&apos;s why the best in the world work with us.</em></p><a className="btn btn-primary btn-sm" href="#contact">Talk to us</a></div>
+          </div>
+        </section>
+
+        <section className="uses" id="uses">
+          <div className="wrap">
+            <Eyebrow className="reveal">Who it&apos;s for</Eyebrow>
+            <h2 className="reveal">One pipeline. Four ways to win.</h2>
+            <div className="use-grid">
+              <UseCard image={asset('event/broadcast-crowd.png')} title="Broadcast" text="Live graphics that make every rally a story." />
+              <UseCard image={asset('event/player-development.png')} title="Player development" text="Frame-level detail coaches can act on." />
+              <UseCard image={asset('event/performance-analytics.png')} title="Recruiting & scouting" text="See talent the way data sees it." />
+              <UseCard image={asset('template/teknik-analysis.png')} title="Training analysis" text="Every session, measured and comparable." />
+            </div>
+          </div>
+        </section>
+
+        <section className="scale">
+          <div className="wrap scale-grid">
+            <div>
+              <Eyebrow className="reveal">Every scale</Eyebrow>
+              <h2 className="reveal">World tours.<br />And world-class startups.</h2>
+              <p className="reveal">The same quality we deliver to the PSA powers Teknik — the world&apos;s leading tennis serve analysis startup. Elite isn&apos;t a company size. It&apos;s a standard.</p>
+              <blockquote className="reveal">“Motion Dynamics turns complex movement into clear, useful feedback for every serve.”<cite>Teknik · tennis serve analysis</cite></blockquote>
+            </div>
+            <Viewport className="tall reveal" image={asset('template/teknik-analysis.png')} alt="Tennis motion analysis visualization">
+              <Hud position="tl">SERVE_04 · 194 KM/H</Hud>
+              <img className="teknik-mark" src={asset('template/assets/Teknik_logo.png')} alt="Teknik" />
+            </Viewport>
+          </div>
+        </section>
+
+        <section className="next">
+          <div className="wrap next-grid">
+            <div>
+              <Eyebrow className="reveal">What&apos;s next</Eyebrow>
+              <h2 className="reveal">Next up: cricket.</h2>
+              <p className="reveal">Bowling action. Batting performance. Training intelligence for one of the world&apos;s biggest sports — and more to come.</p>
+              <div className="sport-tags reveal"><span className="tag on">Squash</span><span className="tag on">Tennis</span><span className="tag">Cricket · 2026</span><span className="tag">Your sport?</span></div>
+            </div>
+            <Viewport className="reveal" image={asset('template/assets/reconstruction-3d-poster.jpg')} alt="3D movement reconstruction preview"><Hud position="tl">BOWL_ACTION · ANALYSIS</Hud></Viewport>
+          </div>
+        </section>
+
+        <section className="cta" id="contact">
+          <div className="wrap"><h2 className="reveal">Your sport. Your data.<br />Your story.</h2><p className="reveal">Told in real time. Let&apos;s build your pipeline.</p><div className="cta-row reveal"><a className="btn btn-primary" href="mailto:hello@motiondynamics.ai">Book a demo</a><a className="btn btn-ghost" href="mailto:hello@motiondynamics.ai">hello@motiondynamics.ai</a></div></div>
+        </section>
+      </main>
+      <SiteFooter />
+    </>
+  );
+}
+
+function UseCard({ image, title, text }) {
+  return <div className="use-card reveal"><Viewport image={image} alt={title} /><div className="txt"><h3>{title}</h3><p>{text}</p></div></div>;
+}
+
+function TeamPage() {
+  useReveal();
+  return (
+    <>
+      <Navigation teamPage />
+      <main>
+        <header className="page-head"><div className="wrap"><Eyebrow>The people behind the pipeline</Eyebrow><h1>Built by a team<br /><span className="dim">obsessed with motion.</span></h1><p className="lede">Engineers, computer-vision researchers, and sports specialists — the crew that keeps every frame tracked and every broadcast live.</p></div></header>
+        <section className="team"><div className="wrap"><div className="team-grid">{team.map((member) => <Link className="member reveal" to={`/team/${member.id}`} key={member.id}><div className="photo"><img src={member.image} alt={member.name} /></div><div className="txt"><h3>{member.name}</h3><div className="role">{member.title}</div><p className="bio">{member.subtitle}</p></div></Link>)}</div></div></section>
+        <section className="cta"><div className="wrap"><h2 className="reveal">Want to build with us?</h2><p className="reveal">We&apos;re always looking for people obsessed with sport, video, and real-time intelligence.</p><div className="cta-row reveal"><a className="btn btn-primary" href="mailto:contact@motiondynamics.ai">Get in touch</a><a className="btn btn-ghost" href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai</a></div></div></section>
+      </main>
+      <SiteFooter />
+    </>
+  );
+}
+
+function TeamMemberPage() {
+  useReveal();
+  const { id } = useParams();
+  const member = team.find((person) => person.id === id);
+  if (!member) return <><Navigation teamPage /><main className="not-found"><h1>Team member not found.</h1><Link className="btn btn-primary" to="/team">Back to Team</Link></main></>;
+  return <><Navigation teamPage /><main className="member-detail"><div className="wrap"><Link className="back-link" to="/team">← Back to Team</Link><div className="member-detail-grid"><div><Eyebrow>Motion Dynamics team</Eyebrow><h1>{member.name}</h1><p className="detail-role">{member.title} · {member.subtitle}</p></div><img src={member.image} alt={member.name} /></div><p className="detail-copy">{member.content}</p></div></main><SiteFooter /></>;
+}
+
+function App() {
+  return <BrowserRouter><Routes><Route path="/" element={<HomePage />} /><Route path="/team" element={<TeamPage />} /><Route path="/team/:id" element={<TeamMemberPage />} /></Routes></BrowserRouter>;
+}
 
 export default App;
