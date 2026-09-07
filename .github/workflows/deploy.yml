@@ -24,20 +24,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
+      - name: Build project in Docker
+        run: |
+          docker build --target builder --tag motiondynamics-pages-build .
+          docker create --name motiondynamics-pages-build motiondynamics-pages-build
+          docker cp motiondynamics-pages-build:/app/dist ./dist
+          docker rm motiondynamics-pages-build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
