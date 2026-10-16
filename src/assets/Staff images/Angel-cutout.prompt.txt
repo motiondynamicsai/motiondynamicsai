@@ -1,0 +1,5 @@
+Tool: built-in imagegen
+Source: Angel.png
+Output: Angel-cutout.png
+
+Use case: background-extraction. Edit the provided portrait for use as a transparent cutout on a website team page. Remove ONLY the beige/grey background behind the woman, replacing it with actual transparent alpha, not a white background or a checkerboard pattern. Preserve the exact woman and her identity: all facial features, expression, hair, skin, necklace, black top, crossed arms and hands, pose, lighting, photographic details and original framing must remain unchanged. Keep the full original portrait area and do not crop the hands, shoulders or hair. Do not retouch, restyle, beautify, reconstruct the person, or add shadows, text, or new elements. Produce a clean photographic cutout with careful natural hair edges and a genuinely transparent PNG background.
