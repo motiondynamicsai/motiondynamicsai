@@ -4,6 +4,8 @@ import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import { useGSAP } from '@gsap/react';
 import { ANALYSIS_SEQUENCE, applicationPoints, pathFromPoints } from '../data/analysisSequence';
 import useReducedMotion from '../lib/useReducedMotion';
+import { CourtPlan } from './CourtGeometry';
+import { COURT_T } from '../lib/squashCourt';
 
 gsap.registerPlugin(DrawSVGPlugin, useGSAP);
 
@@ -34,11 +36,12 @@ export default function ApplicationDemo() {
     const labelX = Math.min(selected.x + 25, 540);
     const labelY = selected.y - 46;
     const timeline = gsap.timeline({ defaults: { duration: reduced ? 0 : 0.8, ease: 'power3.inOut', overwrite: 'auto' } });
-    timeline.to('.application-path', { attr: { d: pathFromPoints(points) } }, 0)
+    timeline.to('.application-svg', { attr: { viewBox: current.id === 'development' ? '40 70 660 350' : '205 60 380 350' } }, 0)
+      .to('.application-path', { attr: { d: pathFromPoints(points) } }, 0)
       .to('.application-court', { opacity: current.id === 'development' ? 0 : 0.65 }, 0)
       .to('.application-axis', { opacity: current.id === 'development' ? 1 : 0 }, 0)
       .to('.application-recovery', { opacity: current.id === 'coaching' ? 1 : 0 }, 0)
-      .to('.application-recovery-path', { attr: { d: `M${selected.x} ${selected.y} L355 242` } }, 0)
+      .to('.application-recovery-path', { attr: { d: `M${selected.x} ${selected.y} L${COURT_T.x} ${COURT_T.y}` } }, 0)
       .to('.application-focus', { attr: { cx: selected.x, cy: selected.y, r: current.id === 'broadcast' ? 30 : 23 } }, 0)
       .to('.application-highlight', { attr: { d: pathFromPoints(segment) } }, 0)
       .fromTo('.application-highlight', { drawSVG: '0%' }, { drawSVG: '100%', duration: reduced ? 0 : 1.1 }, reduced ? 0 : 0.2)
@@ -55,11 +58,11 @@ export default function ApplicationDemo() {
   return <div className="process-graphic insights-graphic analysis-demo application-demo" ref={root} data-ui>
     <div className="demo-header"><span>One rally / Three perspectives</span><span className="demo-state is-tracking"><i />{current.title}</span></div>
     <div className="application-heading"><p className="application-context">{current.heading}</p><div className="application-metric"><span>{current.metric}</span><strong><span className="application-metric-value">1.2</span><small> {current.unit}</small></strong></div></div>
-    <svg className="application-svg" viewBox="40 70 660 350" role="img" aria-label={`Illustrative ${current.title.toLowerCase()} view. ${event.label} at ${event.timestamp} seconds. ${current.caption}`}>
-      <g className="application-court" fill="none" stroke="#89967f" strokeWidth="1.3"><path d="M110 100H600V380H110Z M110 242H600 M355 242V380 M110 242H194V303H110 M600 242H516V303H600" /><text x="320" y="91">Front wall</text><path d="M345 242H365 M355 232V252" stroke="var(--red)" /></g>
+    <svg className="application-svg" viewBox="205 60 380 350" role="img" aria-label={`Illustrative ${current.title.toLowerCase()} view. ${event.label} at ${event.timestamp} seconds. ${current.caption}`}>
+      <CourtPlan />
       <g className="application-axis" fill="#626b5a" stroke="#a8b29f" strokeWidth="1"><path d="M82 105V345H638 M82 225H638" fill="none" /><g stroke="none" fontSize="13"><text x="82" y="372">0 s</text><text x="605" y="372">4.4 s</text><text x="92" y="114">5 m/s</text><text x="294" y="402">Time in rally</text></g></g>
       <path className="application-path" d={initialPath} fill="none" stroke="#8c9b81" strokeWidth="2.5" strokeLinejoin="round" />
-      <g className="application-recovery" fill="none" stroke="#6b805e" strokeWidth="1.5"><path className="application-recovery-path" d="M492 338L355 242" strokeDasharray="4 5" /><circle cx="355" cy="242" r="15" /><circle cx="355" cy="242" r="3" fill="#6b805e" /></g>
+      <g className="application-recovery" fill="none" stroke="#6b805e" strokeWidth="1.5"><path className="application-recovery-path" d={`M${initialPoints[4].x} ${initialPoints[4].y}L${COURT_T.x} ${COURT_T.y}`} strokeDasharray="4 5" /><circle cx={COURT_T.x} cy={COURT_T.y} r="15" /><circle cx={COURT_T.x} cy={COURT_T.y} r="3" fill="#6b805e" /></g>
       <path className="application-highlight" d={initialPath} fill="none" stroke="var(--red)" strokeWidth="3" strokeLinejoin="round" />
       <circle className="application-focus" cx={initialPoints[4].x} cy={initialPoints[4].y} r="23" fill="var(--red)" fillOpacity=".06" stroke="var(--red)" strokeOpacity=".35" />
       {initialPoints.map((point, index) => <circle key={index} className="application-node" cx={point.x} cy={point.y} r={ANALYSIS_SEQUENCE.events.some((shot) => shot.pointIndex === index) ? 6 : 3.5} fill="var(--paper)" stroke="var(--red)" strokeWidth="1.5" />)}

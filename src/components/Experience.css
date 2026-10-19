@@ -7,6 +7,54 @@
 .field-section { background: var(--charcoal); }
 .manifesto { background: var(--stone); }
 
+/* One compact rhythm for section edges and the space before their content. */
+.home-page {
+  --section-space: clamp(48px, 6vw, 80px);
+  --content-gap: clamp(28px, 3vw, 40px);
+}
+.home-page .section-space { padding-block: var(--section-space); }
+.home-page .section-heading,
+.home-page .field-heading { margin-bottom: var(--content-gap); }
+.home-page .hero { padding: clamp(32px, 3.6vw, 52px) 0 clamp(36px, 4vw, 56px); }
+.home-page .hero-note { margin-top: 24px; }
+.home-page .us-open-panel {
+  margin-top: var(--content-gap);
+  padding-top: clamp(28px, 3vw, 40px);
+}
+
+/* The hero is now a typography-led introduction, with no empty visual column. */
+.hero .hero-composition { display: block; margin-top: clamp(24px, 2.5vw, 32px); }
+.hero .hero-copy { padding: 0; }
+.hero .hero-copy > p { max-width: 520px; }
+.hero-title .title-line:last-child { background: transparent; }
+
+.home-page .manifesto.section-space { padding-block: clamp(32px, 4vw, 52px); }
+.manifesto .kicker { margin-bottom: 18px; }
+/* The tallest sentence reserves the drum's height at each responsive width. */
+.manifesto-text { display: grid; align-items: center; overflow: hidden; perspective: 900px; padding-block: .12em; }
+.manifesto-sentence { grid-area: 1 / 1; min-width: 0; visibility: hidden; font: inherit; letter-spacing: inherit; transform-origin: 50% 50%; backface-visibility: hidden; }
+.manifesto-sentence:first-child { visibility: visible; }
+.manifesto-highlight { color: var(--red); }
+.manifesto .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.manifesto-progress { display: none; margin-top: 14px; color: var(--muted); font: 10px 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; }
+.manifesto[data-revolver] .manifesto-progress { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-text { display: block; overflow: visible; perspective: none; font-size: clamp(20px, 2vw, 28px); line-height: 1.5; padding: 0; }
+  .manifesto-sentence { visibility: visible; }
+  .manifesto-sentence + .manifesto-sentence { margin-top: .25em; }
+}
+
+/* All three contact actions stay visible together within the audience section. */
+.audiences.section-space { background: var(--paper); padding-bottom: 28px; }
+.audiences .section-heading { grid-template-columns: 1fr 1fr; }
+.audiences .contact-options { margin-top: var(--content-gap); }
+.audience-contact.contact-bottom { margin-top: 24px; }
+@media (max-width: 800px) {
+  .audiences .section-heading { grid-template-columns: 1fr; gap: 24px; }
+  .audiences .section-heading > .kicker { margin-bottom: 0; }
+  .audiences .section-heading > p:last-child { justify-self: start; max-width: 440px; }
+}
+
 .hero-title .hero-title-dynamic {
   display: flex;
   flex-wrap: wrap;
@@ -44,7 +92,7 @@
   .announcement-dot { animation: announcement-blink 2s ease-in-out infinite; }
 }
 
-.event-record { padding-block: 72px; background: var(--paper); }
+.event-record { padding-block: clamp(32px, 3.6vw, 48px); background: var(--paper); }
 .record-layout { grid-template-columns: .85fr 1.15fr; gap: clamp(45px, 7vw, 110px); }
 .record-intro { display: block; position: relative; }
 .record-tally { display: flex; align-items: flex-start; margin-bottom: 24px; }
@@ -125,10 +173,17 @@
 .beyond-copy > p:not(.kicker) { max-width: 420px; }
 .beyond-copy .text-link svg { transition: transform .3s; }
 .beyond-copy .text-link:hover svg { transform: translate(3px,-3px); }
-.phone-stage { height: 670px; }
+.phone-stage { height: 670px; perspective: none; }
 .phone-float { margin: 0; align-self: center; }
-.phone-orientation { width: 304px; transform: rotateX(3deg) rotateY(-7deg) rotateZ(2deg); }
+.phone-orientation { width: 304px; transform: rotate(2deg); }
 .phone-floor { bottom: 7px; }
+/* Flatten the interactive screen into one composited plane. Keeping nested
+   preserve-3d layers here made pointer hit-testing differ from the painted UI. */
+.phone-float, .phone-orientation, .phone-body { transform-style: flat; }
+.phone-face { transform: none; backface-visibility: visible; position: relative; z-index: 1; }
+.phone-screen { isolation: isolate; transform-style: flat; }
+.phone-back { transform: none; }
+.phone-back, .phone-button, .phone-floor, .phone-camera, .phone-home-indicator { pointer-events: none; }
 .teknik-showcase figcaption { border: 0; padding-top: 12px; margin-top: 0; max-width: 380px; margin-inline: auto; font-size: 10px; }
 .teknik-app { height: 622px; color: #162437; background: #f1f3f4; padding: 0 13px 22px; font-family: 'Outfit', sans-serif; }
 .app-status { height: 36px; display: flex; justify-content: space-between; align-items: center; font-size: 9px; font-weight: 500; padding-inline: 8px; color: #171e26; }
@@ -156,18 +211,19 @@
 .technique-time { grid-column: 1 / 3; font-size: 8px; color: #647586; }
 .technique-detail { grid-column: 3; justify-self: end; white-space: nowrap; font-size: 8px; text-decoration: underline; text-underline-offset: 2px; }
 .app-selection { font-size: 9px; text-align: center; margin-top: 12px; color: #6c7c8c; }
-.app-video-view > button { display: inline-flex; gap: 6px; align-items: center; border: 0; background: transparent; font-size: 11px; padding: 16px 0; color: #21364d; }
+.app-video-view > .app-back { position: relative; z-index: 2; display: flex; width: 100%; min-height: 44px; gap: 8px; align-items: center; border: 1px solid #d0d7df; border-radius: 5px; background: #fff; font-size: 12px; padding: 10px; margin-block: 12px; color: #21364d; }
+.app-video-view > .app-back:hover { background: #e7edf1; }
 .app-video-view h3 { font-size: 24px; margin-bottom: 14px; }
 .app-video-view video { display: block; width: 100%; height: 355px; object-fit: contain; background: #15202c; border-radius: 5px; }
 .app-video-view p { text-align: center; font-size: 12px; margin-top: 15px; }
 
-.partner-strip { margin-top: 90px; padding-top: 46px; border-top: 1px solid #d2d0c7; }
+.partner-strip { margin-top: var(--content-gap); padding-top: 28px; border-top: 1px solid #d2d0c7; }
 .partner-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .partner-heading h2 { font-size: clamp(24px, 2.8vw, 36px); letter-spacing: -.035em; }
 .partner-heading button { display: grid; place-items: center; width: 40px; height: 40px; background: transparent; border: 1px solid #cccfc3; border-radius: 50%; color: var(--muted); }
-.partner-window { position: relative; overflow: hidden; width: 100%; margin-top: 24px; }
-.partner-window ul { position: relative; height: 102px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin: 0; padding: 0; list-style: none; }
-.partner-logo { display: flex; justify-content: center; align-items: center; height: 102px; }
+.partner-window { position: relative; overflow: hidden; width: 100%; margin-top: 16px; }
+.partner-window ul { position: relative; height: 84px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.partner-logo { display: flex; justify-content: center; align-items: center; height: 84px; }
 .partner-logo img { width: 100%; max-width: 135px; max-height: 62px; object-fit: contain; }
 .partner-logo:nth-child(3) img { max-width: 85px; filter: brightness(.25); }
 .partner-logo:nth-child(4) img { max-width: 115px; }
@@ -179,7 +235,7 @@
   isolation: isolate;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: 40px;
+  margin-top: 32px;
   color: var(--ink);
   border: 1px solid transparent;
   border-radius: 3px;
@@ -227,7 +283,12 @@
 .stat-number { display: inline-block; }
 .stat-number[data-count='120'], .stat-number[data-count='788'] { min-width: 3ch; }
 .stat-number[data-count='33'], .stat-number[data-count='13'] { min-width: 2ch; }
-.stat-number[data-count='8'] { min-width: 1ch; }
+.stat-data-metric { position: relative; }
+.stat-data-final { display: flex; align-items: baseline; }
+.stat-data-final .stat-number { min-width: 1ch; }
+/* The full count fits the existing metric footprint without moving its neighbours. */
+.stat-data-count { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; }
+.stat-data-count text { fill: currentColor; font-family: inherit; font-size: 36px; font-weight: 500; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
 .stat-fps { font-size: clamp(42px, 3.8vw, 55px); gap: 7px; }
 .stat-unit { font-size: 17px; letter-spacing: -.02em; }
 .stat-unit, .stat-suffix { color: var(--ink); }
@@ -241,7 +302,7 @@
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .stat-block:hover .stat-motif { transform: translateX(3px); }
 }
-.field-statistics + .field-carousel { margin-top: 48px; }
+.field-statistics + .field-carousel { margin-top: 36px; }
 
 /* Content stays in document flow, safely above the rising right-hand ribbon. */
 .wave-footer { position: relative; isolation: isolate; overflow: hidden; min-height: clamp(360px, 29vw, 460px); background: var(--paper); }
@@ -331,7 +392,6 @@
   .wave-footer-content { width: 75%; max-width: 520px; }
   .wave-footer { min-height: 360px; }
   .court-scene-top { gap: 10px; flex-wrap: wrap; }
-  .event-record { padding-block: 54px; }
   .record-layout { grid-template-columns: 1fr; gap: 38px; }
   .record-intro { display: grid; grid-template-columns: auto 1fr; column-gap: 30px; align-items: center; }
   .record-tally { grid-row: 1 / 3; margin: 0; }
@@ -347,7 +407,6 @@
   .beyond-copy > p:not(.kicker) { max-width: 510px; font-size: 15px; }
   .phone-stage { height: 670px; }
   .phone-orientation { width: 304px; }
-  .partner-strip { margin-top: 60px; }
 }
 @media (max-width: 560px) {
   .field-statistics { margin-top: 28px; }
@@ -365,7 +424,7 @@
   .stat-pair > div { display: flex; align-items: center; gap: 10px; }
   .stat-pair .stat-label { margin-top: 0; font-size: 11px; }
   .stat-rule-horizontal { left: 17px; right: 17px; }
-  .field-statistics + .field-carousel { margin-top: 34px; }
+  .field-statistics + .field-carousel { margin-top: 28px; }
   .wave-footer { min-height: 0; }
   .wave-footer-content { width: 100%; max-width: none; padding-top: 12px; padding-bottom: 0; }
   .wave-footer-statement { max-width: 340px; font-size: 23px; margin-top: 22px; }
@@ -373,7 +432,6 @@
   .wave-footer-meta { margin-top: 16px; font-size: 10px; }
   .footer-wave { position: relative; width: 180%; margin-left: -80%; margin-top: -110px; }
   .court-players-key { gap: 10px; }
-  .event-record { padding-block: 44px; }
   .record-intro { column-gap: 16px; }
   .record-number { font-size: 102px; }
   .record-arrow { font-size: 20px; margin-left: 5px; }
@@ -417,7 +475,6 @@
   .phone-stage { height: 665px; }
   .phone-orientation { width: 292px; }
   .teknik-app { height: 622px; }
-  .partner-strip { padding-top: 32px; margin-top: 55px; }
   .partner-heading h2 { max-width: 250px; font-size: 27px; }
   .partner-logo img { max-width: 105px; max-height: 52px; }
   .partner-logo:nth-child(3) img { max-width: 65px; }

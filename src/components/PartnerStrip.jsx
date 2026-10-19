@@ -33,7 +33,7 @@ export default function PartnerStrip() {
         // Keep four real assets close, with only one offscreen item of space.
         const distance = width + itemWidth;
         gsap.set(items, { position: 'absolute', left: 0, top: 0, width: itemWidth, x: (i) => distance / items.length * i });
-        animation = gsap.to(items, { x: `-=${distance}`, duration: distance / 24, repeat: -1, ease: 'none', modifiers: { x: gsap.utils.unitize(gsap.utils.wrap(-itemWidth, distance - itemWidth)) } });
+        animation = gsap.to(items, { x: `-=${distance}`, duration: distance / 72, repeat: -1, ease: 'none', modifiers: { x: gsap.utils.unitize(gsap.utils.wrap(-itemWidth, distance - itemWidth)) } });
         sync();
       };
       const enter = () => { hovered = true; sync(); };
