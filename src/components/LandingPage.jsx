@@ -14,6 +14,7 @@ import PartnerStrip from './PartnerStrip';
 import WaveFooter from './WaveFooter';
 import FieldStatistics from './FieldStatistics';
 import GolfSwingMark from './GolfSwingMark';
+import HeroKeyword from './HeroKeyword';
 import TeknikPhone from './TeknikPhone';
 import TeamPhoto from '../assets/squash-team-court.jpg';
 import ControlRoom from '../assets/squash-control-room.jpg';
@@ -149,7 +150,7 @@ export default function LandingPage() {
       <section className="hero" id="top" aria-labelledby="hero-title">
         <div className="container">
           <p className="kicker hero-kicker">A clearer view of performance</p>
-          <h1 className="hero-title" id="hero-title"><span className="title-line">Every move.</span><span className="title-line">More <em>meaning.</em></span></h1>
+          <h1 className="hero-title" id="hero-title" aria-label="Every move. More meaning."><span className="title-line">Every move.</span><span className="title-line hero-title-dynamic"><span>More</span><HeroKeyword /></span></h1>
           <div className="hero-composition">
             <div className="hero-copy enter"><p>Turn sports video into a deeper understanding of performance. Real-time motion intelligence for coaches, teams, and the people moving sport forward.</p><div className="hero-actions"><a className="button button-red" href="#contact">Explore a demo <FiArrowUpRight aria-hidden="true" /></a><a className="text-link" href="#impact">See it in action <FiArrowRight aria-hidden="true" /></a></div><span className="hero-note">Built around your sport. Proven on court.</span></div>
             <figure className="hero-visual enter"><CourtScene /><figcaption><span className="caption-dot" /> Follow the movement. Find the meaning.<a href="#impact">See the real footage <FiArrowUpRight aria-hidden="true" /></a></figcaption></figure>

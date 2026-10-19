@@ -7,6 +7,35 @@
 .field-section { background: var(--charcoal); }
 .manifesto { background: var(--stone); }
 
+.hero-title .hero-title-dynamic {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: .14em;
+  max-width: 100%;
+}
+.hero-keyword { display: inline-flex; align-items: flex-start; flex: 0 0 auto; line-height: inherit; }
+.hero-keyword-mask {
+  display: grid;
+  grid-template-columns: max-content;
+  align-items: start;
+  line-height: inherit;
+  perspective: 9em;
+  /* Extend only the paint clip for descenders; never move the text's line box. */
+  clip-path: inset(-.2em 0);
+}
+.hero-keyword-word {
+  grid-area: 1 / 1;
+  display: block;
+  white-space: nowrap;
+  line-height: inherit;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  visibility: hidden;
+}
+.hero-keyword-word:first-child { visibility: visible; }
+.hero-keyword-period { flex: 0 0 auto; }
+
 @keyframes announcement-blink {
   0%, 20%, 100% { opacity: 1; }
   55% { opacity: .18; }
@@ -243,10 +272,11 @@
   .footer-ball-hint { transition: none; }
 }
 
-.court-scene-top { justify-content: space-between; }
+.court-scene-top { justify-content: space-between; flex-wrap: wrap; }
 .court-players-key, .court-players-key > span { display: inline-flex; align-items: center; gap: 7px; }
-.court-players-key { gap: 16px; }
-.court-players-key i { width: 7px; height: 7px; border-radius: 50%; background: var(--red); }
+.court-players-key { gap: 16px; flex-wrap: wrap; }
+.court-players-key > span, .court-scene-key { white-space: nowrap; }
+.court-players-key i { flex: 0 0 7px; width: 7px; height: 7px; border-radius: 50%; background: var(--red); }
 .court-players-key > span:last-child i { background: #292f27; }
 .court-scene-key i { width: 14px; height: 1px; border-radius: 0; }
 
