@@ -9,11 +9,12 @@ import TrajectoryAnnotations from './TrajectoryAnnotations';
 import { addTrajectoryEventAnimations } from '../lib/trajectoryEvents';
 import { VIDEO_TRAJECTORY, ANALYSIS_SEQUENCE } from '../data/analysisSequence';
 import useReducedMotion from '../lib/useReducedMotion';
+import { COURT_VIEWBOX } from '../lib/squashCourt';
 
 gsap.registerPlugin(DrawSVGPlugin, ScrollTrigger, useGSAP);
 
-const BOUNDS = { x: 108, y: 215, width: 540, height: 230 };
-const OBSTACLES = [{ x: 345, y: 324, width: 50, height: 65 }];
+const BOUNDS = { x: 165, y: 220, width: 430, height: 225 };
+const OBSTACLES = [];
 const stages = ['Video', 'Track', 'Insight'];
 const descriptions = [
   'A camera feed. The movement is already there.',
@@ -116,7 +117,7 @@ export default function VideoAnalysisDemo() {
   return <div className="process-graphic capture-graphic analysis-demo video-analysis" ref={root} data-ui>
     <div className="demo-header"><span>Input / Camera 01</span><span className={`demo-state ${stage ? 'is-tracking' : ''}`}><i />{['Video feed', 'Player identified', 'Analysis ready'][stage]}</span></div>
     <div className="demo-viewport">
-      <svg className="analysis-court" viewBox="70 50 620 425" role="img" aria-label={`${stages[stage]}: ${descriptions[stage]}${stage === 2 ? ' Illustrative Forehand and Backhand events. Peak speed 4.8 metres per second.' : ''}`}>
+      <svg className="analysis-court" viewBox={COURT_VIEWBOX} role="img" aria-label={`${stages[stage]}: ${descriptions[stage]} Regulation singles squash court, 9.75 by 6.4 metres.${stage === 2 ? ' Illustrative Forehand and Backhand events. Peak speed 4.8 metres per second.' : ''}`}>
         <CourtGeometry />
         <path className="demo-movement" ref={pathRef} d={VIDEO_TRAJECTORY.path} fill="none" stroke="var(--red)" strokeWidth="2.5" strokeLinejoin="round" />
         <TrajectoryAnnotations pathRef={pathRef} pathData={VIDEO_TRAJECTORY.path} events={VIDEO_TRAJECTORY.events} bounds={BOUNDS} obstacles={OBSTACLES} />

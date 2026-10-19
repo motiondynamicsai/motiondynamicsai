@@ -1,3 +1,5 @@
+import { SQUASH_COURT, projectCourt, projectCourtPlan } from '../lib/squashCourt';
+
 // One illustrative rally powers both technical demos. Coordinates are normalised
 // court positions, so presentation modes can project the same samples differently.
 export const ANALYSIS_SEQUENCE = {
@@ -20,10 +22,7 @@ export const ANALYSIS_SEQUENCE = {
 export const pathFromPoints = (points) => points.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' ');
 
 export function projectCourtPoint(point) {
-  const y = 225 + point.y * 180;
-  const left = 240 - point.y * 120;
-  const width = 350 + point.y * 180;
-  return { x: left + point.x * width, y };
+  return projectCourt(point.x * SQUASH_COURT.width, point.y * SQUASH_COURT.length);
 }
 
 export function trajectoryFromSamples(points, events) {
@@ -40,6 +39,6 @@ export const VIDEO_TRAJECTORY = trajectoryFromSamples(ANALYSIS_SEQUENCE.points.m
 export function applicationPoints(mode) {
   return ANALYSIS_SEQUENCE.points.map((point) => {
     if (mode === 'development') return { x: 82 + point.time / 4.4 * 556, y: 345 - point.speed / 5 * 230 };
-    return { x: 110 + point.x * 490, y: 100 + point.y * 280 };
+    return projectCourtPlan(point.x * SQUASH_COURT.width, point.y * SQUASH_COURT.length);
   });
 }

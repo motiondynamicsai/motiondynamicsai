@@ -1,22 +1,38 @@
-// Shared geometry from the original hero court; animation remains owned by each scene.
+import { COURT_FLOOR_LINES, COURT_PLAN_SCALE, COURT_T, SQUASH_COURT, courtPath, floorMarkingPath, projectCourtPlan } from '../lib/squashCourt';
+
+const { width: w, length: l, line, frontOut, backOut, service, tin } = SQUASH_COURT;
+const floor = [[0, 0], [w, 0], [w, l], [0, l]];
+const frontTop = frontOut + 0.35;
+const backTop = backOut + 0.35;
+const wallStripe = (bottom, top) => courtPath([[0, 0, bottom], [w, 0, bottom], [w, 0, top], [0, 0, top]], undefined, true);
+
 export default function CourtGeometry() {
   return <g className="court-geometry">
-        <path d="M100 430 L240 220 L590 220 L660 430 Z" fill="#ede5d9" />
-        <path d="M240 220 L240 78 L590 78 L590 220 Z" fill="#e6bfb1" />
-        <path d="M100 430 L100 204 L240 78 L240 220 Z" fill="#f0d7cb" />
-        <path d="M590 78 L660 204 L660 430 L590 220 Z" fill="#ead2c6" opacity=".5" />
-        <g fill="none" stroke="#55594f" strokeWidth="1.25" strokeLinejoin="round">
-          <path className="court-outline" d="M100 430 L240 220 L590 220 L660 430 Z" />
-          <path className="court-outline" d="M100 430 V204 L240 78 H590 L660 204 V430" />
-          <path className="court-outline" d="M240 78 V220 M590 78 V220" />
-          <path className="court-outline" d="M170 326 H626 M398 326 L380 430 M170 326 L155 349 H227 L239 326 M561 326 L567 349 H633" />
-        </g>
-        <g stroke="#b4423c" strokeWidth="2" fill="none">
-          <path className="court-outline" d="M100 241 L240 120 H590 L660 241" />
-          <path className="court-outline" d="M240 190 H590 M240 208 H590" />
-        </g>
-        <g stroke="#a29e91" strokeWidth=".6" opacity=".4">
-          <path d="M205 273 H608 M133 380 H643 M310 220 L265 430 M490 220 L519 430" />
-        </g>
+    <path d={courtPath(floor, undefined, true)} fill="#ede5d9" />
+    <path d={wallStripe(0, frontTop)} fill="#e6bfb1" />
+    <path d={courtPath([[0, l], [0, 0], [0, 0, frontTop], [0, l, backTop]], undefined, true)} fill="#f0d7cb" />
+    <path d={courtPath([[w, l], [w, 0], [w, 0, frontTop], [w, l, backTop]], undefined, true)} fill="#ead2c6" />
+    <path d={wallStripe(0, tin)} fill="#b3b4aa" fillOpacity=".3" />
+    <g fill="none" stroke="#55594f" strokeWidth="1" strokeLinejoin="round">
+      <path d={courtPath(floor, undefined, true)} />
+      <path d={courtPath([[0, l], [0, l, backTop], [0, 0, frontTop], [w, 0, frontTop], [w, l, backTop], [w, l]])} />
+      <path d={courtPath([[0, 0], [0, 0, frontTop]]) + courtPath([[w, 0], [w, 0, frontTop]])} />
+    </g>
+    <g fill="#686c61">{COURT_FLOOR_LINES.map((points, index) => <path key={index} d={floorMarkingPath(points)} />)}</g>
+    <g fill="#b4423c">
+      <path d={wallStripe(frontOut, frontOut + line)} />
+      <path d={wallStripe(service, service + line)} />
+      <path d={wallStripe(tin - line, tin)} />
+      {[0, w].map((x) => <path key={x} d={courtPath([[x, 0, frontOut], [x, l, backOut], [x, l, backOut + line], [x, 0, frontOut + line]], undefined, true)} />)}
+    </g>
+  </g>;
+}
+
+export function CourtPlan() {
+  return <g className="application-court" fill="none" stroke="#89967f" strokeWidth={line * COURT_PLAN_SCALE}>
+    <path d={courtPath(floor, projectCourtPlan, true)} />
+    {COURT_FLOOR_LINES.map((points, index) => <path key={index} d={courtPath(points, projectCourtPlan)} />)}
+    <text x="355" y="79" textAnchor="middle">Front wall</text>
+    <path d={`M${COURT_T.x - 7} ${COURT_T.y}h14 M${COURT_T.x} ${COURT_T.y - 7}v14`} stroke="var(--red)" />
   </g>;
 }

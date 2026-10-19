@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import { useGSAP } from '@gsap/react';
 import { Navigation } from './SiteChrome';
-import { AudienceGlyph, CourtScene } from './MotionGraphics';
+import { AudienceGlyph } from './MotionGraphics';
 import EventRecord from './EventRecord';
 import VideoAnalysisDemo from './VideoAnalysisDemo';
 import ApplicationDemo from './ApplicationDemo';
@@ -16,6 +16,7 @@ import FieldStatistics from './FieldStatistics';
 import GolfSwingMark from './GolfSwingMark';
 import HeroKeyword from './HeroKeyword';
 import TeknikPhone from './TeknikPhone';
+import ManifestoSequence from './ManifestoSequence';
 import TeamPhoto from '../assets/squash-team-court.jpg';
 import ControlRoom from '../assets/squash-control-room.jpg';
 import WideControlRoom from '../assets/squash-control-room-wide.jpg';
@@ -29,9 +30,9 @@ const fieldStories = [
   { image: WideControlRoom, alt: 'View of the live production desk and squash venue', title: 'Built for the real world.', description: 'From the control room to the court, every event gives us a practical setting to put motion intelligence to work.', caption: 'From camera feed to useful insight' },
 ];
 const audiences = [
-  { title: 'Coaches & teams', subtitle: 'A closer look at performance.', copy: 'Understand movement, revisit key moments, and bring a clearer picture into your next coaching conversation. Explore analysis built around your sport and your workflow.', action: 'Explore a team demo', subject: 'Coaching and team demo', graphic: 'coaching' },
-  { title: 'Event & broadcast teams', subtitle: 'More insight in every rally.', copy: 'Bring tracking and analytics into your coverage. We work with your camera feeds and production needs to make performance easier to see and explain.', action: 'Discuss your event', subject: 'Event and broadcast analytics', graphic: 'broadcast' },
-  { title: 'Partners & investors', subtitle: 'Help move the technology forward.', copy: 'Explore a company combining sports expertise, research, and practical deployment. Squash is our strongest proof; applications across sports are the next conversation.', action: 'Start a conversation', subject: 'Partnership and investment enquiry', graphic: 'growth' },
+  { title: 'Coaches & teams', subtitle: 'A closer look at performance.', copy: 'Understand movement, revisit key moments, and bring a clearer picture into your next coaching conversation. Explore analysis built around your sport and your workflow.', action: 'Book a demo', actionCaption: 'See the technology', subject: 'Coaching and team demo', graphic: 'coaching' },
+  { title: 'Event & broadcast teams', subtitle: 'More insight in every rally.', copy: 'Bring tracking and analytics into your coverage. We work with your camera feeds and production needs to make performance easier to see and explain.', action: 'Discuss an event', actionCaption: 'Bring insight to your coverage', subject: 'Event and broadcast analytics', graphic: 'broadcast' },
+  { title: 'Partners & investors', subtitle: 'Help move the technology forward.', copy: 'Explore a company combining sports expertise, research, and practical deployment. Squash is our strongest proof; applications across sports are the next conversation.', action: 'Partner or invest', actionCaption: 'Build what comes next', subject: 'Partnership and investment enquiry', graphic: 'growth' },
 ];
 const emailFor = (subject) => `mailto:contact@motiondynamics.ai?subject=${encodeURIComponent(subject)}`;
 
@@ -109,7 +110,7 @@ function AudienceAccordion() {
     <AudienceGlyph type={audience.graphic} />
     <p className="audience-preview" hidden={active === index} aria-hidden="true">{audience.subtitle}</p>
     <div className="audience-content" id={`audience-content-${index}`} role="region" aria-labelledby={`audience-trigger-${index}`} hidden={active !== index}>
-      <h4>{audience.subtitle}</h4><p>{audience.copy}</p><a className="text-link" href={emailFor(audience.subject)}>{audience.action}<FiArrowUpRight aria-hidden="true" /></a>
+      <h4>{audience.subtitle}</h4><p>{audience.copy}</p>
     </div>
   </article>)}</div>;
 }
@@ -124,7 +125,6 @@ export default function LandingPage() {
       gsap.utils.toArray('.enter').forEach((element) => {
         gsap.from(element, { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: element, start: 'top 92%', once: true } });
       });
-      gsap.fromTo('.manifesto-word', { opacity: 0.2 }, { opacity: 1, stagger: 0.15, ease: 'none', scrollTrigger: { trigger: '.manifesto-text', start: 'top 80%', end: 'bottom 45%', scrub: 0.5 } });
       gsap.fromTo('.reading-progress', { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom bottom', scrub: true } });
       gsap.from('.path-symbol path', { drawSVG: '0%', duration: 1.5, ease: 'power2.inOut', scrollTrigger: { trigger: '.benefit-grid', start: 'top 90%', once: true } });
       gsap.utils.toArray('.process-panel').forEach((panel) => {
@@ -139,7 +139,6 @@ export default function LandingPage() {
     return () => { mounted = false; mm.revert(); window.removeEventListener('load', refresh); };
   }, { scope: root });
 
-  const manifesto = 'A camera sees movement. We turn it into understanding. For the coach finding an edge. The team building consistency. And everyone taking sport further.';
 
   return <>
     <Navigation />
@@ -153,7 +152,6 @@ export default function LandingPage() {
           <h1 className="hero-title" id="hero-title" aria-label="Every move. More meaning."><span className="title-line">Every move.</span><span className="title-line hero-title-dynamic"><span>More</span><HeroKeyword /></span></h1>
           <div className="hero-composition">
             <div className="hero-copy enter"><p>Turn sports video into a deeper understanding of performance. Real-time motion intelligence for coaches, teams, and the people moving sport forward.</p><div className="hero-actions"><a className="button button-red" href="#contact">Explore a demo <FiArrowUpRight aria-hidden="true" /></a><a className="text-link" href="#impact">See it in action <FiArrowRight aria-hidden="true" /></a></div><span className="hero-note">Built around your sport. Proven on court.</span></div>
-            <figure className="hero-visual enter"><CourtScene /><figcaption><span className="caption-dot" /> Follow the movement. Find the meaning.<a href="#impact">See the real footage <FiArrowUpRight aria-hidden="true" /></a></figcaption></figure>
           </div>
         </div>
       </section>
@@ -175,19 +173,36 @@ export default function LandingPage() {
         <article className="us-open-panel enter" id="us-open"><div><p className="kicker">Next on court · Philadelphia, USA</p><h3>U.S. Open<br />Championships 2026</h3></div><div className="us-open-details"><p className="event-dates"><time dateTime="2026-11-01">1</time>–<time dateTime="2026-11-07">7 November</time><span>2026 · Arlen Specter US Squash Center</span></p><p>PSA covers and broadcasts the competition. Motion Dynamics supplies the analytical technology behind the insights.</p><a className="text-link" href="https://usopensquash.com/tickets/" target="_blank" rel="noopener noreferrer">Official event & schedule <FiArrowUpRight aria-hidden="true" /></a></div></article>
       </div></section>
 
-      <section className="manifesto section-space"><div className="container"><p className="kicker">Built for a deeper understanding</p><p className="manifesto-text" aria-label={manifesto} aria-hidden="false">{manifesto.split(' ').map((word, index) => <span className="manifesto-word" aria-hidden="true" key={`${word}-${index}`}>{word} </span>)}</p></div></section>
+      <ManifestoSequence />
 
       <section className="technology section-space" id="pipeline"><div className="container"><div className="section-heading enter"><p className="kicker">The technology, made useful</p><h2>From camera.<br />To clarity.</h2><p>A connected process, built around the sport, the setting, and the decisions you need to make.</p></div><div className="process-stack">
         <article className="process-panel"><div className="process-inner"><div className="process-copy"><span className="kicker">Capture</span><h3>It starts<br />with your video.</h3><p>Bring us your broadcast, venue, or training footage. We build a video pipeline around your environment and the movements you want to understand.</p><span className="process-foot">Camera feeds → Video pipeline</span></div><VideoAnalysisDemo /></div></article>
-        <article className="process-panel process-understand"><div className="process-inner"><div className="process-copy"><span className="kicker">Understand</span><h3>Movement becomes<br />meaningful data.</h3><p>Computer vision follows the action. Player and ball tracking, motion analysis, and 3D reconstruction reveal detail that is difficult to see at full speed.</p><span className="process-foot">Tracking → Motion intelligence</span></div><MotionVideo src={`${media}reconstruction-3d.mp4`} poster={`${media}reconstruction-3d-poster.jpg`} label="3D movement reconstruction" /></div></article>
+        <article className="process-panel process-understand"><div className="process-inner"><div className="process-copy"><span className="kicker">Understand</span><h3>Movement becomes<br />meaningful data.</h3><p>Computer vision follows the action. Player and ball tracking, motion analysis, and 3D reconstruction reveal detail that is difficult to see at full speed.</p><span className="process-foot">Tracking → Motion intelligence</span></div><MotionVideo src={`${media}torkey_3d_dive.mp4`} poster={`${media}torkey_3d_dive-poster.jpg`} label="3D movement reconstruction" /></div></article>
         <article className="process-panel process-apply"><div className="process-inner"><div className="process-copy"><span className="kicker">Apply</span><h3>Insight that<br />fits your world.</h3><p>Bring analysis into coaching, player development, or broadcast storytelling. The output is designed for the people who will actually use it.</p><span className="process-foot">Analysis → Coaching & coverage</span></div><ApplicationDemo /></div></article>
       </div></div></section>
 
       <section className="beyond-squash section-space" id="teknik"><div className="container beyond-grid"><div className="beyond-copy enter"><p className="kicker">Proven in squash. Built to go further.</p><h2>Different sports.<br /><em>Same curiosity.</em></h2><p>Our work with Teknik brings motion analysis into tennis. The same approach—video, movement, understanding—opens conversations across sports.</p><p>For partners and investors, this is the opportunity: help develop technology with real experience on court and room to grow.</p><a className="text-link" href={emailFor('Multi-sport partnership enquiry')}>Explore what we could build <FiArrowUpRight aria-hidden="true" /></a></div><TeknikPhone /></div><PartnerStrip /></section>
 
-      <section className="audiences section-space" id="uses"><div className="container"><div className="section-heading enter"><p className="kicker">A shared interest in better performance</p><h2>What could you<br />see differently?</h2></div><AudienceAccordion /></div></section>
-
-      <section className="contact section-space" id="contact"><div className="container contact-content"><p className="kicker">Let’s move things forward</p><h2>Your sport.<br />Our next conversation.</h2><p>See the technology, talk through your event, or explore where we could go together.</p><div className="contact-options"><a href={emailFor('Motion Dynamics demo request')}><span>See the technology</span><strong>Book a demo <FiArrowUpRight aria-hidden="true" /></strong></a><a href={emailFor('Event analytics enquiry')}><span>Bring insight to your coverage</span><strong>Discuss an event <FiArrowUpRight aria-hidden="true" /></strong></a><a href={emailFor('Partnership and investment enquiry')}><span>Build what comes next</span><strong>Partner or invest <FiArrowUpRight aria-hidden="true" /></strong></a></div><div className="contact-bottom"><a href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai</a><Link to="/team">Meet the people behind it <FiArrowRight aria-hidden="true" /></Link></div></div></section>
+      <section className="audiences section-space" id="uses">
+        <div className="container" id="contact">
+          <div className="section-heading enter">
+            <p className="kicker">A shared interest in better performance</p>
+            <h2>What could you<br />see differently?</h2>
+            <p>See the technology, talk through your event, or explore where we could go together.</p>
+          </div>
+          <AudienceAccordion />
+          <div className="contact-options" role="group" aria-label="Start a conversation">
+            {audiences.map((audience) => <a key={audience.title} href={emailFor(audience.subject)}>
+              <span>{audience.actionCaption}</span>
+              <strong>{audience.action}<FiArrowUpRight aria-hidden="true" /></strong>
+            </a>)}
+          </div>
+          <div className="contact-bottom audience-contact">
+            <a href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai</a>
+            <Link to="/team">Meet the people behind it <FiArrowRight aria-hidden="true" /></Link>
+          </div>
+        </div>
+      </section>
     </main>
     <WaveFooter />
   </>;

@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import TrajectoryAnnotations from './TrajectoryAnnotations';
 import CourtGeometry from './CourtGeometry';
+import { SQUASH_COURT, COURT_FLOOR_LINES, courtPath } from '../lib/squashCourt';
 import { COURT_TRAJECTORY } from '../data/courtTrajectory';
 import { addTrajectoryEventAnimations } from '../lib/trajectoryEvents';
 import { createPlayerTracks, DEFAULT_PLAYERS, playerPositionAtProgress, resolveRallyEvents } from '../lib/rallyMotion';
@@ -112,9 +113,26 @@ export function CourtScene({ trajectory = COURT_TRAJECTORY }) {
   </div>;
 }
 
+// The small coaching illustration uses the same regulation floor as the demos.
+const GLYPH_COURT_SCALE = 14;
+const projectGlyphCourt = (x, y) => ({ x: 130 + (x - SQUASH_COURT.width / 2) * GLYPH_COURT_SCALE, y: 14 + y * GLYPH_COURT_SCALE });
+const glyphCourtOutline = courtPath([[0, 0], [SQUASH_COURT.width, 0], [SQUASH_COURT.width, SQUASH_COURT.length], [0, SQUASH_COURT.length]], projectGlyphCourt, true);
+const glyphPoint = (x, y) => { const point = projectGlyphCourt(x, y); return `${point.x} ${point.y}`; };
+const glyphShot = `M${glyphPoint(1.1, 8.1)} Q${glyphPoint(4.9, 6.3)} ${glyphPoint(2.9, 2.4)} Q${glyphPoint(1.8, .8)} ${glyphPoint(5.2, 3.6)}`;
+
 export function AudienceGlyph({ type }) {
   return <svg className={`audience-glyph audience-glyph-${type}`} viewBox="0 0 260 165" aria-hidden="true" focusable="false">
-    {type === 'coaching' && <g fill="none" strokeWidth="1.3"><path d="M62 29 H198 V137 H62 Z M62 88 H198 M130 88 V137 M62 88 H93 V111 H62 M198 88 H167 V111 H198" stroke="#adaf9f" /><path className="glyph-path" d="M86 118 Q163 97 127 52 Q102 29 176 74" stroke="#c93638" strokeWidth="2" /><circle cx="86" cy="118" r="5" fill="#c93638" stroke="none" /><circle cx="176" cy="74" r="7" stroke="#c93638" /></g>}
+    {type === 'coaching' && <g fill="none">
+      <g stroke="#adaf9f" strokeWidth={SQUASH_COURT.line * GLYPH_COURT_SCALE}>
+        <path d={glyphCourtOutline} />
+        {COURT_FLOOR_LINES.map((points, index) => <path key={index} d={courtPath(points, projectGlyphCourt)} />)}
+      </g>
+      <path className="glyph-path" d={glyphShot} stroke="#c93638" strokeWidth="1.6" />
+      {[[1.1, 8.1], [5.2, 3.6]].map(([x, y], index) => {
+        const point = projectGlyphCourt(x, y);
+        return <circle key={index} cx={point.x} cy={point.y} r={index ? 5 : 3.5} fill={index ? 'none' : '#c93638'} stroke="#c93638" strokeWidth="1" />;
+      })}
+    </g>}
     {type === 'broadcast' && <g fill="none" stroke="#c93638" strokeWidth="1.7"><rect x="83" y="54" width="73" height="54" rx="4" /><path d="M156 68 L181 58 V104 L156 94 M110 108 V128 M91 128 H151" /><path className="glyph-path" d="M64 55 Q42 81 64 108 M49 39 Q14 81 49 124 M204 55 Q226 81 204 108 M218 39 Q253 81 218 124" stroke="#9ba08f" /><circle cx="120" cy="81" r="13" /><circle cx="120" cy="81" r="4" fill="#c93638" stroke="none" /></g>}
     {type === 'growth' && <g fill="none" strokeWidth="1.6"><path className="glyph-path" d="M46 126 L103 92 L157 108 L214 36" stroke="#c93638" /><path d="M46 126 V146 M103 92 V146 M157 108 V146 M214 36 V146 M31 146 H230" stroke="#b2b6a8" /><path d="M194 36 H214 V56" stroke="#c93638" />{[[46,126],[103,92],[157,108],[214,36]].map(([x,y]) => <circle key={x} cx={x} cy={y} r="6" fill="#f7f6f2" stroke="#c93638" />)}</g>}
   </svg>;

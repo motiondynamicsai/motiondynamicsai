@@ -35,8 +35,34 @@ export default function FieldStatistics() {
         if (dots.length) timeline.from(dots, { opacity: 0, duration: .3, stagger: .035 }, start);
       });
       timeline.fromTo('.stat-packet', { attr: { cx: 9 } }, { attr: { cx: 51 }, duration: .8, ease: 'power1.inOut' }, .32);
+
+      const dataCount = root.current.querySelector('.stat-data-count');
+      const dataNumber = dataCount.querySelector('text');
+      const dataFinal = root.current.querySelector('.stat-data-final');
+      const counter = { value: 0 };
+      const formatCount = new Intl.NumberFormat('en-GB');
+      const countStart = .47;
+      const countDuration = 3;
+      const settleAt = countStart + countDuration + .4;
+
+      // Count individual points past the eight-million threshold, then abbreviate.
+      // This is a visual threshold illustration; the reported metric remains 8M+.
+      timeline.set(dataFinal, { autoAlpha: 0 }, 0)
+        .set(dataCount, { autoAlpha: 1 }, 0)
+        .to(counter, {
+          value: 8_012_851,
+          duration: countDuration,
+          ease: 'power2.out',
+          onUpdate: () => { dataNumber.textContent = formatCount.format(Math.floor(counter.value)); },
+        }, countStart)
+        .to(dataCount, { autoAlpha: 0, duration: .18 }, settleAt)
+        .to(dataFinal, { autoAlpha: 1, duration: .18 }, settleAt + .1);
+
       // Keep the accessible copy and reduced-motion view at their final values.
-      return () => root.current?.querySelectorAll('[data-count]').forEach((number) => { number.textContent = number.dataset.count; });
+      return () => {
+        root.current?.querySelectorAll('[data-count]').forEach((number) => { number.textContent = number.dataset.count; });
+        dataNumber.textContent = '0';
+      };
     });
     return () => mm.revert();
   }, { scope: root });
@@ -66,7 +92,7 @@ export default function FieldStatistics() {
       <span className="stat-rule stat-rule-vertical" aria-hidden="true" /><span className="stat-rule stat-rule-horizontal" aria-hidden="true" />
       <div className="stat-content" aria-hidden="true">
         <div className="stat-top"><span>Data capture</span><svg className="stat-motif stat-data-grid" viewBox="0 0 60 24">{Array.from({ length: 15 }, (_, index) => <circle className="stat-dot" key={index} cx={10 + (index % 5) * 10} cy={5 + Math.floor(index / 5) * 7} r="1.3" />)}</svg></div>
-        <div className="stat-body stat-pair"><div><strong className="stat-metric"><span className="stat-number" data-count="8">8</span><span className="stat-suffix">M+</span></strong><span className="stat-label">Data points</span></div><div><strong className="stat-metric"><span className="stat-number" data-count="13">13</span></strong><span className="stat-label">Days running</span></div></div>
+        <div className="stat-body stat-pair"><div><strong className="stat-metric stat-data-metric"><span className="stat-data-final"><span className="stat-number">8</span><span className="stat-suffix">M+</span></span><svg className="stat-data-count" viewBox="0 0 168 60" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><text x="0" y="46">0</text></svg></strong><span className="stat-label">Data points</span></div><div><strong className="stat-metric"><span className="stat-number" data-count="13">13</span></strong><span className="stat-label">Days running</span></div></div>
       </div>
     </div>
   </div>;
