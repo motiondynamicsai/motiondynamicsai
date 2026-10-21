@@ -70,7 +70,7 @@
   line-height: inherit;
   perspective: 9em;
   /* Extend only the paint clip for descenders; never move the text's line box. */
-  clip-path: inset(-.2em 0);
+  clip-path: inset(-.2em -.12em);
 }
 .hero-keyword-word {
   grid-area: 1 / 1;
@@ -82,7 +82,7 @@
   visibility: hidden;
 }
 .hero-keyword-word:first-child { visibility: visible; }
-.hero-keyword-period { flex: 0 0 auto; }
+.hero-keyword-period { display: inline; }
 
 @keyframes announcement-blink {
   0%, 20%, 100% { opacity: 1; }
