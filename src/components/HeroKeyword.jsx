@@ -55,8 +55,7 @@ export default function HeroKeyword() {
   // the slot, and the text needs no absolute-position or font-dependent offset.
   return <em className="hero-keyword" ref={root} aria-hidden="true">
     <span className="hero-keyword-mask">
-      {keywords.map((word) => <span className="hero-keyword-word" key={word}>{word}</span>)}
+      {keywords.map((word) => <span className="hero-keyword-word" key={word}>{word}<span className="hero-keyword-period">.</span></span>)}
     </span>
-    <span className="hero-keyword-period">.</span>
   </em>;
 }
