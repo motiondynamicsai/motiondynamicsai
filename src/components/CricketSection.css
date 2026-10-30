@@ -1,0 +1,112 @@
+.cricket-section { background: var(--paper); color: var(--ink); }
+.home-page .cricket-section.section-space { padding-block: clamp(40px, 3vw, 56px); }
+
+.cricket-heading { display: grid; grid-template-columns: 1.54fr 1fr; align-items: center; gap: 14px; margin-bottom: 32px; }
+.cricket-section-label { color: var(--red); margin-bottom: 18px; }
+.cricket-title-row { display: flex; align-items: center; gap: 14px; }
+.cricket-heading h2 { font-size: clamp(56px, 6.2vw, 84px); line-height: .92; letter-spacing: -.055em; }
+.cricket-title-accent { color: var(--red); }
+.cricket-heading-bat { width: 64px; height: 82px; flex-shrink: 0; overflow: visible; color: var(--red); }
+.cricket-intro { max-width: 430px; font-size: 17px; line-height: 1.6; }
+
+.cricket-showcase { display: grid; grid-template-columns: 1.54fr 1fr; grid-template-areas: 'media insights' 'views .'; align-items: stretch; gap: 12px 14px; }
+.cricket-feature-media { grid-area: media; position: relative; min-width: 0; min-height: 0; aspect-ratio: 16 / 9; margin: 0; overflow: hidden; isolation: isolate; background: var(--charcoal); color: var(--paper); }
+.cricket-feature-media > video,
+.cricket-feature-media > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.cricket-feature-media > .cricket-pitch-photo { object-position: 50% 56%; }
+/* A neutral photo scrim keeps the reference's white caption readable. */
+.cricket-media-scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, #0003 0%, #0001 42%, #000b 100%); }
+.cricket-media-label { position: absolute; top: 28px; left: 30px; display: flex; align-items: center; gap: 14px; color: var(--paper); font-size: 11px; line-height: 1.4; letter-spacing: .1em; text-transform: uppercase; }
+.cricket-media-label::after { content: ''; width: clamp(40px, 7vw, 110px); height: 1px; background: currentColor; opacity: .55; }
+.cricket-media-toggle { position: absolute; z-index: 2; right: 22px; bottom: 22px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid #fff9; border-radius: 50%; background: #171a1573; color: white; transition: background 180ms ease, border-color 180ms ease; }
+.cricket-media-toggle svg { width: 17px; height: 17px; }
+.cricket-media-caption { position: absolute; bottom: 30px; left: 30px; max-width: 350px; pointer-events: none; }
+.cricket-media-caption h3 { color: var(--paper); font-size: clamp(28px, 2.7vw, 38px); line-height: 1.04; letter-spacing: -.035em; font-weight: 500; }
+.cricket-media-caption p { max-width: 340px; margin-top: 12px; color: var(--paper); font-size: 14px; line-height: 1.55; }
+.cricket-duration { position: absolute; bottom: 32px; right: 82px; color: var(--paper); font-size: 11px; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
+
+.cricket-insights { grid-area: insights; display: grid; grid-template-rows: 1.07fr 1fr; gap: 10px; min-width: 0; }
+.cricket-insight { position: relative; min-width: 0; overflow: hidden; isolation: isolate; background: var(--stone); padding: clamp(56px, 5.1vw, 74px) clamp(22px, 2vw, 30px) 18px; }
+.cricket-insight-movement,
+.cricket-insight-pattern { padding-right: calc(36% + 20px); }
+.cricket-insight-pattern { padding-top: clamp(44px, 4vw, 58px); }
+.cricket-insight-photo { position: absolute; inset: 0 0 0 auto; width: 36%; height: 100%; display: block; object-fit: cover; object-position: 40% 46%; }
+.cricket-insight-movement .cricket-insight-photo { object-position: 35% 50%; }
+.cricket-insight-index { position: absolute; top: 24px; left: clamp(22px, 2vw, 30px); display: flex; align-items: center; gap: 14px; font-size: 11px; line-height: 1.4; }
+.cricket-insight-index::after { content: ''; width: 34px; height: 1px; background: var(--red); }
+.cricket-insight-copy { position: relative; z-index: 1; max-width: 300px; }
+.cricket-insight h3 { font-size: clamp(20px, 1.7vw, 24px); line-height: 1.16; letter-spacing: -.035em; font-weight: 500; }
+.cricket-insight p { max-width: 280px; margin-top: 9px; color: #53564f; font-size: 13px; line-height: 1.55; }
+.cricket-insight-action { position: relative; display: grid; place-items: center; width: 44px; height: 44px; margin: 8px 0 -1px -5px; padding: 0; border: 0; background: transparent; color: var(--ink); }
+.cricket-insight-action::before { content: ''; position: absolute; inset: 5px; border: 1px solid #8c8e86; border-radius: 50%; transition: background 180ms ease, border-color 180ms ease; }
+.cricket-insight-action svg { position: relative; width: 14px; height: 14px; transition: transform 180ms ease; }
+
+.cricket-views { grid-area: views; display: flex; align-items: stretch; gap: clamp(28px, 4vw, 54px); min-width: 0; }
+.cricket-views::after { content: ''; flex: 1; height: 1px; background: #b8b9b1; align-self: center; margin-left: -12px; }
+.cricket-views button { display: flex; align-items: center; gap: 18px; min-height: 52px; padding: 8px 0 10px; border: 0; border-bottom: 1px solid #c9cac3; background: transparent; color: var(--muted); font-size: 13px; white-space: nowrap; transition: color 180ms ease, border-color 180ms ease; }
+.cricket-views button > span { font-size: 11px; }
+.cricket-views button[aria-pressed='true'] { color: var(--ink); border-bottom: 2px solid var(--red); }
+.cricket-media-toggle:focus-visible,
+.cricket-insight-action:focus-visible,
+.cricket-views button:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .cricket-media-toggle:hover { background: var(--red); border-color: var(--red); }
+  .cricket-insight-action:hover::before { background: var(--paper); border-color: var(--red); }
+  .cricket-insight-action:hover svg { transform: translate(2px, -2px); }
+  .cricket-views button:hover { color: var(--red); }
+}
+
+@media (max-width: 1100px) {
+  .cricket-heading { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .cricket-heading h2 { font-size: 68px; }
+  .cricket-intro { font-size: 16px; }
+  .cricket-showcase { grid-template-columns: 1fr; grid-template-areas: 'media' 'views' 'insights'; row-gap: 16px; }
+  .cricket-insights { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+  .cricket-insight { padding-top: 72px; }
+  .cricket-insight-movement,
+  .cricket-insight-pattern { padding-right: calc(30% + 16px); }
+  .cricket-insight-photo { width: 30%; }
+  .cricket-insight h3 { font-size: 22px; }
+}
+
+@media (max-width: 700px) {
+  .cricket-heading { grid-template-columns: 1fr; gap: 24px; margin-bottom: 28px; }
+  .cricket-heading h2 { font-size: clamp(52px, 10vw, 68px); }
+  .cricket-section-label { margin-bottom: 16px; }
+  .cricket-intro { max-width: 440px; }
+  .cricket-title-row { gap: 12px; }
+  .cricket-heading-bat { width: 52px; height: 72px; }
+}
+
+@media (max-width: 560px) {
+  .cricket-feature-media { aspect-ratio: 4 / 3; }
+  .cricket-media-label { left: 20px; top: 22px; font-size: 10px; gap: 12px; }
+  .cricket-media-label::after { width: 42px; }
+  .cricket-media-toggle { top: 18px; right: 18px; bottom: auto; width: 56px; height: 56px; }
+  .cricket-media-caption { bottom: 22px; left: 20px; max-width: 235px; }
+  .cricket-media-caption h3 { font-size: 28px; }
+  .cricket-media-caption p { margin-top: 9px; font-size: 12px; line-height: 1.5; }
+  .cricket-duration { display: none; }
+  .cricket-views { gap: 28px; }
+  .cricket-views button { font-size: 12px; gap: 12px; }
+  .cricket-views::after { margin-left: -8px; }
+  .cricket-insights { grid-template-columns: 1fr; gap: 12px; }
+  .cricket-insight { padding: 70px 24px 18px; }
+  .cricket-insight-movement,
+  .cricket-insight-pattern { padding-right: calc(30% + 16px); }
+  .cricket-insight-pattern { padding-top: 60px; }
+  .cricket-insight-index { left: 24px; }
+  .cricket-insight p { max-width: 255px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cricket-media-toggle,
+  .cricket-insight-action::before,
+  .cricket-insight-action svg,
+  .cricket-views button { transition: none; }
+}
+
+@media (max-width: 360px) {
+  .cricket-media-toggle { width: 48px; height: 48px; }
+}

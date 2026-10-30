@@ -8,6 +8,7 @@ import { useGSAP } from '@gsap/react';
 import { Navigation } from './SiteChrome';
 import { AudienceGlyph } from './MotionGraphics';
 import EventRecord from './EventRecord';
+import CricketSection from './CricketSection';
 import VideoAnalysisDemo from './VideoAnalysisDemo';
 import ApplicationDemo from './ApplicationDemo';
 import PartnerStrip from './PartnerStrip';
@@ -15,6 +16,7 @@ import WaveFooter from './WaveFooter';
 import FieldStatistics from './FieldStatistics';
 import GolfSwingMark from './GolfSwingMark';
 import HeroKeyword from './HeroKeyword';
+import SportsMorph from './SportsMorph';
 import TeknikPhone from './TeknikPhone';
 import ManifestoSequence from './ManifestoSequence';
 import TeamPhoto from '../assets/squash-team-court.jpg';
@@ -152,11 +154,14 @@ export default function LandingPage() {
           <h1 className="hero-title" id="hero-title" aria-label="Every move. More meaning."><span className="title-line">Every move.</span><span className="title-line hero-title-dynamic"><span>More</span><HeroKeyword /></span></h1>
           <div className="hero-composition">
             <div className="hero-copy enter"><p>Turn sports video into a deeper understanding of performance. Real-time motion intelligence for coaches, teams, and the people moving sport forward.</p><div className="hero-actions"><a className="button button-red" href="#contact">Explore a demo <FiArrowUpRight aria-hidden="true" /></a><a className="text-link" href="#impact">See it in action <FiArrowRight aria-hidden="true" /></a></div><span className="hero-note">Built around your sport. Proven on court.</span></div>
+            <SportsMorph />
           </div>
         </div>
       </section>
 
       <EventRecord />
+
+      <CricketSection />
 
       <section className="understanding section-space" id="performance"><div className="container"><div className="section-heading enter"><p className="kicker">From footage to feedback</p><h2>Make every frame<br />work <GolfSwingMark /> for you.</h2><p>See the patterns behind the performance. Bring movement, decisions, and development into focus.</p></div>
         <div className="benefit-grid">

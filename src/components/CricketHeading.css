@@ -1,0 +1,19 @@
+.cricket-title-row { position: relative; isolation: isolate; }
+.cricket-title-row h2 { position: relative; z-index: 2; }
+.cricket-title-row .cricket-heading-bat { position: relative; z-index: 1; }
+.cricket-dot-anchor { display: inline; }
+.cricket-dot-motion,
+.cricket-dot-glyph { display: inline-block; position: relative; }
+.cricket-dot-glyph { transition: transform 180ms ease; }
+.cricket-dot-baseline { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+.cricket-dot-seam { position: absolute; overflow: visible; opacity: 0; pointer-events: none; }
+.cricket-dot-seam path { fill: none; stroke: var(--paper); stroke-width: 1.25; stroke-linecap: round; stroke-dasharray: 1.5 1.8; }
+.cricket-dot-trigger { position: absolute; z-index: 4; display: block; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; touch-action: manipulation; visibility: hidden; -webkit-tap-highlight-color: transparent; }
+.cricket-title-row[data-ready='true'] .cricket-dot-trigger { visibility: visible; }
+.cricket-dot-trigger:focus-visible { outline: 1.5px solid var(--red); outline-offset: -4px; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cricket-title-row[data-phase='idle'][data-dot-hover='true'] .cricket-dot-glyph { transform: translateY(-1px) rotate(6deg) scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cricket-dot-glyph { transition: none; }
+}
