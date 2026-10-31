@@ -177,16 +177,21 @@ export default function FooterBall() {
     </g>
     <circle className="footer-ball-impact" cx={x} cy={y} r="23" fill="none" stroke="#f0444f" strokeWidth="1" opacity="0" aria-hidden="true" />
     <FooterBallMark />
-    <foreignObject className="footer-ball-control" x={x - 52} y={y - 52} width="104" height="104">
-      <button
-        type="button"
-        className="footer-ball-hit"
-        aria-label={`Hit the ball with a ${sport.implement}`}
-        aria-disabled={busy}
-        onClick={() => activate.current?.()}
-      >
-        <span className="footer-ball-hint" aria-hidden="true">Hit / {sport.name}</span>
-      </button>
-    </foreignObject>
+    <g
+      className="footer-ball-control footer-ball-hit"
+      role="button"
+      tabIndex={0}
+      aria-label={`Hit the ball with a ${sport.implement}`}
+      aria-disabled={busy}
+      onClick={() => activate.current?.()}
+      onKeyDown={(event) => {
+        if (busy || (event.key !== 'Enter' && event.key !== ' ')) return;
+        event.preventDefault();
+        activate.current?.();
+      }}
+    >
+      <circle className="footer-ball-hit-target" cx={x} cy={y} r="52" />
+      <text className="footer-ball-hint" x={x} y={y + 70} aria-hidden="true">Hit / {sport.name}</text>
+    </g>
   </g>;
 }

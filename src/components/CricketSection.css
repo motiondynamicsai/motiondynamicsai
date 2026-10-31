@@ -100,6 +100,12 @@
   .cricket-insight p { max-width: 255px; }
 }
 
+@supports not (aspect-ratio: 3 / 4) {
+  @media (max-width: 560px) {
+    .cricket-feature-media { height: calc(133.333vw - 53.333px); }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cricket-media-toggle,
   .cricket-insight-action::before,

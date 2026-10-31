@@ -320,11 +320,11 @@
 .footer-wave { position: absolute; z-index: 0; bottom: 0; right: 0; display: block; width: 100%; height: auto; max-width: 1600px; pointer-events: none; }
 .footer-ball-tools { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .footer-ball-control { pointer-events: auto; overflow: visible; }
-.footer-ball-hit { position: relative; display: block; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; outline: none; }
+.footer-ball-hit { color: var(--ink); cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; outline: none; pointer-events: all; }
 .footer-ball-hit[aria-disabled="true"] { cursor: default; }
-.footer-ball-hit:focus-visible { outline: none; }
-.footer-ball-hit:focus-visible:not([aria-disabled="true"]) { outline: 1.5px solid var(--ink); outline-offset: -22px; }
-.footer-ball-hint { position: absolute; top: 88px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-family: 'IBM Plex Mono', monospace; font-size: 10px; line-height: 1; letter-spacing: .07em; text-transform: uppercase; opacity: 0; transition: opacity .15s; }
+.footer-ball-hit-target { fill: transparent; pointer-events: all; }
+.footer-ball-hit:focus-visible:not([aria-disabled="true"]) .footer-ball-hit-target { stroke: var(--ink); stroke-width: 1.5; }
+.footer-ball-hint { fill: currentColor; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .07em; text-anchor: middle; text-transform: uppercase; opacity: 0; transition: opacity .15s; pointer-events: none; }
 .footer-ball-hit:focus-visible:not([aria-disabled="true"]) .footer-ball-hint { opacity: 1; }
 @media (hover: hover) and (pointer: fine) {
   .footer-ball-hit:hover:not([aria-disabled="true"]) .footer-ball-hint { opacity: 1; }
