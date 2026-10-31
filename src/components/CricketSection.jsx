@@ -75,13 +75,15 @@ export default function CricketSection() {
 
       <div className="cricket-showcase">
         <figure className={`cricket-feature-media${playing ? ' is-playing' : ''}`} id="cricket-view" ref={stageRef}>
-          {view === 'nets'
-            ? <video ref={videoRef} src={`${media}cricket-delivery.mp4`} poster={`${media}cricket-delivery-poster.webp`}
-              muted loop playsInline preload="metadata" aria-label="A delivery at our cricket demo"
-              onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
-              onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
-            : <img className="cricket-pitch-photo" src={`${media}cricket-at-the-crease.webp`}
-              alt="A batter playing a shot with a wicketkeeper behind the stumps on a grass cricket pitch" width="1200" height="1600" />}
+          <div className={`cricket-feature-visual ${view === 'pitch' ? 'is-photo' : 'is-video'}`}>
+            {view === 'nets'
+              ? <video ref={videoRef} src={`${media}cricket-delivery.mp4`} poster={`${media}cricket-delivery-poster.webp`}
+                muted loop playsInline preload="metadata" aria-label="A delivery at our cricket demo"
+                onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
+                onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+              : <img className="cricket-pitch-photo" src={`${media}cricket-at-the-crease.webp`}
+                alt="A batter playing a shot with a wicketkeeper behind the stumps on a grass cricket pitch" width="1200" height="1600" />}
+          </div>
           <div className="cricket-media-scrim" aria-hidden="true" />
           <span className="cricket-media-label" aria-live="polite">{view === 'nets' ? 'In the nets' : 'At the crease'}</span>
           {view === 'nets' && <button className="cricket-media-toggle" type="button" onClick={playing ? pauseDemo : () => playDemo()} aria-label={playing ? 'Pause cricket demo' : 'Resume cricket demo'}>{playing ? <FiPause aria-hidden="true" /> : <FiPlay aria-hidden="true" />}</button>}
