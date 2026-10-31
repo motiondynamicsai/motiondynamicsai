@@ -82,6 +82,7 @@
 
 @media (max-width: 560px) {
   .cricket-feature-visual { aspect-ratio: 3 / 4; }
+  .cricket-feature-visual > video { object-position: 65% center; }
   .cricket-media-label { left: 20px; top: 22px; font-size: 10px; gap: 12px; }
   .cricket-media-label::after { width: 42px; }
   .cricket-media-toggle { top: 18px; right: 18px; bottom: auto; width: 56px; height: 56px; }
