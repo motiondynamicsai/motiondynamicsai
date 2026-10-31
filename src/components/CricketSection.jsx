@@ -75,7 +75,7 @@ export default function CricketSection() {
 
       <div className="cricket-showcase">
         <figure className={`cricket-feature-media${playing ? ' is-playing' : ''}`} id="cricket-view" ref={stageRef}>
-          <div className={`cricket-feature-visual ${view === 'pitch' ? 'is-photo' : 'is-video'}`}>
+          <div className="cricket-feature-visual">
             {view === 'nets'
               ? <video ref={videoRef} src={`${media}cricket-delivery.mp4`} poster={`${media}cricket-delivery-poster.webp`}
                 muted loop playsInline preload="metadata" aria-label="A delivery at our cricket demo"
