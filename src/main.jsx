@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import './components/Experience.css'
+import './components/SquashPage.css'
+import './components/TennisCourt.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

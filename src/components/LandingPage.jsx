@@ -9,8 +9,6 @@ import { Navigation } from './SiteChrome';
 import { AudienceGlyph } from './MotionGraphics';
 import EventRecord from './EventRecord';
 import CricketSection from './CricketSection';
-import VideoAnalysisDemo from './VideoAnalysisDemo';
-import ApplicationDemo from './ApplicationDemo';
 import PartnerStrip from './PartnerStrip';
 import WaveFooter from './WaveFooter';
 import FieldStatistics from './FieldStatistics';
@@ -19,6 +17,7 @@ import HeroKeyword from './HeroKeyword';
 import SportsMorph from './SportsMorph';
 import TeknikPhone from './TeknikPhone';
 import ManifestoSequence from './ManifestoSequence';
+import TennisCourtMotion from './TennisCourtMotion';
 import TeamPhoto from '../assets/squash-team-court.jpg';
 import ControlRoom from '../assets/squash-control-room.jpg';
 import WideControlRoom from '../assets/squash-control-room-wide.jpg';
@@ -37,6 +36,11 @@ const audiences = [
   { title: 'Partners & investors', subtitle: 'Help move the technology forward.', copy: 'Explore a company combining sports expertise, research, and practical deployment. Squash is our strongest proof; applications across sports are the next conversation.', action: 'Partner or invest', actionCaption: 'Build what comes next', subject: 'Partnership and investment enquiry', graphic: 'growth' },
 ];
 const emailFor = (subject) => `mailto:contact@motiondynamics.ai?subject=${encodeURIComponent(subject)}`;
+const tennisMoments = [
+  { label: 'Serve', note: 'Follow the serve from toss to follow-through.', path: 'M160 440 C310 340 420 250 560 185 C680 130 770 130 900 70', ball: [900, 70] },
+  { label: 'Rally', note: 'Trace how movement carries through a rally.', path: 'M930 105 C810 280 630 175 500 335 S240 420 95 255', ball: [95, 255] },
+  { label: 'Recovery', note: 'See the return to a ready position.', path: 'M100 365 C300 430 470 325 565 230 S760 190 895 270', ball: [895, 270] },
+];
 
 function MotionVideo({ src, poster, label, className = '' }) {
   const videoRef = useRef(null);
@@ -119,6 +123,7 @@ function AudienceAccordion() {
 
 export default function LandingPage() {
   const root = useRef(null);
+  const [tennisMoment, setTennisMoment] = useState(0);
 
   useGSAP(() => {
     const mm = gsap.matchMedia();
@@ -180,13 +185,29 @@ export default function LandingPage() {
 
       <ManifestoSequence />
 
-      <section className="technology section-space" id="pipeline"><div className="container"><div className="section-heading enter"><p className="kicker">The technology, made useful</p><h2>From camera.<br />To clarity.</h2><p>A connected process, built around the sport, the setting, and the decisions you need to make.</p></div><div className="process-stack">
-        <article className="process-panel"><div className="process-inner"><div className="process-copy"><span className="kicker">Capture</span><h3>It starts<br />with your video.</h3><p>Bring us your broadcast, venue, or training footage. We build a video pipeline around your environment and the movements you want to understand.</p><span className="process-foot">Camera feeds → Video pipeline</span></div><VideoAnalysisDemo /></div></article>
+      <section className="technology section-space" id="pipeline"><div className="container"><div className="section-heading enter"><p className="kicker">The technology, made useful</p><h2>Movement.<br />Made legible.</h2><p>Player and ball tracking reveal the detail inside a rally, frame by frame.</p></div><div className="process-stack">
         <article className="process-panel process-understand"><div className="process-inner"><div className="process-copy"><span className="kicker">Understand</span><h3>Movement becomes<br />meaningful data.</h3><p>Computer vision follows the action. Player and ball tracking, motion analysis, and 3D reconstruction reveal detail that is difficult to see at full speed.</p><span className="process-foot">Tracking → Motion intelligence</span></div><MotionVideo src={`${media}torkey_3d_dive.mp4`} poster={`${media}torkey_3d_dive-poster.jpg`} label="3D movement reconstruction" /></div></article>
-        <article className="process-panel process-apply"><div className="process-inner"><div className="process-copy"><span className="kicker">Apply</span><h3>Insight that<br />fits your world.</h3><p>Bring analysis into coaching, player development, or broadcast storytelling. The output is designed for the people who will actually use it.</p><span className="process-foot">Analysis → Coaching & coverage</span></div><ApplicationDemo /></div></article>
       </div></div></section>
 
-      <section className="beyond-squash section-space" id="teknik"><div className="container beyond-grid"><div className="beyond-copy enter"><p className="kicker">Proven in squash. Built to go further.</p><h2>Different sports.<br /><em>Same curiosity.</em></h2><p>Our work with Teknik brings motion analysis into tennis. The same approach—video, movement, understanding—opens conversations across sports.</p><p>For partners and investors, this is the opportunity: help develop technology with real experience on court and room to grow.</p><a className="text-link" href={emailFor('Multi-sport partnership enquiry')}>Explore what we could build <FiArrowUpRight aria-hidden="true" /></a></div><TeknikPhone /></div><PartnerStrip /></section>
+      <section className="beyond-squash section-space" id="teknik" data-tennis-moment={tennisMoment}>
+        <TennisCourtMotion moment={tennisMoment} />
+        <div className="container beyond-grid">
+          <div className="beyond-copy enter">
+            <p className="kicker">Proven in squash. Built to go further.</p>
+            <h2>Different sports.<br /><em>Same curiosity.</em></h2>
+            <p>Our work with Teknik brings motion analysis into tennis. The same approach—video, movement, understanding—opens conversations across sports.</p>
+            <p>For partners and investors, this is the opportunity: help develop technology with real experience on court and room to grow.</p>
+            <a className="text-link" href={emailFor('Multi-sport partnership enquiry')}>Explore what we could build <FiArrowUpRight aria-hidden="true" /></a>
+            <div className="tennis-moment-picker" role="group" aria-label="Explore tennis movement">
+              <span>Explore a moment</span>
+              <div>{tennisMoments.map((item, index) => <button type="button" key={item.label} aria-pressed={tennisMoment === index} onClick={() => setTennisMoment(index)}>{item.label}</button>)}</div>
+              <p aria-live="polite">{tennisMoments[tennisMoment].note}</p>
+            </div>
+          </div>
+          <TeknikPhone />
+        </div>
+        <PartnerStrip />
+      </section>
 
       <section className="audiences section-space" id="uses">
         <div className="container" id="contact">

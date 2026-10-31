@@ -1,0 +1,136 @@
+.beyond-squash {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(112deg, #f8f7f3 0%, #f2f0e8 58%, #eeeade 100%);
+}
+.beyond-squash::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: '';
+  background: radial-gradient(ellipse at 79% 58%, #dce4a53b, transparent 31%), radial-gradient(ellipse at 12% 4%, #fff9e7a3, transparent 43%);
+}
+.tennis-court-world {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.tennis-court-plane {
+  position: absolute;
+  right: -8%;
+  bottom: -31%;
+  left: -8%;
+  height: 71%;
+  transform: perspective(950px) rotateX(28deg);
+  transform-origin: center bottom;
+  border: 1px solid #fff9;
+  background: linear-gradient(135deg, #e7e5d94d, #fff7 48%, #dce1b82b);
+  box-shadow: inset 0 1px 0 #fff;
+}
+.tennis-court-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .48;
+}
+.tennis-court-lines {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.2;
+  vector-effect: non-scaling-stroke;
+}
+.tennis-flight-path {
+  fill: none;
+  stroke: #9aa458;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 5 12;
+  opacity: 0;
+  transition: opacity .45s ease;
+  vector-effect: non-scaling-stroke;
+}
+.tennis-flight-path.is-active {
+  opacity: .75;
+  animation: tennis-flight 18s linear infinite;
+}
+.tennis-flight-ball {
+  fill: #d8e36e;
+  opacity: .85;
+  filter: drop-shadow(0 4px 5px #53573535);
+  transition: transform .65s cubic-bezier(.22, 1, .36, 1);
+}
+.tennis-flight-ball path {
+  fill: none;
+  stroke: #f9f8e6;
+  stroke-width: 2;
+  opacity: .85;
+}
+.tennis-court-label {
+  position: absolute;
+  right: max(5.5vw, calc((100vw - 1328px) / 2));
+  bottom: 36px;
+  color: #777969;
+  font: 9px 'IBM Plex Mono', monospace;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.beyond-grid,
+.beyond-squash > .partner-strip {
+  position: relative;
+  z-index: 1;
+}
+.beyond-copy .tennis-moment-picker {
+  max-width: 420px;
+  margin-top: 27px;
+  padding-top: 17px;
+  border-top: 1px solid #d7d5ca;
+}
+.tennis-moment-picker > span {
+  display: block;
+  margin-bottom: 11px;
+  color: #6c6d62;
+  font: 9px 'IBM Plex Mono', monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.tennis-moment-picker > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.tennis-moment-picker button {
+  min-height: 34px;
+  padding: 7px 13px;
+  border: 1px solid #c8c7bd;
+  border-radius: 99px;
+  background: #f8f7f36e;
+  color: #51534d;
+  font-size: 11px;
+  transition: color .2s, border-color .2s, background .2s, transform .2s;
+}
+.tennis-moment-picker button:hover { transform: translateY(-1px); border-color: #8f914e; }
+.tennis-moment-picker button[aria-pressed='true'] { border-color: #191a18; background: #191a18; color: #fff; }
+.tennis-moment-picker > p { min-height: 22px; margin-top: 10px; color: #74756c; font-size: 11px; }
+@keyframes tennis-flight { to { stroke-dashoffset: -136; } }
+
+@media (max-width: 800px) {
+  .tennis-court-label { right: 20px; bottom: 26px; }
+  .tennis-court-plane { bottom: -24%; height: 58%; }
+  .beyond-copy .tennis-moment-picker { margin-top: 22px; }
+}
+@media (max-width: 560px) {
+  .tennis-court-world { opacity: .72; }
+  .tennis-court-plane { bottom: -20%; height: 39%; transform: perspective(700px) rotateX(21deg); }
+  .tennis-court-art { height: 73%; top: 27%; }
+  .tennis-court-label { bottom: 17px; font-size: 8px; }
+  .beyond-copy .tennis-moment-picker { max-width: none; }
+  .tennis-moment-picker > p { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tennis-flight-path.is-active { animation: none; }
+  .tennis-flight-ball { transition: none; }
+}

@@ -26,7 +26,7 @@ export function Navigation() {
         <Brand />
         <button type="button" className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Close navigation' : 'Open navigation'} aria-controls="main-navigation" aria-expanded={open}>{open ? <FiX /> : <FiMenu />}</button>
         <div className={`nav-links ${open ? 'is-open' : ''}`} id="main-navigation" onClick={() => setOpen(false)}>
-          <a href="/#impact">In the field</a><a href="/#pipeline">Technology</a><a href="/#uses">For you</a><NavLink to="/team">Our team</NavLink>
+          <a href="/#impact">In the field</a><NavLink to="/squash">Squash</NavLink><a href="/#pipeline">Technology</a><a href="/#uses">For you</a><NavLink to="/team">Our team</NavLink>
           <a className="button button-dark nav-contact" href="/#contact">Let’s talk <FiArrowUpRight aria-hidden="true" /></a>
         </div>
       </nav>
