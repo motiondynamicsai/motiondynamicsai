@@ -2,7 +2,7 @@
    nothing here reaches the rest of the site. The site's own global rules that would otherwise reach inside (from
    index.css: element defaults, text rendering on :root, and the shared .member class) are undone first, property by
    property, so the page looks the same here as on its own. Fonts and images live in public/squash-landing/. */
-#mds{font-synthesis:initial;text-rendering:auto;-webkit-font-smoothing:auto}
+#mds{font-synthesis:initial;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 #mds :where(button,input,textarea){font:revert}
 #mds :where(a,button){-webkit-tap-highlight-color:revert;touch-action:revert}
 #mds :where(button){cursor:revert}
@@ -133,7 +133,7 @@
 #mds .fd-h{font-size:clamp(56px,5.6vw,104px)}
 #mds .fd-h span{display:block}
 #mds .nw{white-space:nowrap}
-#mds .fd-gold{background:linear-gradient(110deg,#f9e7b0,#e9c773 45%,#b38b35 80%,#f4dc9e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#mds .fd-gold{color:var(--gold)} /* the same gold as the logo block and "squash"; solid, so its edges stay smooth */
 #mds .fd-ctas{display:flex;gap:14px;flex-wrap:wrap}
 #mds .fd-cta{min-width:200px;height:60px;padding:0 34px;border-radius:30px;font-size:19px} /* the page's one main action, sized to the hero */
 #mds .fd-ctas .btn.ghost{background:rgba(4,10,22,.5)}
