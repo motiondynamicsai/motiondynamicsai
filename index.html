@@ -8,6 +8,27 @@
     <title>Motion Dynamics — Every move. More meaning.</title>
     <meta name="description" content="Real-time sports motion intelligence for coaches, teams, and broadcast partners. Proven across five major PSA events. Built for a deeper understanding of performance." />
     <meta name="theme-color" content="#f7f6f2" />
+    <!-- Sharing a link to the home page (the squash landing) shows the court picture. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Motion Dynamics" />
+    <meta property="og:url" content="https://motiondynamics.ai/" />
+    <meta property="og:title" content="Motion Dynamics squash · Every rally. Analyzed." />
+    <meta property="og:description" content="Every shot from your recorded squash matches, on the court. Every rally on video. For players and coaches." />
+    <meta property="og:image" content="https://motiondynamics.ai/squash-landing/court/share-card.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A blue glass squash court with the Motion Dynamics mark on the front wall" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preload" href="/squash-landing/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin />
+    <script>
+      // The home page is dark: paint it dark from the first frame, before the app loads (no light flash on phones).
+      if (location.pathname === '/') {
+        var themeColor = document.querySelector('meta[name="theme-color"]');
+        themeColor.setAttribute('data-site-color', themeColor.getAttribute('content'));
+        themeColor.setAttribute('content', '#08101f');
+        document.documentElement.style.background = '#08101f';
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

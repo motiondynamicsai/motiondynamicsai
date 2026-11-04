@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Route, Routes, useParams } from 'react-router-dom';
 import { FiArrowLeft, FiArrowUpRight } from 'react-icons/fi';
-import LandingPage from './components/LandingPage';
+import SquashLanding from './squash-landing/SquashLanding';
 import { Navigation, RouteScroll, SiteFooter } from './components/SiteChrome';
 import SquashPage from './components/SquashPage';
 import AngelStaff from './assets/Staff images/Angel-cutout.png';
@@ -142,5 +142,5 @@ function NotFound() {
 }
 
 export default function App() {
-  return <BrowserRouter><RouteScroll /><Routes><Route path="/" element={<LandingPage />} /><Route path="/squash" element={<SquashPage />} /><Route path="/team" element={<TeamPage />} /><Route path="/team/:id" element={<TeamMemberPage />} /><Route path="*" element={<NotFound />} /></Routes></BrowserRouter>;
+  return <BrowserRouter><RouteScroll /><Routes><Route path="/" element={<SquashLanding />} /><Route path="/squash" element={<SquashPage />} /><Route path="/team" element={<TeamPage />} /><Route path="/team/:id" element={<TeamMemberPage />} /><Route path="*" element={<NotFound />} /></Routes></BrowserRouter>;
 }
