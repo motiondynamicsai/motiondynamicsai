@@ -1,0 +1,331 @@
+// Scroll-driven squash stage: a real PSA rally (Mueller v El Hammamy, rally 38) drawn over the
+// court photo as shot flights and player tracking, then lifted into one stacked court per game
+// whose dots form the drive-length heatmap. Scroll position (in screen heights) drives time.
+
+const MEDIA = '/media/squash/';
+const G = 9.81;
+const COL = { A: '143,184,255', B: '240,194,75' }; // Mueller blue, El Hammamy gold
+const surname = { A: 'Mueller', B: 'El Hammamy' };
+const COURT_LINES = [[[0, 5.44], [6.4, 5.44]], [[3.2, 5.44], [3.2, 9.75]], [[1.6, 5.44], [1.6, 7.04], [0, 7.04]], [[4.8, 5.44], [4.8, 7.04], [6.4, 7.04]]];
+// [kind, length in screen heights]: the 30 s rally flies by in a short scroll, the stacked games get more room
+const SEG = [['hero', 1], ['rally', 0.35], ['play', 1.3], ['hold', 0.35]];
+export const STAGE_SCREENS = SEG.reduce((a, s) => a + s[1], 0);
+
+const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const easeOutQuint = (t) => 1 - Math.pow(1 - t, 5);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const ramp = (t, a, d) => clamp((t - a) / d, 0, 1);
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const norm = (a) => { const l = Math.hypot(...a); return a.map((v) => v / l); };
+const shotName = (s) => ({ cross_court_drive: 'Cross-court drive', straight_drive: 'Straight drive', straight_kill: 'Straight kill', straight_lob: 'Straight lob', boast_2_wall: 'Two-wall boast', serve: 'Serve' }[s] || s.replace(/_/g, ' '));
+
+function homography(src, dst) {
+  const A = [], b = [];
+  for (let i = 0; i < 4; i++) {
+    const [x, y] = src[i], [u, v] = dst[i];
+    A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u);
+    A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v);
+  }
+  for (let c = 0; c < 8; c++) {
+    let p = c; for (let r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
+    [A[c], A[p]] = [A[p], A[c]]; [b[c], b[p]] = [b[p], b[c]];
+    for (let r = 0; r < 8; r++) if (r !== c) { const f = A[r][c] / A[c][c]; for (let k = c; k < 8; k++) A[r][k] -= f * A[c][k]; b[r] -= f * b[c]; }
+  }
+  const h = b.map((v, i) => v / A[i][i]);
+  return (x, y) => { const w = h[6] * x + h[7] * y + 1; return [(h[0] * x + h[1] * y + h[2]) / w, (h[3] * x + h[4] * y + h[5]) / w]; };
+}
+
+export function mountSquashStage(root, { onBeat } = {}) {
+  const $ = (s) => root.querySelector(s);
+  const stage = $('.sq-stage'), track = $('.sq-track'), cv = $('.sq-overlay'), plate = $('.sq-plate');
+  const hero = $('.sq-hero'), hint = $('.sq-hint'), cap = $('.sq-cap'), capIn = $('.sq-cap-in'), boxEl = $('.sq-box');
+  const ctx = cv.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let onResize = () => {};
+  let disposed = false, raf = 0, W = 0, H = 0, VH = window.innerHeight, dpr = 1, lastW = 0, PX = 1, CAMNOW = null;
+  const LW = 1.7;
+
+  const poly = (pts, close) => { ctx.beginPath(); pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); if (close) ctx.closePath(); };
+  const glowDot = (x, y, r, col, glow) => {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r * glow);
+    g.addColorStop(0, col.replace('A', '.55')); g.addColorStop(1, col.replace('A', '0'));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * glow, 0, 7); ctx.fill();
+    ctx.fillStyle = col.replace('A', '1'); ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
+  };
+  const text = (t, x, y, size = 13, col = 'rgba(255,255,255,.85)') => { ctx.font = `500 ${size * PX}px Outfit`; ctx.fillStyle = col; ctx.textBaseline = 'middle'; ctx.fillText(t, x, y); };
+  const tracer = (pts, col, width) => {
+    for (let i = 1; i < pts.length; i++) {
+      const a = i / pts.length; ctx.strokeStyle = col.replace('A', (a * a).toFixed(3)); ctx.lineWidth = width * PX * (0.35 + 0.65 * a) * LW;
+      ctx.beginPath(); ctx.moveTo(pts[i - 1][0], pts[i - 1][1]); ctx.lineTo(pts[i][0], pts[i][1]); ctx.stroke();
+    }
+  };
+
+  // broadcast head-to-head rows
+  const rowsEl = $('.sq-rows'), H2H = [];
+  for (let i = 0; i < 4; i++) {
+    const r = document.createElement('div'); r.className = 'sq-row';
+    r.innerHTML = `<span class="v"></span><span class="bar l" style="--c:rgb(${COL.A})"><i></i></span><span class="lb"></span><span class="bar r" style="--c:rgb(${COL.B})"><i></i></span><span class="v r"></span>`;
+    rowsEl.appendChild(r);
+    H2H.push({ a: r.children[0], ba: r.children[1].firstChild, lb: r.children[2], bb: r.children[3].firstChild, b: r.children[4], ta: 0, tb: 0, ca: 0, cb: 0, dec: 0, unit: '' });
+  }
+  const h2h = (i, lb, a, b, dec = 0, unit = '') => { const r = H2H[i]; if (r.lb.textContent !== lb) { r.lb.textContent = lb; r.ca = a; r.cb = b; } r.ta = a; r.tb = b; r.dec = dec; r.unit = unit; };
+  const tickH2H = (dt) => {
+    for (const r of H2H) {
+      const k = reduce ? 1 : 1 - Math.exp(-dt * 9); r.ca += (r.ta - r.ca) * k; r.cb += (r.tb - r.cb) * k;
+      const f = (v) => v.toLocaleString('en-GB', { minimumFractionDigits: r.dec, maximumFractionDigits: r.dec }) + (r.unit ? `<small>${r.unit}</small>` : '');
+      const ha = f(r.ca), hb = f(r.cb); if (r.a.innerHTML !== ha) r.a.innerHTML = ha; if (r.b.innerHTML !== hb) r.b.innerHTML = hb;
+      const m = r.ta + r.tb || 1; r.ba.style.width = `${(100 * r.ta) / m}%`; r.bb.style.width = `${(100 * r.tb) / m}%`;
+    }
+  };
+  const setText = (s, t) => { const e = $(s); if (e.textContent !== t) e.textContent = t; };
+  const setHTML = (s, t) => { const e = $(s); if (e.innerHTML !== t) e.innerHTML = t; };
+
+  function size() {
+    const r = stage.getBoundingClientRect(); W = r.width; H = r.height; dpr = Math.min(window.devicePixelRatio || 1, W < 720 ? 2 : 2.5);
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    // mobile browser bars resize the viewport while scrolling; only re-measure the track on real changes
+    onResize();
+    if (W !== lastW || Math.abs(window.innerHeight - VH) > 140) { lastW = W; VH = window.innerHeight; track.style.height = `${(STAGE_SCREENS + 1) * VH}px`; }
+  }
+
+  async function start() {
+    const [rally, match] = await Promise.all([fetch(`${MEDIA}rally.json`).then((r) => r.json()), fetch(`${MEDIA}match.json`).then((r) => r.json())]);
+    if (disposed) return;
+    const floorH = homography([[0, 0], [6.4, 0], [6.4, 9.75], [0, 9.75]], [[2468, 1058], [3318, 1068], [3625, 1242], [1840, 1150]]);
+    const P3 = (x, y, z) => { const [u, v] = floorH(x, y), [a] = floorH(x - 0.5, y), [b] = floorH(x + 0.5, y); return [u, v - z * Math.abs(b - a)]; };
+    const T1 = rally.duration, shots = rally.shots, keys = [];
+    shots.forEach((s, i) => {
+      const hp = [s.pos[0] + (s.pos[0] < 3.2 ? 0.35 : -0.35), s.pos[1] - 0.25, 0.55];
+      keys.push({ t: s.t, p: hp, kind: 'hit', i });
+      if (s.type.startsWith('boast')) keys.push({ t: s.t + 0.4 * (s.wt - s.t), p: [hp[0] < 3.2 ? 0.06 : 6.34, Math.max(0.8, hp[1] - 1.4), 1.1], kind: 'side', i });
+      keys.push({ t: s.wt, p: [clamp(s.wx, 0.06, 6.34), 0.02, s.wh], kind: 'wall', i });
+      if (s.fb) keys.push({ t: s.ft, p: [clamp(s.fb[0], 0.06, 6.34), clamp(s.fb[1], 0.1, 9.7), 0], kind: 'floor', i });
+      if (!shots[i + 1] && s.fb) keys.push({ t: T1, p: [clamp(s.fb[0], 0.06, 6.34) * 0.98, Math.min(9.6, s.fb[1] + 2.6), 0.05], kind: 'end', i });
+    });
+    const ballAt = (t) => {
+      const j = keys.findIndex((k) => k.t > t); if (j <= 0) return j === 0 ? keys[0].p : keys[keys.length - 1].p;
+      const a = keys[j - 1], b = keys[j], T = b.t - a.t, u = clamp((t - a.t) / T, 0, 1), tau = u * T, vz = (b.p[2] - a.p[2] + 0.5 * G * T * T) / T;
+      return [lerp(a.p[0], b.p[0], u), lerp(a.p[1], b.p[1], u), Math.max(0, a.p[2] + vz * tau - 0.5 * G * tau * tau)];
+    };
+    const trackAt = (arr, t) => {
+      const i = clamp(Math.floor(t * rally.fps), 0, arr.length - 2), a = arr[i], b = arr[i + 1], u = clamp((t - a[0]) / (b[0] - a[0] || 1), 0, 1);
+      return [lerp(a[1], b[1], u), lerp(a[2], b[2], u)];
+    };
+    const runDist = {};
+    for (const w of ['A', 'B']) { let d = 0; runDist[w] = rally.tracks[w].map((p, i, a) => (i && (d += Math.hypot(p[1] - a[i - 1][1], p[2] - a[i - 1][2])), d)); }
+    const distAt = (w, t) => runDist[w][clamp(Math.round(t * rally.fps), 0, runDist[w].length - 1)];
+    const ring = (f, n = 32) => { const pts = []; for (let a = 0; a <= n; a++) pts.push(f(Math.cos((a / n) * 6.283), Math.sin((a / n) * 6.283))); return pts; };
+    const floorRing = (x, y, r) => ring((c, s) => floorH(x + r * c, y + r * s));
+    const wallRing = (x, z, r) => ring((c, s) => P3(x + r * c, 0.02, z + r * s));
+    const lastBounce = keys.filter((k) => k.kind === 'floor').pop(), WB = floorH(lastBounce.p[0], lastBounce.p[1]);
+    const flights = shots.map((s, i) => {
+      const t1 = shots[i + 1] ? shots[i + 1].t : T1, pts = [];
+      for (let u = s.t; u <= t1 + 1e-6; u += 1 / 60) pts.push([u, ...ballAt(u)]);
+      return { who: s.who, t0: s.t, t1, pts };
+    });
+    const SQ_ALL = T1 + 0.8, PL = SQ_ALL + 3.4;
+    const SHOWN = 5, FIRST = shots.length - SHOWN, T0 = shots[FIRST].t - 0.4; // only the closing exchange is played
+    const pct = (g, w) => { const d = match.games[g][w]; return Math.round((100 * d.length) / d.drives); };
+    const narrow = () => W < 720;
+    const synth = (x, y, z) => { // elevated view of a free-standing court, in screen px
+      const P = [x - 3.2, y - 4.875, z], eye = [0, 17, 12.5], tg = [0, -0.6, 2.4];
+      const f = norm(sub(tg, eye)), r = norm(cross([0, 0, 1], f)), u = cross(f, r), d = sub(P, eye);
+      const cx = dot(d, r), cy = dot(d, u), cz = dot(d, f), F = narrow() ? Math.min(W * 1.02, H * 0.6) : Math.min(W * 0.56, H * 0.92);
+      return [W * (narrow() ? 0.44 : 0.6) + (F * cx) / cz, H * (narrow() ? 0.66 : 0.47) - (F * cy) / cz];
+    };
+    const regS = (x, y) => { const q = floorH(x, y); return [q[0] * CAMNOW.k + CAMNOW.ox, q[1] * CAMNOW.k + CAMNOW.oy]; };
+
+    const SQ = {
+      w: 3840, h: 2143, sy: 0.47, dur: PL + 6,
+      cam: [[0, 2760, 860, 1.12], [4, 2760, 880, 1.28], [12, 2700, 900, 1.34], [20, 2820, 900, 1.3], [28, 2780, 880, 1.28], [29.9, WB[0], WB[1] - 140, 1.5], [T1 + 0.5, WB[0], WB[1] - 140, 1.5], [T1 + 2.2, 2760, 860, 1.12], [PL + 6, 2760, 860, 1.12]],
+      beats: [
+        [0, 'Every shot, tracked.', 'The closing shots of a real pro rally, Mueller v El Hammamy: each shot’s flight, both players tracked frame by frame, every wall contact and bounce.'],
+        [SQ_ALL, 'The finish, at once.', 'The last five shots, every wall contact and every bounce, in one picture.'],
+        [PL, 'Stack the games. See the pattern.', `One court per game, every drive’s bounce marked. Mueller found more length each game: ${pct(1, 'A')}%, then ${pct(2, 'A')}%, then ${pct(3, 'A')}% behind the short line.`],
+        [PL + 4.2, 'Now picture your match.', 'Register your interest and we’ll analyse one of your matches for free.', true],
+      ],
+    };
+
+    const band = { top: 0, bottom: H };
+    const measureBand = () => { band.top = cap.offsetTop + capIn.offsetHeight; band.bottom = boxEl.offsetTop; };
+    measureBand(); onResize = measureBand;
+    function camAt(t, fit = 0) { // fit 0..1: phones pull back from full-bleed to the whole court
+      const K = SQ.cam; const i = K.findIndex((k) => k[0] > t); let f;
+      if (i <= 0) f = i === 0 ? K[0] : K[K.length - 1];
+      else { const a = K[i - 1], b = K[i], u = easeIO(clamp((t - a[0]) / (b[0] - a[0]), 0, 1)); f = [t, lerp(a[1], b[1], u), lerp(a[2], b[2], u), lerp(a[3], b[3], u)]; }
+      const k = Math.max(W / SQ.w, H / SQ.h) * f[3], sx = narrow() ? 0.5 : 0.64;
+      const cover = { k, ox: clamp(sx * W - f[1] * k, W - SQ.w * k, 0), oy: clamp(SQ.sy * H - f[2] * k, H - SQ.h * k, 0) };
+      if (!fit) return cover;
+      // fit the court (plate px ~1550-3800 wide, 150-1300 tall) into the gap between caption and stats box
+      const gap = Math.max(160, band.bottom - band.top), kf = Math.min(W / 1450, gap / 1050) * (f[3] / 1.12);
+      const whole = { k: kf, ox: W * 0.5 - (f[1] - 85) * kf, oy: (band.top + band.bottom) / 2 - (f[2] - 155) * kf };
+      return { k: lerp(cover.k, whole.k, fit), ox: lerp(cover.ox, whole.ox, fit), oy: lerp(cover.oy, whole.oy, fit) };
+    }
+
+    function draw(t) {
+      const rt = Math.min(t, T1), whole = ramp(t, SQ_ALL, 1.2), pl = easeIO(ramp(t, PL, 2)), vis = 1 - pl;
+      if (vis > 0) {
+        let ci = -1; flights.forEach((f, i) => { if (f.t0 <= rt) ci = i; });
+        flights.forEach((f, i) => {
+          if (i > ci || i < FIRST) return;
+          const live = i === ci && rt < T1 && whole === 0, upto = f.pts.filter((p) => p[0] <= rt);
+          if (upto.length < 2) return;
+          const air = upto.map((p) => P3(p[1], p[2], p[3])), floor = upto.map((p) => floorH(p[1], p[2])).reverse();
+          const age = ci - i, a = vis * (live ? 1 : lerp(Math.max(0.22, 0.62 - age * 0.07), 0.5, whole));
+          const top = Math.min(...air.map((p) => p[1])), bot = Math.max(...floor.map((p) => p[1]));
+          const g = ctx.createLinearGradient(0, top, 0, bot); g.addColorStop(0, `rgba(${COL[f.who]},${(live ? 0.3 : 0.16) * a})`); g.addColorStop(1, `rgba(${COL[f.who]},0)`);
+          ctx.fillStyle = g; poly(air.concat(floor), true); ctx.fill();
+          ctx.lineJoin = ctx.lineCap = 'round';
+          ctx.strokeStyle = `rgba(${COL[f.who]},${a})`; ctx.lineWidth = (live ? 2.6 : 1.6) * PX * LW; poly(air); ctx.stroke();
+          ctx.strokeStyle = `rgba(${COL[f.who]},${0.35 * a})`; ctx.lineWidth = PX * LW; poly(floor); ctx.stroke();
+        });
+        for (const k of keys) if (k.t <= rt && k.i >= FIRST && (k.kind === 'wall' || k.kind === 'floor')) {
+          const e = easeOutQuint(clamp((rt - k.t) / 0.7, 0, 1)), who = shots[k.i].who, wall = k.kind === 'wall';
+          ctx.globalAlpha = vis; ctx.fillStyle = wall ? `rgb(${COL[who]})` : '#fff';
+          poly(wall ? wallRing(k.p[0], k.p[2], 0.08) : floorRing(k.p[0], k.p[1], 0.09), true); ctx.fill();
+          if (e < 1) { ctx.strokeStyle = `rgba(${wall ? COL[who] : '255,255,255'},${1 - e})`; ctx.lineWidth = 2 * PX * LW; poly(wall ? wallRing(k.p[0], k.p[2], 0.12 + 0.5 * e) : floorRing(k.p[0], k.p[1], 0.12 + 0.5 * e), true); ctx.stroke(); }
+          ctx.globalAlpha = 1;
+        }
+        // players: footprint ring, recent movement trail and a height marker
+        const pa = vis * (1 - whole * 0.75);
+        for (const w of ['A', 'B']) {
+          ctx.globalAlpha = pa;
+          const tr = []; for (let s = Math.max(0, rt - 2.4); s <= rt; s += 1 / 30) tr.push(floorH(...trackAt(rally.tracks[w], s)));
+          ctx.lineCap = 'round'; tracer(tr, `rgba(${COL[w]},A)`, 3);
+          const [x, y] = trackAt(rally.tracks[w], rt);
+          ctx.fillStyle = `rgba(${COL[w]},.16)`; poly(floorRing(x, y, 0.34), true); ctx.fill();
+          ctx.strokeStyle = `rgb(${COL[w]})`; ctx.lineWidth = 1.6 * PX * LW; poly(floorRing(x, y, 0.34), true); ctx.stroke();
+          const foot = floorH(x, y), head = P3(x, y, 1.85), g = ctx.createLinearGradient(foot[0], foot[1], head[0], head[1]);
+          g.addColorStop(0, `rgba(${COL[w]},.9)`); g.addColorStop(1, `rgba(${COL[w]},0)`);
+          ctx.strokeStyle = g; ctx.lineWidth = 1.4 * PX * LW; ctx.beginPath(); ctx.moveTo(...foot); ctx.lineTo(...head); ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+        if (rt < T1 - 0.02 && whole === 0) { const bp = P3(...ballAt(rt)); glowDot(bp[0], bp[1], 5 * PX, 'rgba(253,71,70,A)', 3.2); }
+      }
+      // the match: one court per game lifts off the floor and stacks, drive bounces as a heatmap
+      if (pl > 0) {
+        ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const px0 = PX; PX = 1;
+        ctx.fillStyle = `rgba(5,7,13,${0.72 * pl})`; ctx.fillRect(0, 0, W, H);
+        const labels = []; // drawn after every court so the next plane can't paint over them
+        [3, 2, 1].forEach((g) => {
+          const ge = easeIO(ramp(t, PL + (3 - g) * 0.3, 2)), z = (3 - g) * 3.3;
+          const pt = (x, y) => { const a = regS(x, y), b = synth(x, y, z); return [lerp(a[0], b[0], ge), lerp(a[1], b[1], ge)]; };
+          const outline = [pt(0, 0), pt(6.4, 0), pt(6.4, 9.75), pt(0, 9.75)];
+          ctx.fillStyle = `rgba(47,111,214,${0.2 * pl})`; poly(outline, true); ctx.fill();
+          ctx.strokeStyle = `rgba(255,255,255,${0.55 * pl})`; ctx.lineWidth = 1.2 * LW; poly(outline, true); ctx.stroke();
+          ctx.strokeStyle = `rgba(255,255,255,${0.3 * pl})`; COURT_LINES.forEach((l) => { poly(l.map((p) => pt(...p))); ctx.stroke(); });
+          const de = ramp(t, PL + 1.6 + (3 - g) * 0.45, 1.2);
+          for (const w of ['A', 'B']) {
+            const pts = match.games[g][w].pts.filter((p) => p[2].includes('drive')), n = Math.round(de * pts.length);
+            for (let j = 0; j < n; j++) { // soft glow first so overlapping bounces build heat
+              const q = pt(pts[j][0], pts[j][1]), hg = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], 11);
+              hg.addColorStop(0, `rgba(${COL[w]},.28)`); hg.addColorStop(1, `rgba(${COL[w]},0)`);
+              ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(q[0], q[1], 11, 0, 7); ctx.fill();
+            }
+            ctx.fillStyle = `rgba(${COL[w]},.95)`;
+            for (let j = 0; j < n; j++) { const q = pt(pts[j][0], pts[j][1]); ctx.beginPath(); ctx.arc(q[0], q[1], 2.3, 0, 7); ctx.fill(); }
+          }
+          if (de > 0) labels.push(() => {
+            const q = pt(6.4, 4.4); ctx.globalAlpha = de;
+            const lx = narrow() ? Math.min(q[0] + 12, W - 64) : q[0] + 26;
+            text(`Game ${g}`, lx, q[1] - 12, 12.5, 'rgba(255,255,255,.7)');
+            ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 12);
+            if (!narrow()) { const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`; ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 13); }
+            ctx.globalAlpha = 1;
+          });
+        });
+        labels.forEach((draw) => draw());
+        PX = px0; ctx.restore();
+      }
+      // broadcast head-to-head box
+      if (t >= PL) {
+        setHTML('.sq-ctx', 'Men’s pros<br>Whole match'); boxEl.style.setProperty('--hit', '#fff');
+        setHTML('.sq-event', 'Drives behind the short line <span class="sub">· by game</span>');
+        [1, 2, 3].forEach((g) => h2h(g - 1, `Game ${g}`, pct(g, 'A'), pct(g, 'B'), 0, '%'));
+        const tot = (w) => { let n = 0, l = 0; [1, 2, 3].forEach((g) => { n += match.games[g][w].drives; l += match.games[g][w].length; }); return Math.round((100 * l) / n); };
+        h2h(3, 'Match', tot('A'), tot('B'), 0, '%');
+        setText('.sq-note', 'Dots on the courts: where each drive bounced.');
+        return;
+      }
+      let si = 0; shots.forEach((s, i) => { if (s.t <= rt) si = i; });
+      setHTML('.sq-ctx', 'Men’s pros<br>Rally 38'); setText('.sq-note', 'Real tracking data. Ball, both players and every contact.');
+      const sh = (w) => shots.filter((s, i) => i >= FIRST && s.t <= rt && s.who === w);
+      const wallAvg = (w) => { const l = sh(w).filter((s) => s.wt <= rt); return l.length ? l.reduce((a, s) => a + s.wh, 0) / l.length : 0; };
+      const deep = (w) => sh(w).filter((s) => s.fb && s.ft <= rt && s.fb[1] > 5.44).length;
+      h2h(0, 'Shots', sh('A').length, sh('B').length);
+      h2h(1, 'Metres run', distAt('A', rt) - distAt('A', T0), distAt('B', rt) - distAt('B', T0), 1);
+      h2h(2, 'Height on the wall', wallAvg('A'), wallAvg('B'), 2, ' m');
+      h2h(3, 'Past the short line', deep('A'), deep('B'));
+      if (t >= SQ_ALL) { setHTML('.sq-event', `The finish <span class="sub">· last ${SHOWN} of ${shots.length} shots</span>`); boxEl.style.setProperty('--hit', `rgb(${COL.B})`); }
+      else if (rt >= 29.67) { setHTML('.sq-event', `Winner <span class="sub">· ${surname[rally.winner]}</span>`); boxEl.style.setProperty('--hit', `rgb(${COL[rally.winner]})`); }
+      else { setHTML('.sq-event', `${shotName(shots[si].type)} <span class="sub">· shot ${si + 1} of ${shots.length}</span>`); boxEl.style.setProperty('--hit', `rgb(${COL[shots[si].who]})`); }
+    }
+
+    const resolve = (pos) => {
+      let a = 0;
+      for (const [kind, len] of SEG) {
+        if (pos < a + len || kind === 'hold') {
+          const u = clamp((pos - a) / len, 0, 1);
+          if (kind === 'hero') return { t: T0, hero: u };
+          if (kind === 'rally') return { t: T0 + u * (SQ_ALL - T0), hero: 1 };
+          if (kind === 'play') return { t: SQ_ALL + u * (SQ.dur - SQ_ALL), hero: 1 };
+          return { t: SQ.dur, hero: 1 };
+        }
+        a += len;
+      }
+      return { t: SQ.dur, hero: 1 };
+    };
+
+    const jump = new URLSearchParams(window.location.search).get('p'); // ?p=2.5 opens 2.5 screens into the stage
+    if (jump) window.scrollTo(0, track.offsetTop + Number(jump) * VH);
+    let sp = window.scrollY / VH, last = performance.now(), beatKey = '', capTimer = 0;
+    const setBeat = (t) => {
+      let b = SQ.beats[0]; for (const x of SQ.beats) if (t >= x[0]) b = x;
+      if (b[1] === beatKey) return; const first = !beatKey; beatKey = b[1];
+      const apply = () => { onBeat?.({ title: b[1], body: b[2], cta: !!b[3], index: SQ.beats.indexOf(b) }); requestAnimationFrame(measureBand); };
+      if (first || reduce) { apply(); return; }
+      capIn.classList.add('out'); clearTimeout(capTimer);
+      capTimer = setTimeout(() => { apply(); capIn.classList.remove('out'); capIn.classList.add('pre'); requestAnimationFrame(() => requestAnimationFrame(() => capIn.classList.remove('pre'))); }, 300);
+    };
+
+    function frame(now) {
+      if (disposed) return;
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      const target = Math.max(0, window.scrollY - track.offsetTop) / VH;
+      sp = reduce ? target : sp + (target - sp) * (1 - Math.exp(-dt * 7));
+      if (Math.abs(target - sp) < 1e-4) sp = target;
+      const st = resolve(sp);
+      const breathe = st.hero < 1 ? 1 + 0.012 * Math.sin(now / 2600) * (1 - st.hero) : 1;
+      const c = camAt(st.t, narrow() ? easeIO(clamp(st.hero * 1.4, 0, 1)) : 0);
+      if (breathe !== 1) { c.k *= breathe; c.ox = clamp(c.ox - (breathe - 1) * W * 0.5, W - SQ.w * c.k, 0); c.oy = clamp(c.oy - (breathe - 1) * H * 0.5, H - SQ.h * c.k, 0); }
+      plate.style.transform = `translate3d(${c.ox}px,${c.oy}px,0) scale(${c.k})`; plate.style.visibility = 'visible';
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+      CAMNOW = c; ctx.setTransform(dpr * c.k, 0, 0, dpr * c.k, dpr * c.ox, dpr * c.oy); PX = 1 / c.k; draw(st.t);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+      const h = st.hero, ho = clamp(1 - h * 2.2, 0, 1);
+      hero.style.opacity = ho; stage.style.setProperty('--ho', ho); hero.style.setProperty('--lift', `${h * 60}px`); hero.style.visibility = ho ? 'visible' : 'hidden';
+      if (sp > 0.02) hint.style.animation = 'none';
+      hint.style.opacity = sp > 0.02 ? clamp(1 - sp * 6, 0, 1) : '';
+      const co = clamp((h - 0.55) / 0.35, 0, 1);
+      cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
+      boxEl.style.opacity = narrow() ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
+      if (co > 0) setBeat(st.t);
+      cap.style.setProperty('--p', st.t / SQ.dur);
+      tickH2H(dt);
+      raf = requestAnimationFrame(frame);
+    }
+    raf = requestAnimationFrame(frame);
+    cleanups.push(() => clearTimeout(capTimer));
+  }
+
+  const cleanups = [];
+  size();
+  window.addEventListener('resize', size);
+  plate.decode?.().catch(() => {});
+  start().catch(() => { root.classList.add('sq-static'); });
+  return () => { disposed = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); cleanups.forEach((f) => f()); rowsEl.replaceChildren(); };
+}
