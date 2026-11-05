@@ -1,15 +1,15 @@
-// Scroll-driven squash stage: a real PSA rally (Mueller v El Hammamy, rally 38) drawn over the
-// court photo as shot flights and player tracking, then lifted into one stacked court per game
-// whose dots form the drive-length heatmap. Scroll position (in screen heights) drives time.
+// Squash stage: a real PSA rally (Mueller v El Hammamy, rally 38) drawn over the court photo as
+// shot flights and player tracking, then lifted into one stacked court per game whose dots form the
+// drive-length heatmap. Nothing is tied to scrolling: play() runs the sequence, stop() returns to the hero.
 
 const MEDIA = '/media/squash/';
 const G = 9.81;
 const COL = { A: '143,184,255', B: '240,194,75' }; // Mueller blue, El Hammamy gold
 const surname = { A: 'Mueller', B: 'El Hammamy' };
 const COURT_LINES = [[[0, 5.44], [6.4, 5.44]], [[3.2, 5.44], [3.2, 9.75]], [[1.6, 5.44], [1.6, 7.04], [0, 7.04]], [[4.8, 5.44], [4.8, 7.04], [6.4, 7.04]]];
-// [kind, length in screen heights]: the 30 s rally flies by in a short scroll, the stacked games get more room
+// [kind, length]: playback position runs through these segments; 'hold' is the resting end state
 const SEG = [['hero', 1], ['rally', 0.35], ['play', 1.3], ['hold', 0.35]];
-export const STAGE_SCREENS = SEG.reduce((a, s) => a + s[1], 0);
+const END = SEG.slice(0, -1).reduce((a, s) => a + s[1], 0);
 
 const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const easeOutQuint = (t) => 1 - Math.pow(1 - t, 5);
@@ -38,14 +38,15 @@ function homography(src, dst) {
   return (x, y) => { const w = h[6] * x + h[7] * y + 1; return [(h[0] * x + h[1] * y + h[2]) / w, (h[3] * x + h[4] * y + h[5]) / w]; };
 }
 
-export function mountSquashStage(root, { onBeat } = {}) {
+export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const $ = (s) => root.querySelector(s);
-  const stage = $('.sq-stage'), track = $('.sq-track'), cv = $('.sq-overlay'), plate = $('.sq-plate');
-  const hero = $('.sq-hero'), hint = $('.sq-hint'), cap = $('.sq-cap'), capIn = $('.sq-cap-in'), boxEl = $('.sq-box');
+  const stage = $('.sq-stage'), cv = $('.sq-overlay'), plate = $('.sq-plate');
+  const hero = $('.sq-hero'), cap = $('.sq-cap'), capIn = $('.sq-cap-in'), boxEl = $('.sq-box');
   const ctx = cv.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let onResize = () => {};
-  let disposed = false, raf = 0, W = 0, H = 0, VH = window.innerHeight, dpr = 1, lastW = 0, PX = 1, CAMNOW = null;
+  let disposed = false, raf = 0, W = 0, H = 0, dpr = 1, PX = 1, CAMNOW = null;
+  let pos = Number(new URLSearchParams(window.location.search).get('p')) || 0, dir = 0; // ?p=2.5 opens part-way in
   const LW = 1.7;
 
   const poly = (pts, close) => { ctx.beginPath(); pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); if (close) ctx.closePath(); };
@@ -86,9 +87,7 @@ export function mountSquashStage(root, { onBeat } = {}) {
   function size() {
     const r = stage.getBoundingClientRect(); W = r.width; H = r.height; dpr = Math.min(window.devicePixelRatio || 1, W < 720 ? 2 : 2.5);
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
-    // mobile browser bars resize the viewport while scrolling; only re-measure the track on real changes
     onResize();
-    if (W !== lastW || Math.abs(window.innerHeight - VH) > 140) { lastW = W; VH = window.innerHeight; track.style.height = `${(STAGE_SCREENS + 1) * VH}px`; }
   }
 
   async function start() {
@@ -279,9 +278,10 @@ export function mountSquashStage(root, { onBeat } = {}) {
       return { t: SQ.dur, hero: 1 };
     };
 
-    const jump = new URLSearchParams(window.location.search).get('p'); // ?p=2.5 opens 2.5 screens into the stage
-    if (jump) window.scrollTo(0, track.offsetTop + Number(jump) * VH);
-    let sp = window.scrollY / VH, last = performance.now(), beatKey = '', capTimer = 0;
+    // seconds each segment takes to play: the rally runs in real time, the stacked games a touch faster
+    const secs = { hero: 0.8, rally: SQ_ALL - T0, play: (SQ.dur - SQ_ALL) / 1.15, hold: 1 };
+    const segAt = (p) => { let a = 0; for (const s of SEG) { if (p < a + s[1]) return s; a += s[1]; } return SEG[SEG.length - 1]; };
+    let last = performance.now(), beatKey = '', capTimer = 0;
     const setBeat = (t) => {
       let b = SQ.beats[0]; for (const x of SQ.beats) if (t >= x[0]) b = x;
       if (b[1] === beatKey) return; const first = !beatKey; beatKey = b[1];
@@ -294,10 +294,13 @@ export function mountSquashStage(root, { onBeat } = {}) {
     function frame(now) {
       if (disposed) return;
       const dt = Math.min(0.05, (now - last) / 1000); last = now;
-      const target = Math.max(0, window.scrollY - track.offsetTop) / VH;
-      sp = reduce ? target : sp + (target - sp) * (1 - Math.exp(-dt * 7));
-      if (Math.abs(target - sp) < 1e-4) sp = target;
-      const st = resolve(sp);
+      if (dir) {
+        const [kind, len] = segAt(dir > 0 ? pos : pos - 1e-6);
+        pos += (dir * dt * len) / secs[kind];
+        if (pos >= END) { pos = END; dir = 0; }
+        if (pos <= 0) { pos = 0; dir = 0; }
+      }
+      const st = resolve(pos);
       const breathe = st.hero < 1 ? 1 + 0.012 * Math.sin(now / 2600) * (1 - st.hero) : 1;
       const c = camAt(st.t, narrow() ? easeIO(clamp(st.hero * 1.4, 0, 1)) : 0);
       if (breathe !== 1) { c.k *= breathe; c.ox = clamp(c.ox - (breathe - 1) * W * 0.5, W - SQ.w * c.k, 0); c.oy = clamp(c.oy - (breathe - 1) * H * 0.5, H - SQ.h * c.k, 0); }
@@ -307,9 +310,9 @@ export function mountSquashStage(root, { onBeat } = {}) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
 
       const h = st.hero, ho = clamp(1 - h * 2.2, 0, 1);
-      hero.style.opacity = ho; stage.style.setProperty('--ho', ho); hero.style.setProperty('--lift', `${h * 60}px`); hero.style.visibility = ho ? 'visible' : 'hidden';
-      if (sp > 0.02) hint.style.animation = 'none';
-      hint.style.opacity = sp > 0.02 ? clamp(1 - sp * 6, 0, 1) : '';
+      // at rest the hero carries no inline opacity, so nothing can leave the form half-transparent
+      hero.style.opacity = ho === 1 ? '' : ho; stage.style.setProperty('--ho', ho); hero.style.setProperty('--lift', `${h * 60}px`); hero.style.visibility = ho ? 'visible' : 'hidden';
+      stage.classList.toggle('is-playing', h > 0);
       const co = clamp((h - 0.55) / 0.35, 0, 1);
       cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
       boxEl.style.opacity = narrow() ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
@@ -327,5 +330,9 @@ export function mountSquashStage(root, { onBeat } = {}) {
   window.addEventListener('resize', size);
   plate.decode?.().catch(() => {});
   start().catch(() => { root.classList.add('sq-static'); });
-  return () => { disposed = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); cleanups.forEach((f) => f()); rowsEl.replaceChildren(); };
+  return {
+    play() { if (pos >= END) pos = 1; dir = 1; onPlaying?.(true); }, // replays skip the hero fade
+    stop() { pos = Math.min(pos, 1); dir = -1; onPlaying?.(false); },
+    destroy() { disposed = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); cleanups.forEach((f) => f()); rowsEl.replaceChildren(); },
+  };
 }

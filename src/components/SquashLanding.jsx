@@ -30,17 +30,29 @@ const scrollToRegister = (event) => {
 
 export default function SquashLanding() {
   const root = useRef(null);
+  const stage = useRef(null);
   const [beat, setBeat] = useState({ title: '', body: '', cta: false, index: 0 });
   const [solid, setSolid] = useState(false);
+  const [playing, setPlaying] = useState(false);
 
-  useEffect(() => mountSquashStage(root.current, { onBeat: setBeat }), []);
   useEffect(() => {
-    const track = root.current.querySelector('.sq-track');
-    const onScroll = () => setSolid(window.scrollY > track.offsetTop + track.offsetHeight - window.innerHeight - 4);
+    stage.current = mountSquashStage(root.current, { onBeat: setBeat, onPlaying: setPlaying });
+    return () => stage.current.destroy();
+  }, []);
+  useEffect(() => {
+    const onScroll = () => setSolid(window.scrollY > 40);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  useEffect(() => {
+    if (!playing) return undefined;
+    const onKey = (event) => { if (event.key === 'Escape') stage.current.stop(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [playing]);
+  const play = () => stage.current.play();
+  const stop = () => stage.current.stop();
   useEffect(() => {
     const previous = document.title;
     document.title = 'Motion Dynamics · Pro-level squash analytics for juniors';
@@ -69,15 +81,19 @@ export default function SquashLanding() {
           <p className="sq-lede">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players. See every shot, every movement and exactly what to work on next.</p>
           <div className="sq-offer"><span className="sq-tag">Founding offer</span>Register now: <b>one match analysed free</b> + <b>50% off</b></div>
           <RegisterInterest variant="hero" source="hero" />
+          <button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button>
         </div>
-        <div className="sq-hint" aria-hidden="true"><span>Scroll to play a pro rally</span><i /></div>
+        {playing && <button className="sq-close" type="button" onClick={stop} aria-label="Close the rally and go back">✕ <span>Close</span></button>}
 
         <div className="sq-cap" aria-live="polite">
           <div className="sq-cap-in">
             <div className="num"><b>Rally 38</b><span>Real PSA tracking</span><i /></div>
             <h2>{beat.title}</h2>
             <p>{beat.body}</p>
-            {beat.cta && <a className="sq-btn solid" href="#register" onClick={scrollToRegister}>Register your interest <span className="ar">→</span></a>}
+            {beat.cta && <div className="sq-cap-ctas">
+              <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register your interest <span className="ar">→</span></a>
+              <button className="sq-btn" type="button" onClick={play}>↻ Replay</button>
+            </div>}
           </div>
         </div>
 
