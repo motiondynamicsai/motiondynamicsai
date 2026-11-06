@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { mountSquashStage } from '../lib/squashStage';
@@ -40,6 +40,9 @@ export default function SquashLanding() {
   const [playing, setPlaying] = useState(false);
   const [pcts, setPcts] = useState(null);
   const [menu, setMenu] = useState(false);
+  const bar = useRef(null);
+  const menuEl = useRef(null);
+  const menuBtn = useRef(null);
 
   useEffect(() => {
     stage.current = mountSquashStage(root.current, { onBeat: setBeat, onPlaying: setPlaying });
@@ -57,7 +60,19 @@ export default function SquashLanding() {
   }, []);
   useEffect(() => {
     if (!playing && !menu) return undefined;
-    const onKey = (event) => { if (event.key !== 'Escape') return; setMenu(false); if (playing) stage.current.stop(); };
+    const onKey = (event) => {
+      if (event.key === 'Tab' && menu) { // keep focus inside the open menu
+        const items = [menuBtn.current, ...menuEl.current.querySelectorAll('a')];
+        const at = items.indexOf(document.activeElement);
+        const next = event.shiftKey ? (at <= 0 ? items.length - 1 : at - 1) : (at === items.length - 1 ? 0 : at + 1);
+        event.preventDefault();
+        items[next].focus();
+        return;
+      }
+      if (event.key !== 'Escape') return;
+      if (menu) { setMenu(false); menuBtn.current?.focus(); }
+      if (playing) stage.current.stop();
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [playing, menu]);
@@ -70,6 +85,22 @@ export default function SquashLanding() {
   useEffect(() => { // Play hides the button that had focus: hand focus to Close so keyboard and VoiceOver users aren't dropped
     if (playing) root.current.querySelector('.sq-close')?.focus({ preventScroll: true });
   }, [playing]);
+  useLayoutEffect(() => { // the menu sits under the bar and covers the page; the page behind does not scroll
+    if (!menu) return undefined;
+    menuEl.current.style.paddingTop = `${bar.current.getBoundingClientRect().height}px`;
+    menuEl.current.querySelector('a')?.focus({ preventScroll: true });
+    const html = document.documentElement;
+    html.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    return () => { html.style.overflow = ''; document.body.style.overflow = ''; };
+  }, [menu]);
+  useEffect(() => { if (playing) setMenu(false); }, [playing]);
+  const closeMenu = () => { setMenu(false); menuBtn.current?.focus({ preventScroll: true }); };
+  const goTo = (id) => (event) => { // close the menu first so the page is free to scroll, then land the section below the bar
+    event.preventDefault();
+    setMenu(false);
+    window.requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+  };
   const play = () => { // on short screens Play can sit below the fold: bring the whole stage into view first
     window.scrollTo({ top: 0 });
     stage.current.play();
@@ -87,16 +118,16 @@ export default function SquashLanding() {
 
   return <div className="sq" ref={root}>
     <a className="sq-skip" href="#register">Skip to register</a>
-    <header className={`sq-bar${solid ? ' solid' : ''}${playing ? ' live' : ''}${menu ? ' open' : ''}`}>
+    <header ref={bar} className={`sq-bar${solid ? ' solid' : ''}${playing ? ' live' : ''}${menu ? ' open' : ''}`}>
       <div className="sq-notice"><span className="dot" aria-hidden="true" /><span><b>U.S. Open</b> · 1–7 November 2026 · Philadelphia<span className="sq-notice-extra"> · our analytics are on court</span></span></div>
       <nav aria-label="Main">
         <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><Mark /><span><b>motion</b> <i>dynamics</i></span></Link>
-        <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a><button className="sq-menu-btn" type="button" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="sq-menu" onClick={() => setMenu((open) => !open)}>{menu ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
+        <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a><button ref={menuBtn} className="sq-menu-btn" type="button" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="sq-menu" onClick={() => (menu ? closeMenu() : setMenu(true))}>{menu ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
       </nav>
-      <div className="sq-menu" id="sq-menu" hidden={!menu}>
-        <a href="#insights" onClick={() => setMenu(false)}>What you get</a>
-        <a href="#proof" onClick={() => setMenu(false)}>On the PSA tour</a>
-        <Link to="/team">Our team</Link>
+      <div className="sq-menu" id="sq-menu" ref={menuEl} hidden={!menu} onClick={(event) => { if (event.target === event.currentTarget) closeMenu(); }}>
+        <a href="#insights" onClick={goTo('insights')}>What you get</a>
+        <a href="#proof" onClick={goTo('proof')}>On the PSA tour</a>
+        <Link to="/team" onClick={() => setMenu(false)}>Our team</Link>
         <a className="cta" href="#register" onClick={(event) => { setMenu(false); scrollToRegister(event); }}>Register interest</a>
       </div>
     </header>
