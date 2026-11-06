@@ -156,7 +156,7 @@ export default function SquashLanding() {
         <div className="sq-wrap">
           <div className="kick">On the PSA World Tour</div>
           <h2>Powering analytics at the top of the game. <em>Live at the U.S. Open this week.</em></h2>
-          <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b>{event.live && <i aria-hidden="true" />}{event.note}</div>)}</div>
+          <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b>{event.live && <i aria-hidden="true" />}<span>{event.note}</span></div>)}</div>
         </div>
       </section>
 
