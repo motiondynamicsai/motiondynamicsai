@@ -507,7 +507,7 @@
   .sq-audience b{padding:0;border:0;border-radius:0;font-weight:600;white-space:nowrap}
   .sq-audience b+b::before{content:"· ";font-weight:400;color:#5b5f6a}
   .sq .sq-btn .ar{display:none}
-  .sq .sq-btn,.sq-menu .cta{border-radius:14px}
+  .sq .sq-btn,.sq .sq-fields .sq-btn,.sq-menu .cta,.sq-chrome~main .button{border-radius:8px}
 }
 /* phones: the home page's header on every page */
 @media (max-width:719px){
@@ -674,4 +674,13 @@
   .sq-hero .sq-form.is-done p,.sq-form-panel.is-done p{font-size:15px;line-height:1.4;color:var(--mute)}
   .sq-hero .sq-form-note.is-error{margin:8px 0 0}
   .sq-form-panel .sq-form-note.is-error{margin:8px 0 0;padding:12px 14px;border-radius:8px}
+}
+/* phones: one box. Corner 14, inset 6, so the corners inside are 8 and run parallel to it. */
+@media (max-width:719px){
+  .sq-fields,.sq-hero .sq-fields,.sq-form-panel .sq-fields{gap:6px;padding:6px;background:#0b0e16;border:1px solid var(--rule)}
+  .sq-hero .sq-fields{border-top:0}
+  .sq-form-panel .sq-fields{border-radius:14px;border-top-color:var(--gold)}
+  .sq-hero .sq-offer{border-color:var(--rule);border-top-color:var(--gold)}
+  .sq .sq-field input{border-radius:8px;padding:0 14px;font-size:16px}
+  .sq-field input:focus,.sq-form-panel .sq-field input:focus{box-shadow:inset 0 0 0 2px var(--gold)}
 }
