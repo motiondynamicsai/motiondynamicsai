@@ -684,3 +684,12 @@
   .sq .sq-field input{border-radius:8px;padding:0 14px;font-size:16px}
   .sq-field input:focus,.sq-form-panel .sq-field input:focus{box-shadow:inset 0 0 0 2px var(--gold)}
 }
+/* phones: the offer's text sits on the same two edges as the fields below it */
+@media (max-width:719px) and (orientation:portrait){
+  .sq-deal{padding-inline:6px;column-gap:6px}
+  .sq-deal>span{padding-left:14px}
+  .sq-deal>span+span{padding-left:13px;border-color:var(--rule)}
+  .sq-deal.sq-deal-reg{padding-inline:0}
+  .sq-deal.sq-deal-reg>span{padding-left:0}
+  .sq-deal.sq-deal-reg>span+span{padding-left:13px}
+}
