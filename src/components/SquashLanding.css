@@ -492,6 +492,18 @@
   .sq-perks li b{font-size:17px}
 }
 .sq-deal{display:none}
+.sq-phone-only{display:none}
+@media (max-width:719px){
+  .sq-phone-only{display:block}
+  /* What you get: one spacing rhythm, every row the same height */
+  #insights{padding-top:32px;padding-bottom:32px;scroll-margin-top:-44px} /* the menu link still lands the label just under the bar */
+  #insights .kick{margin-bottom:8px}
+  #insights h2{margin:0}
+  #insights .sq-insights{margin-top:20px}
+  .sq-insights article{padding:16px 0}
+  .sq-insights h3{font-size:clamp(20px,6.1vw,28px);white-space:nowrap}
+  .sq-audience{margin-top:0;padding-top:16px}
+}
 /* phones: the stacked courts sit over the same dim court as the end of the rally */
 @media (max-width:719px) and (orientation:portrait){
   .sq-stack{position:relative;isolation:isolate}

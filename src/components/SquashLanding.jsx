@@ -18,6 +18,7 @@ const insights = [
   { title: 'Shot maps & heatmaps', copy: 'Every shot’s flight, wall height and bounce. See where your length lands, game by game, and where it drifts under pressure.' },
   { title: 'Movement tracking', copy: 'How far you run, how quickly you recover to the T and how you cover each corner of the court, measured frame by frame.' },
   { title: 'Clear next steps', copy: 'Plain-English insights a player, parent or coach can act on in the next session, not just a wall of numbers.' },
+  { title: 'Build your profile over time', phoneOnly: true },
 ];
 
 function Mark() {
@@ -184,7 +185,7 @@ export default function SquashLanding() {
         <div className="sq-wrap">
           <div className="kick">What you get</div>
           <h2>The insight the pros get. <em>Built for the player you’re becoming.</em></h2>
-          <div className="sq-insights">{insights.map((item) => <article key={item.title}><h3>{item.title}</h3><p>{item.copy}</p></article>)}</div>
+          <div className="sq-insights">{insights.map((item) => <article key={item.title} className={item.phoneOnly ? 'sq-phone-only' : undefined}><h3>{item.title}</h3>{item.copy && <p>{item.copy}</p>}</article>)}</div>
           <div className="sq-audience"><span>For</span><b>Junior players</b><b>Parents</b><b>Coaches & academies</b></div>
         </div>
       </section>
