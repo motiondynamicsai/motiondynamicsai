@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiRotateCw, FiX } from 'react-icons/fi';
 import { mountSquashStage } from '../lib/squashStage';
 import { mountCourtStack } from '../lib/squashStack';
 import RegisterInterest from './RegisterInterest';
@@ -143,7 +143,7 @@ export default function SquashLanding() {
           <RegisterInterest variant="hero" source="hero" />
           <div className="sq-slot"><button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button></div>
         </div>
-        {playing && <button className="sq-close" type="button" onClick={stop} aria-label="Close the rally and go back">✕ <span>Close</span></button>}
+        {playing && <button className="sq-close" type="button" onClick={stop} aria-label="Close the rally and go back"><i className="sq-desk-only">✕</i><FiX className="sq-phone-only" aria-hidden="true" /> <span>Close</span></button>}
 
         <div className="sq-cap" aria-live="polite">
           <div className="sq-cap-in">
@@ -152,7 +152,7 @@ export default function SquashLanding() {
             <p>{beat.body}</p>
             {beat.cta && <div className="sq-cap-ctas">
               <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register your interest <span className="ar">→</span></a>
-              <button className="sq-btn" type="button" onClick={play}>↻ Replay</button>
+              <button className="sq-btn" type="button" onClick={play}><i className="sq-desk-only">↻</i><FiRotateCw className="sq-phone-only" aria-hidden="true" /> Replay</button>
             </div>}
           </div>
         </div>

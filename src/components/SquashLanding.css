@@ -490,6 +490,12 @@
 }
 .sq-deal{display:none}
 .sq-phone-only{display:none}
+.sq-desk-only{font-style:normal}
+@media (max-width:719px){
+  .sq-desk-only{display:none}
+  .sq-close svg{width:24px;height:24px;font-size:24px}
+  .sq-cap-ctas .sq-btn svg{flex:none;width:16px;height:16px}
+}
 .sq-chrome{display:none}
 .page-fallback{background:#f7f6f2}
 /* phones: no badges, chips or decorative arrows. Plain type, and one button shape. */
