@@ -4,7 +4,6 @@
 
 export const MEDIA = '/media/squash/';
 const G = 9.81;
-const STACK_LABELS = 76; // phones: width of the game-label column beside the stacked courts
 export const COL = { A: '143,184,255', B: '240,194,75' }; // Mueller blue, El Hammamy gold
 const surname = { A: 'Mueller', B: 'El Hammamy' };
 export const COURT_LINES = [[[0, 5.44], [6.4, 5.44]], [[3.2, 5.44], [3.2, 9.75]], [[1.6, 5.44], [1.6, 7.04], [0, 7.04]], [[4.8, 5.44], [4.8, 7.04], [6.4, 7.04]]];
@@ -21,6 +20,77 @@ export const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 export const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 export const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
 export const norm = (a) => { const l = Math.hypot(...a); return a.map((v) => v / l); };
+export const stackUnit = (x, y, z) => { // elevated view of a free-standing court, before scaling
+  const P = [x - 3.2, y - 4.875, z], eye = [0, 17, 12.5], tg = [0, -0.6, 2.4];
+  const f = norm(sub(tg, eye)), r = norm(cross([0, 0, 1], f)), u = cross(f, r), d = sub(P, eye), cz = dot(d, f);
+  return [dot(d, r) / cz, -dot(d, u) / cz];
+};
+
+// Phones: three same-size courts one above the other with clear air between them, game labels in their own column.
+const STACK_LABELS = 48, STACK_LABEL_GAP = 14;
+export function phoneStackFit(W, H, { left, right, top, bottom, air }) {
+  const c = [[0, 0], [6.4, 0], [6.4, 9.75], [0, 9.75]].map(([x, y]) => stackUnit(x, y, 0));
+  const x0 = Math.min(...c.map((q) => q[0])), x1 = Math.max(...c.map((q) => q[0])), y0 = Math.min(...c.map((q) => q[1])), y1 = Math.max(...c.map((q) => q[1]));
+  const F = Math.max(1, Math.min((W - left - right - STACK_LABELS - STACK_LABEL_GAP) / (x1 - x0), (H - top - bottom - 2 * air) / (3 * (y1 - y0))));
+  const cw = F * (x1 - x0), ch = F * (y1 - y0), gx = left + (W - left - right - cw - STACK_LABEL_GAP - STACK_LABELS) / 2;
+  const first = top + (H - top - bottom - 3 * ch - 2 * air) / 2; // top edge of the highest court
+  return { F, cw, ox: gx - F * x0, oy: (level) => first + (2 - level) * (ch + air) - F * y0, mid: (level) => first + (2 - level) * (ch + air) + ch / 2, labelX: gx + cw + STACK_LABEL_GAP, centre: gx + (cw + STACK_LABEL_GAP + STACK_LABELS) / 2 };
+}
+
+const glowSprites = new Map(), driveLists = new WeakMap();
+const glowSprite = (col, px) => { // the soft glow under a bounce, drawn once: a reveal stamps hundreds of them every frame
+  const key = `${col}/${px}`;
+  if (!glowSprites.has(key)) {
+    const c = document.createElement('canvas'); c.width = c.height = 2 * px;
+    const x = c.getContext('2d'), g = x.createRadialGradient(px, px, 0, px, px, px);
+    g.addColorStop(0, `rgba(${col},.28)`); g.addColorStop(1, `rgba(${col},0)`);
+    x.fillStyle = g; x.fillRect(0, 0, 2 * px, 2 * px);
+    glowSprites.set(key, c);
+  }
+  return glowSprites.get(key);
+};
+const drives = (side) => {
+  if (!driveLists.has(side)) driveLists.set(side, side.pts.filter((q) => q[2].includes('drive')));
+  return driveLists.get(side);
+};
+export function drawPhoneCourt(ctx, pt, game, { reveal, alpha, dpr, cw }) { // glow under the lines, dots over them: heat never hides a court's lines
+  const r = clamp(cw * 0.0075, 1.5, 2.3), px = Math.ceil(r * 4.4 * dpr), R = px / dpr, trace = (pts, close) => { ctx.beginPath(); pts.forEach((q, i) => (i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]))); if (close) ctx.closePath(); };
+  const outline = [pt(0, 0), pt(6.4, 0), pt(6.4, 9.75), pt(0, 9.75)];
+  ctx.fillStyle = `rgba(47,111,214,${0.2 * alpha})`; trace(outline, true); ctx.fill();
+  const shown = ['A', 'B'].map((w) => { const all = drives(game[w]); return [w, all.slice(0, Math.round(reveal * all.length)).map((q) => pt(q[0], q[1]))]; });
+  for (const [w, pts] of shown) { const glow = glowSprite(COL[w], px); for (const q of pts) ctx.drawImage(glow, q[0] - R, q[1] - R, 2 * R, 2 * R); }
+  ctx.lineWidth = clamp(cw / 180, 1, 1.5);
+  ctx.strokeStyle = `rgba(255,255,255,${0.75 * alpha})`; trace(outline, true); ctx.stroke();
+  ctx.strokeStyle = `rgba(255,255,255,${0.5 * alpha})`; COURT_LINES.forEach((l) => { trace(l.map((q) => pt(...q))); ctx.stroke(); });
+  for (const [w, pts] of shown) {
+    ctx.fillStyle = `rgba(${COL[w]},.95)`; ctx.beginPath();
+    for (const q of pts) { ctx.moveTo(q[0] + r, q[1]); ctx.arc(q[0], q[1], r, 0, 7); }
+    ctx.fill();
+  }
+}
+export function drawPhoneLabel(ctx, x, y, g, a, b, alpha) {
+  ctx.globalAlpha = alpha; ctx.textBaseline = 'middle';
+  ctx.font = '500 12.5px Outfit, system-ui, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillText(`Game ${g}`, x, y - 21);
+  ctx.font = '600 22px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${a}%`, x, y + 1);
+  ctx.font = '450 15px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgba(${COL.B},.95)`; ctx.fillText(`${b}%`, x, y + 21);
+  ctx.globalAlpha = 1;
+}
+
+// Canvas text has no font-swap: hold the labels back until Outfit is really there, so the first paint is never a fallback font.
+let fontsReady = false, fontsLoading = null;
+export const stackFontsReady = () => fontsReady;
+export function loadStackFonts() {
+  if (!fontsLoading) {
+    const t0 = performance.now(), fonts = document.fonts;
+    const attempt = () => (fonts ? Promise.all(['500 12.5px Outfit', '600 22px Outfit', '450 15px Outfit'].map((f) => fonts.load(f, 'Game 0123456789%'))) : Promise.resolve([[1]])).catch(() => [[1]]).then((found) => {
+      if (found.every((l) => l.length) || performance.now() - t0 > 4000) { fontsReady = true; return undefined; }
+      return new Promise((res) => { setTimeout(res, 120); }).then(attempt); // the @font-face rules may not have arrived yet
+    });
+    fontsLoading = attempt();
+  }
+  return fontsLoading;
+}
+
 const shotName = (s) => ({ cross_court_drive: 'Cross-court drive', straight_drive: 'Straight drive', straight_kill: 'Straight kill', straight_lob: 'Straight lob', boast_2_wall: 'Two-wall boast', serve: 'Serve' }[s] || s.replace(/_/g, ' '));
 
 function homography(src, dst) {
@@ -130,26 +200,18 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const SHOWN = 5, FIRST = shots.length - SHOWN, T0 = shots[FIRST].t - 0.4; // only the closing exchange is played
     const pct = (g, w) => { const d = match.games[g][w]; return Math.round((100 * d.length) / d.drives); };
     const narrow = () => W < 720;
-    const synthUnit = (x, y, z) => { // elevated view of a free-standing court
-      const P = [x - 3.2, y - 4.875, z], eye = [0, 17, 12.5], tg = [0, -0.6, 2.4];
-      const f = norm(sub(tg, eye)), r = norm(cross([0, 0, 1], f)), u = cross(f, r), d = sub(P, eye), cz = dot(d, f);
-      return [dot(d, r) / cz, -dot(d, u) / cz];
+    let phoneFit = null, capH = 216, capBelow = 0, capNow = 0, capAt = 0; // phones: the finished stack fills the visible space under the caption
+    const settlePhoneStack = () => { // the caption grows when its buttons arrive: the courts make way, never slide under it
+      const now = performance.now(), vis = Math.min(H, window.innerHeight);
+      capBelow = capNow ? Math.max(capBelow, capH) : capH; // within a run the courts only ever make more room, so they don't wobble between beats
+      capNow = capNow ? capNow + (capBelow - capNow) * (1 - Math.exp(-Math.min(0.05, (now - capAt) / 1000) * 14)) : capBelow; capAt = now;
+      if (Math.abs(capBelow - capNow) < 0.3) capNow = capBelow;
+      if (phoneFit && phoneFit.W === W && phoneFit.vis === vis && phoneFit.cap === capNow) return;
+      phoneFit = { ...phoneStackFit(W, vis, { left: 8, right: 8, top: capNow, bottom: 30, air: 12 }), W, vis, cap: capNow };
     };
-    const stackGap = () => (narrow() ? 4.4 : 3.3);
-    let phoneFit = null; // phones: the finished stack fills the space under the caption, game labels in their own column
-    const phoneStack = () => {
-      if (phoneFit && phoneFit.W === W && phoneFit.H === H) return phoneFit;
-      const c = []; for (const z of [0, 2 * stackGap()]) for (const x of [0, 6.4]) for (const y of [0, 9.75]) c.push(synthUnit(x, y, z));
-      const x0 = Math.min(...c.map((q) => q[0])), x1 = Math.max(...c.map((q) => q[0])), y0 = Math.min(...c.map((q) => q[1])), y1 = Math.max(...c.map((q) => q[1]));
-      const left = 10, right = STACK_LABELS + 8, top = 216, bottom = 20;
-      const F = Math.min((W - left - right) / (x1 - x0), (H - top - bottom) / (y1 - y0));
-      phoneFit = { W, H, F, ox: (left + W - right) / 2 - (F * (x0 + x1)) / 2, oy: (top + H - bottom) / 2 - (F * (y0 + y1)) / 2 };
-      return phoneFit;
-    };
-    const synth = (x, y, z) => { // in screen px
-      const q = synthUnit(x, y, z);
-      if (narrow()) { const v = phoneStack(); return [v.ox + v.F * q[0], v.oy + v.F * q[1]]; }
-      const F = Math.min(W * 0.56, H * 0.92);
+    const synth = (x, y, level) => { // in screen px
+      if (narrow()) { const q = stackUnit(x, y, 0); return [phoneFit.ox + phoneFit.F * q[0], phoneFit.oy(level) + phoneFit.F * q[1]]; }
+      const q = stackUnit(x, y, level * 3.3), F = Math.min(W * 0.56, H * 0.92);
       return [W * 0.6 + F * q[0], H * 0.47 + F * q[1]];
     };
     const regS = (x, y) => { const q = floorH(x, y); return [q[0] * CAMNOW.k + CAMNOW.ox, q[1] * CAMNOW.k + CAMNOW.oy]; };
@@ -225,39 +287,58 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       // the match: one court per game lifts off the floor and stacks, drive bounces as a heatmap
       if (pl > 0) {
         ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const px0 = PX; PX = 1;
-        ctx.fillStyle = `rgba(5,7,13,${0.72 * pl})`; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = `rgba(5,7,13,${(narrow() ? 0.88 : 0.72) * pl})`; ctx.fillRect(0, 0, W, H);
+        if (narrow()) settlePhoneStack();
         const labels = []; // drawn after every court so the next plane can't paint over them
         [3, 2, 1].forEach((g) => {
-          const ge = easeIO(ramp(t, PL + (3 - g) * 0.3, 2)), z = (3 - g) * stackGap();
-          const pt = (x, y) => { const a = regS(x, y), b = synth(x, y, z); return [lerp(a[0], b[0], ge), lerp(a[1], b[1], ge)]; };
-          const outline = [pt(0, 0), pt(6.4, 0), pt(6.4, 9.75), pt(0, 9.75)];
-          ctx.fillStyle = `rgba(47,111,214,${0.2 * pl})`; poly(outline, true); ctx.fill();
-          ctx.strokeStyle = `rgba(255,255,255,${0.55 * pl})`; ctx.lineWidth = 1.2 * LW; poly(outline, true); ctx.stroke();
-          ctx.strokeStyle = `rgba(255,255,255,${0.3 * pl})`; COURT_LINES.forEach((l) => { poly(l.map((p) => pt(...p))); ctx.stroke(); });
+          const ge = easeIO(ramp(t, PL + (3 - g) * 0.3, 2)), level = 3 - g;
+          const pt = (x, y) => { const a = regS(x, y), b = synth(x, y, level); return [lerp(a[0], b[0], ge), lerp(a[1], b[1], ge)]; };
           const de = ramp(t, PL + 1.6 + (3 - g) * 0.45, 1.2);
-          for (const w of ['A', 'B']) {
-            const pts = match.games[g][w].pts.filter((p) => p[2].includes('drive')), n = Math.round(de * pts.length);
-            for (let j = 0; j < n; j++) { // soft glow first so overlapping bounces build heat
-              const q = pt(pts[j][0], pts[j][1]), hg = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], 11);
-              hg.addColorStop(0, `rgba(${COL[w]},.28)`); hg.addColorStop(1, `rgba(${COL[w]},0)`);
-              ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(q[0], q[1], 11, 0, 7); ctx.fill();
+          if (narrow()) drawPhoneCourt(ctx, pt, match.games[g], { reveal: de, alpha: pl, dpr, cw: phoneFit.cw });
+          else {
+            const outline = [pt(0, 0), pt(6.4, 0), pt(6.4, 9.75), pt(0, 9.75)];
+            ctx.fillStyle = `rgba(47,111,214,${0.2 * pl})`; poly(outline, true); ctx.fill();
+            ctx.strokeStyle = `rgba(255,255,255,${0.55 * pl})`; ctx.lineWidth = 1.2 * LW; poly(outline, true); ctx.stroke();
+            ctx.strokeStyle = `rgba(255,255,255,${0.3 * pl})`; COURT_LINES.forEach((l) => { poly(l.map((p) => pt(...p))); ctx.stroke(); });
+            for (const w of ['A', 'B']) {
+              const pts = match.games[g][w].pts.filter((p) => p[2].includes('drive')), n = Math.round(de * pts.length);
+              for (let j = 0; j < n; j++) { // soft glow first so overlapping bounces build heat
+                const q = pt(pts[j][0], pts[j][1]), hg = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], 11);
+                hg.addColorStop(0, `rgba(${COL[w]},.28)`); hg.addColorStop(1, `rgba(${COL[w]},0)`);
+                ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(q[0], q[1], 11, 0, 7); ctx.fill();
+              }
+              ctx.fillStyle = `rgba(${COL[w]},.95)`;
+              for (let j = 0; j < n; j++) { const q = pt(pts[j][0], pts[j][1]); ctx.beginPath(); ctx.arc(q[0], q[1], 2.3, 0, 7); ctx.fill(); }
             }
-            ctx.fillStyle = `rgba(${COL[w]},.95)`;
-            for (let j = 0; j < n; j++) { const q = pt(pts[j][0], pts[j][1]); ctx.beginPath(); ctx.arc(q[0], q[1], 2.3, 0, 7); ctx.fill(); }
           }
-          if (de > 0) labels.push(() => {
-            const q = pt(6.4, 4.4); ctx.globalAlpha = de;
-            const lx = narrow() ? W - STACK_LABELS : q[0] + 26;
+          if (de > 0 && stackFontsReady()) labels.push(() => {
+            const q = pt(6.4, 4.4);
+            if (narrow()) { drawPhoneLabel(ctx, phoneFit.labelX, lerp(q[1], phoneFit.mid(level), ge), g, pct(g, 'A'), pct(g, 'B'), de); return; }
+            ctx.globalAlpha = de;
+            const lx = q[0] + 26;
             text(`Game ${g}`, lx, q[1] - 14, 12.5, 'rgba(255,255,255,.7)');
             ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 8);
             const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`;
-            if (narrow()) ctx.fillText(`${pct(g, 'B')}%`, lx, q[1] + 28); else ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 9);
+            ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 9);
             ctx.globalAlpha = 1;
           });
         });
         labels.forEach((draw) => draw());
+        if (narrow() && stackFontsReady() && labels.length) { // the stats box has gone by now: the colours still need naming
+          const a = ramp(t, PL + 1.6, 1.2), y = Math.min(H, window.innerHeight) - 15, cx = phoneFit.centre;
+          ctx.globalAlpha = a; ctx.font = '500 13px Outfit, system-ui, sans-serif'; ctx.textBaseline = 'middle';
+          const m = ctx.measureText(surname.A).width, e = ctx.measureText(surname.B).width;
+          let x = cx - (9 + 6 + m + 18 + 9 + 6 + e) / 2;
+          for (const [w, tw] of [['A', m], ['B', e]]) {
+            ctx.fillStyle = `rgb(${COL[w]})`; ctx.beginPath(); ctx.arc(x + 4.5, y, 4.5, 0, 7); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.fillText(surname[w], x + 15, y);
+            x += 15 + tw + 18;
+          }
+          ctx.globalAlpha = 1;
+        }
         PX = px0; ctx.restore();
       }
+      else capNow = 0;
       // broadcast head-to-head box
       if (t >= PL) {
         setHTML('.sq-ctx', 'Men’s pros<br>Whole match'); boxEl.style.setProperty('--hit', '#fff');
@@ -347,6 +428,10 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     wake = () => { still = 0; if (raf || disposed) return; last = performance.now(); raf = requestAnimationFrame(frame); };
     const seen = new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; if (onScreen) wake(); });
     seen.observe(stage);
+    const capSize = new ResizeObserver(() => { capH = cap.offsetTop + capIn.offsetHeight + 20; wake(); });
+    capSize.observe(capIn);
+    cleanups.push(() => capSize.disconnect());
+    loadStackFonts().then(() => wake());
     cleanups.push(() => seen.disconnect());
     wake();
     cleanups.push(() => clearTimeout(capTimer));
