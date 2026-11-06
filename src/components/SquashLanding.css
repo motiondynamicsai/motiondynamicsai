@@ -531,7 +531,7 @@
   .sq-deal{display:grid;grid-template-columns:1fr 1fr;padding:5px 13px 0}
   .sq-deal>span{display:block;font-size:12px;font-weight:450;line-height:1.2;color:rgba(255,255,255,.86);white-space:nowrap}
   .sq-deal>span+span{padding-left:13px;border-left:1px solid rgba(255,255,255,.2)}
-  .sq-deal b{display:block;width:max-content;font-size:24px;font-weight:800;letter-spacing:-.01em;line-height:1.02;text-transform:uppercase;color:var(--gold);transform:skewX(-9deg);transform-origin:0 100%}
+  .sq-deal b{display:block;width:max-content;font-size:24px;font-weight:800;letter-spacing:-.01em;line-height:1.02;text-transform:uppercase;color:var(--gold)}
   .sq-hero:has(.is-done) .sq-deal{display:none}
   .sq-hero .sq-fields{border-radius:0 0 14px 14px}
   .sq-hero:has(.is-error) .sq-slot{min-height:0;padding:0 0 8px;align-items:flex-end} /* the error line takes the room: Play rests on the court */
