@@ -799,3 +799,9 @@
 @media (max-width:719px){
   #register:has(.is-done) h2,#register:has(.is-done) .sq-deal,#register:has(.is-done) .sq-perks{display:none}
 }
+/* phones: the footer logo is the header logo, smaller: same proportions, same gap */
+@media (max-width:719px){
+  .sq-footer .sq-brand{--brand:22px;gap:7px}
+  .sq-footer .sq-brand svg{width:var(--brand);height:var(--brand)}
+  .sq-footer .sq-brand span{font-size:calc(var(--brand)*1.08);line-height:1;transform:translateY(-2px)}
+}
