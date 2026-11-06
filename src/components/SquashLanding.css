@@ -765,3 +765,8 @@
 @media (max-width:719px){.sq-h-pro{position:relative;left:-.07em}}
 /* phones: the menu icon's lines end on the page margin, not its invisible box */
 @media (max-width:719px){.sq-menu-btn{margin-right:-13px}}
+/* phones: the court is a picture with straight edges on the page margins. No soft fade into black, and the orange flare at the photo's edges stays outside the frame. */
+@media (max-width:719px) and (orientation:portrait){
+  .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 13%,#000 13%,#000 58.5%,transparent 58.5%);mask-image:linear-gradient(180deg,transparent 13%,#000 13%,#000 58.5%,transparent 58.5%)}
+  .sq-scrim{box-sizing:border-box;border-inline:16px solid var(--ink)}
+}
