@@ -38,28 +38,16 @@ export function phoneStackFit(W, H, { left, right, top, bottom, air }) {
   return { F, cw, ox: gx - F * x0, oy: (level) => first + (2 - level) * (ch + air) - F * y0, mid: (level) => first + (2 - level) * (ch + air) + ch / 2, labelX: gx + cw + STACK_LABEL_GAP, centre: gx + (cw + STACK_LABEL_GAP + STACK_LABELS) / 2 };
 }
 
-const glowSprites = new Map(), driveLists = new WeakMap();
-const glowSprite = (col, px) => { // the soft glow under a bounce, drawn once: a reveal stamps hundreds of them every frame
-  const key = `${col}/${px}`;
-  if (!glowSprites.has(key)) {
-    const c = document.createElement('canvas'); c.width = c.height = 2 * px;
-    const x = c.getContext('2d'), g = x.createRadialGradient(px, px, 0, px, px, px);
-    g.addColorStop(0, `rgba(${col},.28)`); g.addColorStop(1, `rgba(${col},0)`);
-    x.fillStyle = g; x.fillRect(0, 0, 2 * px, 2 * px);
-    glowSprites.set(key, c);
-  }
-  return glowSprites.get(key);
-};
+const driveLists = new WeakMap();
 const drives = (side) => {
   if (!driveLists.has(side)) driveLists.set(side, side.pts.filter((q) => q[2].includes('drive')));
   return driveLists.get(side);
 };
-export function drawPhoneCourt(ctx, pt, game, { reveal, alpha, dpr, cw }) { // glow under the lines, dots over them: heat never hides a court's lines
-  const r = clamp(cw * 0.0075, 1.5, 2.3), px = Math.ceil(r * 4.4 * dpr), R = px / dpr, trace = (pts, close) => { ctx.beginPath(); pts.forEach((q, i) => (i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]))); if (close) ctx.closePath(); };
+export function drawPhoneCourt(ctx, pt, game, { reveal, alpha, cw }) { // dots over the lines: flat colour, no glow
+  const r = clamp(cw * 0.0085, 1.7, 2.6), trace = (pts, close) => { ctx.beginPath(); pts.forEach((q, i) => (i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1]))); if (close) ctx.closePath(); };
   const outline = [pt(0, 0), pt(6.4, 0), pt(6.4, 9.75), pt(0, 9.75)];
   ctx.fillStyle = `rgba(47,111,214,${0.2 * alpha})`; trace(outline, true); ctx.fill();
   const shown = ['A', 'B'].map((w) => { const all = drives(game[w]); return [w, all.slice(0, Math.round(reveal * all.length)).map((q) => pt(q[0], q[1]))]; });
-  for (const [w, pts] of shown) { const glow = glowSprite(COL[w], px); for (const q of pts) ctx.drawImage(glow, q[0] - R, q[1] - R, 2 * R, 2 * R); }
   ctx.lineWidth = clamp(cw / 180, 1, 1.5);
   ctx.strokeStyle = `rgba(255,255,255,${0.75 * alpha})`; trace(outline, true); ctx.stroke();
   ctx.strokeStyle = `rgba(255,255,255,${0.5 * alpha})`; COURT_LINES.forEach((l) => { trace(l.map((q) => pt(...q))); ctx.stroke(); });
@@ -293,7 +281,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
           ctx.strokeStyle = g; ctx.lineWidth = 1.4 * PX * rw; ctx.beginPath(); ctx.moveTo(...foot); ctx.lineTo(...head); ctx.stroke();
         }
         ctx.globalAlpha = 1;
-        if (rt < T1 - 0.02 && whole === 0) { const bp = P3(...ballAt(rt)); glowDot(bp[0], bp[1], (narrow() ? 4 : 5) * PX, 'rgba(253,71,70,A)', 3.2); }
+        if (rt < T1 - 0.02 && whole === 0) { const bp = P3(...ballAt(rt)); if (narrow()) { ctx.fillStyle = 'rgb(253,71,70)'; ctx.beginPath(); ctx.arc(bp[0], bp[1], 4 * PX, 0, 7); ctx.fill(); } else glowDot(bp[0], bp[1], 5 * PX, 'rgba(253,71,70,A)', 3.2); }
       }
       // the match: one court per game lifts off the floor and stacks, drive bounces as a heatmap
       if (pl > 0) {
