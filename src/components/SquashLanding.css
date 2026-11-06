@@ -492,6 +492,17 @@
 .sq-phone-only{display:none}
 .sq-chrome{display:none}
 .page-fallback{background:#f7f6f2}
+/* phones: no badges, chips or decorative arrows. Plain type, and one button shape. */
+@media (max-width:719px){
+  .sq-perks li{padding-left:0}
+  .sq-perks li::before{display:none}
+  .sq-audience{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;gap:0 6px;font-size:clamp(13px,3.7vw,15px);color:#5b5f6a}
+  .sq-audience span{flex-basis:auto;grid-column:auto;font-size:inherit}
+  .sq-audience b{padding:0;border:0;border-radius:0;font-weight:600;white-space:nowrap}
+  .sq-audience b+b::before{content:"· ";font-weight:400;color:#5b5f6a}
+  .sq .sq-btn .ar{display:none}
+  .sq .sq-btn,.sq-menu .cta{border-radius:14px}
+}
 /* phones: the home page's header on every page */
 @media (max-width:719px){
   .sq-chrome{display:block}
