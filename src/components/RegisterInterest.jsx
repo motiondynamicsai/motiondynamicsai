@@ -25,17 +25,16 @@ export default function RegisterInterest({ variant = 'hero', source }) {
   };
 
   if (status === 'done') {
-    return <div className={`sq-form sq-form-${variant} is-done`} role="status">
-      <span className="sq-check" aria-hidden="true">✓</span>
-      <div><strong>Thanks for registering{name ? `, ${name}` : ''}! You’re on the waitlist.</strong><p>We’ll be in touch shortly about the launch. Please use this same email when you sign up, so we can unlock your offer: one match analysed free and 50% off.</p></div>
+    return <div className={`sq-form sq-form-${variant} is-done`} role="status" tabIndex={-1} ref={(el) => el?.focus({ preventScroll: true })}>
+      <div><strong>Thanks for registering{name ? `, ${name}` : ''}! You’re on the waitlist.</strong><p>We’ll email you about the launch. Sign up with this address and you get one match analyzed free and 50% off.</p></div>
     </div>;
   }
 
   return <form className={`sq-form sq-form-${variant}`} onSubmit={submit} aria-label="Register your interest">
     <div className="sq-fields">
-      <label className="sq-field"><span>Name</span><input id={`${id}-name`} name="name" type="text" autoComplete="name" placeholder="Your name" required /></label>
-      <label className="sq-field"><span>Email</span><input id={`${id}-email`} name="email" type="email" autoComplete="email" inputMode="email" placeholder="you@example.com" required /></label>
-      <button className="sq-btn solid" type="submit" disabled={status === 'sending'}>{status === 'sending' ? 'Registering…' : <>Register interest <span className="ar">→</span></>}</button>
+      <label className="sq-field"><span>Name</span><input id={`${id}-name`} name="name" type="text" autoComplete="name" autoCapitalize="words" enterKeyHint="next" placeholder="Your name" required /></label>
+      <label className="sq-field"><span>Email</span><input id={`${id}-email`} name="email" type="email" autoComplete="email" inputMode="email" autoCapitalize="none" spellCheck="false" enterKeyHint="send" placeholder="Your email" required /></label>
+      <button className="sq-btn solid" type="submit" disabled={status === 'sending'}>{status === 'sending' ? 'Registering…' : 'Register interest'}</button>
     </div>
     {status === 'error'
       ? <p className="sq-form-note is-error" role="alert">That didn’t go through. Please try again, or email <a href="mailto:contact@motiondynamics.ai?subject=Register%20interest">contact@motiondynamics.ai</a>.</p>
