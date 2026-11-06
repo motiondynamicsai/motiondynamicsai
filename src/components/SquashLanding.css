@@ -500,6 +500,7 @@
   .sq-events .live>b,.sq-events .live>i,.sq-events .live>span:not(.sq-ev-gx){position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip-path:inset(50%)}
   .sq-events .live>.sq-ev-gx{display:flex;position:static;width:auto;height:44px;clip-path:none;overflow:hidden;background:#0b0e16;border-bottom:2px solid var(--gold);font-size:12px;font-weight:600;letter-spacing:.07em;line-height:1;color:#fff;white-space:nowrap}
   .sq-events .live{min-width:0}
+  .sq-events .live+div>span{position:absolute;width:1px;height:1px;padding:0;margin:0;border:0;overflow:hidden;clip-path:inset(50%)} /* the label above the section already says PSA */
   .sq-events .live .gx-rest b{display:inline;margin:0;font-size:13px;font-weight:750;line-height:1;letter-spacing:.06em;color:#fff}
   .sq-events .live .gx-rest i{display:block;flex:none;width:1px;height:13px;margin:0;border-radius:0;background:var(--gold);animation:none}
   .sq-events .live .gx-live i{display:block;flex:none;width:6px;height:6px;margin:0;background:#fff;animation:none}
