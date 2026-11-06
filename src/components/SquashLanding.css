@@ -471,12 +471,10 @@
 /* the rally on phones reads like a broadcast graphic: the top banner's red and gold, then a two-line punch */
 @media (max-width:719px){
   .sq-cap .num b,.sq-cap .num span{display:none}
-  .sq-cap-tag{display:block;flex:none;position:relative;padding:6px 16px 6px 22px;background:var(--gold);color:#05070d;font-size:12px;font-style:normal;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
-  .sq-cap-tag::before{content:"";position:absolute;left:0;top:0;bottom:0;width:11px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+  .sq-cap-tag{flex:none}
   .sq-cap-2{display:block;color:var(--gold)}
   .sq-cap-in{min-height:112px}
 }
-@media (max-width:385px){.sq-cap-tag{padding:6px 12px 6px 18px;font-size:10.5px;letter-spacing:.04em}}
 @media (prefers-reduced-motion:reduce){.sq-h-phone{animation:none}}
 /* phones: pictures and headlines, no paragraphs. Status and error messages stay. */
 @media (max-width:719px){
@@ -486,7 +484,6 @@
   .sq-cap h2{margin-bottom:0}
   .sq-insights article{padding:14px 0}
   .sq-insights h3{font-size:clamp(22px,6.2vw,28px)}
-  .sq-stack{padding-top:20px}
   .sq-stack canvas{margin-top:12px}
   .sq-perks li{min-height:24px}
   .sq-perks li b{font-size:17px}
@@ -506,13 +503,13 @@
   html:has(.sq-chrome),body:has(.sq-chrome),.page-fallback{background:#05070d}
   .site-footer{display:none}
   .sq-chrome~main{--gold:#f0c24b;--ball:#fd4746;background:#05070d;color:#fff;font-family:Outfit,system-ui,sans-serif}
-  .sq-chrome~main .kicker{position:relative;width:max-content;max-width:100%;margin:0 0 12px;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-family:Outfit,system-ui,sans-serif;font-size:11px;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+  .sq-chrome~main .kicker{position:relative;display:block;width:max-content;max-width:100%;margin:0 0 12px;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-family:Outfit,system-ui,sans-serif;font-size:11px;font-style:normal;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
   .sq-chrome~main .kicker::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
-  .sq-chrome~main h1{font-size:clamp(30px,9.6vw,46px);font-weight:600;line-height:1.04;letter-spacing:-.03em;color:#fff;margin:0}
+  .sq-chrome~main h1{color:#fff}
   .sq-chrome~main h1 em,.sq-chrome~main h2 em{font-style:normal;font-weight:500;color:rgba(255,255,255,.7)}
   .sq-chrome~main .button{display:flex;align-items:center;justify-content:center;width:100%;height:54px;padding:0 24px;border:0;border-radius:14px;background:#fff;color:#05070d;font-size:17px;font-weight:600}
   .sq-chrome~main .button svg{display:none}
-  .team-page .page-heading{width:auto;margin:0;padding:32px 16px 24px}
+  .team-page .page-heading{width:auto;margin:0;padding:24px 16px}
   .team-page .page-heading>p:last-child{display:none}
   .team-page .team-groups{width:auto;margin:0;padding:0 16px}
   .team-page .team-group{padding-bottom:32px}
@@ -526,7 +523,7 @@
   .team-page .member-copy p{margin:2px 0 0;font-size:13px;line-height:1.3;color:rgba(255,255,255,.72)}
   .team-page .member-copy>span{margin-top:2px;font-size:13px;line-height:1.3;color:var(--gold)}
   .team-page .team-contact{display:block;width:auto;margin:0 16px;padding:16px 0 32px;border-top:1px solid rgba(255,255,255,.18)}
-  .team-page .team-contact h2{margin:0 0 16px;font-size:clamp(30px,9.6vw,46px);font-weight:600;line-height:1.04;letter-spacing:-.03em;color:#fff}
+  .team-page .team-contact h2{margin:0 0 16px;color:#fff}
   .member-detail.container{width:auto;margin-inline:0;padding:0 16px 32px}
   .sq-chrome~main.member-detail>.text-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:8px 0;font-size:15px;color:#fff}
   .member-detail-grid{display:flex;flex-direction:column;gap:16px}
@@ -535,7 +532,7 @@
   .sq-chrome~main .member-detail-grid div>span{display:block;margin-top:2px;font-size:15px;color:var(--gold)}
   .member-detail-grid .detail-copy{margin:12px 0 16px;font-size:16px;line-height:1.45;color:rgba(255,255,255,.8)}
   .sq-chrome~main .member-detail-grid>img{order:-1;width:100%;max-height:none;background:#11141c}
-  .not-found.container{width:auto;margin-inline:0;padding:32px 16px;min-height:calc(100svh - 91px - 137px)}
+  .not-found.container{width:auto;margin-inline:0;padding:24px 16px;min-height:calc(100svh - 91px - 137px)}
   .sq-chrome~main.not-found h1{margin:0 0 16px}
 }
 /* phones: flat colour only. No glow, no blur, nothing that pulses. */
@@ -551,13 +548,14 @@
   .sq-footer small{flex-basis:100%;margin-top:2px}
 }
 @media (max-width:719px){.sq-footer .sq-brand{color:#fff}} /* the wordmark at full strength, as at the top of the page */
-/* phones: the Register section opens with the same gold and red tag as the offer box */
+/* phones: every section opens the same way: the gold and red tag, then the heading, with the same spacing and size */
 @media (max-width:719px){
-  .sq-register .kick{position:relative;width:max-content;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-size:11px;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
-  .sq-register .kick::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
-  .sq-register h2{margin-top:12px}
-  .sq-register{padding-top:32px;padding-bottom:32px}
-  #register{scroll-margin-top:-44px}
+  .sq .kick,.sq-cap-tag,.sq-hero .sq-tag{position:relative;display:block;width:max-content;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-size:11px;font-style:normal;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+  .sq .kick::before,.sq-cap-tag::before,.sq-hero .sq-tag::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+  .sq .kick{margin:0 0 12px}
+  .sq .kick.sq-phone-only{order:1}
+  .sq-after h2,.sq-register h2,.sq-stack h2,.sq-chrome~main h1,.team-page .team-contact h2{margin:0;font-size:clamp(28px,8.75vw,44px);font-weight:600;line-height:1.04;letter-spacing:-.03em}
+  #insights,#proof,#register,.sq-stack{padding-top:24px;padding-bottom:24px;scroll-margin-top:-36px}
   .sq-register-grid{gap:16px}
   .sq-form-panel .sq-field span{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0)} /* the prompt inside each field says it once */
   .sq-form-panel .sq-field input[name=name]::placeholder{color:rgba(255,255,255,.5)}
@@ -601,13 +599,7 @@
 @media (max-width:719px){
   .sq-phone-only{display:block}
   /* What you get: one spacing rhythm, every row the same height */
-  #insights{padding-top:32px;padding-bottom:32px;scroll-margin-top:-44px} /* the menu link still lands the label just under the bar */
-  #insights .kick{margin-bottom:8px}
-  #insights h2{margin:0}
   #insights .sq-insights{margin-top:20px}
-  #proof{padding-top:32px;padding-bottom:32px;scroll-margin-top:-44px}
-  #proof .kick{margin-bottom:8px}
-  #proof h2{margin:0}
   #proof .sq-events{margin-top:20px}
   .sq-insights article{padding:16px 0}
   .sq-insights h3{font-size:clamp(20px,6.1vw,28px);white-space:nowrap}
@@ -622,8 +614,7 @@
 @media (max-width:719px) and (orientation:portrait){
   .sq-stage{min-height:calc(294px + 79.3vw)}
   .sq-hero .sq-offer{flex:none;padding:0 0 3px;overflow:hidden;border-radius:14px 14px 0 0;border-color:rgba(255,255,255,.22);border-top:1px solid var(--gold)}
-  .sq-hero .sq-tag{position:relative;top:auto;left:auto;display:block;width:max-content;padding:5px 18px 5px 20px;border-radius:0;font-size:11px;font-weight:750;letter-spacing:.07em;line-height:1;color:#05070d;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
-  .sq-hero .sq-tag::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+  .sq-hero .sq-tag{top:auto;left:auto;border-radius:0}
   .sq-hero .sq-offer-deal{display:none}
   .sq-deal{display:grid;grid-template-columns:1fr 1fr;padding:5px 13px 0}
   .sq-deal>span{display:block;font-size:12px;font-weight:450;line-height:1.2;color:rgba(255,255,255,.86);white-space:nowrap}
@@ -635,7 +626,6 @@
 }
 /* tall phones: the first screen fills the phone, and the spare height goes to the offer and Play */
 @media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
-  .sq-hero .sq-tag{padding-top:6px;padding-bottom:6px;font-size:12px}
   .sq-deal{padding-top:9px}
   .sq-deal>span{font-size:13.5px}
   .sq-deal b{font-size:clamp(28px,3.9svh,38px);margin-bottom:2px}
