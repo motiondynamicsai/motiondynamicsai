@@ -763,3 +763,5 @@
 }
 /* phones: the slant pushes PRO-LEVEL's foot right of the lines below it: pull it back onto the edge */
 @media (max-width:719px){.sq-h-pro{position:relative;left:-.07em}}
+/* phones: the menu icon's lines end on the page margin, not its invisible box */
+@media (max-width:719px){.sq-menu-btn{margin-right:-13px}}
