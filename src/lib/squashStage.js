@@ -4,7 +4,6 @@
 
 export const MEDIA = '/media/squash/';
 const G = 9.81;
-const STACK_LABELS = 76; // phones: width of the game-label column beside the stacked courts
 const WALL_SCALE = 112; // plate px per metre of height at w = 1, fitted to the tin, service line and out line on the plate
 export const COL = { A: '143,184,255', B: '240,194,75' }; // Mueller blue, El Hammamy gold
 const surname = { A: 'Mueller', B: 'El Hammamy' };
@@ -241,7 +240,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     // Phones hold the whole court still and sharp: it sits in the hero's slot at rest and between caption and stats box in play.
     const band = { slot: H / 2, play: H / 2 };
     const measureBand = () => {
-      if (slot) band.slot = hero.offsetTop + slot.offsetTop + slot.offsetHeight / 2;
+      if (slot) band.slot = hero.offsetTop + slot.offsetTop + W * 0.242; // pins the top of the court's fade to the slot's top, whatever the form below is doing
       band.play = (cap.offsetTop + (parseFloat(getComputedStyle(capIn).minHeight) || capIn.offsetHeight) + boxEl.offsetTop) / 2; // the reserved height, so caption text can't move the court
     };
     measureBand(); onResize = () => { measureBand(); wake(); };
@@ -428,7 +427,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       cv.style.opacity = narrow() ? 1 - ho : ''; // phones show the clean court at rest; the tracking arrives with Play
       const co = clamp((h - 0.55) / 0.35, 0, 1);
       cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
-      boxEl.style.opacity = narrow() ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
+      boxEl.style.opacity = narrow() || H < 500 ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
       if (co > 0) setBeat(st.t);
       cap.style.setProperty('--p', narrow() ? (st.t - T0) / (SQ.dur - T0) : st.t / SQ.dur); // phones: the line fills from empty over what actually plays
       tickH2H(dt);
