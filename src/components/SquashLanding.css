@@ -493,6 +493,10 @@
 }
 .sq-deal{display:none}
 .sq-phone-only{display:none}
+/* phones: the stacked courts, read top to bottom: who is who, then the courts */
+@media (max-width:719px){
+  .sq-stack .sq-legend{order:3;justify-content:flex-start;margin-top:10px}
+}
 @media (max-width:719px){
   .sq-phone-only{display:block}
   /* What you get: one spacing rhythm, every row the same height */
