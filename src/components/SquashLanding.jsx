@@ -11,12 +11,12 @@ const events = [
   { name: 'Qatar Classic', note: 'PSA' },
   { name: 'London Classic', note: 'PSA' },
   { name: 'Swedish Open', note: 'PSA' },
-  { name: 'Birmingham Open', note: 'PSA' },
+  { name: 'British Open', note: 'PSA' },
 ];
 const insights = [
-  { title: 'Shot maps & heatmaps', copy: 'Every shot’s flight, wall height and bounce. See where your length lands, game by game, and where it drifts under pressure.' },
-  { title: 'Movement tracking', copy: 'How far you run, how quickly you recover to the T and how you cover each corner of the court, measured frame by frame.' },
-  { title: 'Clear next steps', copy: 'Plain-English insights a player, parent or coach can act on in the next session, not just a wall of numbers.' },
+  { title: 'Shot maps & heatmaps', copy: 'See where every shot lands, game by game.' },
+  { title: 'Movement tracking', copy: 'How far you run and how fast you recover to the T.' },
+  { title: 'Clear next steps', copy: 'Plain-English tips to use in your next session.' },
 ];
 
 function Mark() {
