@@ -493,6 +493,11 @@
 }
 .sq-deal{display:none}
 .sq-phone-only{display:none}
+@media (max-width:719px){
+  .sq-footer{padding-top:12px;padding-bottom:calc(16px + env(safe-area-inset-bottom));gap:0}
+  .sq-footer div{flex-direction:row;justify-content:space-between;align-items:center;gap:0 16px}
+  .sq-footer small{flex-basis:100%;margin-top:2px}
+}
 @media (max-width:719px){.sq-footer .sq-brand{color:#fff}} /* the wordmark at full strength, as at the top of the page */
 /* phones: the Register section opens with the same gold and red tag as the offer box */
 @media (max-width:719px){
