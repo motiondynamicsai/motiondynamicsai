@@ -493,6 +493,11 @@
 }
 .sq-deal{display:none}
 .sq-phone-only{display:none}
+/* phones: the second line of each heading is the same voice, just quieter: no thin weight */
+@media (max-width:719px){
+  .sq-after h2 em{font-weight:500;color:#6d727c}
+  .sq-stack h2 em{font-weight:500;color:rgba(255,255,255,.7)}
+}
 .sq-key{display:none}
 /* phones: the stacked courts, read top to bottom: who is who, then the courts */
 @media (max-width:719px){
