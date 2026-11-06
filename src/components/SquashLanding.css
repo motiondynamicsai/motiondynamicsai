@@ -819,12 +819,15 @@
 }
 /* phones: two-line headings break evenly, with no lone word on the second line */
 @media (max-width:719px){
-  .sq-after h2,.sq-stack h2,.sq-register h2,.sq-chrome~main h1,.team-page .team-contact h2{text-wrap:balance}
+  .sq-after h2,.sq-stack h2,.sq-register h2,.sq-cap h2,.sq-chrome~main h1,.team-page .team-contact h2{text-wrap:balance}
 }
 /* phones: the first screen runs on under the browser's floating toolbar, so the next section never peeks out behind the glass. Everything stays above the toolbar. */
 @media (max-width:719px) and (orientation:portrait){
-  .sq-stage{height:100lvh}
-  .sq-hero{bottom:calc(10px + 100lvh - 100svh)}
-  .sq-box{bottom:calc(16px + 100lvh - 100svh)}
+  .sq-stage{--under:calc(100lvh - 100svh);height:calc(100svh + var(--under))}
+  .sq-hero{bottom:calc(10px + var(--under))}
+  .sq-box{bottom:calc(16px + var(--under))}
 }
-@media (max-width:719px) and (orientation:portrait) and (max-height:600px){.sq-hero{bottom:calc(6px + 100lvh - 100svh)}}
+@media (max-width:719px) and (orientation:portrait) and (max-height:600px){.sq-hero{bottom:calc(6px + var(--under))}}
+@supports (-webkit-touch-callout:none){ /* iPhone Safari draws the page 58px past 100lvh, under its toolbar */
+  @media (max-width:719px) and (orientation:portrait){.sq-stage{--under:calc(100lvh - 100svh + 64px)}}
+}

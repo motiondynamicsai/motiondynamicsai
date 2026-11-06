@@ -221,8 +221,8 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       cam: [[0, 2760, 860, 1.12], [4, 2760, 880, 1.28], [12, 2700, 900, 1.34], [20, 2820, 900, 1.3], [28, 2780, 880, 1.28], [29.9, WB[0], WB[1] - 140, 1.5], [T1 + 0.5, WB[0], WB[1] - 140, 1.5], [T1 + 2.2, 2760, 860, 1.12], [PL + 6, 2760, 860, 1.12]],
       beats: [
         [0, 'Every shot, tracked.', 'The closing shots of a real pro rally, Mueller v El Hammamy: each shot’s flight, both players tracked frame by frame, every wall contact and bounce.'],
-        [SQ_ALL, 'The finish, at once.', 'The last five shots, every wall contact and every bounce, in one picture.'],
-        [PL, 'Stack the games. See the pattern.', `One court per game, every drive’s bounce marked. Mueller found more length each game: ${pct(1, 'A')}%, then ${pct(2, 'A')}%, then ${pct(3, 'A')}% behind the short line.`],
+        [SQ_ALL, narrow() ? 'The last five shots.' : 'The finish, at once.', 'The last five shots, every wall contact and every bounce, in one picture.'],
+        [PL, narrow() ? 'Stack the games and the pattern shows.' : 'Stack the games. See the pattern.', `One court per game, every drive’s bounce marked. Mueller found more length each game: ${pct(1, 'A')}%, then ${pct(2, 'A')}%, then ${pct(3, 'A')}% behind the short line.`],
         [PL + 4.2, 'Now picture your match.', 'Register your interest and we’ll analyse one of your matches for free.', true],
       ],
     };
