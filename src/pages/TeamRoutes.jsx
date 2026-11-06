@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { FiArrowLeft, FiArrowUpRight } from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 import { Navigation, SiteFooter } from '../components/SiteChrome';
 import AngelStaff from '../assets/Staff images/Angel-cutout.webp';
 import DiarStaff from '../assets/Staff images/Diar-NoBG.webp';
@@ -122,9 +122,9 @@ const teamSections = [
 
 export function TeamPage() {
   return <><Navigation /><main id="main" className="team-page">
-    <header className="page-heading container" id="top"><p className="kicker"><span className="sq-desk-only">Research. Engineering. A love of sport.</span><span className="sq-phone-only">Our team</span></p><h1><span className="sq-desk-only">Good people.<br /><em>Better questions.</em></span><span className="sq-phone-only">The people behind the tracking.</span></h1><p>Meet the researchers, engineers, and sports specialists turning movement into understanding.</p></header>
-    <div className="container team-groups">{teamSections.map((section) => <section className="team-group" key={section.title}><h2>{section.title}</h2><div className={`team-grid team-grid-${section.ids.length}`}>{section.ids.map((id) => { const member = team.find((person) => person.id === id); return <Link className="member" key={member.id} to={`/team/${member.id}`} aria-label={`View profile for ${member.name}`}><div className="member-photo"><img src={member.image} alt={member.name} loading="lazy" /><span><FiArrowUpRight aria-hidden="true" /></span></div><div className="member-copy"><h3>{member.name}</h3><p>{member.title}</p><span>{member.subtitle}</span></div></Link>; })}</div></section>)}</div>
-    <section className="team-contact container"><h2>Let’s build on<br /><em>what moves us.</em></h2><a className="button button-red" href="mailto:contact@motiondynamics.ai">Get in touch <FiArrowUpRight aria-hidden="true" /></a></section>
+    <header className="page-heading container" id="top"><p className="kicker">Our team</p><h1>The people behind the tracking.</h1><p>Meet the researchers, engineers, and sports specialists turning movement into understanding.</p></header>
+    <div className="container team-groups">{teamSections.map((section) => <section className="team-group" key={section.title}><h2>{section.title}</h2><div className={`team-grid team-grid-${section.ids.length}`}>{section.ids.map((id) => { const member = team.find((person) => person.id === id); return <Link className="member" key={member.id} to={`/team/${member.id}`} aria-label={`View profile for ${member.name}`}><div className="member-photo"><img src={member.image} alt={member.name} loading="lazy" /></div><div className="member-copy"><h3>{member.name}</h3><p>{member.title}</p><span>{member.subtitle}</span></div></Link>; })}</div></section>)}</div>
+    <section className="team-contact container"><h2>Let’s build on what moves us.</h2><a className="button button-red" href="mailto:contact@motiondynamics.ai">Get in touch</a></section>
   </main><SiteFooter /></>;
 }
 
@@ -132,10 +132,10 @@ export function TeamMemberPage() {
   const { id } = useParams();
   const member = team.find((person) => person.id === id);
   if (!member) return <NotFound />;
-  return <><Navigation /><main id="main" className="member-detail container"><Link className="text-link" to="/team"><FiArrowLeft aria-hidden="true" /> Back to our team</Link><div className="member-detail-grid"><div><p className="kicker">{member.group}</p><h1>{member.name}</h1><p className="detail-role">{member.title}</p><span>{member.subtitle}</span><p className="detail-copy">{member.content}</p><a className="button button-red" href="mailto:contact@motiondynamics.ai"><span className="sq-desk-only">Start a conversation </span><span className="sq-phone-only">Get in touch</span><FiArrowUpRight aria-hidden="true" /></a></div><img src={member.image} alt={member.name} /></div></main><SiteFooter /></>;
+  return <><Navigation /><main id="main" className="member-detail container"><Link className="text-link" to="/team"><FiArrowLeft aria-hidden="true" /> Back to our team</Link><div className="member-detail-grid"><div><p className="kicker">{member.group}</p><h1>{member.name}</h1><p className="detail-role">{member.title}</p><span>{member.subtitle}</span><p className="detail-copy">{member.content}</p><a className="button button-red" href="mailto:contact@motiondynamics.ai">Get in touch</a></div><img src={member.image} alt={member.name} /></div></main><SiteFooter /></>;
 }
 
 export function NotFound() {
-  return <><Navigation /><main id="main" className="not-found container"><p className="kicker"><span className="sq-desk-only">A different direction</span><span className="sq-phone-only">Page not found</span></p><h1>This page is<br />out of play.</h1><Link className="button button-red" to="/">Back to the homepage <FiArrowUpRight aria-hidden="true" /></Link></main><SiteFooter /></>;
+  return <><Navigation /><main id="main" className="not-found container"><p className="kicker">Page not found</p><h1>This page is<br />out of play.</h1><Link className="button button-red" to="/">Back to the homepage</Link></main><SiteFooter /></>;
 }
 

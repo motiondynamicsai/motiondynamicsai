@@ -28,7 +28,7 @@ function PhoneHeader() {
       <div className="sq-notice"><BroadcastBanner /></div>
       <nav aria-label="Main">
         <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><MdMark /><span><b>motion</b> <i>dynamics</i></span></Link>
-        <div className="sq-links"><button className="sq-menu-btn" type="button" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="sq-menu-page" onClick={() => setOpen(!open)}>{open ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
+        <div className="sq-links"><a href="/#insights">What you get</a><a href="/#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="/#register">Register interest</a><button className="sq-menu-btn" type="button" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="sq-menu-page" onClick={() => setOpen(!open)}>{open ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
       </nav>
       <div className="sq-menu" id="sq-menu-page" hidden={!open}>
         <a href="/#insights">What you get</a>
@@ -59,16 +59,6 @@ export function Navigation() {
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
     <PhoneHeader />
-    <header className="site-header">
-      <nav className="nav-shell" aria-label="Main navigation">
-        <Brand />
-        <button type="button" className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Close navigation' : 'Open navigation'} aria-controls="main-navigation" aria-expanded={open}>{open ? <FiX /> : <FiMenu />}</button>
-        <div className={`nav-links ${open ? 'is-open' : ''}`} id="main-navigation" onClick={() => setOpen(false)}>
-          <a href="/#insights">What you get</a><a href="/#proof">On the PSA tour</a><NavLink to="/team">Our team</NavLink>
-          <a className="button button-dark nav-contact" href="/#register">Register interest <FiArrowUpRight aria-hidden="true" /></a>
-        </div>
-      </nav>
-    </header>
   </>;
 }
 
@@ -80,8 +70,8 @@ export function PageFooter() {
   </footer>;
 }
 
-export function SiteFooter({ embedded = false }) {
-  return <><div className="sq sq-chrome"><PageFooter /></div><footer className={`site-footer${embedded ? ' footer-in-contact' : ''}`}><div className={`${embedded ? '' : 'container '}footer-top`}><Brand /><p>Movement is everywhere.<br />Understanding it changes everything.</p>{!embedded && <a className="text-link" href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai <FiArrowUpRight aria-hidden="true" /></a>}</div><div className={`${embedded ? '' : 'container '}footer-bottom`}><small>© {new Date().getFullYear()} Motion Dynamics</small><div><Link to="/team">Our team</Link><a href="/#proof">Our work</a><a href="/#top">Back to top ↑</a></div><span>Built around movement.</span></div></footer></>;
+export function SiteFooter() {
+  return <div className="sq sq-chrome"><PageFooter /></div>;
 }
 
 export function RouteScroll() {

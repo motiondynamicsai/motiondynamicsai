@@ -12,9 +12,8 @@ const NotFound = lazy(() => import('./pages/TeamRoutes').then((m) => ({ default:
 function RouteBackground() {
   const { pathname } = useLocation();
   useEffect(() => { // one owner for the page colours behind the app: a bounce past either end must not flash the wrong one
-    const landing = pathname === '/' || window.matchMedia('(max-width:719px)').matches; // phones are dark on every page
-    document.documentElement.classList.toggle('dark-first', landing);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', landing ? '#05070d' : '#f7f6f2');
+    document.documentElement.classList.add('dark-first');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#05070d');
   }, [pathname]);
   return null;
 }

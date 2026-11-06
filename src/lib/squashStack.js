@@ -8,7 +8,7 @@ export function mountCourtStack(cv, { onPct } = {}) {
   const ctx = cv.getContext('2d');
   let match = null, W = 0, H = 0, dpr = 1, raf = 0, p = 1, disposed = false, view = { F: 1, ox: 0, oy: 0 }, phoneFit = null;
   const pct = (g, w) => { const d = match.games[g][w]; return Math.round((100 * d.length) / d.drives); };
-  const phone = () => window.matchMedia('(max-width:719px)').matches;
+  const phone = () => true;
   const narrow = () => W < 560; // a small canvas above phone width
   const RIGHT = () => (narrow() ? 76 : 130); // label column
   const gap = 3.3;

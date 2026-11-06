@@ -431,7 +431,6 @@
 }
 /* the first screen on phones, built like a broadcast graphic. Diar's desktop copy stays in the markup for wider screens. */
 .sq-gx,.sq-h-phone,.sq-lede-phone{display:none}
-@media (max-width:719px){
   .sq-links .cta{display:none} /* Register interest is one tap away in the menu: the wordmark takes the bar */
   .sq-bar .sq-brand{--brand:30px;gap:9px}
   .sq-bar .sq-brand svg{width:var(--brand);height:var(--brand)}
@@ -446,7 +445,6 @@
   .gx-rest{flex:1;justify-content:center;gap:10px;min-width:0;margin-left:-3px;padding:0 10px 0 8px;font-size:12px;font-weight:500;letter-spacing:.06em;color:rgba(255,255,255,.72)}
   .gx-rest b{color:#fff;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
   .gx-rest i{width:1px;height:13px;background:var(--gold)}
-}
 @media (max-width:385px){.sq-bar .sq-brand{--brand:26px;gap:8px}.gx-rest{gap:7px;font-size:11px;letter-spacing:.03em;padding:0 8px 0 6px}.gx-rest b{font-size:11px}.gx-live{padding:0 12px 0 12px}.gx-event{padding:0 15px 0 17px}}
 @media (max-width:340px){.gx-rest{gap:5px;font-size:9.5px;letter-spacing:.01em;padding:0 6px 0 4px}.gx-rest b{font-size:10.5px}.sq-notice{font-size:11px}}
 @media (max-width:719px) and (orientation:portrait){
@@ -466,18 +464,15 @@
   .sq-hero .sq-offer{margin-top:0}
 }
 @media (max-width:719px) and (min-width:341px) and (orientation:portrait) and (max-height:639px){.sq-slot{padding-bottom:6px}} /* keeps Play clear of the offer box */
-@media (max-width:719px){.sq-play .ic::after{display:none}}
+.sq-play .ic::after{display:none}
 .sq-cap-tag,.sq-cap-2{display:none}
 /* the rally on phones reads like a broadcast graphic: the top banner's red and gold, then a two-line punch */
-@media (max-width:719px){
   .sq-cap .num b,.sq-cap .num span{display:none}
   .sq-cap-tag{flex:none}
   .sq-cap-2{display:block;color:var(--gold)}
   .sq-cap-in{min-height:112px}
-}
 @media (prefers-reduced-motion:reduce){.sq-h-phone{animation:none}}
 /* phones: pictures and headlines, no paragraphs. Status and error messages stay. */
-@media (max-width:719px){
   .sq-lede,.sq-stack p,.sq-insights p,.sq-perk-rest,.sq-cap p{display:none}
   .sq-offer{margin-top:auto}
   .sq-hero{--need:260px}
@@ -487,19 +482,12 @@
   .sq-stack canvas{margin-top:12px}
   .sq-perks li{min-height:24px}
   .sq-perks li b{font-size:17px}
-}
 .sq-deal{display:none}
-.sq-phone-only{display:none}
-.sq-desk-only{font-style:normal}
-@media (max-width:719px){
-  .sq-desk-only{display:none}
-  .sq-close svg{width:24px;height:24px;font-size:24px}
-  .sq-cap-ctas .sq-btn svg{flex:none;width:16px;height:16px}
-}
+.sq-close svg{width:24px;height:24px;font-size:24px}
+.sq-cap-ctas .sq-btn svg{flex:none;width:16px;height:16px}
 .sq-chrome{display:none}
 .page-fallback{background:#f7f6f2}
 /* phones: no badges, chips or decorative arrows. Plain type, and one button shape. */
-@media (max-width:719px){
   .sq-perks li{padding-left:0}
   .sq-perks li::before{display:none}
   .sq-audience{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:baseline;gap:0 6px;font-size:clamp(13px,3.85vw,15px);color:#5b5f6a}
@@ -508,9 +496,7 @@
   .sq-audience b+b::before{content:"·";margin-right:6px;font-weight:400;color:#5b5f6a}
   .sq .sq-btn .ar{display:none}
   .sq .sq-btn,.sq .sq-fields .sq-btn,.sq-menu .cta,.sq-chrome~main .button{border-radius:8px}
-}
 /* phones: the home page's header on every page */
-@media (max-width:719px){
   .sq-chrome{display:block}
   .site-header{display:none}
   .sq-chrome .sq-bar{background:#05070d}
@@ -551,36 +537,28 @@
   .sq-chrome~main .member-detail-grid>img{order:-1;width:100%;max-height:none;background:#11141c}
   .not-found.container{width:auto;margin-inline:0;padding:24px 16px;min-height:calc(100svh - 91px - 137px)}
   .sq-chrome~main.not-found h1{margin:0 0 16px}
-}
 /* phones: flat colour only. No glow, no blur, nothing that pulses, nothing that fades in. */
-@media (max-width:719px){
   .sq-h-phone,.sq-offer,.sq-hero .sq-form,.sq-play{animation:none}
   .sq-register{background:var(--ink)}
   .sq-bar.solid{background:#05070d;-webkit-backdrop-filter:none;backdrop-filter:none}
   .sq-form-panel .sq-field input:focus{box-shadow:inset 0 0 0 2px var(--gold)}
   .sq-notice .dot,.sq-events .live i{animation:none}
   .sq .sq-play,.sq-hero .sq-play{background:#0b0e16;border:1px solid var(--rule);-webkit-backdrop-filter:none;backdrop-filter:none}
-}
-@media (max-width:719px){
   .sq-footer{padding-top:12px;padding-bottom:calc(16px + env(safe-area-inset-bottom));gap:0}
   .sq-footer div{flex-direction:row;justify-content:space-between;align-items:center;gap:0 16px}
   .sq-footer small{flex-basis:100%;margin-top:2px}
-}
-@media (max-width:719px){.sq-footer .sq-brand{color:#fff}} /* the wordmark at full strength, as at the top of the page */
+.sq-footer .sq-brand{color:#fff} /* the wordmark at full strength, as at the top of the page */
 /* phones: every section opens the same way: the gold and red tag, then the heading, with the same spacing and size */
-@media (max-width:719px){
   .sq .kick,.sq-cap-tag,.sq-hero .sq-tag{position:relative;display:block;width:max-content;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-size:12px;font-style:normal;font-weight:700;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
   .sq .kick::before,.sq-cap-tag::before,.sq-hero .sq-tag::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
   .sq .kick{margin:0 0 12px}
-  .sq .kick.sq-phone-only{order:1}
+  .sq-stack .kick{order:1}
   .sq-after h2,.sq-register h2,.sq-stack h2,.sq-chrome~main h1,.team-page .team-contact h2{margin:0;font-size:clamp(28px,8.75vw,44px);font-weight:600;line-height:1.06;letter-spacing:-.02em}
   #insights,#proof,#register,.sq-stack{padding-top:24px;padding-bottom:24px;scroll-margin-top:-36px}
   .sq-register-grid{gap:16px}
   .sq-form-panel .sq-field span{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0)} /* the prompt inside each field says it once */
   .sq-form-panel .sq-field input[name=name]::placeholder{color:rgba(255,255,255,.5)}
-}
 /* the offer reads the same here as in the first screen: the two big figures, then what it takes */
-@media (max-width:719px) and (orientation:portrait){
   .sq-deal.sq-deal-reg{padding:16px 0 0}
   .sq-deal.sq-deal-reg>span+span{padding-left:16px}
   .sq-deal.sq-deal-reg b{font-size:34px}
@@ -588,12 +566,9 @@
   .sq-perks li:not(:last-child){position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%)}
   .sq-perks{margin-top:14px}
   .sq-perks li:last-child .sq-perk-rest{display:block}
-  .sq-perks li:last-child .sq-perk-rest.sq-desk-only{display:none}
   .sq-perks li:last-child{font-weight:450;color:rgba(255,255,255,.8)}
-}
 .sq-ev-gx{display:none}
 /* phones: the live event in the tour list is the top banner again, not a line of red text */
-@media (max-width:719px){
   .sq-events .live{padding:0 0 12px}
   .sq-events .live>b,.sq-events .live>i,.sq-events .live>span:not(.sq-ev-gx){position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip-path:inset(50%)}
   .sq-events .live>.sq-ev-gx{display:flex;position:static;width:auto;height:44px;clip-path:none;overflow:hidden;background:#0b0e16;border-bottom:2px solid var(--gold);font-size:12px;font-weight:600;letter-spacing:.07em;line-height:1;color:#fff;white-space:nowrap}
@@ -603,40 +578,27 @@
   .sq-events .live .gx-rest i{display:block;flex:none;width:1px;height:13px;margin:0;border-radius:0;background:var(--gold);animation:none}
   .sq-events .live .gx-live i{display:block;flex:none;width:6px;height:6px;margin:0;background:#fff;animation:none}
   .sq-events .live .gx-rest span{font-size:12px;font-weight:500;color:rgba(255,255,255,.72)}
-}
 /* phones: the second line of each heading is the same voice, just quieter: no thin weight */
-@media (max-width:719px){
   .sq-after h2 em{font-weight:500;color:#6d727c}
   .sq-stack h2 em{font-weight:500;color:rgba(255,255,255,.7)}
-}
 .sq-key{display:none}
 /* phones: the shot line says who hit it with the same dot as the key, not an accent bar */
-@media (max-width:719px){
   .sq-event{padding-left:0;border-left:0}
   .sq-event::before{content:"";display:inline-block;width:10px;height:10px;margin-right:8px;border-radius:50%;background:var(--hit,#fff)}
   .sq-legend span::before{width:10px;height:10px}
-}
 /* phones: the stacked courts, read top to bottom: who is who, then the courts */
-@media (max-width:719px){
   .sq-stack .sq-legend{order:3;justify-content:flex-start;margin-top:10px}
   .sq-key{display:flex;order:3;flex-wrap:wrap;gap:2px 14px;margin-top:6px;font-size:13px;line-height:1.3;color:rgba(255,255,255,.72)}
   .sq-key b{color:#fff;font-weight:600}
-}
-@media (max-width:719px){
-  .sq-phone-only{display:block}
   /* What you get: one spacing rhythm, every row the same height */
   #insights .sq-insights{margin-top:20px}
   #proof .sq-events{margin-top:20px}
   .sq-insights article{padding:16px 0}
   .sq-insights h3{font-size:clamp(20px,6.1vw,28px);white-space:nowrap}
   .sq-audience{margin-top:0;padding-top:16px}
-}
 /* phones: the stacked courts sit on one dim picture of the court, top of the first court to bottom of the last, same as the end of the rally */
-@media (max-width:719px) and (orientation:portrait){
   .sq-stack canvas{background:linear-gradient(rgba(5,7,13,.92),rgba(5,7,13,.92)),url(/media/squash/squash-2560.jpg) 46% 24%/auto 219.8% no-repeat}
-}
 /* phones: the offer box reads like the broadcast banner, with the two numbers big */
-@media (max-width:719px) and (orientation:portrait){
   .sq-stage{min-height:calc(294px + 79.3vw)}
   .sq-hero .sq-offer{flex:none;padding:0 0 3px;overflow:hidden;border-radius:14px 14px 0 0;border-color:rgba(255,255,255,.22);border-top:1px solid var(--gold)}
   .sq-hero .sq-tag{top:auto;left:auto;border-radius:0}
@@ -648,7 +610,6 @@
   .sq-hero:has(.is-done) .sq-deal{display:none}
   .sq-hero .sq-fields{border-radius:0 0 14px 14px}
   .sq-hero:has(.is-error) .sq-slot{min-height:0;padding:0 0 8px;align-items:flex-end} /* the error line takes the room: Play rests on the court */
-}
 /* tall phones: the first screen fills the phone, and the spare height goes to the offer and Play */
 @media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
   .sq-deal{padding-top:9px}
@@ -665,103 +626,78 @@
 .sq-static .sq-plate{visibility:visible;width:100%;height:100%;object-fit:cover;transform:none!important}
 @media (prefers-reduced-motion:reduce){.sq *,.sq *::before,.sq *::after{transition:none!important}.sq h1 .l span,.sq-lede,.sq-offer,.sq-hero .sq-form,.sq-play{animation:none;transform:none}.sq-play .ic::after,.sq-notice .dot,.sq-events .live i{animation:none}}
 /* phones: the thank-you and the error sit on the same left edge as everything else */
-@media (max-width:719px){
   .sq-hero .sq-form.is-done{padding:10px 20px 14px;border-color:var(--rule)}
   .sq-form-panel.is-done{padding:16px 20px;border-color:var(--rule);border-top-color:var(--gold);border-radius:14px}
   .sq-hero .sq-form.is-done strong,.sq-form-panel.is-done strong{font-size:17px;font-weight:600}
   .sq-hero .sq-form.is-done p,.sq-form-panel.is-done p{font-size:15px;line-height:1.4;color:var(--mute)}
   .sq-hero .sq-form-note.is-error{margin:8px 0 0}
   .sq-form-panel .sq-form-note.is-error{margin:8px 0 0;padding:12px 14px;border-radius:8px}
-}
 /* phones: one box. Corner 14, inset 6, so the corners inside are 8 and run parallel to it. */
-@media (max-width:719px){
   .sq-fields,.sq-hero .sq-fields,.sq-form-panel .sq-fields{gap:6px;padding:6px;background:#0b0e16;border:1px solid var(--rule)}
   .sq-hero .sq-fields{border-top:0}
   .sq-form-panel .sq-fields{border-radius:14px;border-top-color:var(--gold)}
   .sq-hero .sq-offer{border-color:var(--rule);border-top-color:var(--gold)}
   .sq .sq-field input{border-radius:8px;padding:0 14px;font-size:16px}
   .sq-field input:focus,.sq-form-panel .sq-field input:focus{box-shadow:inset 0 0 0 2px var(--gold)}
-}
 /* phones: the offer's text sits on the same two edges as the fields below it */
-@media (max-width:719px) and (orientation:portrait){
   .sq-deal{padding-inline:6px;column-gap:6px}
   .sq-deal>span{padding-left:14px}
   .sq-deal>span+span{padding-left:13px;border-color:var(--rule)}
   .sq-deal.sq-deal-reg{padding-inline:0}
   .sq-deal.sq-deal-reg>span{padding-left:0}
   .sq-deal.sq-deal-reg>span+span{padding-left:13px}
-}
 /* phones: one button. Text 16, weight 600, the same height as the fields beside it. */
-@media (max-width:719px){
   .sq .sq-btn,.sq .sq-fields .sq-btn,.sq-form-panel .sq-btn,.sq-menu .cta,.sq-cap-ctas .sq-btn{font-size:16px;font-weight:600}
   .sq-hero .sq-field input,.sq-hero .sq-fields .sq-btn{height:44px}
   .sq-form-panel .sq-field input,.sq-form-panel .sq-btn,.sq-menu .cta{height:52px;min-height:52px;margin-top:0}
   .sq-cap-ctas .sq-btn{height:44px;padding:0 16px}
   .sq-menu a:not(.cta){font-size:17px;font-weight:500}
   .sq-menu .cta{margin-top:8px}
-}
 @media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
   .sq-hero .sq-field input,.sq-hero .sq-fields .sq-btn{height:clamp(50px,6.8svh,64px)}
 }
 /* phones: tour rows are the same rows as What you get. The banner is the line above them, so no second rule. */
-@media (max-width:719px){
   #proof .sq-events{border-top:0}
   .sq-events .live{padding:0}
   .sq-events div:not(.live){padding:16px 0}
   .sq-events .live+div{border-top:0}
   .sq-events b{font-size:clamp(20px,6.1vw,28px);font-weight:600;line-height:1.15;letter-spacing:-.02em}
   .sq-insights h3{letter-spacing:-.02em}
-}
 /* phones: a tapped button goes back to how it was. Touch screens keep :hover after the tap. */
-@media (max-width:719px){
   .sq .sq-btn.solid:hover,.sq .sq-btn.solid:active{background:#fff;color:var(--ink);transform:none}
   .sq a,.sq button{-webkit-tap-highlight-color:transparent}
   .sq .sq-btn:active,.sq-menu .cta:active,.sq-chrome~main .button:active{opacity:.8}
-}
 /* phones: one type scale: 12 labels, 13 captions, 15 small text, 16 controls, 17 lead, then the two heading sizes */
-@media (max-width:719px){
   .sq-ctx,.sq-row .lb{font-size:12px}
   .sq-row .v small{font-size:12px;font-weight:400}
   .sq-event,.sq-box .nm{font-size:15px}
   .sq-play,.sq-hero .sq-play{font-size:15px;font-weight:500}
   .sq-footer,.sq-footer a{font-size:15px}
   .sq-footer small{font-size:13px}
-}
-@media (max-width:719px) and (orientation:portrait){
   .sq-deal.sq-deal-reg>span{font-size:15px}
-}
 @media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
   .sq-deal>span{font-size:13px}
   .sq-hero .sq-play{font-size:15px}
 }
 /* phones: named weights only, no 450, 550, 620, 650 or 750. The wordmark is the logo and stays as drawn. */
-@media (max-width:719px){
   .sq-h-sq,.sq-box .nm,.sq-row .v{font-weight:600}
   .sq-event{font-weight:600}
   .sq-event .sub{font-weight:400}
   .sq-deal>span,.sq-perks li:last-child{font-weight:400}
   .gx-live{font-weight:700}
   .sq-events .live .gx-event{font-weight:700}
-}
 /* phones: one secondary colour on dark, one on white, one rule colour, one box fill */
-@media (max-width:719px){
   .sq,.sq-chrome{--mute:rgba(255,255,255,.72);--rule:rgba(255,255,255,.18)}
   .sq-deal>span,.sq-perks li:last-child,.sq-legend,.sq-stack .sq-legend,.sq-key,.sq-footer,.sq-footer a,.sq-stack h2 em,.sq-chrome~main h1 em,.sq-chrome~main h2 em,.member-detail-grid .detail-copy{color:var(--mute,rgba(255,255,255,.72))}
   .sq-after h2 em{color:#5b5f6a}
   .sq-row{border-top-color:var(--rule)}
   .team-page .member-photo,.sq-chrome~main .member-detail-grid>img{background:#0b0e16}
-}
 /* phones: headings tracked -.02em. At -.03em letters touch ("tt", "ti"), the tight look every template has. */
-@media (max-width:719px){
   .sq-h-sq,.sq-cap h2{letter-spacing:-.02em}
-}
-@media (max-width:719px){.sq-cap-ctas .sq-btn .sq-desk-only{display:none}}
 /* phones: one plain box edge. The tag is the gold. */
-@media (max-width:719px){
   .sq-hero .sq-offer,.sq-form-panel .sq-fields,.sq-form-panel.is-done{border-top-color:var(--rule)}
-}
 /* phones: the menu icon's lines end on the page margin, not its invisible box */
-@media (max-width:719px){.sq-menu-btn{margin-right:-13px}}
+.sq-menu-btn{margin-right:-13px}
 /* phones: the court is a picture with straight edges on the page margins. No soft fade into black, and the orange flare at the photo's edges stays outside the frame. */
 @media (max-width:719px) and (orientation:portrait){
   .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%);mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%)}
@@ -769,42 +705,28 @@
   .sq-scrim{box-sizing:border-box;border-inline:16px solid var(--ink)}
 }
 /* phones: the scoreboard is the same box as the others: corner 14, inset 14, solid fill */
-@media (max-width:719px){
   .sq-box{padding:8px 14px 6px;border-radius:14px;border-color:var(--rule);background:#0b0e16}
   .sq-box .names{margin:0 -14px;padding:0 14px 7px}
   .sq-event .sub{margin-left:2px}
-}
 /* phones: heading and button on the Team page's closing block keep their gap */
-@media (max-width:719px){
   .team-page .team-contact h2{margin:0 0 16px}
-}
 /* phones: portrait cut-outs have soft bottom corners built into the file: crop them so the photo ends on a straight line */
-@media (max-width:719px){
   .sq-chrome~main .member-detail-grid>img{clip-path:inset(0 0 14px 0);margin-bottom:-14px}
   .sq-chrome~main.member-detail>.text-link svg{margin-left:-1px}
-}
 /* phones: an error is one plain line in both forms, no tinted alert box. On the first screen it takes Play's room, so nothing overlaps the picture. */
-@media (max-width:719px){
   .sq-form-panel .sq-form-note.is-error,.sq-hero .sq-form-note.is-error{margin:8px 0 0;padding:0;border:0;border-radius:0;background:none;font-size:15px;line-height:1.4}
   .sq-form-panel .sq-form-note.is-error a{display:inline;padding:0}
   .sq-hero:has(.is-error) .sq-slot{visibility:hidden}
-}
 /* phones: the tinted second line stays only where it earns it (What you get, and the rally's punch). One statement elsewhere. */
-@media (max-width:719px){
   .sq-proof h2 em{display:none}
   .team-page .team-contact h2 em{font-weight:600;color:#fff}
   .team-page .team-contact h2 br{display:none}
-}
 /* phones: after signing up, the form's pitch steps away and the thank-you is what's left */
-@media (max-width:719px){
   #register:has(.is-done) h2,#register:has(.is-done) .sq-deal,#register:has(.is-done) .sq-perks{display:none}
-}
 /* phones: the footer logo is the header logo, smaller: same proportions, same gap */
-@media (max-width:719px){
   .sq-footer .sq-brand{--brand:22px;gap:7px}
   .sq-footer .sq-brand svg{width:var(--brand);height:var(--brand)}
   .sq-footer .sq-brand span{font-size:calc(var(--brand)*1.08);line-height:1;transform:translateY(-2px)}
-}
 @media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
   .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 13.2%,#000 13.2%,#000 59.5%,transparent 59.5%);mask-image:linear-gradient(180deg,transparent 13.2%,#000 13.2%,#000 59.5%,transparent 59.5%)}
   .sq-slot{padding-top:calc(53.4vw - 4px)}
@@ -814,13 +736,9 @@
   .sq-slot{padding-top:calc(51vw - 4px)}
 }
 /* phones: portraits fill their panel edge to edge, so the cut-out's straight sides never show */
-@media (max-width:719px){
   .team-page .member-photo>img{object-fit:cover;object-position:top center}
-}
 /* phones: two-line headings break evenly, with no lone word on the second line */
-@media (max-width:719px){
   .sq-after h2,.sq-stack h2,.sq-register h2,.sq-cap h2,.sq-chrome~main h1,.team-page .team-contact h2{text-wrap:balance}
-}
 /* phones: the first screen runs on under the browser's floating toolbar, so the next section never peeks out behind the glass. Everything stays above the toolbar. */
 @media (max-width:719px) and (orientation:portrait){
   .sq-stage{--under:calc(100lvh - 100svh);height:calc(100svh + var(--under))}
@@ -832,10 +750,120 @@
   @media (max-width:719px) and (orientation:portrait){.sq-stage{--under:calc(100lvh - 100svh + 64px)}}
 }
 /* phones: in a team row, names, roles and gold lines start level, even when one role wraps */
-@media (max-width:719px){
   .team-page .member{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:0}
   .team-page .member-copy{display:contents}
   .team-page .member-copy h3{margin-top:8px}
   .team-page .member-copy>span{display:block}
-}
 @media (max-width:719px) and (hover:none){.sq-close:focus-visible{outline:0}} /* Play moves focus to the X: a touch user shouldn't see a keyboard ring */
+/* wide screens: the same page in two columns. Words and offer left; court and data right. */
+@media (min-width:720px){
+  :root{--margin:clamp(24px,3.9vw,56px);--col:clamp(320px,38.9vw,560px);--gap:clamp(24px,3.5vw,56px)}
+  .sq h1,.sq h2,.sq h3{letter-spacing:-.02em}
+
+  /* banner and bar */
+  .sq-notice{height:33px;overflow:hidden;white-space:nowrap;transition:height .3s var(--ease),opacity .3s,border-width .3s}
+  .sq-bar.solid:not(.open) .sq-notice{height:0;opacity:0;padding-top:0;padding-bottom:0;border-bottom-width:0}
+  .gx-live{padding-left:var(--margin)}
+  .gx-rest{flex:none;justify-content:flex-start;margin-left:0;padding:0 0 0 12px}
+  .sq nav{height:58px;box-sizing:border-box;padding:0 var(--margin)}
+  .sq-links{gap:24px;font-size:15px}
+  .sq-links a{padding:4px 0}
+  .sq-links a::after{display:none}
+  .sq-links a:hover{color:#fff}
+
+  /* first screen */
+  .sq-stage{height:100svh;min-height:600px}
+  .sq-scrim{background:none;box-sizing:border-box;border-style:solid;border-color:var(--ink);border-width:0}
+  .sq-scrim::after{display:none}
+  .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%);mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%)}
+  .sq-hero{left:var(--margin);right:auto;top:91px;bottom:0;width:var(--col);max-width:none;display:flex;flex-direction:column;justify-content:center;transform:none}
+  .sq-hero h1{margin:0;text-shadow:none}
+  .sq-h-phone{display:block}
+  .sq-h-pro,.sq-h-sq{display:block;font-size:clamp(38px,4.7vw,68px);font-weight:600;letter-spacing:-.02em;line-height:1.04}
+  .sq-h-pro{color:var(--gold)}
+  .sq-h-sq{color:#fff}
+  .sq-h-aud{display:block;margin-top:12px;font-size:clamp(16px,1.4vw,20px);font-weight:400;letter-spacing:0;line-height:1.3;color:var(--gold)}
+  .sq-offer{display:block;position:relative;margin:clamp(20px,3vh,32px) 0 0;padding:0 0 3px;overflow:hidden;background:#0b0e16;border:1px solid var(--rule);border-bottom:0;border-radius:14px 14px 0 0;font-size:inherit}
+  .sq-hero .sq-tag{position:relative;top:auto;left:auto;border-radius:0}
+  .sq-deal{display:grid;grid-template-columns:1fr 1fr;padding:9px 6px 0;column-gap:6px}
+  .sq-deal>span{display:block;padding-left:14px;font-size:13px;font-weight:400;line-height:1.2;color:var(--mute);white-space:nowrap}
+  .sq-deal>span+span{padding-left:13px;border-left:1px solid var(--rule)}
+  .sq-deal b{display:block;width:max-content;margin-bottom:2px;font-size:30px;font-weight:800;letter-spacing:-.01em;line-height:1.02;text-transform:uppercase;color:var(--gold)}
+  .sq-hero .sq-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:9px 6px 6px;border-top:0;border-radius:0 0 14px 14px}
+  .sq-hero .sq-field input,.sq-hero .sq-fields .sq-btn{height:52px}
+  .sq-hero .sq-fields .sq-btn{grid-column:1/-1}
+  .sq-hero .sq-form-note:not(.is-error){display:none}
+  .sq-hero .sq-form.is-done{border-top:0;border-radius:0 0 14px 14px;padding:10px 20px 14px}
+  .sq-hero:has(.is-done) .sq-deal{display:none}
+  .sq-slot{position:absolute;left:calc(var(--pic-x) - var(--margin));width:var(--pic-w);top:calc(var(--pic-bot) - 91px + 16px);display:flex;justify-content:center;min-height:0;padding:0}
+  .sq-hero .sq-play{margin:0;position:relative}
+  .sq-hero .sq-play::before{display:none}
+  .sq-hero:has(.is-error) .sq-slot{visibility:visible;min-height:0;padding:0}
+
+  /* the rally: same frame, the words and scoreboard in the left column */
+  .sq-cap{left:var(--margin);right:auto;top:calc(var(--pic-mid) - 172px);bottom:auto;width:var(--col);max-width:none;transform:none}
+  .sq-cap-in{min-height:0}
+  .sq-cap .num{min-height:44px;padding-right:56px;margin:0 0 8px}
+  .sq-cap .num i{flex:1 1 0;min-width:24px;height:2px}
+  .sq-cap h2{margin:0;font-size:clamp(28px,2.6vw,38px);font-weight:600;line-height:1.06}
+  .sq-cap-ctas{margin-top:16px;flex-wrap:nowrap}
+  .sq-close{left:calc(var(--margin) + var(--col) - 44px);right:auto;top:calc(var(--pic-mid) - 172px);width:44px;height:44px;padding:0;justify-content:center;font-size:0}
+  .sq-box{left:var(--margin);right:auto;width:var(--col);top:calc(var(--pic-mid) - 24px);bottom:auto;padding:8px 14px 6px}
+  .sq-row{grid-template-columns:64px 1fr 128px 1fr 64px;height:24px}
+  .sq-note{display:none}
+
+  /* sections: heading left, content right */
+  #insights,#proof,#register,.sq-stack{padding:clamp(48px,6vw,88px) var(--margin);scroll-margin-top:0}
+  .sq-wrap{max-width:none;margin:0;padding:0}
+  .sq-after h2,.sq-register h2,.sq-stack h2,.sq-chrome~main h1,.team-page .team-contact h2{font-size:clamp(32px,3.6vw,52px);line-height:1.06;letter-spacing:-.02em}
+  .sq-after h2 em{display:block;font-weight:500;margin:0;max-width:none}
+  .sq-after .sq-wrap{display:grid;grid-template-columns:var(--col) minmax(0,1fr);grid-template-rows:auto auto 1fr;column-gap:var(--gap)}
+  .sq-after .kick{grid-column:1;grid-row:1}
+  .sq-after h2{grid-column:1;grid-row:2}
+  .sq-insights,#proof .sq-events{grid-column:2;grid-row:1/span 3;margin-top:0}
+  .sq-insights{display:block;border-top:1px solid var(--ink)}
+  .sq-insights article{padding:16px 0;border-top:1px solid #e3e5e9}
+  .sq-insights article:first-child{border-top:0}
+  .sq-insights h3,.sq-events b{font-size:clamp(20px,2vw,28px);margin:0}
+  .sq-audience{grid-column:2;margin-top:0;padding-top:16px;font-size:15px;border-top:1px solid #e3e5e9}
+  .sq-events{display:block;border-top:0}
+  .sq-events div>span:not(.sq-ev-gx){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .sq-events div:not(.live){padding:16px 0;border-top:1px solid #e3e5e9}
+  .sq-events .live+div{border-top:0}
+  .sq-events .gx-live{padding-left:14px}
+  .sq-events .gx-rest{padding-left:12px}
+  .sq-events .live>.sq-ev-gx{height:44px}
+  .sq-proof{padding-top:clamp(48px,6vw,88px)}
+  .sq-stack-grid{display:grid;grid-template-columns:var(--col) minmax(0,1fr);column-gap:var(--gap);align-items:start}
+  .sq-stack-grid>div{display:flex;flex-direction:column;align-items:flex-start}
+  .sq-stack .kick{order:0}
+  .sq-stack h2{order:0}
+  .sq-stack .sq-legend{margin-top:16px}
+  .sq-stack .sq-play{order:9;align-self:flex-start;margin-top:24px}
+  .sq-stack .sq-play::before{display:none}
+  .sq-stack p{display:none}
+  .sq-stack canvas{order:0;margin:0;height:clamp(600px,78vh,860px)}
+  .sq-register-grid{display:grid;grid-template-columns:var(--col) minmax(0,1fr);column-gap:var(--gap);align-items:start}
+  .sq-form-panel .sq-field input,.sq-form-panel .sq-btn{height:52px}
+  .sq-form-panel .sq-form-note:not(.is-error){display:none}
+  .sq-footer{padding:16px var(--margin);flex-direction:row;flex-wrap:nowrap;justify-content:space-between;align-items:center}
+  .sq-footer div{flex-direction:row;width:auto;gap:24px;justify-content:flex-end}
+  .sq-footer small{flex-basis:auto;margin:0}
+
+  /* team, member and 404 */
+  .sq-chrome~main{margin-top:91px}
+  .team-page .page-heading{padding:clamp(32px,4vw,56px) var(--margin)}
+  .team-page .team-groups{padding:0 var(--margin)}
+  .team-page .team-grid,.team-page .team-grid-2,.team-page .team-grid-4{grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 16px;max-width:none}
+  .team-page .team-contact{margin:0 var(--margin)}
+  .member-detail.container{padding:8px var(--margin) 48px}
+  .sq-chrome~main .member-detail-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:var(--gap);align-items:start}
+  .sq-chrome~main .member-detail-grid>img{order:0;width:100%}
+  .sq-chrome~main .button{width:max-content;padding:0 32px}
+  .not-found.container{padding:clamp(32px,4vw,56px) var(--margin);min-height:calc(100svh - 91px - 77px)}
+}
+@media (min-width:901px){
+  .sq-links .cta{display:inline-flex;align-items:center;height:36px;padding:0 16px;border:0;border-radius:8px;background:#fff;color:var(--ink);font-size:15px;font-weight:600}
+  .sq-links .cta::after{display:none}
+  .sq-links .cta:hover{background:#fff;color:var(--ink);opacity:.85}
+}

@@ -18,8 +18,8 @@ const events = [
 const insights = [
   { title: 'Shot maps & heatmaps', copy: 'Every shot’s flight, wall height and bounce. See where your length lands, game by game, and where it drifts under pressure.' },
   { title: 'Movement tracking', copy: 'How far you run, how quickly you recover to the T and how you cover each corner of the court, measured frame by frame.' },
-  { title: 'Clear next steps', phoneTitle: 'What to work on next', copy: 'Plain-English insights a player, parent or coach can act on in the next session, not just a wall of numbers.' },
-  { title: 'Build your profile over time', phoneOnly: true },
+  { title: 'What to work on next', copy: 'Plain-English insights a player, parent or coach can act on in the next session, not just a wall of numbers.' },
+  { title: 'Build your profile over time' },
 ];
 
 
@@ -136,14 +136,12 @@ export default function SquashLanding() {
         <div className="sq-scrim" />
 
         <div className="sq-hero">
-          <div className="sq-kicker">Squash analytics · Juniors, parents & coaches</div>
-          <h1><span className="l"><span>Pro-level analytics.</span></span><span className="l"><span>Supercharge your game.</span></span><span className="sq-h-phone"><span className="sq-h-pro">Pro-level</span> <span className="sq-h-sq">squash analytics</span> <span className="sq-h-aud">Now for juniors, parents, and coaches</span></span></h1>
-          <p className="sq-lede"><span className="sq-lede-full">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players. See every shot, every movement and exactly what to work on next.</span><span className="sq-lede-phone">See every shot, every movement and what to work on next.</span></p>
-          <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-offer-lead">Register now:</span><span className="sq-offer-deal"><b>one match analysed free</b> + <b>50% off</b></span><span className="sq-deal"><span><b>Free</b>one match analyzed</span><span><b>50%</b>off when we launch</span></span></div>
+          <h1><span className="sq-h-phone"><span className="sq-h-pro">Pro-level</span> <span className="sq-h-sq">squash analytics</span> <span className="sq-h-aud">Now for juniors, parents, and coaches</span></span></h1>
+          <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-deal"><span><b>Free</b>one match analyzed</span><span><b>50%</b>off when we launch</span></span></div>
           <RegisterInterest variant="hero" source="hero" />
           <div className="sq-slot"><button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button></div>
         </div>
-        {playing && <button className="sq-close" type="button" onClick={stop} aria-label="Close the rally and go back"><i className="sq-desk-only">✕</i><FiX className="sq-phone-only" aria-hidden="true" /> <span>Close</span></button>}
+        {playing && <button className="sq-close" type="button" onClick={stop} aria-label="Close the rally and go back"><FiX aria-hidden="true" /></button>}
 
         <div className="sq-cap" aria-live="polite">
           <div className="sq-cap-in">
@@ -151,8 +149,8 @@ export default function SquashLanding() {
             <h2>{beat.title}{beat.index === 0 && <span className="sq-cap-2">Every shot, analyzed.</span>}</h2>
             <p>{beat.body}</p>
             {beat.cta && <div className="sq-cap-ctas">
-              <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register <span className="sq-desk-only">your </span>interest <span className="ar">→</span></a>
-              <button className="sq-btn" type="button" onClick={play}><i className="sq-desk-only">↻</i><FiRotateCw className="sq-phone-only" aria-hidden="true" /> Replay</button>
+              <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register interest <span className="ar">→</span></a>
+              <button className="sq-btn" type="button" onClick={play}><FiRotateCw aria-hidden="true" /> Replay</button>
             </div>}
           </div>
         </div>
@@ -170,8 +168,8 @@ export default function SquashLanding() {
       <section className="sq-stack" aria-labelledby="stack-title">
         <div className="sq-wrap sq-stack-grid">
           <div>
-            <div className="kick sq-phone-only">Game by game</div>
-            <h2 id="stack-title"><span className="sq-desk-only">Stack the games. <em>See the pattern.</em></span><span className="sq-phone-only">Stack the games and the pattern shows.</span></h2>
+            <div className="kick">Game by game</div>
+            <h2 id="stack-title">Stack the games and the pattern shows.</h2>
             <p>One court per game, every drive’s bounce marked.{pcts && ` Mueller found more length each game: ${pcts[0]}%, then ${pcts[1]}%, then ${pcts[2]}% behind the short line.`}</p>
             <div className="sq-legend"><span style={{ '--c': 'rgb(143,184,255)' }}>Mueller</span><span style={{ '--c': 'rgb(240,194,75)' }}>El Hammamy</span></div>
             <div className="sq-key"><span><b>Dot</b> where a drive bounced</span><span><b>%</b> drives past the short line</span></div>
@@ -184,8 +182,8 @@ export default function SquashLanding() {
       <section className="sq-after" id="insights">
         <div className="sq-wrap">
           <div className="kick">What you get</div>
-          <h2><span className="sq-desk-only">The insight the pros get. <em>Built for the player you’re becoming.</em></span><span className="sq-phone-only">See what the pros see. <em>On your own matches.</em></span></h2>
-          <div className="sq-insights">{insights.map((item) => <article key={item.title} className={item.phoneOnly ? 'sq-phone-only' : undefined}><h3>{item.phoneTitle ? <><span className="sq-desk-only">{item.title}</span><span className="sq-phone-only">{item.phoneTitle}</span></> : item.title}</h3>{item.copy && <p>{item.copy}</p>}</article>)}</div>
+          <h2>See what the pros see. <em>On your own matches.</em></h2>
+          <div className="sq-insights">{insights.map((item) => <article key={item.title}><h3>{item.title}</h3></article>)}</div>
           <div className="sq-audience"><span>For</span><b>Junior players</b><b>Parents</b><b>Coaches & academies</b></div>
         </div>
       </section>
@@ -193,7 +191,7 @@ export default function SquashLanding() {
       <section className="sq-after sq-proof" id="proof">
         <div className="sq-wrap">
           <div className="kick">On the PSA World Tour</div>
-          <h2><span className="sq-desk-only">Powering analytics at the top of the game. </span><span className="sq-phone-only">The tracking behind PSA coverage. </span><em>Live at the U.S. Open this week.</em></h2>
+          <h2>The tracking behind PSA coverage.</h2>
           <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b>{event.live && <i aria-hidden="true" />}<span>{event.note}</span>{event.live && <BroadcastBanner className="sq-ev-gx" aria-hidden="true" />}</div>)}</div>
         </div>
       </section>
@@ -201,13 +199,13 @@ export default function SquashLanding() {
       <section className="sq-register" id="register" aria-labelledby="register-title">
         <div className="sq-wrap sq-register-grid">
           <div>
-            <div className="kick"><span className="sq-desk-only">Founding members</span><span className="sq-phone-only">Founding offer</span></div>
+            <div className="kick">Founding offer</div>
             <h2 id="register-title">Register your interest.</h2>
             <div className="sq-deal sq-deal-reg" aria-hidden="true"><span><b>Free</b>one match analyzed</span><span><b>50%</b>off when we launch</span></div>
             <ul className="sq-perks">
-              <li><b>One match analysed free.</b><span className="sq-perk-rest"> Send us a match, get the full breakdown.</span></li>
+              <li><b>One match analyzed free.</b><span className="sq-perk-rest"> Send us a match, get the full breakdown.</span></li>
               <li><b>50% off</b><span className="sq-perk-rest"> when we launch, locked in as a founding member.</span></li>
-              <li><b>Just your name and email.</b><span className="sq-perk-rest sq-desk-only"> No payment, no commitment.</span><span className="sq-perk-rest sq-phone-only"> Nothing to pay.</span></li>
+              <li><b>Just your name and email.</b><span className="sq-perk-rest"> Nothing to pay.</span></li>
             </ul>
           </div>
           <RegisterInterest variant="panel" source="register-section" />
