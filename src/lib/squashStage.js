@@ -168,7 +168,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     // Phones hold the whole court still and sharp: it sits in the hero's slot at rest and between caption and stats box in play.
     const band = { slot: H / 2, play: H / 2 };
     const measureBand = () => {
-      if (slot) band.slot = hero.offsetTop + slot.offsetTop + slot.offsetHeight / 2;
+      if (slot) band.slot = hero.offsetTop + slot.offsetTop + W * 0.242; // pins the top of the court's fade to the slot's top, whatever the form below is doing
       band.play = (cap.offsetTop + capIn.offsetHeight + boxEl.offsetTop) / 2;
     };
     measureBand(); onResize = () => { measureBand(); wake(); };
@@ -335,7 +335,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       cv.style.opacity = narrow() ? 1 - ho : ''; // phones show the clean court at rest; the tracking arrives with Play
       const co = clamp((h - 0.55) / 0.35, 0, 1);
       cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
-      boxEl.style.opacity = narrow() ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
+      boxEl.style.opacity = narrow() || H < 500 ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
       if (co > 0) setBeat(st.t);
       cap.style.setProperty('--p', st.t / SQ.dur);
       tickH2H(dt);
