@@ -266,13 +266,23 @@
   .sq-hero .sq-form.is-done strong{font-size:16px}.sq-hero .sq-form.is-done p{font-size:14px;line-height:1.4}
 
   .sq-cap{top:12px;right:16px}
-  .sq-cap-in{min-height:136px}
+  .sq-cap-in{min-height:140px} /* the court is centred below this reserve, not below the live text */
   .sq-cap .num{min-height:44px;padding-right:52px;font-size:13px}
+  .sq-cap .num span{white-space:nowrap}
+  .sq-cap .num i{flex:1 1 0;min-width:24px;height:2px}
   .sq-cap h2{font-size:27px;line-height:1.05;margin:0 0 6px}
   .sq-cap p{font-size:14.5px;line-height:1.42}
-  .sq-cap-ctas{margin-top:12px}
+  .sq-cap-ctas{margin-top:12px;flex-wrap:nowrap}
   .sq-close{top:12px;right:16px;width:44px;height:44px;padding:0;justify-content:center}
-  .sq-box{bottom:16px}
+  .sq-box{bottom:16px;bottom:calc(16px + clamp(0px,100% - 100svh,64px));padding:8px 12px 6px;background:rgba(6,8,14,.9);-webkit-backdrop-filter:none;backdrop-filter:none} /* stays above the fold when the stage's min-height beats the screen; no blur over a canvas that repaints every frame */
+  .sq-box .names{margin:0 -12px;padding:0 12px 7px}
+  .sq-box .nm{font-size:15.5px;padding-bottom:7px;white-space:nowrap}
+  .sq-box .nm::after{width:32px;height:3px}
+  .sq-ctx{font-size:11.5px;line-height:1.2;padding:0 6px 3px}
+  .sq-event{font-size:15.5px;line-height:1.25;margin:7px 0 5px;padding-left:9px;border-left-width:3px}
+  .sq-row{grid-template-columns:clamp(44px,14vw,56px) 1fr clamp(96px,28vw,112px) 1fr clamp(44px,14vw,56px);height:24px}
+  .sq-row .v{font-size:15px}
+  .sq-row .v small{font-size:11px}
 
   .sq-stack{padding:56px 16px 48px}
   .sq-stack-grid{display:flex;flex-direction:column;align-items:stretch;gap:0}
@@ -351,6 +361,10 @@
   .sq-audience{grid-template-columns:auto auto;justify-content:start;gap:8px}
   .sq-audience span{grid-column:auto;align-self:center;font-size:inherit}
   .sq-audience b{justify-self:start}
+}
+@media (max-width:374px){
+  .sq-cap-in{min-height:161px}
+  .sq-cap-ctas .sq-btn{gap:6px;padding:0 13px;font-size:14px}
 }
 .sq-static .sq-hero .sq-play{display:none}
 .sq-static .sq-plate{visibility:visible;width:100%;height:100%;object-fit:cover;transform:none!important}

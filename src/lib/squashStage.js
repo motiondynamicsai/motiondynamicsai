@@ -5,6 +5,7 @@
 export const MEDIA = '/media/squash/';
 const G = 9.81;
 const STACK_LABELS = 76; // phones: width of the game-label column beside the stacked courts
+const WALL_SCALE = 112; // plate px per metre of height at w = 1, fitted to the tin, service line and out line on the plate
 export const COL = { A: '143,184,255', B: '240,194,75' }; // Mueller blue, El Hammamy gold
 const surname = { A: 'Mueller', B: 'El Hammamy' };
 export const COURT_LINES = [[[0, 5.44], [6.4, 5.44]], [[3.2, 5.44], [3.2, 9.75]], [[1.6, 5.44], [1.6, 7.04], [0, 7.04]], [[4.8, 5.44], [4.8, 7.04], [6.4, 7.04]]];
@@ -36,7 +37,9 @@ function homography(src, dst) {
     for (let r = 0; r < 8; r++) if (r !== c) { const f = A[r][c] / A[c][c]; for (let k = c; k < 8; k++) A[r][k] -= f * A[c][k]; b[r] -= f * b[c]; }
   }
   const h = b.map((v, i) => v / A[i][i]);
-  return (x, y) => { const w = h[6] * x + h[7] * y + 1; return [(h[0] * x + h[1] * y + h[2]) / w, (h[3] * x + h[4] * y + h[5]) / w]; };
+  const map = (x, y) => { const w = h[6] * x + h[7] * y + 1; return [(h[0] * x + h[1] * y + h[2]) / w, (h[3] * x + h[4] * y + h[5]) / w]; };
+  map.w = (x, y) => h[6] * x + h[7] * y + 1; // depth term: a vertical metre on the plate scales with 1/w
+  return map;
 }
 
 export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
@@ -49,6 +52,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   let disposed = false, raf = 0, W = 0, H = 0, dpr = 1, PX = 1, CAMNOW = null;
   let pos = Number(new URLSearchParams(window.location.search).get('p')) || 0, dir = 0; // ?p=2.5 opens part-way in
   const LW = 1.7;
+  const rallyLW = () => (W < 720 ? 1 : LW); // phones: thinner tracking lines; the stacked courts keep LW
 
   const poly = (pts, close) => { ctx.beginPath(); pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); if (close) ctx.closePath(); };
   const glowDot = (x, y, r, col, glow) => {
@@ -60,7 +64,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const text = (t, x, y, size = 13, col = 'rgba(255,255,255,.85)') => { ctx.font = `500 ${size * PX}px Outfit`; ctx.fillStyle = col; ctx.textBaseline = 'middle'; ctx.fillText(t, x, y); };
   const tracer = (pts, col, width) => {
     for (let i = 1; i < pts.length; i++) {
-      const a = i / pts.length; ctx.strokeStyle = col.replace('A', (a * a).toFixed(3)); ctx.lineWidth = width * PX * (0.35 + 0.65 * a) * LW;
+      const a = i / pts.length; ctx.strokeStyle = col.replace('A', (a * a).toFixed(3)); ctx.lineWidth = width * PX * (0.35 + 0.65 * a) * rallyLW();
       ctx.beginPath(); ctx.moveTo(pts[i - 1][0], pts[i - 1][1]); ctx.lineTo(pts[i][0], pts[i][1]); ctx.stroke();
     }
   };
@@ -77,8 +81,8 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const tickH2H = (dt) => {
     for (const r of H2H) {
       const k = reduce ? 1 : 1 - Math.exp(-dt * 9); r.ca += (r.ta - r.ca) * k; r.cb += (r.tb - r.cb) * k;
-      const f = (v) => (r.unit === ' m' && !r.ta ? '–' : v.toLocaleString('en-GB', { minimumFractionDigits: r.dec, maximumFractionDigits: r.dec }) + (r.unit ? `<small>${r.unit}</small>` : '')); // no wall contact yet: no height to show
-      const ha = f(r.ca), hb = f(r.cb); if (r.a.innerHTML !== ha) r.a.innerHTML = ha; if (r.b.innerHTML !== hb) r.b.innerHTML = hb;
+      const f = (v, target) => (r.unit === ' m' && !(W < 720 ? target : r.ta) ? '–' : v.toLocaleString('en-GB', { minimumFractionDigits: r.dec, maximumFractionDigits: r.dec }) + (r.unit ? `<small>${r.unit}</small>` : '')); // no wall contact yet: no height to show
+      const ha = f(r.ca, r.ta), hb = f(r.cb, r.tb); if (r.a.innerHTML !== ha) r.a.innerHTML = ha; if (r.b.innerHTML !== hb) r.b.innerHTML = hb;
       const m = r.ta + r.tb || 1; r.ba.style.width = `${(100 * r.ta) / m}%`; r.bb.style.width = `${(100 * r.tb) / m}%`;
     }
   };
@@ -97,7 +101,11 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const [rally, match] = await Promise.all([fetch(`${MEDIA}rally.json`).then((r) => r.json()), fetch(`${MEDIA}match.json`).then((r) => r.json())]);
     if (disposed) return;
     const floorH = homography([[0, 0], [6.4, 0], [6.4, 9.75], [0, 9.75]], [[2468, 1058], [3318, 1068], [3625, 1242], [1840, 1150]]);
-    const P3 = (x, y, z) => { const [u, v] = floorH(x, y), [a] = floorH(x - 0.5, y), [b] = floorH(x + 0.5, y); return [u, v - z * Math.abs(b - a)]; };
+    const P3 = (x, y, z) => {
+      const [u, v] = floorH(x, y);
+      if (W < 720) return [u, v - (z * WALL_SCALE) / floorH.w(x, y)]; // phones: heights land on the plate's real wall lines
+      const [a] = floorH(x - 0.5, y), [b] = floorH(x + 0.5, y); return [u, v - z * Math.abs(b - a)];
+    };
     const T1 = rally.duration, shots = rally.shots, keys = [];
     shots.forEach((s, i) => {
       const hp = [s.pos[0] + (s.pos[0] < 3.2 ? 0.35 : -0.35), s.pos[1] - 0.25, 0.55];
@@ -171,11 +179,12 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const band = { slot: H / 2, play: H / 2 };
     const measureBand = () => {
       if (slot) band.slot = hero.offsetTop + slot.offsetTop + slot.offsetHeight / 2;
-      band.play = (cap.offsetTop + capIn.offsetHeight + boxEl.offsetTop) / 2;
+      band.play = (cap.offsetTop + (parseFloat(getComputedStyle(capIn).minHeight) || capIn.offsetHeight) + boxEl.offsetTop) / 2; // the reserved height, so caption text can't move the court
     };
     measureBand(); onResize = () => { measureBand(); wake(); };
     const COURT = { width: 1880, x: 2732, y: 745 }; // plate px: the floor's widest span plus a margin, and the court's centre
-    const camPhone = (u) => { const k = W / COURT.width; return { k, ox: W / 2 - COURT.x * k, oy: lerp(band.slot, band.play, u) - COURT.y * k }; };
+    const RALLY = { width: 2030, x: 2640, y: 804 }; // plate px in play: everything the rally draws, from the left of the back wall to the floor's right corner
+    const camPhone = (u) => { const k = W / lerp(COURT.width, RALLY.width, u), x = lerp(COURT.x, RALLY.x, u), y = lerp(COURT.y, RALLY.y, u); return { k, ox: W / 2 - x * k, oy: lerp(band.slot, band.play, u) - y * k }; };
     function camAt(t) {
       const K = SQ.cam; const i = K.findIndex((k) => k[0] > t); let f;
       if (i <= 0) f = i === 0 ? K[0] : K[K.length - 1];
@@ -185,7 +194,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     }
 
     function draw(t) {
-      const rt = Math.min(t, T1), whole = ramp(t, SQ_ALL, 1.2), pl = easeIO(ramp(t, PL, 2)), vis = 1 - pl;
+      const rt = Math.min(t, T1), whole = ramp(t, SQ_ALL, 1.2), pl = easeIO(ramp(t, PL, 2)), vis = 1 - pl, rw = rallyLW();
       if (vis > 0) {
         let ci = -1; flights.forEach((f, i) => { if (f.t0 <= rt) ci = i; });
         flights.forEach((f, i) => {
@@ -198,14 +207,14 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
           const g = ctx.createLinearGradient(0, top, 0, bot); g.addColorStop(0, `rgba(${COL[f.who]},${(live ? 0.3 : 0.16) * a})`); g.addColorStop(1, `rgba(${COL[f.who]},0)`);
           ctx.fillStyle = g; poly(air.concat(floor), true); ctx.fill();
           ctx.lineJoin = ctx.lineCap = 'round';
-          ctx.strokeStyle = `rgba(${COL[f.who]},${a})`; ctx.lineWidth = (live ? 2.6 : 1.6) * PX * LW; poly(air); ctx.stroke();
-          ctx.strokeStyle = `rgba(${COL[f.who]},${0.35 * a})`; ctx.lineWidth = PX * LW; poly(floor); ctx.stroke();
+          ctx.strokeStyle = `rgba(${COL[f.who]},${a})`; ctx.lineWidth = (live ? 2.6 : 1.6) * PX * rw; poly(air); ctx.stroke();
+          ctx.strokeStyle = `rgba(${COL[f.who]},${0.35 * a})`; ctx.lineWidth = PX * rw; poly(floor); ctx.stroke();
         });
         for (const k of keys) if (k.t <= rt && k.i >= FIRST && (k.kind === 'wall' || k.kind === 'floor')) {
           const e = easeOutQuint(clamp((rt - k.t) / 0.7, 0, 1)), who = shots[k.i].who, wall = k.kind === 'wall';
           ctx.globalAlpha = vis; ctx.fillStyle = wall ? `rgb(${COL[who]})` : '#fff';
           poly(wall ? wallRing(k.p[0], k.p[2], 0.08) : floorRing(k.p[0], k.p[1], 0.09), true); ctx.fill();
-          if (e < 1) { ctx.strokeStyle = `rgba(${wall ? COL[who] : '255,255,255'},${1 - e})`; ctx.lineWidth = 2 * PX * LW; poly(wall ? wallRing(k.p[0], k.p[2], 0.12 + 0.5 * e) : floorRing(k.p[0], k.p[1], 0.12 + 0.5 * e), true); ctx.stroke(); }
+          if (e < 1) { ctx.strokeStyle = `rgba(${wall ? COL[who] : '255,255,255'},${1 - e})`; ctx.lineWidth = 2 * PX * rw; poly(wall ? wallRing(k.p[0], k.p[2], 0.12 + 0.5 * e) : floorRing(k.p[0], k.p[1], 0.12 + 0.5 * e), true); ctx.stroke(); }
           ctx.globalAlpha = 1;
         }
         // players: footprint ring, recent movement trail and a height marker
@@ -216,13 +225,13 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
           ctx.lineCap = 'round'; tracer(tr, `rgba(${COL[w]},A)`, 3);
           const [x, y] = trackAt(rally.tracks[w], rt);
           ctx.fillStyle = `rgba(${COL[w]},.16)`; poly(floorRing(x, y, 0.34), true); ctx.fill();
-          ctx.strokeStyle = `rgb(${COL[w]})`; ctx.lineWidth = 1.6 * PX * LW; poly(floorRing(x, y, 0.34), true); ctx.stroke();
+          ctx.strokeStyle = `rgb(${COL[w]})`; ctx.lineWidth = 1.6 * PX * rw; poly(floorRing(x, y, 0.34), true); ctx.stroke();
           const foot = floorH(x, y), head = P3(x, y, 1.85), g = ctx.createLinearGradient(foot[0], foot[1], head[0], head[1]);
           g.addColorStop(0, `rgba(${COL[w]},.9)`); g.addColorStop(1, `rgba(${COL[w]},0)`);
-          ctx.strokeStyle = g; ctx.lineWidth = 1.4 * PX * LW; ctx.beginPath(); ctx.moveTo(...foot); ctx.lineTo(...head); ctx.stroke();
+          ctx.strokeStyle = g; ctx.lineWidth = 1.4 * PX * rw; ctx.beginPath(); ctx.moveTo(...foot); ctx.lineTo(...head); ctx.stroke();
         }
         ctx.globalAlpha = 1;
-        if (rt < T1 - 0.02 && whole === 0) { const bp = P3(...ballAt(rt)); glowDot(bp[0], bp[1], 5 * PX, 'rgba(253,71,70,A)', 3.2); }
+        if (rt < T1 - 0.02 && whole === 0) { const bp = P3(...ballAt(rt)); glowDot(bp[0], bp[1], (narrow() ? 4 : 5) * PX, 'rgba(253,71,70,A)', 3.2); }
       }
       // the match: one court per game lifts off the floor and stacks, drive bounces as a heatmap
       if (pl > 0) {
@@ -314,7 +323,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
 
     function frame(now) {
       if (disposed) return;
-      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      const dt = clamp((now - last) / 1000, 0, 0.05); last = now;
       if (dir) {
         const [kind, len] = segAt(dir > 0 ? pos : pos - 1e-6);
         pos += (dir * dt * len) / secs[kind];
@@ -339,11 +348,12 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
       boxEl.style.opacity = narrow() ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
       if (co > 0) setBeat(st.t);
-      cap.style.setProperty('--p', st.t / SQ.dur);
+      cap.style.setProperty('--p', narrow() ? (st.t - T0) / (SQ.dur - T0) : st.t / SQ.dur); // phones: the line fills from empty over what actually plays
       tickH2H(dt);
       // nothing moving or nothing on screen: let the phone rest until play, stop, resize or scroll back
       still = dir ? 0 : still + 1;
-      raf = (!dir && !onScreen) || (narrow() && still > 60) ? 0 : requestAnimationFrame(frame);
+      const rest = narrow() ? (!onScreen && dir >= 0) || still > 60 : !dir && !onScreen; // phones hold a rally off screen; a closing fade always finishes
+      raf = rest ? 0 : requestAnimationFrame(frame);
     }
     let still = 0;
     wake = () => { still = 0; if (raf || disposed) return; last = performance.now(); raf = requestAnimationFrame(frame); };
