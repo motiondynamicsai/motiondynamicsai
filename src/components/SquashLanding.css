@@ -492,6 +492,11 @@
   .sq-perks li b{font-size:17px}
 }
 .sq-deal{display:none}
+/* phones: the stacked courts sit over the same dim court as the end of the rally */
+@media (max-width:719px) and (orientation:portrait){
+  .sq-stack{position:relative;isolation:isolate}
+  .sq-stack::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:32vw;height:105.6vw;background:url(/media/squash/squash-2560.jpg) -80vw 0/189.2vw auto no-repeat;opacity:.12;-webkit-mask-image:linear-gradient(180deg,transparent 12%,#000 21%,#000 56.5%,transparent 61%);mask-image:linear-gradient(180deg,transparent 12%,#000 21%,#000 56.5%,transparent 61%);pointer-events:none}
+}
 /* phones: the offer box reads like the broadcast banner, with the two numbers big */
 @media (max-width:719px) and (orientation:portrait){
   .sq-stage{min-height:calc(294px + 79.3vw)}
