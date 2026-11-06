@@ -138,7 +138,7 @@ export default function SquashLanding() {
 
         <div className="sq-hero">
           <div className="sq-kicker">Squash analytics · Juniors, parents & coaches</div>
-          <h1><span className="l"><span>Pro-level analytics.</span></span><span className="l"><span>Supercharge your game.</span></span><span className="sq-h-phone"><span className="sq-h-pro">PRO-LEVEL</span> <span className="sq-h-sq">squash analytics</span> <span className="sq-h-aud">For juniors, parents &amp; coaches</span></span></h1>
+          <h1><span className="l"><span>Pro-level analytics.</span></span><span className="l"><span>Supercharge your game.</span></span><span className="sq-h-phone"><span className="sq-h-pro">PRO-LEVEL</span> <span className="sq-h-sq">squash analytics</span> <span className="sq-h-aud">Now for juniors, parents, and coaches</span></span></h1>
           <p className="sq-lede"><span className="sq-lede-full">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players. See every shot, every movement and exactly what to work on next.</span><span className="sq-lede-phone">See every shot, every movement and what to work on next.</span></p>
           <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-offer-lead">Register now:</span><span className="sq-offer-deal"><b>one match analysed free</b> + <b>50% off</b></span></div>
           <RegisterInterest variant="hero" source="hero" />
@@ -203,9 +203,9 @@ export default function SquashLanding() {
             <div className="kick">Founding members</div>
             <h2 id="register-title">Register your interest.</h2>
             <ul className="sq-perks">
-              <li><b>One match analysed free.</b> Send us a match, get the full breakdown.</li>
-              <li><b>50% off</b> when we launch, locked in as a founding member.</li>
-              <li><b>Just your name and email.</b> No payment, no commitment.</li>
+              <li><b>One match analysed free.</b><span className="sq-perk-rest"> Send us a match, get the full breakdown.</span></li>
+              <li><b>50% off</b><span className="sq-perk-rest"> when we launch, locked in as a founding member.</span></li>
+              <li><b>Just your name and email.</b><span className="sq-perk-rest"> No payment, no commitment.</span></li>
             </ul>
           </div>
           <RegisterInterest variant="panel" source="register-section" />
