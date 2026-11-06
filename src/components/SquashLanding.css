@@ -764,7 +764,8 @@
 @media (max-width:719px){.sq-menu-btn{margin-right:-13px}}
 /* phones: the court is a picture with straight edges on the page margins. No soft fade into black, and the orange flare at the photo's edges stays outside the frame. */
 @media (max-width:719px) and (orientation:portrait){
-  .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 13%,#000 13%,#000 58.5%,transparent 58.5%);mask-image:linear-gradient(180deg,transparent 13%,#000 13%,#000 58.5%,transparent 58.5%)}
+  .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%);mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%)}
+  .sq-slot{padding-top:calc(53.4vw - 8px);padding-bottom:0;align-items:center}
   .sq-scrim{box-sizing:border-box;border-inline:16px solid var(--ink)}
 }
 /* phones: the scoreboard is the same box as the others: corner 14, inset 14, solid fill */
@@ -803,4 +804,12 @@
   .sq-footer .sq-brand{--brand:22px;gap:7px}
   .sq-footer .sq-brand svg{width:var(--brand);height:var(--brand)}
   .sq-footer .sq-brand span{font-size:calc(var(--brand)*1.08);line-height:1;transform:translateY(-2px)}
+}
+@media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
+  .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 13.2%,#000 13.2%,#000 59.5%,transparent 59.5%);mask-image:linear-gradient(180deg,transparent 13.2%,#000 13.2%,#000 59.5%,transparent 59.5%)}
+  .sq-slot{padding-top:calc(53.4vw - 4px)}
+}
+@media (max-width:719px) and (orientation:portrait) and (max-height:600px){
+  .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 57%,transparent 57%);mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 57%,transparent 57%)}
+  .sq-slot{padding-top:calc(51vw - 4px)}
 }
