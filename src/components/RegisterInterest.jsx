@@ -33,8 +33,8 @@ export default function RegisterInterest({ variant = 'hero', source }) {
 
   return <form className={`sq-form sq-form-${variant}`} onSubmit={submit} aria-label="Register your interest">
     <div className="sq-fields">
-      <label className="sq-field"><span>Name</span><input id={`${id}-name`} name="name" type="text" autoComplete="name" placeholder="Your name" required /></label>
-      <label className="sq-field"><span>Email</span><input id={`${id}-email`} name="email" type="email" autoComplete="email" inputMode="email" placeholder="you@example.com" required /></label>
+      <label className="sq-field"><span>Name</span><input id={`${id}-name`} name="name" type="text" autoComplete="name" autoCapitalize="words" enterKeyHint="next" placeholder="Your name" required /></label>
+      <label className="sq-field"><span>Email</span><input id={`${id}-email`} name="email" type="email" autoComplete="email" inputMode="email" autoCapitalize="none" spellCheck="false" enterKeyHint="send" placeholder="you@example.com" required /></label>
       <button className="sq-btn solid" type="submit" disabled={status === 'sending'}>{status === 'sending' ? 'Registering…' : <>Register interest <span className="ar">→</span></>}</button>
     </div>
     {status === 'error'

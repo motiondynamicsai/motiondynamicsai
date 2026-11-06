@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { mountSquashStage } from '../lib/squashStage';
 import { mountCourtStack } from '../lib/squashStack';
 import RegisterInterest from './RegisterInterest';
@@ -38,6 +39,7 @@ export default function SquashLanding() {
   const [solid, setSolid] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [pcts, setPcts] = useState(null);
+  const [menu, setMenu] = useState(false);
 
   useEffect(() => {
     stage.current = mountSquashStage(root.current, { onBeat: setBeat, onPlaying: setPlaying });
@@ -54,11 +56,11 @@ export default function SquashLanding() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
   useEffect(() => {
-    if (!playing) return undefined;
-    const onKey = (event) => { if (event.key === 'Escape') stage.current.stop(); };
+    if (!playing && !menu) return undefined;
+    const onKey = (event) => { if (event.key !== 'Escape') return; setMenu(false); if (playing) stage.current.stop(); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [playing]);
+  }, [playing, menu]);
   const play = () => { // on short screens Play can sit below the fold: bring the whole stage into view first
     window.scrollTo({ top: 0 });
     stage.current.play();
@@ -76,17 +78,23 @@ export default function SquashLanding() {
 
   return <div className="sq" ref={root}>
     <a className="sq-skip" href="#register">Skip to register</a>
-    <header className={`sq-bar${solid ? ' solid' : ''}`}>
+    <header className={`sq-bar${solid ? ' solid' : ''}${playing ? ' live' : ''}${menu ? ' open' : ''}`}>
       <div className="sq-notice"><span className="dot" aria-hidden="true" /><span><b>U.S. Open</b> · 1–7 November 2026 · Philadelphia<span className="sq-notice-extra"> · our analytics are on court</span></span></div>
       <nav aria-label="Main">
         <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><Mark /><span><b>motion</b> <i>dynamics</i></span></Link>
-        <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a></div>
+        <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a><button className="sq-menu-btn" type="button" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="sq-menu" onClick={() => setMenu((open) => !open)}>{menu ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
       </nav>
+      <div className="sq-menu" id="sq-menu" hidden={!menu}>
+        <a href="#insights" onClick={() => setMenu(false)}>What you get</a>
+        <a href="#proof" onClick={() => setMenu(false)}>On the PSA tour</a>
+        <Link to="/team">Our team</Link>
+        <a className="cta" href="#register" onClick={(event) => { setMenu(false); scrollToRegister(event); }}>Register interest</a>
+      </div>
     </header>
 
     <div className="sq-track">
       <section className="sq-stage" aria-label="A real pro rally, tracked by Motion Dynamics">
-        <picture><source media="(max-width: 720px)" srcSet="/media/squash/squash-1920.jpg" /><img className="sq-plate" src="/media/squash/squash.jpg" alt="" width="3840" height="2143" fetchpriority="high" /></picture>
+        <picture><source media="(max-width: 720px)" srcSet="/media/squash/squash-2560.jpg" /><img className="sq-plate" src="/media/squash/squash.jpg" alt="" width="3840" height="2143" fetchpriority="high" /></picture>
         <canvas className="sq-overlay" aria-hidden="true" />
         <div className="sq-scrim" />
 
@@ -94,9 +102,9 @@ export default function SquashLanding() {
           <div className="sq-kicker">Squash analytics · Juniors, parents & coaches</div>
           <h1><span className="l"><span>Pro-level analytics.</span></span><span className="l"><span>Supercharge your game.</span></span></h1>
           <p className="sq-lede">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players. See every shot, every movement and exactly what to work on next.</p>
-          <div className="sq-offer"><span className="sq-tag">Founding offer</span>Register now: <b>one match analysed free</b> + <b>50% off</b></div>
+          <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-offer-lead">Register now:</span><span className="sq-offer-deal"><b>one match analysed free</b> + <b>50% off</b></span></div>
           <RegisterInterest variant="hero" source="hero" />
-          <button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button>
+          <div className="sq-slot"><button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button></div>
         </div>
         {playing && <button className="sq-close" type="button" onClick={stop} aria-label="Close the rally and go back">✕ <span>Close</span></button>}
 

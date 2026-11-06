@@ -4,6 +4,7 @@
 
 export const MEDIA = '/media/squash/';
 const G = 9.81;
+const STACK_LABELS = 76; // phones: width of the game-label column beside the stacked courts
 export const COL = { A: '143,184,255', B: '240,194,75' }; // Mueller blue, El Hammamy gold
 const surname = { A: 'Mueller', B: 'El Hammamy' };
 export const COURT_LINES = [[[0, 5.44], [6.4, 5.44]], [[3.2, 5.44], [3.2, 9.75]], [[1.6, 5.44], [1.6, 7.04], [0, 7.04]], [[4.8, 5.44], [4.8, 7.04], [6.4, 7.04]]];
@@ -41,10 +42,10 @@ function homography(src, dst) {
 export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const $ = (s) => root.querySelector(s);
   const stage = $('.sq-stage'), cv = $('.sq-overlay'), plate = $('.sq-plate');
-  const hero = $('.sq-hero'), cap = $('.sq-cap'), capIn = $('.sq-cap-in'), boxEl = $('.sq-box');
+  const hero = $('.sq-hero'), slot = $('.sq-slot'), cap = $('.sq-cap'), capIn = $('.sq-cap-in'), boxEl = $('.sq-box');
   const ctx = cv.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let onResize = () => {};
+  let onResize = () => {}, wake = () => {}, onScreen = true;
   let disposed = false, raf = 0, W = 0, H = 0, dpr = 1, PX = 1, CAMNOW = null;
   let pos = Number(new URLSearchParams(window.location.search).get('p')) || 0, dir = 0; // ?p=2.5 opens part-way in
   const LW = 1.7;
@@ -76,7 +77,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const tickH2H = (dt) => {
     for (const r of H2H) {
       const k = reduce ? 1 : 1 - Math.exp(-dt * 9); r.ca += (r.ta - r.ca) * k; r.cb += (r.tb - r.cb) * k;
-      const f = (v) => v.toLocaleString('en-GB', { minimumFractionDigits: r.dec, maximumFractionDigits: r.dec }) + (r.unit ? `<small>${r.unit}</small>` : '');
+      const f = (v) => (r.unit === ' m' && !r.ta ? '–' : v.toLocaleString('en-GB', { minimumFractionDigits: r.dec, maximumFractionDigits: r.dec }) + (r.unit ? `<small>${r.unit}</small>` : '')); // no wall contact yet: no height to show
       const ha = f(r.ca), hb = f(r.cb); if (r.a.innerHTML !== ha) r.a.innerHTML = ha; if (r.b.innerHTML !== hb) r.b.innerHTML = hb;
       const m = r.ta + r.tb || 1; r.ba.style.width = `${(100 * r.ta) / m}%`; r.bb.style.width = `${(100 * r.tb) / m}%`;
     }
@@ -85,7 +86,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const setHTML = (s, t) => { const e = $(s); if (e.innerHTML !== t) e.innerHTML = t; };
 
   function size() {
-    const r = stage.getBoundingClientRect(); W = r.width; H = r.height; dpr = Math.min(window.devicePixelRatio || 1, W < 720 ? 2 : 2.5);
+    const r = stage.getBoundingClientRect(); W = r.width; H = r.height; dpr = Math.min(window.devicePixelRatio || 1, W < 720 ? 3 : 2.5);
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     onResize();
   }
@@ -129,11 +130,27 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const SHOWN = 5, FIRST = shots.length - SHOWN, T0 = shots[FIRST].t - 0.4; // only the closing exchange is played
     const pct = (g, w) => { const d = match.games[g][w]; return Math.round((100 * d.length) / d.drives); };
     const narrow = () => W < 720;
-    const synth = (x, y, z) => { // elevated view of a free-standing court, in screen px
+    const synthUnit = (x, y, z) => { // elevated view of a free-standing court
       const P = [x - 3.2, y - 4.875, z], eye = [0, 17, 12.5], tg = [0, -0.6, 2.4];
-      const f = norm(sub(tg, eye)), r = norm(cross([0, 0, 1], f)), u = cross(f, r), d = sub(P, eye);
-      const cx = dot(d, r), cy = dot(d, u), cz = dot(d, f), F = narrow() ? Math.min(W * 1.02, H * 0.6) : Math.min(W * 0.56, H * 0.92);
-      return [W * (narrow() ? 0.44 : 0.6) + (F * cx) / cz, H * (narrow() ? 0.66 : 0.47) - (F * cy) / cz];
+      const f = norm(sub(tg, eye)), r = norm(cross([0, 0, 1], f)), u = cross(f, r), d = sub(P, eye), cz = dot(d, f);
+      return [dot(d, r) / cz, -dot(d, u) / cz];
+    };
+    const stackGap = () => (narrow() ? 4.4 : 3.3);
+    let phoneFit = null; // phones: the finished stack fills the space under the caption, game labels in their own column
+    const phoneStack = () => {
+      if (phoneFit && phoneFit.W === W && phoneFit.H === H) return phoneFit;
+      const c = []; for (const z of [0, 2 * stackGap()]) for (const x of [0, 6.4]) for (const y of [0, 9.75]) c.push(synthUnit(x, y, z));
+      const x0 = Math.min(...c.map((q) => q[0])), x1 = Math.max(...c.map((q) => q[0])), y0 = Math.min(...c.map((q) => q[1])), y1 = Math.max(...c.map((q) => q[1]));
+      const left = 10, right = STACK_LABELS + 8, top = 216, bottom = 20;
+      const F = Math.min((W - left - right) / (x1 - x0), (H - top - bottom) / (y1 - y0));
+      phoneFit = { W, H, F, ox: (left + W - right) / 2 - (F * (x0 + x1)) / 2, oy: (top + H - bottom) / 2 - (F * (y0 + y1)) / 2 };
+      return phoneFit;
+    };
+    const synth = (x, y, z) => { // in screen px
+      const q = synthUnit(x, y, z);
+      if (narrow()) { const v = phoneStack(); return [v.ox + v.F * q[0], v.oy + v.F * q[1]]; }
+      const F = Math.min(W * 0.56, H * 0.92);
+      return [W * 0.6 + F * q[0], H * 0.47 + F * q[1]];
     };
     const regS = (x, y) => { const q = floorH(x, y); return [q[0] * CAMNOW.k + CAMNOW.ox, q[1] * CAMNOW.k + CAMNOW.oy]; };
 
@@ -148,20 +165,21 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       ],
     };
 
-    const band = { top: 0, bottom: H };
-    const measureBand = () => { band.top = cap.offsetTop + capIn.offsetHeight; band.bottom = boxEl.offsetTop; };
-    measureBand(); onResize = measureBand;
-    function camAt(t, fit = 0) { // fit 0..1: phones pull back from full-bleed to the whole court
+    // Phones hold the whole court still and sharp: it sits in the hero's slot at rest and between caption and stats box in play.
+    const band = { slot: H / 2, play: H / 2 };
+    const measureBand = () => {
+      if (slot) band.slot = hero.offsetTop + slot.offsetTop + slot.offsetHeight / 2;
+      band.play = (cap.offsetTop + capIn.offsetHeight + boxEl.offsetTop) / 2;
+    };
+    measureBand(); onResize = () => { measureBand(); wake(); };
+    const COURT = { width: 1880, x: 2732, y: 745 }; // plate px: the floor's widest span plus a margin, and the court's centre
+    const camPhone = (u) => { const k = W / COURT.width; return { k, ox: W / 2 - COURT.x * k, oy: lerp(band.slot, band.play, u) - COURT.y * k }; };
+    function camAt(t) {
       const K = SQ.cam; const i = K.findIndex((k) => k[0] > t); let f;
       if (i <= 0) f = i === 0 ? K[0] : K[K.length - 1];
       else { const a = K[i - 1], b = K[i], u = easeIO(clamp((t - a[0]) / (b[0] - a[0]), 0, 1)); f = [t, lerp(a[1], b[1], u), lerp(a[2], b[2], u), lerp(a[3], b[3], u)]; }
-      const k = Math.max(W / SQ.w, H / SQ.h) * f[3], sx = narrow() ? 0.5 : 0.64;
-      const cover = { k, ox: clamp(sx * W - f[1] * k, W - SQ.w * k, 0), oy: clamp(SQ.sy * H - f[2] * k, H - SQ.h * k, 0) };
-      if (!fit) return cover;
-      // fit the court (plate px ~1550-3800 wide, 150-1300 tall) into the gap between caption and stats box
-      const gap = Math.max(160, band.bottom - band.top), kf = Math.min(W / 1450, gap / 1050) * (f[3] / 1.12);
-      const whole = { k: kf, ox: W * 0.5 - (f[1] - 85) * kf, oy: (band.top + band.bottom) / 2 - (f[2] - 155) * kf };
-      return { k: lerp(cover.k, whole.k, fit), ox: lerp(cover.ox, whole.ox, fit), oy: lerp(cover.oy, whole.oy, fit) };
+      const k = Math.max(W / SQ.w, H / SQ.h) * f[3];
+      return { k, ox: clamp(0.64 * W - f[1] * k, W - SQ.w * k, 0), oy: clamp(SQ.sy * H - f[2] * k, H - SQ.h * k, 0) };
     }
 
     function draw(t) {
@@ -210,7 +228,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
         ctx.fillStyle = `rgba(5,7,13,${0.72 * pl})`; ctx.fillRect(0, 0, W, H);
         const labels = []; // drawn after every court so the next plane can't paint over them
         [3, 2, 1].forEach((g) => {
-          const ge = easeIO(ramp(t, PL + (3 - g) * 0.3, 2)), z = (3 - g) * 3.3;
+          const ge = easeIO(ramp(t, PL + (3 - g) * 0.3, 2)), z = (3 - g) * stackGap();
           const pt = (x, y) => { const a = regS(x, y), b = synth(x, y, z); return [lerp(a[0], b[0], ge), lerp(a[1], b[1], ge)]; };
           const outline = [pt(0, 0), pt(6.4, 0), pt(6.4, 9.75), pt(0, 9.75)];
           ctx.fillStyle = `rgba(47,111,214,${0.2 * pl})`; poly(outline, true); ctx.fill();
@@ -229,10 +247,11 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
           }
           if (de > 0) labels.push(() => {
             const q = pt(6.4, 4.4); ctx.globalAlpha = de;
-            const lx = narrow() ? Math.min(q[0] + 12, W - 64) : q[0] + 26;
-            text(`Game ${g}`, lx, q[1] - 12, 12.5, 'rgba(255,255,255,.7)');
-            ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 12);
-            if (!narrow()) { const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`; ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 13); }
+            const lx = narrow() ? W - STACK_LABELS : q[0] + 26;
+            text(`Game ${g}`, lx, q[1] - 14, 12.5, 'rgba(255,255,255,.7)');
+            ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 8);
+            const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`;
+            if (narrow()) ctx.fillText(`${pct(g, 'B')}%`, lx, q[1] + 28); else ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 9);
             ctx.globalAlpha = 1;
           });
         });
@@ -285,7 +304,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const setBeat = (t) => {
       let b = SQ.beats[0]; for (const x of SQ.beats) if (t >= x[0]) b = x;
       if (b[1] === beatKey) return; const first = !beatKey; beatKey = b[1];
-      const apply = () => { onBeat?.({ title: b[1], body: b[2], cta: !!b[3], index: SQ.beats.indexOf(b) }); requestAnimationFrame(measureBand); };
+      const apply = () => { onBeat?.({ title: b[1], body: b[2], cta: !!b[3], index: SQ.beats.indexOf(b) }); };
       if (first || reduce) { apply(); return; }
       capIn.classList.add('out'); clearTimeout(capTimer);
       capTimer = setTimeout(() => { apply(); capIn.classList.remove('out'); capIn.classList.add('pre'); requestAnimationFrame(() => requestAnimationFrame(() => capIn.classList.remove('pre'))); }, 300);
@@ -301,8 +320,8 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
         if (pos <= 0) { pos = 0; dir = 0; }
       }
       const st = resolve(pos);
-      const breathe = st.hero < 1 ? 1 + 0.012 * Math.sin(now / 2600) * (1 - st.hero) : 1;
-      const c = camAt(st.t, narrow() ? easeIO(clamp(st.hero * 1.4, 0, 1)) : 0);
+      const breathe = !narrow() && st.hero < 1 ? 1 + 0.012 * Math.sin(now / 2600) * (1 - st.hero) : 1;
+      const c = narrow() ? camPhone(easeIO(clamp(st.hero * 1.4, 0, 1))) : camAt(st.t);
       if (breathe !== 1) { c.k *= breathe; c.ox = clamp(c.ox - (breathe - 1) * W * 0.5, W - SQ.w * c.k, 0); c.oy = clamp(c.oy - (breathe - 1) * H * 0.5, H - SQ.h * c.k, 0); }
       plate.style.transform = `translate3d(${c.ox}px,${c.oy}px,0) scale(${c.k})`; plate.style.visibility = 'visible';
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
@@ -313,15 +332,23 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       // at rest the hero carries no inline opacity, so nothing can leave the form half-transparent
       hero.style.opacity = ho === 1 ? '' : ho; stage.style.setProperty('--ho', ho); hero.style.setProperty('--lift', `${h * 60}px`); hero.style.visibility = ho ? 'visible' : 'hidden';
       stage.classList.toggle('is-playing', h > 0);
+      cv.style.opacity = narrow() ? 1 - ho : ''; // phones show the clean court at rest; the tracking arrives with Play
       const co = clamp((h - 0.55) / 0.35, 0, 1);
       cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
       boxEl.style.opacity = narrow() ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
       if (co > 0) setBeat(st.t);
       cap.style.setProperty('--p', st.t / SQ.dur);
       tickH2H(dt);
-      raf = requestAnimationFrame(frame);
+      // nothing moving or nothing on screen: let the phone rest until play, stop, resize or scroll back
+      still = dir ? 0 : still + 1;
+      raf = (!dir && !onScreen) || (narrow() && still > 60) ? 0 : requestAnimationFrame(frame);
     }
-    raf = requestAnimationFrame(frame);
+    let still = 0;
+    wake = () => { still = 0; if (raf || disposed) return; last = performance.now(); raf = requestAnimationFrame(frame); };
+    const seen = new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; if (onScreen) wake(); });
+    seen.observe(stage);
+    cleanups.push(() => seen.disconnect());
+    wake();
     cleanups.push(() => clearTimeout(capTimer));
   }
 
@@ -331,8 +358,8 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   plate.decode?.().catch(() => {});
   start().catch(() => { root.classList.add('sq-static'); });
   return {
-    play() { if (pos >= END) pos = 1; dir = 1; onPlaying?.(true); }, // replays skip the hero fade
-    stop() { pos = Math.min(pos, 1); dir = -1; onPlaying?.(false); },
+    play() { if (pos >= END) pos = 1; dir = 1; onPlaying?.(true); wake(); }, // replays skip the hero fade
+    stop() { pos = Math.min(pos, 1); dir = -1; onPlaying?.(false); wake(); },
     destroy() { disposed = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); cleanups.forEach((f) => f()); rowsEl.replaceChildren(); },
   };
 }

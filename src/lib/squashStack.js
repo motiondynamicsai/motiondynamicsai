@@ -10,6 +10,7 @@ export function mountCourtStack(cv, { onPct } = {}) {
   const pct = (g, w) => { const d = match.games[g][w]; return Math.round((100 * d.length) / d.drives); };
   const narrow = () => W < 560;
   const RIGHT = () => (narrow() ? 76 : 130); // label column
+  const gap = () => (narrow() ? 4.4 : 3.3);
 
   const unit = (x, y, z) => { // elevated view of a free-standing court, before scaling
     const P = [x - 3.2, y - 4.875, z], eye = [0, 17, 12.5], tg = [0, -0.6, 2.4];
@@ -19,7 +20,7 @@ export function mountCourtStack(cv, { onPct } = {}) {
   const project = (x, y, z) => { const q = unit(x, y, z); return [view.ox + view.F * q[0], view.oy + view.F * q[1]]; };
   const fit = () => { // the finished stack fills the canvas, leaving room on the right for the game labels
     const pad = 12, right = RIGHT(), c = [];
-    for (const z of [0, 6.6]) for (const x of [0, 6.4]) for (const y of [0, 9.75]) c.push(unit(x, y, z));
+    for (const z of [0, 2 * gap()]) for (const x of [0, 6.4]) for (const y of [0, 9.75]) c.push(unit(x, y, z));
     const x0 = Math.min(...c.map((q) => q[0])), x1 = Math.max(...c.map((q) => q[0])), y0 = Math.min(...c.map((q) => q[1])), y1 = Math.max(...c.map((q) => q[1]));
     const F = Math.min((W - pad - right) / (x1 - x0), (H - 2 * pad) / (y1 - y0));
     view = { F, ox: (W - right + pad) / 2 - (F * (x0 + x1)) / 2, oy: H / 2 - (F * (y0 + y1)) / 2 };
@@ -31,7 +32,7 @@ export function mountCourtStack(cv, { onPct } = {}) {
     ctx.lineJoin = 'round';
     const labels = []; // drawn after every court so the next plane can't paint over them
     GAMES.forEach((g) => {
-      const ge = easeIO(clamp(p / 0.6, 0, 1)), z = (3 - g) * 3.3 * ge, de = ramp(p, 0.35 + (3 - g) * 0.15, 0.35);
+      const ge = easeIO(clamp(p / 0.6, 0, 1)), z = (3 - g) * gap() * ge, de = ramp(p, 0.35 + (3 - g) * 0.15, 0.35);
       const pt = (x, y) => project(x, y, z);
       const outline = [pt(0, 0), pt(6.4, 0), pt(6.4, 9.75), pt(0, 9.75)];
       ctx.fillStyle = 'rgba(47,111,214,.2)'; poly(outline, true); ctx.fill();
@@ -50,9 +51,10 @@ export function mountCourtStack(cv, { onPct } = {}) {
       if (de > 0) labels.push(() => {
         const q = pt(6.4, 4.4), lx = W - RIGHT() + 12;
         ctx.globalAlpha = de; ctx.textBaseline = 'middle';
-        ctx.font = '500 12.5px Outfit'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillText(`Game ${g}`, lx, q[1] - 12);
-        ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 12);
-        if (!narrow()) { const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`; ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 13); }
+        ctx.font = '500 12.5px Outfit'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillText(`Game ${g}`, lx, q[1] - 14);
+        ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 8);
+        const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`;
+        if (narrow()) ctx.fillText(`${pct(g, 'B')}%`, lx, q[1] + 28); else ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 9);
         ctx.globalAlpha = 1;
       });
     });
@@ -60,7 +62,7 @@ export function mountCourtStack(cv, { onPct } = {}) {
   }
 
   function size() {
-    const r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, r.width < 720 ? 3 : 2);
     W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     fit();
@@ -85,6 +87,7 @@ export function mountCourtStack(cv, { onPct } = {}) {
   fetch(`${MEDIA}match.json`).then((r) => r.json()).then((data) => {
     if (disposed) return;
     match = data; onPct?.([1, 2, 3].map((g) => pct(g, 'A'))); draw();
+    document.fonts?.ready.then(() => { if (!disposed && p === 1) draw(); }); // the game labels are canvas text
   }).catch(() => {});
   return { play, destroy() { disposed = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); } };
 }
