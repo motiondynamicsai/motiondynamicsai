@@ -195,7 +195,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       capNow = capNow ? capNow + (capBelow - capNow) * (1 - Math.exp(-Math.min(0.05, (now - capAt) / 1000) * 14)) : capBelow; capAt = now;
       if (Math.abs(capBelow - capNow) < 0.3) capNow = capBelow;
       if (phoneFit && phoneFit.W === W && phoneFit.vis === vis && phoneFit.cap === capNow) return;
-      phoneFit = { ...phoneStackFit(W, vis, wide() ? { left: fr.x, right: W - fr.x - fr.w, top: 91 + 12, bottom: 36, air: 12 } : { left: 8, right: 8, top: capNow, bottom: 30, air: 12 }), W, vis, cap: capNow };
+      phoneFit = { ...phoneStackFit(W, vis, wide() ? { left: fr.x + 8, right: W - fr.x - fr.w, top: 91 + 12, bottom: 36, air: 12 } : { left: 8, right: 8, top: capNow, bottom: 30, air: 12 }), W, vis, cap: capNow };
     };
     const synth = (x, y, level) => { const q = stackUnit(x, y, 0); return [phoneFit.ox + phoneFit.F * q[0], phoneFit.oy(level) + phoneFit.F * q[1]]; }; // in screen px
     const regS = (x, y) => { const q = floorH(x, y); return [q[0] * CAMNOW.k + CAMNOW.ox, q[1] * CAMNOW.k + CAMNOW.oy]; };
@@ -224,10 +224,10 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const placeFrame = () => {
       if (!wide()) { fr.x = 16; fr.w = W - 32; scrim.style.borderLeftWidth = scrim.style.borderRightWidth = ''; return; }
       const col = hero.getBoundingClientRect().right, m = hero.getBoundingClientRect().left, gap = Math.max(24, Math.min(56, W * 0.035)), ratio = (BAND.bottom - BAND.top) * SQ.h / RALLY.width;
-      const avail = W - col - gap - m; fr.w = Math.round(Math.min(avail, (H - BAR - 112) / ratio)); fr.x = Math.round(col + gap + (avail - fr.w) / 2);
+      const avail = W - col - gap - m; fr.w = Math.round(Math.min(avail, (H - BAR - 112) / ratio)); fr.x = Math.round(col + gap + avail - fr.w);
       const h = fr.w * ratio, top = Math.round(BAR + (H - BAR - 64 - h) / 2);
       band.slot = band.play = top + h / 2; scrim.style.borderLeftWidth = `${fr.x}px`; scrim.style.borderRightWidth = `${Math.round(W - fr.x - fr.w)}px`;
-      stage.style.setProperty('--pic-x', `${fr.x}px`); stage.style.setProperty('--pic-w', `${fr.w}px`); stage.style.setProperty('--pic-top', `${top}px`); stage.style.setProperty('--pic-bot', `${Math.round(top + h)}px`); stage.style.setProperty('--pic-mid', `${Math.round(top + h / 2)}px`);
+      stage.style.setProperty('--pic-x', `${fr.x}px`); stage.style.setProperty('--pic-w', `${fr.w}px`); stage.style.setProperty('--pic-top', `${top}px`); stage.style.setProperty('--pic-bot', `${Math.round(top + h)}px`);
     };
     measureBand(); placeFrame(); onResize = () => { measureBand(); placeFrame(); wake(); };
     const camPhone = (u) => { if (wide()) { const k = fr.w / RALLY.width; return { k, ox: fr.x + fr.w / 2 - RALLY.x * k, oy: band.play - ((BAND.top + BAND.bottom) / 2) * SQ.h * k }; }
@@ -292,7 +292,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
         });
         labels.forEach((draw) => draw());
         if (stackFontsReady() && labels.length) { // the stats box has gone by now: the colours still need naming
-          const a = ramp(t, PL + 1.6, 1.2), y = Math.min(H, visibleHeight()) - 15;
+          const a = ramp(t, PL + 1.6, 1.2), y = wide() ? phoneFit.mid(0) + ((phoneFit.mid(0) - phoneFit.mid(2)) / 2 - 12) / 2 + 21 : Math.min(H, visibleHeight()) - 15; // wide: under the picture
           ctx.globalAlpha = a; ctx.font = '400 15px Outfit, system-ui, sans-serif'; ctx.textBaseline = 'middle';
           const m = ctx.measureText(surname.A).width, e = ctx.measureText(surname.B).width;
           let x = fr.x;
