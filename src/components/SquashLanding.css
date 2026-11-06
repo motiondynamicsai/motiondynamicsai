@@ -838,3 +838,4 @@
   .team-page .member-copy h3{margin-top:8px}
   .team-page .member-copy>span{display:block}
 }
+@media (max-width:719px) and (hover:none){.sq-close:focus-visible{outline:0}} /* Play moves focus to the X: a touch user shouldn't see a keyboard ring */

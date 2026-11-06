@@ -454,6 +454,6 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   return {
     play() { if (pos >= END) pos = 1; dir = 1; onPlaying?.(true); wake(); }, // replays skip the hero fade
     stop() { pos = Math.min(pos, 1); dir = -1; onPlaying?.(false); wake(); },
-    destroy() { disposed = true; cancelAnimationFrame(raf); window.removeEventListener('resize', size); cleanups.forEach((f) => f()); rowsEl.replaceChildren(); },
+    destroy() { disposed = true; fold.remove(); cancelAnimationFrame(raf); window.removeEventListener('resize', size); cleanups.forEach((f) => f()); rowsEl.replaceChildren(); },
   };
 }
