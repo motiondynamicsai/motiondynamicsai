@@ -2,24 +2,24 @@
 // shot flights and player tracking, then lifted into one stacked court per game whose dots form the
 // drive-length heatmap. Nothing is tied to scrolling: play() runs the sequence, stop() returns to the hero.
 
-const MEDIA = '/media/squash/';
+export const MEDIA = '/media/squash/';
 const G = 9.81;
-const COL = { A: '143,184,255', B: '240,194,75' }; // Mueller blue, El Hammamy gold
+export const COL = { A: '143,184,255', B: '240,194,75' }; // Mueller blue, El Hammamy gold
 const surname = { A: 'Mueller', B: 'El Hammamy' };
-const COURT_LINES = [[[0, 5.44], [6.4, 5.44]], [[3.2, 5.44], [3.2, 9.75]], [[1.6, 5.44], [1.6, 7.04], [0, 7.04]], [[4.8, 5.44], [4.8, 7.04], [6.4, 7.04]]];
+export const COURT_LINES = [[[0, 5.44], [6.4, 5.44]], [[3.2, 5.44], [3.2, 9.75]], [[1.6, 5.44], [1.6, 7.04], [0, 7.04]], [[4.8, 5.44], [4.8, 7.04], [6.4, 7.04]]];
 // [kind, length]: playback position runs through these segments; 'hold' is the resting end state
 const SEG = [['hero', 1], ['rally', 0.35], ['play', 1.3], ['hold', 0.35]];
 const END = SEG.slice(0, -1).reduce((a, s) => a + s[1], 0);
 
-const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+export const easeIO = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const easeOutQuint = (t) => 1 - Math.pow(1 - t, 5);
-const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-const lerp = (a, b, t) => a + (b - a) * t;
-const ramp = (t, a, d) => clamp((t - a) / d, 0, 1);
-const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
-const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
-const norm = (a) => { const l = Math.hypot(...a); return a.map((v) => v / l); };
+export const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+export const lerp = (a, b, t) => a + (b - a) * t;
+export const ramp = (t, a, d) => clamp((t - a) / d, 0, 1);
+export const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+export const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+export const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+export const norm = (a) => { const l = Math.hypot(...a); return a.map((v) => v / l); };
 const shotName = (s) => ({ cross_court_drive: 'Cross-court drive', straight_drive: 'Straight drive', straight_kill: 'Straight kill', straight_lob: 'Straight lob', boast_2_wall: 'Two-wall boast', serve: 'Serve' }[s] || s.replace(/_/g, ' '));
 
 function homography(src, dst) {

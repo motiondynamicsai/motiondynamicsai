@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { mountSquashStage } from '../lib/squashStage';
+import { mountCourtStack } from '../lib/squashStack';
 import RegisterInterest from './RegisterInterest';
 import './SquashLanding.css';
 
@@ -31,13 +32,20 @@ const scrollToRegister = (event) => {
 export default function SquashLanding() {
   const root = useRef(null);
   const stage = useRef(null);
+  const stackCanvas = useRef(null);
+  const stack = useRef(null);
   const [beat, setBeat] = useState({ title: '', body: '', cta: false, index: 0 });
   const [solid, setSolid] = useState(false);
   const [playing, setPlaying] = useState(false);
+  const [pcts, setPcts] = useState(null);
 
   useEffect(() => {
     stage.current = mountSquashStage(root.current, { onBeat: setBeat, onPlaying: setPlaying });
     return () => stage.current.destroy();
+  }, []);
+  useEffect(() => {
+    stack.current = mountCourtStack(stackCanvas.current, { onPct: setPcts });
+    return () => stack.current.destroy();
   }, []);
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 40);
@@ -51,7 +59,14 @@ export default function SquashLanding() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [playing]);
-  const play = () => stage.current.play();
+  const play = () => { // on short screens Play can sit below the fold: bring the whole stage into view first
+    window.scrollTo({ top: 0 });
+    stage.current.play();
+  };
+  const playStack = () => {
+    stackCanvas.current.scrollIntoView({ block: 'center' });
+    stack.current.play();
+  };
   const stop = () => stage.current.stop();
   useEffect(() => {
     const previous = document.title;
@@ -107,6 +122,19 @@ export default function SquashLanding() {
     </div>
 
     <main id="main">
+      <section className="sq-stack" aria-labelledby="stack-title">
+        <div className="sq-wrap sq-stack-grid">
+          <div>
+            <div className="kick">One match, three games</div>
+            <h2 id="stack-title">Stack the games. <em>See the pattern.</em></h2>
+            <p>One court per game, every drive’s bounce marked.{pcts && ` Mueller found more length each game: ${pcts[0]}%, then ${pcts[1]}%, then ${pcts[2]}% behind the short line.`}</p>
+            <div className="sq-legend"><span style={{ '--c': 'rgb(143,184,255)' }}>Mueller</span><span style={{ '--c': 'rgb(240,194,75)' }}>El Hammamy</span></div>
+            <button className="sq-play" type="button" onClick={playStack}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Play the stack</button>
+          </div>
+          <canvas ref={stackCanvas} role="img" aria-label="Three squash courts stacked, one per game, with a dot where each drive bounced" />
+        </div>
+      </section>
+
       <section className="sq-after" id="insights">
         <div className="sq-wrap">
           <div className="kick">What you get</div>
