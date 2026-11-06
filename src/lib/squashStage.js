@@ -327,10 +327,10 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
             if (narrow()) { drawPhoneLabel(ctx, phoneFit.labelX, lerp(q[1], phoneFit.mid(level), ge), g, pct(g, 'A'), pct(g, 'B'), de); return; }
             ctx.globalAlpha = de;
             const lx = q[0] + 26;
-            text(`Game ${g}`, lx, q[1] - 14, 12.5, 'rgba(255,255,255,.7)');
-            ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 8);
+            text(`Game ${g}`, lx, q[1] - 12, 12.5, 'rgba(255,255,255,.7)');
+            ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 12);
             const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`;
-            ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 9);
+            ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 13);
             ctx.globalAlpha = 1;
           });
         });

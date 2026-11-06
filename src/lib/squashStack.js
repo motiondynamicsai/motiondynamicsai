@@ -9,11 +9,12 @@ export function mountCourtStack(cv, { onPct } = {}) {
   let match = null, W = 0, H = 0, dpr = 1, raf = 0, p = 1, disposed = false, view = { F: 1, ox: 0, oy: 0 }, phoneFit = null;
   const pct = (g, w) => { const d = match.games[g][w]; return Math.round((100 * d.length) / d.drives); };
   const phone = () => window.matchMedia('(max-width:719px)').matches;
-  const RIGHT = 130; // label column
+  const narrow = () => W < 560; // a small canvas above phone width
+  const RIGHT = () => (narrow() ? 76 : 130); // label column
   const gap = 3.3;
   const project = (x, y, z) => { const q = stackUnit(x, y, z); return [view.ox + view.F * q[0], view.oy + view.F * q[1]]; };
   const fit = () => { // the finished stack fills the canvas, leaving room on the right for the game labels
-    const pad = 12, right = RIGHT, c = [];
+    const pad = 12, right = RIGHT(), c = [];
     for (const z of [0, 2 * gap]) for (const x of [0, 6.4]) for (const y of [0, 9.75]) c.push(stackUnit(x, y, z));
     const x0 = Math.min(...c.map((q) => q[0])), x1 = Math.max(...c.map((q) => q[0])), y0 = Math.min(...c.map((q) => q[1])), y1 = Math.max(...c.map((q) => q[1]));
     const F = Math.min((W - pad - right) / (x1 - x0), (H - 2 * pad) / (y1 - y0));
@@ -55,12 +56,11 @@ export function mountCourtStack(cv, { onPct } = {}) {
         for (let j = 0; j < n; j++) { const q = pt(pts[j][0], pts[j][1]); ctx.beginPath(); ctx.arc(q[0], q[1], 2.3, 0, 7); ctx.fill(); }
       }
       if (de > 0 && stackFontsReady()) labels.push(() => {
-        const q = pt(6.4, 4.4), lx = W - RIGHT + 12;
+        const q = pt(6.4, 4.4), lx = W - RIGHT() + 12;
         ctx.globalAlpha = de; ctx.textBaseline = 'middle';
-        ctx.font = '500 12.5px Outfit'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillText(`Game ${g}`, lx, q[1] - 14);
-        ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 8);
-        const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`;
-        ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 9);
+        ctx.font = '500 12.5px Outfit'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillText(`Game ${g}`, lx, q[1] - 12);
+        ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 12);
+        if (!narrow()) { const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`; ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 13); }
         ctx.globalAlpha = 1;
       });
     });
