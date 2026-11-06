@@ -140,7 +140,7 @@ export default function SquashLanding() {
           <div className="sq-kicker">Squash analytics · Juniors, parents & coaches</div>
           <h1><span className="l"><span>Pro-level analytics.</span></span><span className="l"><span>Supercharge your game.</span></span><span className="sq-h-phone"><span className="sq-h-pro">PRO-LEVEL</span> <span className="sq-h-sq">squash analytics</span> <span className="sq-h-aud">Now for juniors, parents, and coaches</span></span></h1>
           <p className="sq-lede"><span className="sq-lede-full">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players. See every shot, every movement and exactly what to work on next.</span><span className="sq-lede-phone">See every shot, every movement and what to work on next.</span></p>
-          <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-offer-lead">Register now:</span><span className="sq-offer-deal"><b>one match analysed free</b> + <b>50% off</b></span></div>
+          <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-offer-lead">Register now:</span><span className="sq-offer-deal"><b>one match analysed free</b> + <b>50% off</b></span><span className="sq-deal"><span><b>Free</b>one match analysed</span><span><b>50%</b>off when we launch</span></span></div>
           <RegisterInterest variant="hero" source="hero" />
           <div className="sq-slot"><button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button></div>
         </div>
