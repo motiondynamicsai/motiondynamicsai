@@ -755,3 +755,4 @@
 @media (max-width:719px){
   .sq-h-sq,.sq-cap h2{letter-spacing:-.02em}
 }
+@media (max-width:719px){.sq-cap-ctas .sq-btn .sq-desk-only{display:none}}

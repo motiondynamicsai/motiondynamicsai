@@ -151,7 +151,7 @@ export default function SquashLanding() {
             <h2>{beat.title}{beat.index === 0 && <span className="sq-cap-2">Every shot, analyzed.</span>}</h2>
             <p>{beat.body}</p>
             {beat.cta && <div className="sq-cap-ctas">
-              <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register your interest <span className="ar">→</span></a>
+              <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register <span className="sq-desk-only">your </span>interest <span className="ar">→</span></a>
               <button className="sq-btn" type="button" onClick={play}><i className="sq-desk-only">↻</i><FiRotateCw className="sq-phone-only" aria-hidden="true" /> Replay</button>
             </div>}
           </div>
@@ -201,7 +201,7 @@ export default function SquashLanding() {
       <section className="sq-register" id="register" aria-labelledby="register-title">
         <div className="sq-wrap sq-register-grid">
           <div>
-            <div className="kick">Founding members</div>
+            <div className="kick"><span className="sq-desk-only">Founding members</span><span className="sq-phone-only">Founding offer</span></div>
             <h2 id="register-title">Register your interest.</h2>
             <div className="sq-deal sq-deal-reg" aria-hidden="true"><span><b>Free</b>one match analyzed</span><span><b>50%</b>off when we launch</span></div>
             <ul className="sq-perks">
