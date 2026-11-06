@@ -785,3 +785,9 @@
   .sq-chrome~main .member-detail-grid>img{clip-path:inset(0 0 14px 0);margin-bottom:-14px}
   .sq-chrome~main.member-detail>.text-link svg{margin-left:-1px}
 }
+/* phones: an error is one plain line in both forms, no tinted alert box. On the first screen it takes Play's room, so nothing overlaps the picture. */
+@media (max-width:719px){
+  .sq-form-panel .sq-form-note.is-error,.sq-hero .sq-form-note.is-error{margin:8px 0 0;padding:0;border:0;border-radius:0;background:none;font-size:15px;line-height:1.4}
+  .sq-form-panel .sq-form-note.is-error a{display:inline;padding:0}
+  .sq-hero:has(.is-error) .sq-slot{visibility:hidden}
+}
