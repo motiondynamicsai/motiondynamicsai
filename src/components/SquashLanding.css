@@ -588,6 +588,7 @@
   .sq-perks li:not(:last-child){position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%)}
   .sq-perks{margin-top:14px}
   .sq-perks li:last-child .sq-perk-rest{display:block}
+  .sq-perks li:last-child .sq-perk-rest.sq-desk-only{display:none}
   .sq-perks li:last-child{font-weight:450;color:rgba(255,255,255,.8)}
 }
 .sq-ev-gx{display:none}

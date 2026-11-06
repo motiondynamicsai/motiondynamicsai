@@ -207,7 +207,7 @@ export default function SquashLanding() {
             <ul className="sq-perks">
               <li><b>One match analysed free.</b><span className="sq-perk-rest"> Send us a match, get the full breakdown.</span></li>
               <li><b>50% off</b><span className="sq-perk-rest"> when we launch, locked in as a founding member.</span></li>
-              <li><b>Just your name and email.</b><span className="sq-perk-rest"> <span className="sq-desk-only">No payment, no commitment.</span><span className="sq-phone-only">Nothing to pay.</span></span></li>
+              <li><b>Just your name and email.</b><span className="sq-perk-rest sq-desk-only"> No payment, no commitment.</span><span className="sq-perk-rest sq-phone-only"> Nothing to pay.</span></li>
             </ul>
           </div>
           <RegisterInterest variant="panel" source="register-section" />
