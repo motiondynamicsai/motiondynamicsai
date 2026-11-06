@@ -338,7 +338,7 @@
 @media (max-width:719px){
   .sq-after{padding:56px 16px}
   .sq-proof{padding-top:56px}
-  .sq-proof::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:#d5d7dc}
+  .sq-proof::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:#e3e5e9}
   .sq-after h2{font-size:clamp(28px,8.75vw,44px);line-height:1.04;margin-top:10px;text-wrap:balance}
   .sq-after h2 em{display:block;max-width:9.5em;margin-top:4px;text-wrap:wrap} /* the width breaks each grey phrase after "player" and "U.S. Open" */
 
