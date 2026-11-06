@@ -789,3 +789,9 @@
   .sq-form-panel .sq-form-note.is-error a{display:inline;padding:0}
   .sq-hero:has(.is-error) .sq-slot{visibility:hidden}
 }
+/* phones: the tinted second line stays only where it earns it (What you get, and the rally's punch). One statement elsewhere. */
+@media (max-width:719px){
+  .sq-proof h2 em{display:none}
+  .team-page .team-contact h2 em{font-weight:600;color:#fff}
+  .team-page .team-contact h2 br{display:none}
+}

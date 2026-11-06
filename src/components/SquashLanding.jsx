@@ -171,7 +171,7 @@ export default function SquashLanding() {
         <div className="sq-wrap sq-stack-grid">
           <div>
             <div className="kick sq-phone-only">Game by game</div>
-            <h2 id="stack-title">Stack the games. <em>See the pattern.</em></h2>
+            <h2 id="stack-title"><span className="sq-desk-only">Stack the games. <em>See the pattern.</em></span><span className="sq-phone-only">Stack the games and the pattern shows.</span></h2>
             <p>One court per game, every drive’s bounce marked.{pcts && ` Mueller found more length each game: ${pcts[0]}%, then ${pcts[1]}%, then ${pcts[2]}% behind the short line.`}</p>
             <div className="sq-legend"><span style={{ '--c': 'rgb(143,184,255)' }}>Mueller</span><span style={{ '--c': 'rgb(240,194,75)' }}>El Hammamy</span></div>
             <div className="sq-key"><span><b>Dot</b> where a drive bounced</span><span><b>%</b> drives past the short line</span></div>
