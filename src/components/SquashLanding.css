@@ -553,6 +553,7 @@
   .sq-bar.solid{background:#05070d;-webkit-backdrop-filter:none;backdrop-filter:none}
   .sq-form-panel .sq-field input:focus{box-shadow:inset 0 0 0 2px var(--gold)}
   .sq-notice .dot,.sq-events .live i{animation:none}
+  .sq .sq-play,.sq-hero .sq-play{background:#0b0e16;border:1px solid var(--rule);-webkit-backdrop-filter:none;backdrop-filter:none}
 }
 @media (max-width:719px){
   .sq-footer{padding-top:12px;padding-bottom:calc(16px + env(safe-area-inset-bottom));gap:0}
