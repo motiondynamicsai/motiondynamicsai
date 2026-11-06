@@ -712,3 +712,9 @@
   .sq-events b{font-size:clamp(20px,6.1vw,28px);font-weight:600;line-height:1.15;letter-spacing:-.02em}
   .sq-insights h3{letter-spacing:-.02em}
 }
+/* phones: a tapped button goes back to how it was. Touch screens keep :hover after the tap. */
+@media (max-width:719px){
+  .sq .sq-btn.solid:hover,.sq .sq-btn.solid:active{background:#fff;color:var(--ink);transform:none}
+  .sq a,.sq button{-webkit-tap-highlight-color:transparent}
+  .sq .sq-btn:active,.sq-menu .cta:active,.sq-chrome~main .button:active{opacity:.8}
+}
