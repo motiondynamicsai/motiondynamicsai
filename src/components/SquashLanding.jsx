@@ -61,6 +61,15 @@ export default function SquashLanding() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [playing, menu]);
+  useEffect(() => { // the page behind the landing is dark: a bounce past either end must not flash the site's paper colour
+    const html = document.documentElement, meta = document.querySelector('meta[name="theme-color"]');
+    const was = [html.style.backgroundColor, meta?.content];
+    html.style.backgroundColor = '#05070d'; meta?.setAttribute('content', '#05070d');
+    return () => { html.style.backgroundColor = was[0]; meta?.setAttribute('content', '#f7f6f2'); };
+  }, []);
+  useEffect(() => { // Play hides the button that had focus: hand focus to Close so keyboard and VoiceOver users aren't dropped
+    if (playing) root.current.querySelector('.sq-close')?.focus({ preventScroll: true });
+  }, [playing]);
   const play = () => { // on short screens Play can sit below the fold: bring the whole stage into view first
     window.scrollTo({ top: 0 });
     stage.current.play();

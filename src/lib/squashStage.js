@@ -86,7 +86,9 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const setHTML = (s, t) => { const e = $(s); if (e.innerHTML !== t) e.innerHTML = t; };
 
   function size() {
-    const r = stage.getBoundingClientRect(); W = r.width; H = r.height; dpr = Math.min(window.devicePixelRatio || 1, W < 720 ? 3 : 2.5);
+    const r = stage.getBoundingClientRect(), nd = Math.min(window.devicePixelRatio || 1, r.width < 720 ? 3 : 2.5);
+    if (r.width === W && r.height === H && nd === dpr) return; // iOS fires resize as its bars slide: resizing the canvas would clear it
+    W = r.width; H = r.height; dpr = nd;
     cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
     onResize();
   }
