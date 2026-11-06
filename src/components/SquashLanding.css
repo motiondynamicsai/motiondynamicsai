@@ -666,3 +666,12 @@
 .sq-static .sq-hero .sq-play{display:none}
 .sq-static .sq-plate{visibility:visible;width:100%;height:100%;object-fit:cover;transform:none!important}
 @media (prefers-reduced-motion:reduce){.sq *,.sq *::before,.sq *::after{transition:none!important}.sq h1 .l span,.sq-lede,.sq-offer,.sq-hero .sq-form,.sq-play{animation:none;transform:none}.sq-play .ic::after,.sq-notice .dot,.sq-events .live i{animation:none}}
+/* phones: the thank-you and the error sit on the same left edge as everything else */
+@media (max-width:719px){
+  .sq-hero .sq-form.is-done{padding:10px 20px 14px;border-color:var(--rule)}
+  .sq-form-panel.is-done{padding:16px 20px;border-color:var(--rule);border-top-color:var(--gold);border-radius:14px}
+  .sq-hero .sq-form.is-done strong,.sq-form-panel.is-done strong{font-size:17px;font-weight:600}
+  .sq-hero .sq-form.is-done p,.sq-form-panel.is-done p{font-size:15px;line-height:1.4;color:var(--mute)}
+  .sq-hero .sq-form-note.is-error{margin:8px 0 0}
+  .sq-form-panel .sq-form-note.is-error{margin:8px 0 0;padding:12px 14px;border-radius:8px}
+}
