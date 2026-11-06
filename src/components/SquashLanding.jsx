@@ -93,8 +93,8 @@ export default function SquashLanding() {
         <div className="sq-hero">
           <div className="sq-kicker">Squash analytics · Juniors, parents & coaches</div>
           <h1><span className="l"><span>Pro-level analytics.</span></span><span className="l"><span>Supercharge your game.</span></span></h1>
-          <p className="sq-lede">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players. See every shot, every movement and exactly what to work on next.</p>
-          <div className="sq-offer"><span className="sq-tag">Founding offer</span>Register now: <b>one match analysed free</b> + <b>50% off</b></div>
+          <p className="sq-lede">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players.<span className="sq-desk"> See every shot, every movement and exactly what to work on next.</span></p>
+          <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-desk">Register now:</span> <b>one match analysed free</b> + <b>50% off</b></div>
           <RegisterInterest variant="hero" source="hero" />
           <button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button>
         </div>
