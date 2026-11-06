@@ -26,7 +26,7 @@ export default function RegisterInterest({ variant = 'hero', source }) {
 
   if (status === 'done') {
     return <div className={`sq-form sq-form-${variant} is-done`} role="status" tabIndex={-1} ref={(el) => el?.focus({ preventScroll: true })}>
-      <div><strong>Thanks{name ? `, ${name}` : ''}.</strong><p>We’ll email you about the launch. Sign up with this address and you get one match analyzed free and 50% off.</p></div>
+      <div><strong>Thanks for registering{name ? `, ${name}` : ''}! You’re on the waitlist.</strong><p>We’ll email you about the launch. Sign up with this address and you get one match analyzed free and 50% off.</p></div>
     </div>;
   }
 

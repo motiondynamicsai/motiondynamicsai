@@ -13,7 +13,7 @@ const events = [
   { name: 'Qatar Classic', note: 'PSA' },
   { name: 'London Classic', note: 'PSA' },
   { name: 'Swedish Open', note: 'PSA' },
-  { name: 'Birmingham Open', note: 'PSA' },
+  { name: 'British Open', note: 'PSA' },
 ];
 const insights = [
   { title: 'Shot maps & heatmaps' },
