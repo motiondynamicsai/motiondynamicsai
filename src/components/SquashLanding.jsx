@@ -4,7 +4,7 @@ import { FiMenu, FiX } from 'react-icons/fi';
 import { mountSquashStage } from '../lib/squashStage';
 import { mountCourtStack } from '../lib/squashStack';
 import RegisterInterest from './RegisterInterest';
-import { BroadcastBanner, MdMark } from './SiteChrome';
+import { BroadcastBanner, MdMark, PageFooter } from './SiteChrome';
 import './SquashLanding.css';
 
 const events = [
@@ -214,9 +214,6 @@ export default function SquashLanding() {
       </section>
     </main>
 
-    <footer className="sq-footer">
-      <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><MdMark /><span><b>motion</b> <i>dynamics</i></span></Link>
-      <div><Link to="/team">Our team</Link><a href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai</a><small>© {new Date().getFullYear()} Motion Dynamics</small></div>
-    </footer>
+    <PageFooter />
   </div>;
 }

@@ -494,6 +494,7 @@
 .sq-deal{display:none}
 .sq-phone-only{display:none}
 .sq-chrome{display:none}
+.page-fallback{background:#f7f6f2}
 /* phones: the home page's header on every page */
 @media (max-width:719px){
   .sq-chrome{display:block}
@@ -501,6 +502,41 @@
   .sq-chrome .sq-bar{background:#05070d}
   .sq-chrome .sq-menu{padding-top:91px}
   .sq-chrome~main{margin-top:91px}
+  /* the other pages, in the home page's voice: dark stage, white type, gold tag, no red, no paper */
+  html:has(.sq-chrome),body:has(.sq-chrome),.page-fallback{background:#05070d}
+  .site-footer{display:none}
+  .sq-chrome~main{--gold:#f0c24b;--ball:#fd4746;background:#05070d;color:#fff;font-family:Outfit,system-ui,sans-serif}
+  .sq-chrome~main .kicker{position:relative;width:max-content;max-width:100%;margin:0 0 12px;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-family:Outfit,system-ui,sans-serif;font-size:11px;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+  .sq-chrome~main .kicker::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+  .sq-chrome~main h1{font-size:clamp(30px,9.6vw,46px);font-weight:600;line-height:1.04;letter-spacing:-.03em;color:#fff;margin:0}
+  .sq-chrome~main h1 em,.sq-chrome~main h2 em{font-style:normal;font-weight:500;color:rgba(255,255,255,.7)}
+  .sq-chrome~main .button{display:flex;align-items:center;justify-content:center;width:100%;height:54px;padding:0 24px;border:0;border-radius:14px;background:#fff;color:#05070d;font-size:17px;font-weight:600}
+  .sq-chrome~main .button svg{display:none}
+  .team-page .page-heading{width:auto;margin:0;padding:32px 16px 24px}
+  .team-page .page-heading>p:last-child{display:none}
+  .team-page .team-groups{width:auto;margin:0;padding:0 16px}
+  .team-page .team-group{padding-bottom:32px}
+  .team-page .team-group>h2{margin:0 0 16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18);font-size:clamp(22px,6.2vw,28px);font-weight:600;letter-spacing:-.02em;color:#fff}
+  .team-page .team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 8px;max-width:none}
+  .team-page .member{color:#fff}
+  .team-page .member-photo{background:#11141c}
+  .team-page .member-photo>span{display:none}
+  .team-page .member-copy{padding:8px 0 0}
+  .team-page .member-copy h3{margin:0;font-size:17px;font-weight:600;line-height:1.2;letter-spacing:-.01em;color:#fff}
+  .team-page .member-copy p{margin:2px 0 0;font-size:13px;line-height:1.3;color:rgba(255,255,255,.72)}
+  .team-page .member-copy>span{margin-top:2px;font-size:13px;line-height:1.3;color:var(--gold)}
+  .team-page .team-contact{display:block;width:auto;margin:0 16px;padding:16px 0 32px;border-top:1px solid rgba(255,255,255,.18)}
+  .team-page .team-contact h2{margin:0 0 16px;font-size:clamp(30px,9.6vw,46px);font-weight:600;line-height:1.04;letter-spacing:-.03em;color:#fff}
+  .member-detail.container{width:auto;margin-inline:0;padding:0 16px 32px}
+  .sq-chrome~main.member-detail>.text-link{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:8px 0;font-size:15px;color:#fff}
+  .member-detail-grid{display:flex;flex-direction:column;gap:16px}
+  .member-detail-grid .kicker{margin-bottom:12px}
+  .member-detail-grid .detail-role{margin:8px 0 0;font-size:17px;font-weight:500;color:#fff}
+  .sq-chrome~main .member-detail-grid div>span{display:block;margin-top:2px;font-size:15px;color:var(--gold)}
+  .member-detail-grid .detail-copy{margin:12px 0 16px;font-size:16px;line-height:1.45;color:rgba(255,255,255,.8)}
+  .sq-chrome~main .member-detail-grid>img{order:-1;width:100%;max-height:none;background:#11141c}
+  .not-found.container{width:auto;margin-inline:0;padding:32px 16px;min-height:calc(100svh - 91px - 137px)}
+  .sq-chrome~main.not-found h1{margin:0 0 16px}
 }
 /* phones: flat colour only. No glow, no blur, nothing that pulses. */
 @media (max-width:719px){

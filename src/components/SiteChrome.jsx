@@ -72,8 +72,16 @@ export function Navigation() {
   </>;
 }
 
+/* the home page's footer, on phones on every page */
+export function PageFooter() {
+  return <footer className="sq-footer">
+    <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><MdMark /><span><b>motion</b> <i>dynamics</i></span></Link>
+    <div><Link to="/team">Our team</Link><a href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai</a><small>© {new Date().getFullYear()} Motion Dynamics</small></div>
+  </footer>;
+}
+
 export function SiteFooter({ embedded = false }) {
-  return <footer className={`site-footer${embedded ? ' footer-in-contact' : ''}`}><div className={`${embedded ? '' : 'container '}footer-top`}><Brand /><p>Movement is everywhere.<br />Understanding it changes everything.</p>{!embedded && <a className="text-link" href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai <FiArrowUpRight aria-hidden="true" /></a>}</div><div className={`${embedded ? '' : 'container '}footer-bottom`}><small>© {new Date().getFullYear()} Motion Dynamics</small><div><Link to="/team">Our team</Link><a href="/#proof">Our work</a><a href="/#top">Back to top ↑</a></div><span>Built around movement.</span></div></footer>;
+  return <><div className="sq sq-chrome"><PageFooter /></div><footer className={`site-footer${embedded ? ' footer-in-contact' : ''}`}><div className={`${embedded ? '' : 'container '}footer-top`}><Brand /><p>Movement is everywhere.<br />Understanding it changes everything.</p>{!embedded && <a className="text-link" href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai <FiArrowUpRight aria-hidden="true" /></a>}</div><div className={`${embedded ? '' : 'container '}footer-bottom`}><small>© {new Date().getFullYear()} Motion Dynamics</small><div><Link to="/team">Our team</Link><a href="/#proof">Our work</a><a href="/#top">Back to top ↑</a></div><span>Built around movement.</span></div></footer></>;
 }
 
 export function RouteScroll() {

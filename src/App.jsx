@@ -12,14 +12,14 @@ const NotFound = lazy(() => import('./pages/TeamRoutes').then((m) => ({ default:
 function RouteBackground() {
   const { pathname } = useLocation();
   useEffect(() => { // one owner for the page colours behind the app: a bounce past either end must not flash the wrong one
-    const landing = pathname === '/';
+    const landing = pathname === '/' || window.matchMedia('(max-width:719px)').matches; // phones are dark on every page
     document.documentElement.classList.toggle('dark-first', landing);
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', landing ? '#05070d' : '#f7f6f2');
   }, [pathname]);
   return null;
 }
 
-const pageFallback = <div style={{ minHeight: '100vh', background: '#f7f6f2' }} />;
+const pageFallback = <div className="page-fallback" style={{ minHeight: '100vh' }} />;
 
 export default function App() {
   return <BrowserRouter><RouteScroll /><RouteBackground /><Suspense fallback={pageFallback}><Routes><Route path="/" element={<SquashLanding />} /><Route path="/squash" element={<Navigate to="/" replace />} /><Route path="/team" element={<TeamPage />} /><Route path="/team/:id" element={<TeamMemberPage />} /><Route path="*" element={<NotFound />} /></Routes></Suspense></BrowserRouter>;
