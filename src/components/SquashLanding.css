@@ -125,8 +125,7 @@
 /* stacked courts */
 .sq-stack{padding:96px clamp(16px,4vw,56px);background:var(--ink)}
 .sq-stack-grid{display:grid;grid-template-columns:1fr 1.25fr;gap:40px;align-items:center}
-.sq .sq-stack .kick{color:var(--gold)}
-.sq-stack h2{font-size:clamp(36px,4.4vw,68px);line-height:1.02;font-weight:600;margin:16px 0 0}
+.sq-stack h2{font-size:clamp(36px,4.4vw,68px);line-height:1.02;font-weight:600;margin:0}
 .sq-stack h2 em{color:rgba(255,255,255,.62);font-weight:350}
 .sq-stack p{font-size:18px;line-height:1.55;color:var(--mute);margin:20px 0 0;max-width:460px}
 .sq-stack canvas{display:block;width:100%;height:600px}
@@ -294,7 +293,7 @@
   .sq-stack{padding:56px 16px 48px}
   .sq-stack-grid{display:flex;flex-direction:column;align-items:stretch;gap:0}
   .sq-stack-grid>div{display:contents}
-  .sq-stack .kick{order:1}.sq-stack h2{order:2;font-size:clamp(30px,9.6vw,46px)}.sq-stack h2 em{display:block}.sq-stack p{order:3}
+  .sq-stack h2{order:2;font-size:clamp(30px,9.6vw,46px)}.sq-stack h2 em{display:block}.sq-stack p{order:3}
   /* tall enough for three full courts at this width, never taller than the screen under the bar */
   .sq-stack canvas{order:4;height:min(calc((100vw - 102px)*2.268 + 44px),calc(100vh - 74px));height:min(calc((100vw - 102px)*2.268 + 44px),calc(100svh - 74px));margin-top:20px}
   .sq-legend{order:5;margin-top:14px;justify-content:center;color:rgba(255,255,255,.88)}

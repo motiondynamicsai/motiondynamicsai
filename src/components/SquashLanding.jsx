@@ -171,7 +171,6 @@ export default function SquashLanding() {
       <section className="sq-stack" aria-labelledby="stack-title">
         <div className="sq-wrap sq-stack-grid">
           <div>
-            <div className="kick">One match, three games</div>
             <h2 id="stack-title">Stack the games. <em>See the pattern.</em></h2>
             <p>One court per game, every drive’s bounce marked.{pcts && ` Mueller found more length each game: ${pcts[0]}%, then ${pcts[1]}%, then ${pcts[2]}% behind the short line.`}</p>
             <div className="sq-legend"><span style={{ '--c': 'rgb(143,184,255)' }}>Mueller</span><span style={{ '--c': 'rgb(240,194,75)' }}>El Hammamy</span></div>
