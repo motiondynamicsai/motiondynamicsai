@@ -354,7 +354,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       const wallAvg = (w) => { const l = sh(w).filter((s) => s.wt <= rt); return l.length ? l.reduce((a, s) => a + s.wh, 0) / l.length : 0; };
       const deep = (w) => sh(w).filter((s) => s.fb && s.ft <= rt && s.fb[1] > 5.44).length;
       h2h(0, 'Shots', sh('A').length, sh('B').length);
-      h2h(1, 'Metres run', distAt('A', rt) - distAt('A', T0), distAt('B', rt) - distAt('B', T0), 1);
+      h2h(1, narrow() ? 'Meters run' : 'Metres run', distAt('A', rt) - distAt('A', T0), distAt('B', rt) - distAt('B', T0), 1);
       h2h(2, 'Height on the wall', wallAvg('A'), wallAvg('B'), 2, ' m');
       h2h(3, 'Past the short line', deep('A'), deep('B'));
       if (t >= SQ_ALL) { setHTML('.sq-event', `The finish <span class="sub">· last ${SHOWN} of ${shots.length} shots</span>`); boxEl.style.setProperty('--hit', `rgb(${COL.B})`); }
