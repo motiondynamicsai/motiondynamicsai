@@ -473,13 +473,22 @@
   .sq-hero{bottom:auto;height:calc(var(--rest) - 103px)}
 }
 @media (max-width:719px){.sq-hero .sq-play .ic::after{display:none}}
+.sq-cap-tag,.sq-cap-2{display:none}
+/* the rally on phones reads like a broadcast graphic: the top banner's red and gold, then a two-line punch */
+@media (max-width:719px){
+  .sq-cap .num b,.sq-cap .num span{display:none}
+  .sq-cap-tag{display:block;flex:none;position:relative;padding:6px 16px 6px 22px;background:var(--gold);color:#05070d;font-size:12px;font-style:normal;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;white-space:nowrap;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+  .sq-cap-tag::before{content:"";position:absolute;left:0;top:0;bottom:0;width:11px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+  .sq-cap-2{display:block;color:var(--gold)}
+  .sq-cap-in{min-height:112px}
+}
+@media (max-width:385px){.sq-cap-tag{padding:6px 12px 6px 18px;font-size:10.5px;letter-spacing:.04em}}
 @media (prefers-reduced-motion:reduce){.sq-h-phone{animation:none}}
 /* phones: pictures and headlines, no paragraphs. Status and error messages stay. */
 @media (max-width:719px){
   .sq-lede,.sq-stack p,.sq-insights p,.sq-perk-rest,.sq-cap p{display:none}
   .sq-offer{margin-top:auto}
   .sq-hero{--need:260px}
-  .sq-cap-in{min-height:96px}
   .sq-cap h2{margin-bottom:0}
   .sq-insights article{padding:14px 0}
   .sq-insights h3{font-size:clamp(22px,6.2vw,28px)}

@@ -148,8 +148,8 @@ export default function SquashLanding() {
 
         <div className="sq-cap" aria-live="polite">
           <div className="sq-cap-in">
-            <div className="num"><b>Rally 38</b><span>Real PSA tracking</span><i /></div>
-            <h2>{beat.title}</h2>
+            <div className="num"><b>Rally 38</b><span>Real PSA tracking</span><em className="sq-cap-tag">Track it like the pros</em><i /></div>
+            <h2>{beat.title}{beat.index === 0 && <span className="sq-cap-2">Every shot, analyzed.</span>}</h2>
             <p>{beat.body}</p>
             {beat.cta && <div className="sq-cap-ctas">
               <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register your interest <span className="ar">→</span></a>
