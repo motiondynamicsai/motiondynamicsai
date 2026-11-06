@@ -442,12 +442,12 @@
   .gx{display:flex;align-items:center}
   .gx-live{gap:6px;padding:0 14px 0 16px;background:var(--ball);font-weight:700;clip-path:polygon(0 0,100% 0,calc(100% - 9px) 100%,0 100%);position:relative;z-index:2}
   .gx-live i{width:6px;height:6px;border-radius:50%;background:#fff}
-  .gx-event{margin-left:-9px;padding:0 18px 0 19px;background:var(--gold);color:#05070d;font-weight:750;clip-path:polygon(9px 0,100% 0,calc(100% - 9px) 100%,0 100%);position:relative;z-index:1}
-  .gx-rest{flex:1;justify-content:center;gap:10px;min-width:0;margin-left:-3px;padding:0 10px 0 8px;font-size:12px;font-weight:550;letter-spacing:.06em;color:rgba(255,255,255,.82)}
-  .gx-rest b{color:#fff;font-size:13px;font-weight:750;font-variant-numeric:tabular-nums}
+  .gx-event{margin-left:-9px;padding:0 18px 0 19px;background:var(--gold);color:#05070d;font-weight:700;clip-path:polygon(9px 0,100% 0,calc(100% - 9px) 100%,0 100%);position:relative;z-index:1}
+  .gx-rest{flex:1;justify-content:center;gap:10px;min-width:0;margin-left:-3px;padding:0 10px 0 8px;font-size:12px;font-weight:500;letter-spacing:.06em;color:rgba(255,255,255,.72)}
+  .gx-rest b{color:#fff;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
   .gx-rest i{width:1px;height:13px;background:var(--gold)}
 }
-@media (max-width:385px){.sq-bar .sq-brand{--brand:26px;gap:8px}.gx-rest{gap:7px;font-size:11px;letter-spacing:.03em;padding:0 8px 0 6px}.gx-rest b{font-size:12px}.gx-live{padding:0 12px 0 12px}.gx-event{padding:0 15px 0 17px}}
+@media (max-width:385px){.sq-bar .sq-brand{--brand:26px;gap:8px}.gx-rest{gap:7px;font-size:11px;letter-spacing:.03em;padding:0 8px 0 6px}.gx-rest b{font-size:11px}.gx-live{padding:0 12px 0 12px}.gx-event{padding:0 15px 0 17px}}
 @media (max-width:340px){.gx-rest{gap:5px;font-size:9.5px;letter-spacing:.01em;padding:0 6px 0 4px}.gx-rest b{font-size:10.5px}.sq-notice{font-size:11px}}
 @media (max-width:719px) and (orientation:portrait){
   .sq-kicker,.sq h1>.l,.sq-lede-full{display:none}
@@ -520,7 +520,7 @@
   html:has(.sq-chrome),body:has(.sq-chrome),.page-fallback{background:#05070d}
   .site-footer{display:none}
   .sq-chrome~main{--gold:#f0c24b;--ball:#fd4746;background:#05070d;color:#fff;font-family:Outfit,system-ui,sans-serif}
-  .sq-chrome~main .kicker{position:relative;display:block;width:max-content;max-width:100%;margin:0 0 12px;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-family:Outfit,system-ui,sans-serif;font-size:11px;font-style:normal;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+  .sq-chrome~main .kicker{position:relative;display:block;width:max-content;max-width:100%;margin:0 0 12px;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-family:Outfit,system-ui,sans-serif;font-size:12px;font-style:normal;font-weight:700;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
   .sq-chrome~main .kicker::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
   .sq-chrome~main h1{color:#fff}
   .sq-chrome~main h1 em,.sq-chrome~main h2 em{font-style:normal;font-weight:500;color:rgba(255,255,255,.7)}
@@ -569,7 +569,7 @@
 @media (max-width:719px){.sq-footer .sq-brand{color:#fff}} /* the wordmark at full strength, as at the top of the page */
 /* phones: every section opens the same way: the gold and red tag, then the heading, with the same spacing and size */
 @media (max-width:719px){
-  .sq .kick,.sq-cap-tag,.sq-hero .sq-tag{position:relative;display:block;width:max-content;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-size:11px;font-style:normal;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+  .sq .kick,.sq-cap-tag,.sq-hero .sq-tag{position:relative;display:block;width:max-content;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-size:12px;font-style:normal;font-weight:700;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
   .sq .kick::before,.sq-cap-tag::before,.sq-hero .sq-tag::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
   .sq .kick{margin:0 0 12px}
   .sq .kick.sq-phone-only{order:1}
@@ -598,10 +598,10 @@
   .sq-events .live>.sq-ev-gx{display:flex;position:static;width:auto;height:44px;clip-path:none;overflow:hidden;background:#0b0e16;border-bottom:2px solid var(--gold);font-size:12px;font-weight:600;letter-spacing:.07em;line-height:1;color:#fff;white-space:nowrap}
   .sq-events .live{min-width:0}
   .sq-events .live+div>span{position:absolute;width:1px;height:1px;padding:0;margin:0;border:0;overflow:hidden;clip-path:inset(50%)} /* the label above the section already says PSA */
-  .sq-events .live .gx-rest b{display:inline;margin:0;font-size:13px;font-weight:750;line-height:1;letter-spacing:.06em;color:#fff}
+  .sq-events .live .gx-rest b{display:inline;margin:0;font-size:12px;font-weight:700;line-height:1;letter-spacing:.06em;color:#fff}
   .sq-events .live .gx-rest i{display:block;flex:none;width:1px;height:13px;margin:0;border-radius:0;background:var(--gold);animation:none}
   .sq-events .live .gx-live i{display:block;flex:none;width:6px;height:6px;margin:0;background:#fff;animation:none}
-  .sq-events .live .gx-rest span{font-size:12px;font-weight:550;color:rgba(255,255,255,.82)}
+  .sq-events .live .gx-rest span{font-size:12px;font-weight:500;color:rgba(255,255,255,.72)}
 }
 /* phones: the second line of each heading is the same voice, just quieter: no thin weight */
 @media (max-width:719px){
@@ -717,4 +717,37 @@
   .sq .sq-btn.solid:hover,.sq .sq-btn.solid:active{background:#fff;color:var(--ink);transform:none}
   .sq a,.sq button{-webkit-tap-highlight-color:transparent}
   .sq .sq-btn:active,.sq-menu .cta:active,.sq-chrome~main .button:active{opacity:.8}
+}
+/* phones: one type scale: 12 labels, 13 captions, 15 small text, 16 controls, 17 lead, then the two heading sizes */
+@media (max-width:719px){
+  .sq-ctx,.sq-row .lb{font-size:12px}
+  .sq-row .v small{font-size:12px;font-weight:400}
+  .sq-event,.sq-box .nm{font-size:15px}
+  .sq-play,.sq-hero .sq-play{font-size:15px;font-weight:500}
+  .sq-footer,.sq-footer a{font-size:15px}
+  .sq-footer small{font-size:13px}
+}
+@media (max-width:719px) and (orientation:portrait){
+  .sq-deal.sq-deal-reg>span{font-size:15px}
+}
+@media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
+  .sq-deal>span{font-size:13px}
+  .sq-hero .sq-play{font-size:15px}
+}
+/* phones: named weights only, no 450, 550, 620, 650 or 750. The wordmark is the logo and stays as drawn. */
+@media (max-width:719px){
+  .sq-h-sq,.sq-box .nm,.sq-row .v{font-weight:600}
+  .sq-event{font-weight:600}
+  .sq-event .sub{font-weight:400}
+  .sq-deal>span,.sq-perks li:last-child{font-weight:400}
+  .gx-live{font-weight:700}
+  .sq-events .live .gx-event{font-weight:700}
+}
+/* phones: one secondary colour on dark, one on white, one rule colour, one box fill */
+@media (max-width:719px){
+  .sq,.sq-chrome{--mute:rgba(255,255,255,.72);--rule:rgba(255,255,255,.18)}
+  .sq-deal>span,.sq-perks li:last-child,.sq-legend,.sq-stack .sq-legend,.sq-key,.sq-footer,.sq-footer a,.sq-stack h2 em,.sq-chrome~main h1 em,.sq-chrome~main h2 em,.member-detail-grid .detail-copy{color:var(--mute,rgba(255,255,255,.72))}
+  .sq-after h2 em{color:#5b5f6a}
+  .sq-row{border-top-color:var(--rule)}
+  .team-page .member-photo,.sq-chrome~main .member-detail-grid>img{background:#0b0e16}
 }
