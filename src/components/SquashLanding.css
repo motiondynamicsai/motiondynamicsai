@@ -385,7 +385,7 @@
 }
 /* phones on their side: copy and form to the left over the full court, one line of fields, everything inside the first screen */
 /* the first screen on phones, built like a broadcast graphic. Diar's desktop copy stays in the markup for wider screens. */
-.sq-gx,.sq-h-phone,.sq-lede-phone{display:none}
+.sq-gx{display:none}
   .sq-links .cta{display:none} /* Register interest is one tap away in the menu: the wordmark takes the bar */
   .sq-bar .sq-brand{--brand:30px;gap:9px}
   .sq-bar .sq-brand svg{width:var(--brand);height:var(--brand)}
@@ -404,7 +404,6 @@
 @media (max-width:340px){.gx-rest{gap:5px;font-size:9.5px;letter-spacing:.01em;padding:0 6px 0 4px}.gx-rest b{font-size:10.5px}.sq-notice{font-size:11px}}
 @media (max-width:719px) and (orientation:portrait){
   .sq-kicker,.sq h1>.l,.sq-lede-full{display:none}
-  .sq-h-phone{display:block;animation:sq-fade .6s backwards}
   .sq-lede-phone{display:inline}
   .sq h1{margin-top:0}
   .sq-hero{top:calc(33px + 58px - 6px)} /* the hero sits up under the bar */
@@ -426,7 +425,6 @@
   .sq-cap-tag{flex:none}
   .sq-cap-2{display:block;color:var(--gold)}
   .sq-cap-in{min-height:112px}
-@media (prefers-reduced-motion:reduce){.sq-h-phone{animation:none}}
 /* phones: pictures and headlines, no paragraphs. Status and error messages stay. */
   .sq-lede,.sq-stack p,.sq-insights p,.sq-perk-rest,.sq-cap p{display:none}
   .sq-offer{margin-top:auto}
@@ -493,7 +491,7 @@
   .not-found.container{width:auto;margin-inline:0;padding:24px 16px;min-height:calc(100svh - 91px - 137px)}
   .sq-chrome~main.not-found h1{margin:0 0 16px}
 /* phones: flat colour only. No glow, no blur, nothing that pulses, nothing that fades in. */
-  .sq-h-phone,.sq-offer,.sq-hero .sq-form,.sq-play{animation:none}
+  .sq-offer,.sq-hero .sq-form,.sq-play{animation:none}
   .sq-register{background:var(--ink)}
   .sq-bar.solid{background:#05070d;-webkit-backdrop-filter:none;backdrop-filter:none}
   .sq-form-panel .sq-field input:focus{box-shadow:inset 0 0 0 2px var(--gold)}
@@ -733,7 +731,6 @@
   .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%);mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%)}
   .sq-hero{left:var(--margin);right:auto;top:91px;bottom:0;width:var(--col);max-width:none;display:flex;flex-direction:column;justify-content:center;transform:none}
   .sq-hero h1{margin:0;text-shadow:none}
-  .sq-h-phone{display:block}
   .sq-h-pro,.sq-h-sq{display:block;font-size:clamp(38px,4.7vw,68px);font-weight:600;letter-spacing:-.02em;line-height:1.04}
   .sq-h-pro{color:var(--gold)}
   .sq-h-sq{color:#fff}

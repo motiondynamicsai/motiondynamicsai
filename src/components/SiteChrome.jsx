@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import { FiArrowUpRight, FiMenu, FiX } from 'react-icons/fi';
+import { Link, useLocation } from 'react-router-dom';
+import { FiMenu, FiX } from 'react-icons/fi';
 import MotionMark from '../assets/motion-dynamics-mark.png';
 
 export function MdMark() {
@@ -11,8 +11,8 @@ export function BroadcastBanner({ className = '', ...props }) {
   return <span className={`sq-gx ${className}`.trim()} {...props}><span className="gx gx-live"><i aria-hidden="true" />LIVE</span><span className="gx gx-event">U.S. OPEN</span><span className="gx gx-rest"><b>NOV 1–7</b><i aria-hidden="true" /><span>PHILADELPHIA</span></span></span>;
 }
 
-/* phones: every page opens with the home page's header, the banner over the gold mark and white wordmark */
-function PhoneHeader() {
+/* every page opens with the home page's header, the banner over the gold mark and white wordmark */
+function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [solid, setSolid] = useState(false);
   const location = useLocation();
@@ -58,7 +58,7 @@ export function Navigation() {
 
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
-    <PhoneHeader />
+    <SiteHeader />
   </>;
 }
 

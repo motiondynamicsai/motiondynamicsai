@@ -16,9 +16,9 @@ const events = [
   { name: 'Birmingham Open', note: 'PSA' },
 ];
 const insights = [
-  { title: 'Shot maps & heatmaps', copy: 'Every shot’s flight, wall height and bounce. See where your length lands, game by game, and where it drifts under pressure.' },
-  { title: 'Movement tracking', copy: 'How far you run, how quickly you recover to the T and how you cover each corner of the court, measured frame by frame.' },
-  { title: 'What to work on next', copy: 'Plain-English insights a player, parent or coach can act on in the next session, not just a wall of numbers.' },
+  { title: 'Shot maps & heatmaps' },
+  { title: 'Movement tracking' },
+  { title: 'What to work on next' },
   { title: 'Build your profile over time' },
 ];
 
@@ -34,10 +34,9 @@ export default function SquashLanding() {
   const stage = useRef(null);
   const stackCanvas = useRef(null);
   const stack = useRef(null);
-  const [beat, setBeat] = useState({ title: '', body: '', cta: false, index: 0 });
+  const [beat, setBeat] = useState({ title: '', cta: false, index: 0 });
   const [solid, setSolid] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [pcts, setPcts] = useState(null);
   const [menu, setMenu] = useState(false);
   const bar = useRef(null);
   const menuEl = useRef(null);
@@ -48,7 +47,7 @@ export default function SquashLanding() {
     return () => stage.current.destroy();
   }, []);
   useEffect(() => {
-    stack.current = mountCourtStack(stackCanvas.current, { onPct: setPcts });
+    stack.current = mountCourtStack(stackCanvas.current);
     return () => stack.current.destroy();
   }, []);
   useEffect(() => {
@@ -116,7 +115,7 @@ export default function SquashLanding() {
   return <div className="sq" ref={root}>
     <a className="sq-skip" href="#register">Skip to register</a>
     <header ref={bar} className={`sq-bar${solid ? ' solid' : ''}${playing ? ' live' : ''}${menu ? ' open' : ''}`}>
-      <div className="sq-notice"><span className="dot" aria-hidden="true" /><span><b>U.S. Open</b> · 1–7 November 2026 · Philadelphia<span className="sq-notice-extra"> · our analytics are on court</span></span><BroadcastBanner /></div>
+      <div className="sq-notice"><BroadcastBanner /></div>
       <nav aria-label="Main">
         <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><MdMark /><span><b>motion</b> <i>dynamics</i></span></Link>
         <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a><button ref={menuBtn} className="sq-menu-btn" type="button" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="sq-menu" onClick={() => (menu ? closeMenu() : setMenu(true))}>{menu ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
@@ -136,7 +135,7 @@ export default function SquashLanding() {
         <div className="sq-scrim" />
 
         <div className="sq-hero">
-          <h1><span className="sq-h-phone"><span className="sq-h-pro">Pro-level</span> <span className="sq-h-sq">squash analytics</span> <span className="sq-h-aud">Now for juniors, parents, and coaches</span></span></h1>
+          <h1><span className="sq-h-pro">Pro-level</span> <span className="sq-h-sq">squash analytics</span> <span className="sq-h-aud">Now for juniors, parents, and coaches</span></h1>
           <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-deal"><span><b>Free</b>one match analyzed</span><span><b>50%</b>off when we launch</span></span></div>
           <RegisterInterest variant="hero" source="hero" />
           <div className="sq-slot"><button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button></div>
@@ -145,11 +144,10 @@ export default function SquashLanding() {
 
         <div className="sq-cap" aria-live="polite">
           <div className="sq-cap-in">
-            <div className="num"><b>Rally 38</b><span>Real PSA tracking</span><em className="sq-cap-tag">Track it like the pros</em><i /></div>
+            <div className="num"><em className="sq-cap-tag">Track it like the pros</em><i /></div>
             <h2>{beat.title}{beat.index === 0 && <span className="sq-cap-2">Every shot, analyzed.</span>}</h2>
-            <p>{beat.body}</p>
             {beat.cta && <div className="sq-cap-ctas">
-              <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register interest <span className="ar">→</span></a>
+              <a className="sq-btn solid" href="#register" onClick={(event) => { stop(); scrollToRegister(event); }}>Register interest</a>
               <button className="sq-btn" type="button" onClick={play}><FiRotateCw aria-hidden="true" /> Replay</button>
             </div>}
           </div>
@@ -159,7 +157,6 @@ export default function SquashLanding() {
           <div className="names"><span className="nm" style={{ '--c': 'rgb(143,184,255)' }}>Mueller</span><span className="sq-ctx">Men’s pros<br />Rally 38</span><span className="nm r" style={{ '--c': 'rgb(240,194,75)' }}>El Hammamy</span></div>
           <div className="sq-event">&nbsp;</div>
           <div className="sq-rows" />
-          <div className="sq-note" />
         </aside>
       </section>
     </div>
@@ -170,7 +167,6 @@ export default function SquashLanding() {
           <div>
             <div className="kick">Game by game</div>
             <h2 id="stack-title">Stack the games and the pattern shows.</h2>
-            <p>One court per game, every drive’s bounce marked.{pcts && ` Mueller found more length each game: ${pcts[0]}%, then ${pcts[1]}%, then ${pcts[2]}% behind the short line.`}</p>
             <div className="sq-legend"><span style={{ '--c': 'rgb(143,184,255)' }}>Mueller</span><span style={{ '--c': 'rgb(240,194,75)' }}>El Hammamy</span></div>
             <div className="sq-key"><span><b>Dot</b> where a drive bounced</span><span><b>%</b> drives past the short line</span></div>
             <button className="sq-play" type="button" onClick={playStack}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Play the stack</button>
@@ -201,10 +197,8 @@ export default function SquashLanding() {
           <div>
             <div className="kick">Founding offer</div>
             <h2 id="register-title">Register your interest.</h2>
-            <div className="sq-deal sq-deal-reg" aria-hidden="true"><span><b>Free</b>one match analyzed</span><span><b>50%</b>off when we launch</span></div>
+            <div className="sq-deal sq-deal-reg"><span><b>Free</b>one match analyzed</span><span><b>50%</b>off when we launch</span></div>
             <ul className="sq-perks">
-              <li><b>One match analyzed free.</b><span className="sq-perk-rest"> Send us a match, get the full breakdown.</span></li>
-              <li><b>50% off</b><span className="sq-perk-rest"> when we launch, locked in as a founding member.</span></li>
               <li><b>Just your name and email.</b><span className="sq-perk-rest"> Nothing to pay.</span></li>
             </ul>
           </div>

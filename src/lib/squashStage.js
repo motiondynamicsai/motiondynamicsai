@@ -111,20 +111,11 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const fold = document.createElement('div'); fold.style.cssText = 'position:absolute;width:0;height:100svh;visibility:hidden;pointer-events:none'; stage.append(fold);
   const visibleHeight = () => fold.offsetHeight; // the screen above a floating browser toolbar: the stage runs on underneath it
   let pos = Number(new URLSearchParams(window.location.search).get('p')) || 0, dir = 0; // ?p=2.5 opens part-way in
-  const LW = 1.7;
-  const rallyLW = () => 1; // phones: thinner tracking lines; the stacked courts keep LW
 
   const poly = (pts, close) => { ctx.beginPath(); pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); if (close) ctx.closePath(); };
-  const glowDot = (x, y, r, col, glow) => {
-    const g = ctx.createRadialGradient(x, y, 0, x, y, r * glow);
-    g.addColorStop(0, col.replace('A', '.55')); g.addColorStop(1, col.replace('A', '0'));
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * glow, 0, 7); ctx.fill();
-    ctx.fillStyle = col.replace('A', '1'); ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
-  };
-  const text = (t, x, y, size = 13, col = 'rgba(255,255,255,.85)') => { ctx.font = `500 ${size * PX}px Outfit`; ctx.fillStyle = col; ctx.textBaseline = 'middle'; ctx.fillText(t, x, y); };
   const tracer = (pts, col, width) => {
     for (let i = 1; i < pts.length; i++) {
-      const a = i / pts.length; ctx.strokeStyle = col.replace('A', (a * a).toFixed(3)); ctx.lineWidth = width * PX * (0.35 + 0.65 * a) * rallyLW();
+      const a = i / pts.length; ctx.strokeStyle = col.replace('A', (a * a).toFixed(3)); ctx.lineWidth = width * PX * (0.35 + 0.65 * a);
       ctx.beginPath(); ctx.moveTo(pts[i - 1][0], pts[i - 1][1]); ctx.lineTo(pts[i][0], pts[i][1]); ctx.stroke();
     }
   };
@@ -146,7 +137,6 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       const m = r.ta + r.tb || 1; r.ba.style.width = `${(100 * r.ta) / m}%`; r.bb.style.width = `${(100 * r.tb) / m}%`;
     }
   };
-  const setText = (s, t) => { const e = $(s); if (e.textContent !== t) e.textContent = t; };
   const setHTML = (s, t) => { const e = $(s); if (e.innerHTML !== t) e.innerHTML = t; };
 
   function size() {
@@ -190,8 +180,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const ring = (f, n = 32) => { const pts = []; for (let a = 0; a <= n; a++) pts.push(f(Math.cos((a / n) * 6.283), Math.sin((a / n) * 6.283))); return pts; };
     const floorRing = (x, y, r) => ring((c, s) => floorH(x + r * c, y + r * s));
     const wallRing = (x, z, r) => ring((c, s) => P3(x + r * c, 0.02, z + r * s));
-    const lastBounce = keys.filter((k) => k.kind === 'floor').pop(), WB = floorH(lastBounce.p[0], lastBounce.p[1]);
-    const flights = shots.map((s, i) => {
+        const flights = shots.map((s, i) => {
       const t1 = shots[i + 1] ? shots[i + 1].t : T1, pts = [];
       for (let u = s.t; u <= t1 + 1e-6; u += 1 / 60) pts.push([u, ...ballAt(u)]);
       return { who: s.who, t0: s.t, t1, pts };
@@ -199,7 +188,6 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const SQ_ALL = T1 + 0.8, PL = SQ_ALL + 3.4;
     const SHOWN = 5, FIRST = shots.length - SHOWN, T0 = shots[FIRST].t - 0.4; // only the closing exchange is played
     const pct = (g, w) => { const d = match.games[g][w]; return Math.round((100 * d.length) / d.drives); };
-    const narrow = () => true; // every width draws the flat court; W >= 720 places it in the right-hand column
     let phoneFit = null, capH = 216, capBelow = 0, capNow = 0, capAt = 0; // phones: the finished stack fills the visible space under the caption
     const settlePhoneStack = () => { // the caption grows when its buttons arrive: the courts make way, never slide under it
       const now = performance.now(), vis = Math.min(H, visibleHeight());
@@ -209,21 +197,16 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       if (phoneFit && phoneFit.W === W && phoneFit.vis === vis && phoneFit.cap === capNow) return;
       phoneFit = { ...phoneStackFit(W, vis, wide() ? { left: fr.x, right: W - fr.x - fr.w, top: 91 + 12, bottom: 36, air: 12 } : { left: 8, right: 8, top: capNow, bottom: 30, air: 12 }), W, vis, cap: capNow };
     };
-    const synth = (x, y, level) => { // in screen px
-      if (narrow()) { const q = stackUnit(x, y, 0); return [phoneFit.ox + phoneFit.F * q[0], phoneFit.oy(level) + phoneFit.F * q[1]]; }
-      const q = stackUnit(x, y, level * 3.3), F = Math.min(W * 0.56, H * 0.92);
-      return [W * 0.6 + F * q[0], H * 0.47 + F * q[1]];
-    };
+    const synth = (x, y, level) => { const q = stackUnit(x, y, 0); return [phoneFit.ox + phoneFit.F * q[0], phoneFit.oy(level) + phoneFit.F * q[1]]; }; // in screen px
     const regS = (x, y) => { const q = floorH(x, y); return [q[0] * CAMNOW.k + CAMNOW.ox, q[1] * CAMNOW.k + CAMNOW.oy]; };
 
     const SQ = {
       w: 3840, h: 2143, sy: 0.47, dur: PL + 6,
-      cam: [[0, 2760, 860, 1.12], [4, 2760, 880, 1.28], [12, 2700, 900, 1.34], [20, 2820, 900, 1.3], [28, 2780, 880, 1.28], [29.9, WB[0], WB[1] - 140, 1.5], [T1 + 0.5, WB[0], WB[1] - 140, 1.5], [T1 + 2.2, 2760, 860, 1.12], [PL + 6, 2760, 860, 1.12]],
       beats: [
-        [0, 'Every shot, tracked.', 'The closing shots of a real pro rally, Mueller v El Hammamy: each shot’s flight, both players tracked frame by frame, every wall contact and bounce.'],
-        [SQ_ALL, 'The last five shots.', 'The last five shots, every wall contact and every bounce, in one picture.'],
-        [PL, 'Stack the games and the pattern shows.', `One court per game, every drive’s bounce marked. Mueller found more length each game: ${pct(1, 'A')}%, then ${pct(2, 'A')}%, then ${pct(3, 'A')}% behind the short line.`],
-        [PL + 4.2, 'Now picture your match.', 'Register your interest and we’ll analyse one of your matches for free.', true],
+        [0, 'Every shot, tracked.'],
+        [SQ_ALL, 'The last five shots.'],
+        [PL, 'Stack the games and the pattern shows.'],
+        [PL + 4.2, 'Now picture your match.', true],
       ],
     };
 
@@ -249,16 +232,8 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     measureBand(); placeFrame(); onResize = () => { measureBand(); placeFrame(); wake(); };
     const camPhone = (u) => { if (wide()) { const k = fr.w / RALLY.width; return { k, ox: fr.x + fr.w / 2 - RALLY.x * k, oy: band.play - ((BAND.top + BAND.bottom) / 2) * SQ.h * k }; }
       const k = W / lerp(COURT.width, RALLY.width, u), x = lerp(COURT.x, RALLY.x, u), y = lerp(COURT.y, RALLY.y, u); return { k, ox: W / 2 - x * k, oy: lerp(band.slot, band.play, u) - y * k }; };
-    function camAt(t) {
-      const K = SQ.cam; const i = K.findIndex((k) => k[0] > t); let f;
-      if (i <= 0) f = i === 0 ? K[0] : K[K.length - 1];
-      else { const a = K[i - 1], b = K[i], u = easeIO(clamp((t - a[0]) / (b[0] - a[0]), 0, 1)); f = [t, lerp(a[1], b[1], u), lerp(a[2], b[2], u), lerp(a[3], b[3], u)]; }
-      const k = Math.max(W / SQ.w, H / SQ.h) * f[3];
-      return { k, ox: clamp(0.64 * W - f[1] * k, W - SQ.w * k, 0), oy: clamp(SQ.sy * H - f[2] * k, H - SQ.h * k, 0) };
-    }
-
     function draw(t) {
-      const rt = Math.min(t, T1), whole = ramp(t, SQ_ALL, 1.2), pl = easeIO(ramp(t, PL, 2)), vis = 1 - pl, rw = rallyLW();
+      const rt = Math.min(t, T1), whole = ramp(t, SQ_ALL, 1.2), pl = easeIO(ramp(t, PL, 2)), vis = 1 - pl;
       if (vis > 0) {
         let ci = -1; flights.forEach((f, i) => { if (f.t0 <= rt) ci = i; });
         flights.forEach((f, i) => {
@@ -271,14 +246,14 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
           const g = ctx.createLinearGradient(0, top, 0, bot); g.addColorStop(0, `rgba(${COL[f.who]},${(live ? 0.3 : 0.16) * a})`); g.addColorStop(1, `rgba(${COL[f.who]},0)`);
           ctx.fillStyle = g; poly(air.concat(floor), true); ctx.fill();
           ctx.lineJoin = ctx.lineCap = 'round';
-          ctx.strokeStyle = `rgba(${COL[f.who]},${a})`; ctx.lineWidth = (live ? 2.6 : 1.6) * PX * rw; poly(air); ctx.stroke();
-          ctx.strokeStyle = `rgba(${COL[f.who]},${0.35 * a})`; ctx.lineWidth = PX * rw; poly(floor); ctx.stroke();
+          ctx.strokeStyle = `rgba(${COL[f.who]},${a})`; ctx.lineWidth = (live ? 2.6 : 1.6) * PX; poly(air); ctx.stroke();
+          ctx.strokeStyle = `rgba(${COL[f.who]},${0.35 * a})`; ctx.lineWidth = PX; poly(floor); ctx.stroke();
         });
         for (const k of keys) if (k.t <= rt && k.i >= FIRST && (k.kind === 'wall' || k.kind === 'floor')) {
           const e = easeOutQuint(clamp((rt - k.t) / 0.7, 0, 1)), who = shots[k.i].who, wall = k.kind === 'wall';
           ctx.globalAlpha = vis; ctx.fillStyle = wall ? `rgb(${COL[who]})` : '#fff';
           poly(wall ? wallRing(k.p[0], k.p[2], 0.08) : floorRing(k.p[0], k.p[1], 0.09), true); ctx.fill();
-          if (e < 1) { ctx.strokeStyle = `rgba(${wall ? COL[who] : '255,255,255'},${1 - e})`; ctx.lineWidth = 2 * PX * rw; poly(wall ? wallRing(k.p[0], k.p[2], 0.12 + 0.5 * e) : floorRing(k.p[0], k.p[1], 0.12 + 0.5 * e), true); ctx.stroke(); }
+          if (e < 1) { ctx.strokeStyle = `rgba(${wall ? COL[who] : '255,255,255'},${1 - e})`; ctx.lineWidth = 2 * PX; poly(wall ? wallRing(k.p[0], k.p[2], 0.12 + 0.5 * e) : floorRing(k.p[0], k.p[1], 0.12 + 0.5 * e), true); ctx.stroke(); }
           ctx.globalAlpha = 1;
         }
         // players: footprint ring, recent movement trail and a height marker
@@ -289,60 +264,34 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
           ctx.lineCap = 'round'; tracer(tr, `rgba(${COL[w]},A)`, 3);
           const [x, y] = trackAt(rally.tracks[w], rt);
           ctx.fillStyle = `rgba(${COL[w]},.16)`; poly(floorRing(x, y, 0.34), true); ctx.fill();
-          ctx.strokeStyle = `rgb(${COL[w]})`; ctx.lineWidth = 1.6 * PX * rw; poly(floorRing(x, y, 0.34), true); ctx.stroke();
+          ctx.strokeStyle = `rgb(${COL[w]})`; ctx.lineWidth = 1.6 * PX; poly(floorRing(x, y, 0.34), true); ctx.stroke();
           const foot = floorH(x, y), head = P3(x, y, 1.85), g = ctx.createLinearGradient(foot[0], foot[1], head[0], head[1]);
           g.addColorStop(0, `rgba(${COL[w]},.9)`); g.addColorStop(1, `rgba(${COL[w]},0)`);
-          ctx.strokeStyle = g; ctx.lineWidth = 1.4 * PX * rw; ctx.beginPath(); ctx.moveTo(...foot); ctx.lineTo(...head); ctx.stroke();
+          ctx.strokeStyle = g; ctx.lineWidth = 1.4 * PX; ctx.beginPath(); ctx.moveTo(...foot); ctx.lineTo(...head); ctx.stroke();
         }
         ctx.globalAlpha = 1;
-        if (rt < T1 - 0.02 && whole === 0) { const bp = P3(...ballAt(rt)); if (narrow()) { ctx.fillStyle = 'rgb(253,71,70)'; ctx.beginPath(); ctx.arc(bp[0], bp[1], 4 * PX, 0, 7); ctx.fill(); } else glowDot(bp[0], bp[1], 5 * PX, 'rgba(253,71,70,A)', 3.2); }
+        if (rt < T1 - 0.02 && whole === 0) { const bp = P3(...ballAt(rt)); ctx.fillStyle = 'rgb(253,71,70)'; ctx.beginPath(); ctx.arc(bp[0], bp[1], 4 * PX, 0, 7); ctx.fill(); }
       }
       // the match: one court per game lifts off the floor and stacks, drive bounces as a heatmap
       if (pl > 0) {
         ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const px0 = PX; PX = 1;
-        ctx.fillStyle = `rgba(5,7,13,${(narrow() ? 1 : 0.72) * pl})`; ctx.fillRect(0, 0, W, H);
-        if (narrow() && phoneFit && plate.complete) { // one dim picture of the court behind all three, as in the stacked courts section
+        ctx.fillStyle = `rgba(5,7,13,${pl})`; ctx.fillRect(0, 0, W, H);
+        if (phoneFit && plate.complete) { // one dim picture of the court behind all three, as in the stacked courts section
           const ch = (phoneFit.mid(0) - phoneFit.mid(2)) / 2 - 12, top = phoneFit.mid(2) - ch / 2 - 6, dh = 2 * (ch + 12) + ch + 12, dw = fr.w;
           const iw = plate.naturalWidth, ih = plate.naturalHeight, sh = ih * 0.455, sw = sh * (dw / dh);
           ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalAlpha = 0.08 * pl; ctx.drawImage(plate, iw * 0.47 - sw / 2, ih * 0.13, sw, sh, fr.x, top, dw, dh); ctx.restore();
         }
-        if (narrow()) settlePhoneStack();
+        settlePhoneStack();
         const labels = []; // drawn after every court so the next plane can't paint over them
         [3, 2, 1].forEach((g) => {
           const ge = easeIO(ramp(t, PL + (3 - g) * 0.3, 2)), level = 3 - g;
           const pt = (x, y) => { const a = regS(x, y), b = synth(x, y, level); return [lerp(a[0], b[0], ge), lerp(a[1], b[1], ge)]; };
           const de = ramp(t, PL + 1.6 + (3 - g) * 0.45, 1.2);
-          if (narrow()) drawPhoneCourt(ctx, pt, match.games[g], { reveal: de, alpha: pl, dpr, cw: phoneFit.cw });
-          else {
-            const outline = [pt(0, 0), pt(6.4, 0), pt(6.4, 9.75), pt(0, 9.75)];
-            ctx.fillStyle = `rgba(47,111,214,${0.2 * pl})`; poly(outline, true); ctx.fill();
-            ctx.strokeStyle = `rgba(255,255,255,${0.55 * pl})`; ctx.lineWidth = 1.2 * LW; poly(outline, true); ctx.stroke();
-            ctx.strokeStyle = `rgba(255,255,255,${0.3 * pl})`; COURT_LINES.forEach((l) => { poly(l.map((p) => pt(...p))); ctx.stroke(); });
-            for (const w of ['A', 'B']) {
-              const pts = match.games[g][w].pts.filter((p) => p[2].includes('drive')), n = Math.round(de * pts.length);
-              for (let j = 0; j < n; j++) { // soft glow first so overlapping bounces build heat
-                const q = pt(pts[j][0], pts[j][1]), hg = ctx.createRadialGradient(q[0], q[1], 0, q[0], q[1], 11);
-                hg.addColorStop(0, `rgba(${COL[w]},.28)`); hg.addColorStop(1, `rgba(${COL[w]},0)`);
-                ctx.fillStyle = hg; ctx.beginPath(); ctx.arc(q[0], q[1], 11, 0, 7); ctx.fill();
-              }
-              ctx.fillStyle = `rgba(${COL[w]},.95)`;
-              for (let j = 0; j < n; j++) { const q = pt(pts[j][0], pts[j][1]); ctx.beginPath(); ctx.arc(q[0], q[1], 2.3, 0, 7); ctx.fill(); }
-            }
-          }
-          if (de > 0 && stackFontsReady()) labels.push(() => {
-            const q = pt(6.4, 4.4);
-            if (narrow()) { drawPhoneLabel(ctx, phoneFit.labelX, lerp(q[1], phoneFit.mid(level), ge), g, pct(g, 'A'), pct(g, 'B'), de); return; }
-            ctx.globalAlpha = de;
-            const lx = q[0] + 26;
-            text(`Game ${g}`, lx, q[1] - 12, 12.5, 'rgba(255,255,255,.7)');
-            ctx.font = '600 22px Outfit'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${pct(g, 'A')}%`, lx, q[1] + 12);
-            const wa = ctx.measureText(`${pct(g, 'A')}%`).width; ctx.font = '450 15px Outfit'; ctx.fillStyle = `rgba(${COL.B},.95)`;
-            ctx.fillText(`${pct(g, 'B')}%`, lx + 10 + wa, q[1] + 13);
-            ctx.globalAlpha = 1;
-          });
+          drawPhoneCourt(ctx, pt, match.games[g], { reveal: de, alpha: pl, dpr, cw: phoneFit.cw });
+          if (de > 0 && stackFontsReady()) labels.push(() => drawPhoneLabel(ctx, phoneFit.labelX, lerp(pt(6.4, 4.4)[1], phoneFit.mid(level), ge), g, pct(g, 'A'), pct(g, 'B'), de));
         });
         labels.forEach((draw) => draw());
-        if (narrow() && stackFontsReady() && labels.length) { // the stats box has gone by now: the colours still need naming
+        if (stackFontsReady() && labels.length) { // the stats box has gone by now: the colours still need naming
           const a = ramp(t, PL + 1.6, 1.2), y = Math.min(H, visibleHeight()) - 15;
           ctx.globalAlpha = a; ctx.font = '400 15px Outfit, system-ui, sans-serif'; ctx.textBaseline = 'middle';
           const m = ctx.measureText(surname.A).width, e = ctx.measureText(surname.B).width;
@@ -366,11 +315,10 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
         [1, 2, 3].forEach((g) => h2h(g - 1, `Game ${g}`, pct(g, 'A'), pct(g, 'B'), 0, '%'));
         const tot = (w) => { let n = 0, l = 0; [1, 2, 3].forEach((g) => { n += match.games[g][w].drives; l += match.games[g][w].length; }); return Math.round((100 * l) / n); };
         h2h(3, 'Match', tot('A'), tot('B'), 0, '%');
-        setText('.sq-note', 'Dots on the courts: where each drive bounced.');
         return;
       }
       let si = 0; shots.forEach((s, i) => { if (s.t <= rt) si = i; });
-      setHTML('.sq-ctx', 'Men’s pros<br>Rally 38'); setText('.sq-note', 'Real tracking data. Ball, both players and every contact.');
+      setHTML('.sq-ctx', 'Men’s pros<br>Rally 38');
       const sh = (w) => shots.filter((s, i) => i >= FIRST && s.t <= rt && s.who === w);
       const wallAvg = (w) => { const l = sh(w).filter((s) => s.wt <= rt); return l.length ? l.reduce((a, s) => a + s.wh, 0) / l.length : 0; };
       const deep = (w) => sh(w).filter((s) => s.fb && s.ft <= rt && s.fb[1] > 5.44).length;
@@ -405,7 +353,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const setBeat = (t) => {
       let b = SQ.beats[0]; for (const x of SQ.beats) if (t >= x[0]) b = x;
       if (b[1] === beatKey) return; const first = !beatKey; beatKey = b[1];
-      const apply = () => { onBeat?.({ title: b[1], body: b[2], cta: !!b[3], index: SQ.beats.indexOf(b) }); };
+      const apply = () => { onBeat?.({ title: b[1], cta: !!b[2], index: SQ.beats.indexOf(b) }); };
       if (first || reduce) { apply(); return; }
       capIn.classList.add('out'); clearTimeout(capTimer);
       capTimer = setTimeout(() => { apply(); capIn.classList.remove('out'); capIn.classList.add('pre'); requestAnimationFrame(() => requestAnimationFrame(() => capIn.classList.remove('pre'))); }, 300);
@@ -421,9 +369,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
         if (pos <= 0) { pos = 0; dir = 0; }
       }
       const st = resolve(pos);
-      const breathe = !narrow() && st.hero < 1 ? 1 + 0.012 * Math.sin(now / 2600) * (1 - st.hero) : 1;
-      const c = narrow() ? camPhone(easeIO(clamp(st.hero * 1.4, 0, 1))) : camAt(st.t);
-      if (breathe !== 1) { c.k *= breathe; c.ox = clamp(c.ox - (breathe - 1) * W * 0.5, W - SQ.w * c.k, 0); c.oy = clamp(c.oy - (breathe - 1) * H * 0.5, H - SQ.h * c.k, 0); }
+      const c = camPhone(easeIO(clamp(st.hero * 1.4, 0, 1)));
       plate.style.transform = `translate3d(${c.ox}px,${c.oy}px,0) scale(${c.k})`; plate.style.visibility = 'visible';
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
       CAMNOW = c; ctx.setTransform(dpr * c.k, 0, 0, dpr * c.k, dpr * c.ox, dpr * c.oy); PX = 1 / c.k; draw(st.t);
@@ -433,16 +379,16 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       // at rest the hero carries no inline opacity, so nothing can leave the form half-transparent
       hero.style.opacity = ho === 1 ? '' : ho; stage.style.setProperty('--ho', ho); hero.style.setProperty('--lift', `${h * 60}px`); hero.style.visibility = ho ? 'visible' : 'hidden';
       stage.classList.toggle('is-playing', h > 0);
-      cv.style.opacity = narrow() ? 1 - ho : ''; // phones show the clean court at rest; the tracking arrives with Play
+      cv.style.opacity = 1 - ho; // the clean court at rest; the tracking arrives with Play
       const co = clamp((h - 0.55) / 0.35, 0, 1);
       cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
-      boxEl.style.opacity = narrow() || H < 500 ? co * (1 - ramp(st.t, PL, 1)) : co; // phones: the stacked courts need the room
+      boxEl.style.opacity = co * (1 - ramp(st.t, PL, 1)); // the stacked courts need the room
       if (co > 0) setBeat(st.t);
-      cap.style.setProperty('--p', narrow() ? (st.t - T0) / (SQ.dur - T0) : st.t / SQ.dur); // phones: the line fills from empty over what actually plays
+      cap.style.setProperty('--p', (st.t - T0) / (SQ.dur - T0)); // the line fills from empty over what actually plays
       tickH2H(dt);
       // nothing moving or nothing on screen: let the phone rest until play, stop, resize or scroll back
       still = dir ? 0 : still + 1;
-      const rest = narrow() ? (!onScreen && dir >= 0) || still > 60 : !dir && !onScreen; // phones hold a rally off screen; a closing fade always finishes
+      const rest = (!onScreen && dir >= 0) || still > 60; // hold a rally off screen; a closing fade always finishes
       raf = rest ? 0 : requestAnimationFrame(frame);
     }
     let still = 0;
