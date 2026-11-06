@@ -493,6 +493,12 @@
 }
 .sq-deal{display:none}
 .sq-phone-only{display:none}
+/* phones: the Register section opens with the same gold and red tag as the offer box */
+@media (max-width:719px){
+  .sq-register .kick{position:relative;width:max-content;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-size:11px;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+  .sq-register .kick::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+  .sq-register h2{margin-top:12px}
+}
 .sq-ev-gx{display:none}
 /* phones: the live event in the tour list is the top banner again, not a line of red text */
 @media (max-width:719px){
