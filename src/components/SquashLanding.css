@@ -831,3 +831,10 @@
 @supports (-webkit-touch-callout:none){ /* iPhone Safari draws the page 58px past 100lvh, under its toolbar */
   @media (max-width:719px) and (orientation:portrait){.sq-stage{--under:calc(100lvh - 100svh + 64px)}}
 }
+/* phones: in a team row, names, roles and gold lines start level, even when one role wraps */
+@media (max-width:719px){
+  .team-page .member{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:0}
+  .team-page .member-copy{display:contents}
+  .team-page .member-copy h3{margin-top:8px}
+  .team-page .member-copy>span{display:block}
+}
