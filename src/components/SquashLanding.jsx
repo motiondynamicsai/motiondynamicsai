@@ -204,6 +204,7 @@ export default function SquashLanding() {
           <div>
             <div className="kick">Founding members</div>
             <h2 id="register-title">Register your interest.</h2>
+            <div className="sq-deal sq-deal-reg" aria-hidden="true"><span><b>Free</b>one match analysed</span><span><b>50%</b>off when we launch</span></div>
             <ul className="sq-perks">
               <li><b>One match analysed free.</b><span className="sq-perk-rest"> Send us a match, get the full breakdown.</span></li>
               <li><b>50% off</b><span className="sq-perk-rest"> when we launch, locked in as a founding member.</span></li>

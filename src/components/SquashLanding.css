@@ -499,6 +499,15 @@
   .sq-register .kick::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
   .sq-register h2{margin-top:12px}
 }
+/* the offer reads the same here as in the first screen: the two big figures, then what it takes */
+@media (max-width:719px) and (orientation:portrait){
+  .sq-deal.sq-deal-reg{padding:16px 0 0}
+  .sq-deal.sq-deal-reg>span+span{padding-left:16px}
+  .sq-deal.sq-deal-reg b{font-size:34px}
+  .sq-deal.sq-deal-reg>span{font-size:14px}
+  .sq-perks li:not(:last-child){position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%)}
+  .sq-perks{margin-top:14px}
+}
 .sq-ev-gx{display:none}
 /* phones: the live event in the tour list is the top banner again, not a line of red text */
 @media (max-width:719px){
