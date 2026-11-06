@@ -821,3 +821,10 @@
 @media (max-width:719px){
   .sq-after h2,.sq-stack h2,.sq-register h2,.sq-chrome~main h1,.team-page .team-contact h2{text-wrap:balance}
 }
+/* phones: the first screen runs on under the browser's floating toolbar, so the next section never peeks out behind the glass. Everything stays above the toolbar. */
+@media (max-width:719px) and (orientation:portrait){
+  .sq-stage{height:100lvh}
+  .sq-hero{bottom:calc(10px + 100lvh - 100svh)}
+  .sq-box{bottom:calc(16px + 100lvh - 100svh)}
+}
+@media (max-width:719px) and (orientation:portrait) and (max-height:600px){.sq-hero{bottom:calc(6px + 100lvh - 100svh)}}

@@ -108,6 +108,8 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let onResize = () => {}, wake = () => {}, onScreen = true;
   let disposed = false, raf = 0, W = 0, H = 0, dpr = 1, PX = 1, CAMNOW = null;
+  const fold = document.createElement('div'); fold.style.cssText = 'position:absolute;width:0;height:100svh;visibility:hidden;pointer-events:none'; stage.append(fold);
+  const visibleHeight = () => fold.offsetHeight; // the screen above a floating browser toolbar: the stage runs on underneath it
   let pos = Number(new URLSearchParams(window.location.search).get('p')) || 0, dir = 0; // ?p=2.5 opens part-way in
   const LW = 1.7;
   const rallyLW = () => (W < 720 ? 1 : LW); // phones: thinner tracking lines; the stacked courts keep LW
@@ -200,7 +202,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const narrow = () => W < 720;
     let phoneFit = null, capH = 216, capBelow = 0, capNow = 0, capAt = 0; // phones: the finished stack fills the visible space under the caption
     const settlePhoneStack = () => { // the caption grows when its buttons arrive: the courts make way, never slide under it
-      const now = performance.now(), vis = Math.min(H, window.innerHeight);
+      const now = performance.now(), vis = Math.min(H, visibleHeight());
       capBelow = capNow ? Math.max(capBelow, capH) : capH; // within a run the courts only ever make more room, so they don't wobble between beats
       capNow = capNow ? capNow + (capBelow - capNow) * (1 - Math.exp(-Math.min(0.05, (now - capAt) / 1000) * 14)) : capBelow; capAt = now;
       if (Math.abs(capBelow - capNow) < 0.3) capNow = capBelow;
@@ -329,7 +331,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
         });
         labels.forEach((draw) => draw());
         if (narrow() && stackFontsReady() && labels.length) { // the stats box has gone by now: the colours still need naming
-          const a = ramp(t, PL + 1.6, 1.2), y = Math.min(H, window.innerHeight) - 15;
+          const a = ramp(t, PL + 1.6, 1.2), y = Math.min(H, visibleHeight()) - 15;
           ctx.globalAlpha = a; ctx.font = '400 15px Outfit, system-ui, sans-serif'; ctx.textBaseline = 'middle';
           const m = ctx.measureText(surname.A).width, e = ctx.measureText(surname.B).width;
           let x = 16;
