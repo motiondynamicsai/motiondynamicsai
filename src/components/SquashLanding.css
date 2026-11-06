@@ -609,6 +609,12 @@
   .sq-stack h2 em{font-weight:500;color:rgba(255,255,255,.7)}
 }
 .sq-key{display:none}
+/* phones: the shot line says who hit it with the same dot as the key, not an accent bar */
+@media (max-width:719px){
+  .sq-event{padding-left:0;border-left:0}
+  .sq-event::before{content:"";display:inline-block;width:10px;height:10px;margin-right:8px;border-radius:50%;background:var(--hit,#fff)}
+  .sq-legend span::before{width:10px;height:10px}
+}
 /* phones: the stacked courts, read top to bottom: who is who, then the courts */
 @media (max-width:719px){
   .sq-stack .sq-legend{order:3;justify-content:flex-start;margin-top:10px}
