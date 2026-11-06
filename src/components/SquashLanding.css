@@ -573,7 +573,7 @@
   .sq .kick::before,.sq-cap-tag::before,.sq-hero .sq-tag::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
   .sq .kick{margin:0 0 12px}
   .sq .kick.sq-phone-only{order:1}
-  .sq-after h2,.sq-register h2,.sq-stack h2,.sq-chrome~main h1,.team-page .team-contact h2{margin:0;font-size:clamp(28px,8.75vw,44px);font-weight:600;line-height:1.04;letter-spacing:-.03em}
+  .sq-after h2,.sq-register h2,.sq-stack h2,.sq-chrome~main h1,.team-page .team-contact h2{margin:0;font-size:clamp(28px,8.75vw,44px);font-weight:600;line-height:1.06;letter-spacing:-.02em}
   #insights,#proof,#register,.sq-stack{padding-top:24px;padding-bottom:24px;scroll-margin-top:-36px}
   .sq-register-grid{gap:16px}
   .sq-form-panel .sq-field span{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0)} /* the prompt inside each field says it once */
@@ -750,4 +750,8 @@
   .sq-after h2 em{color:#5b5f6a}
   .sq-row{border-top-color:var(--rule)}
   .team-page .member-photo,.sq-chrome~main .member-detail-grid>img{background:#0b0e16}
+}
+/* phones: headings tracked -.02em. At -.03em letters touch ("tt", "ti"), the tight look every template has. */
+@media (max-width:719px){
+  .sq-h-sq,.sq-cap h2{letter-spacing:-.02em}
 }
