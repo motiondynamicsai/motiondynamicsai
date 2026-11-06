@@ -132,10 +132,10 @@ export function TeamMemberPage() {
   const { id } = useParams();
   const member = team.find((person) => person.id === id);
   if (!member) return <NotFound />;
-  return <><Navigation /><main id="main" className="member-detail container"><Link className="text-link" to="/team"><FiArrowLeft aria-hidden="true" /> Back to our team</Link><div className="member-detail-grid"><div><p className="kicker">{member.group}</p><h1>{member.name}</h1><p className="detail-role">{member.title}</p><span>{member.subtitle}</span><p className="detail-copy">{member.content}</p><a className="button button-red" href="mailto:contact@motiondynamics.ai">Start a conversation <FiArrowUpRight aria-hidden="true" /></a></div><img src={member.image} alt={member.name} /></div></main><SiteFooter /></>;
+  return <><Navigation /><main id="main" className="member-detail container"><Link className="text-link" to="/team"><FiArrowLeft aria-hidden="true" /> Back to our team</Link><div className="member-detail-grid"><div><p className="kicker">{member.group}</p><h1>{member.name}</h1><p className="detail-role">{member.title}</p><span>{member.subtitle}</span><p className="detail-copy">{member.content}</p><a className="button button-red" href="mailto:contact@motiondynamics.ai"><span className="sq-desk-only">Start a conversation </span><span className="sq-phone-only">Get in touch</span><FiArrowUpRight aria-hidden="true" /></a></div><img src={member.image} alt={member.name} /></div></main><SiteFooter /></>;
 }
 
 export function NotFound() {
-  return <><Navigation /><main id="main" className="not-found container"><p className="kicker">A different direction</p><h1>This page is<br />out of play.</h1><Link className="button button-red" to="/">Back to the homepage <FiArrowUpRight aria-hidden="true" /></Link></main><SiteFooter /></>;
+  return <><Navigation /><main id="main" className="not-found container"><p className="kicker"><span className="sq-desk-only">A different direction</span><span className="sq-phone-only">Page not found</span></p><h1>This page is<br />out of play.</h1><Link className="button button-red" to="/">Back to the homepage <FiArrowUpRight aria-hidden="true" /></Link></main><SiteFooter /></>;
 }
 
