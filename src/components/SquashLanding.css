@@ -709,7 +709,7 @@
   .team-page .member-copy{display:contents}
   .team-page .member-copy h3{margin-top:8px}
   .team-page .member-copy>span{display:block}
-@media (max-width:719px) and (hover:none){.sq-close:focus-visible{outline:0}} /* Play moves focus to the X: a touch user shouldn't see a keyboard ring */
+@media (hover:none){.sq .sq-close:focus-visible{outline:0}} /* Play moves focus to the X: a touch user shouldn't see a keyboard ring */
 /* wide screens: the same page in two columns. Words and offer left; court and data right. */
 @media (min-width:720px),(max-height:500px) and (orientation:landscape){
   :root{--margin:clamp(24px,3.9vw,56px);--col:clamp(320px,38.9vw,560px);--gap:clamp(24px,3.5vw,56px)}
