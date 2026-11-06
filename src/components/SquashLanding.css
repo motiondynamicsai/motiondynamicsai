@@ -795,3 +795,7 @@
   .team-page .team-contact h2 em{font-weight:600;color:#fff}
   .team-page .team-contact h2 br{display:none}
 }
+/* phones: after signing up, the form's pitch steps away and the thank-you is what's left */
+@media (max-width:719px){
+  #register:has(.is-done) h2,#register:has(.is-done) .sq-deal,#register:has(.is-done) .sq-perks{display:none}
+}
