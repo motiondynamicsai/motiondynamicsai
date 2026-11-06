@@ -423,7 +423,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       const h = st.hero, ho = clamp(1 - h * 2.2, 0, 1);
       // at rest the hero carries no inline opacity, so nothing can leave the form half-transparent
       hero.style.opacity = ho === 1 ? '' : ho; stage.style.setProperty('--ho', ho); hero.style.setProperty('--lift', `${h * 60}px`); hero.style.visibility = ho ? 'visible' : 'hidden';
-      stage.classList.toggle('is-playing', h > 0);
+      if (stage.classList.toggle('is-playing', h > 0) !== playing) { playing = h > 0; size(); } // tall phones: the stage is taller in play
       cv.style.opacity = narrow() ? 1 - ho : ''; // phones show the clean court at rest; the tracking arrives with Play
       const co = clamp((h - 0.55) / 0.35, 0, 1);
       cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
@@ -436,7 +436,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       const rest = narrow() ? (!onScreen && dir >= 0) || still > 60 : !dir && !onScreen; // phones hold a rally off screen; a closing fade always finishes
       raf = rest ? 0 : requestAnimationFrame(frame);
     }
-    let still = 0;
+    let still = 0, playing = false;
     wake = () => { still = 0; if (raf || disposed) return; last = performance.now(); raf = requestAnimationFrame(frame); };
     const seen = new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; if (onScreen) wake(); });
     seen.observe(stage);

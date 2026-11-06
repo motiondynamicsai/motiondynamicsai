@@ -466,6 +466,12 @@
   .sq-hero .sq-offer{margin-top:0}
 }
 @media (max-width:719px) and (min-width:341px) and (orientation:portrait) and (max-height:639px){.sq-slot{padding-bottom:12px}} /* keeps Play clear of the offer tag */
+/* tall phones: at rest the stage ends under the form, so the next section shows instead of a black gap. Play takes the full screen. */
+@media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
+  .sq-stage{--rest:calc(443px + 77.9vw)}
+  .sq-stage:not(.is-playing){height:var(--rest)}
+  .sq-hero{bottom:auto;height:calc(var(--rest) - 103px)}
+}
 @media (max-width:719px){.sq-hero .sq-play .ic::after{display:none}}
 @media (prefers-reduced-motion:reduce){.sq-h-phone{animation:none}}
 /* phones: pictures and headlines, no paragraphs. Status and error messages stay. */
