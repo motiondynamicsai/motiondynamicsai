@@ -223,7 +223,7 @@
   .sq-cap-ctas .sq-btn{height:46px;padding:0 18px;font-size:15px}
 }
 /* phones: the court is the picture. Headline, then the court with Play on it, then why, then the offer and form as one panel. */
-@media (max-width:719px){
+@media (max-width:719px) and (min-height:501px),(max-width:719px) and (orientation:portrait){
   .sq-bar{transition:background .3s,transform .3s var(--ease)}
   .sq-notice{height:33px;overflow:hidden;white-space:nowrap;transition:height .3s var(--ease),opacity .3s,border-width .3s}
   .sq-bar.solid:not(.open) .sq-notice{height:0;opacity:0;padding-top:0;padding-bottom:0;border-bottom-width:0}
@@ -320,7 +320,7 @@
   .sq-footer small{margin-top:6px;font-size:13px}
 }
 /* phones with a tall screen have room to stack the fields; short ones drop the explainer before they squeeze the court */
-@media (max-width:719px){.sq-brand span{white-space:nowrap}} /* the wordmark never breaks: narrow phones scale it, and the bar stays one height */
+@media (max-width:719px) and (min-height:501px),(max-width:719px) and (orientation:portrait){.sq-brand span{white-space:nowrap}} /* the wordmark never breaks: narrow phones scale it, and the bar stays one height */
 @media (max-width:385px){.sq-brand{gap:8px}.sq-brand span{font-size:16px}.sq-brand svg{width:26px;height:26px}}
 @media (max-width:340px){
   .sq-hero .sq-field input{padding:0 9px}
@@ -335,7 +335,7 @@
   .sq-lede{font-size:16px;margin-bottom:14px}
 }
 /* phones: the two white sections. Each opens the same way (label, ink phrase, grey phrase), then one ruled list. */
-@media (max-width:719px){
+@media (max-width:719px) and (min-height:501px),(max-width:719px) and (orientation:portrait){
   .sq-after{padding:56px 16px}
   .sq-proof{padding-top:56px}
   .sq-proof::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:#e3e5e9}
@@ -367,7 +367,7 @@
   #insights,#proof{scroll-margin-top:-68px} /* with the page's 90px scroll padding, the label lands just under the 58px bar */
   #register{scroll-margin-top:-70px} /* heading under the bar, form and button on the same screen */
 }
-@media (min-width:561px) and (max-width:719px){#insights,#proof{scroll-margin-top:-88px}#register{scroll-margin-top:-90px}}
+@media (min-width:561px) and (max-width:719px) and (min-height:501px){#insights,#proof{scroll-margin-top:-88px}#register{scroll-margin-top:-90px}}
 @media (max-width:359px){
   .sq-audience{grid-template-columns:auto auto;justify-content:start;gap:8px}
   .sq-audience span{grid-column:auto;align-self:center;font-size:inherit}
@@ -378,57 +378,12 @@
   .sq-cap-ctas .sq-btn{gap:6px;padding:0 13px;font-size:14px}
 }
 @media (max-width:339px){.sq-hero{--need:360px}} /* the lede takes a fourth line here */
-@media (max-width:719px) and (max-height:600px){ /* the smallest screens: every spare pixel goes to keeping Play clear of the wordmark on the tin */
+@media (max-width:719px) and (orientation:portrait) and (max-height:600px){ /* the smallest screens: every spare pixel goes to keeping Play clear of the wordmark on the tin */
   .sq-hero{top:calc(33px + 58px + 6px);bottom:6px}
   .sq-hero .sq-play{padding:3px 14px 3px 3px}
   .sq-hero .sq-play .ic{width:34px;height:34px}
 }
 /* phones on their side: copy and form to the left over the full court, one line of fields, everything inside the first screen */
-@media (max-height:500px) and (orientation:landscape){
-  .sq-stage{min-height:320px}
-  .sq-plate{-webkit-mask-image:none;mask-image:none}
-  .sq-scrim{background:linear-gradient(90deg,rgba(5,7,13,.94) 0%,rgba(5,7,13,.82) 44%,rgba(5,7,13,.2) 68%,rgba(5,7,13,0) 80%),linear-gradient(180deg,rgba(5,7,13,.6) 0%,rgba(5,7,13,0) 30%)}
-  .sq-scrim::after{display:none}
-  .sq-hero{top:100px;bottom:auto;right:auto;width:min(560px,calc(100vw - 32px));display:flex;flex-direction:column;align-items:stretch}
-  .sq-kicker{font-size:13px}
-  .sq h1{font-size:clamp(24px,9vh,36px);line-height:1;margin:3px 0 8px}
-  .sq h1 .l{padding-bottom:.08em}
-  .sq-lede{display:none}
-  .sq-offer{position:static;display:flex;flex-wrap:nowrap;gap:8px;align-items:center;margin:0 0 8px;padding:0;background:none;border:0;border-radius:0;font-size:14px}
-  .sq-tag{position:static;font-size:10.5px;padding:3px 9px}
-  .sq-offer-lead{display:none}
-  .sq-offer-deal{display:block;white-space:nowrap}
-  .sq-hero:has(.is-done) .sq-offer{display:none}
-  .sq-hero .sq-fields{display:flex;flex-direction:row;gap:6px;padding:4px;border:1px solid rgba(255,255,255,.22);border-radius:999px}
-  .sq-hero .sq-field input{height:40px;padding:0 14px;border-radius:999px}
-  .sq-hero .sq-fields .sq-btn{height:40px;padding:0 16px;font-size:14px;border-radius:999px;white-space:nowrap}
-  .sq-hero .sq-form-note{margin:6px 0 0 8px;font-size:12.5px;line-height:1.3}
-  .sq-hero .sq-form-note:not(.is-error){display:none}
-  .sq-hero .sq-form.is-done{animation-duration:.3s;animation-delay:0s;padding:8px 14px;border:1px solid var(--gold);border-radius:14px}
-  .sq-hero .sq-form.is-done strong{font-size:15px}.sq-hero .sq-form.is-done p{font-size:13px;line-height:1.3}
-  .sq-slot{display:contents}
-  .sq-hero .sq-play{order:7;align-self:flex-start;margin-top:6px;padding:3px 14px 3px 3px;font-size:14px;background:none;border:0}
-  .sq-hero .sq-play::before{display:none}
-  .sq-hero .sq-play .ic{width:36px;height:36px}.sq-hero .sq-play svg{width:11px;height:13px}
-  /* in play the stage is now one short screen: caption left, stats box right, so neither runs under the other */
-  .sq-cap{top:104px;right:auto;width:44%}
-  .sq-cap-in{min-height:0}
-  .sq-cap .num{min-height:0;padding-right:0;margin-bottom:6px}
-  .sq-cap h2{font-size:24px;line-height:1.05;margin:0 0 4px}
-  .sq-cap p{font-size:13.5px;line-height:1.35}
-  .sq-cap-ctas{margin-top:8px}
-  .sq-box{left:auto;right:16px;bottom:8px;width:min(50%,420px);padding:6px 12px}
-  .sq-box .names{padding-bottom:4px}.sq-box .nm{font-size:14px}
-  .sq-event{margin:4px 0}
-  .sq-row{height:20px}
-  .sq-note{display:none}
-  .sq-close{top:104px;right:16px;height:36px}
-}
-@media (max-height:500px) and (orientation:landscape) and (max-width:719px){ /* the bar is smaller here and hides in play */
-  .sq-hero{top:93px;left:16px}
-  .sq-cap{top:12px}
-  .sq-close{top:12px}.sq-close span{display:none}
-}
 /* the first screen on phones, built like a broadcast graphic. Diar's desktop copy stays in the markup for wider screens. */
 .sq-gx,.sq-h-phone,.sq-lede-phone{display:none}
   .sq-links .cta{display:none} /* Register interest is one tap away in the menu: the wordmark takes the bar */
@@ -756,7 +711,7 @@
   .team-page .member-copy>span{display:block}
 @media (max-width:719px) and (hover:none){.sq-close:focus-visible{outline:0}} /* Play moves focus to the X: a touch user shouldn't see a keyboard ring */
 /* wide screens: the same page in two columns. Words and offer left; court and data right. */
-@media (min-width:720px){
+@media (min-width:720px),(max-height:500px) and (orientation:landscape){
   :root{--margin:clamp(24px,3.9vw,56px);--col:clamp(320px,38.9vw,560px);--gap:clamp(24px,3.5vw,56px)}
   .sq h1,.sq h2,.sq h3{letter-spacing:-.02em}
 
@@ -866,4 +821,30 @@
   .sq-links .cta{display:inline-flex;align-items:center;height:36px;padding:0 16px;border:0;border-radius:8px;background:#fff;color:var(--ink);font-size:15px;font-weight:600}
   .sq-links .cta::after{display:none}
   .sq-links .cta:hover{background:#fff;color:var(--ink);opacity:.85}
+}
+@media (max-height:500px) and (orientation:landscape){ /* a sideways phone: same two columns, sized to the short screen */
+  :root{--col:clamp(280px,38.9vw,560px)}
+  .sq-stage{min-height:360px}
+  .sq-hero{justify-content:flex-start;padding-top:8px}
+  .sq-hero .sq-play{white-space:nowrap}
+  .sq-h-pro,.sq-h-sq{font-size:28px}
+  .sq-h-aud{margin-top:4px;font-size:13px}
+  .sq-offer{margin-top:8px}
+  .sq-deal{padding-top:6px}
+  .sq-deal b{margin-bottom:0;font-size:22px}
+  .sq-hero .sq-fields{padding-top:6px}
+  .sq-hero .sq-field input,.sq-hero .sq-fields .sq-btn{height:40px}
+  .sq-hero .sq-play{padding-top:0;padding-bottom:0}
+  .sq-cap,.sq-close{top:95px}
+  .sq-cap .num{margin-bottom:4px}
+  .sq-cap h2{font-size:22px}
+  .sq-cap-ctas{margin-top:8px}
+  .sq-box{top:187px;padding:4px 14px}
+  .sq-row{height:18px}
+}
+@media (max-width:719px) and (max-height:500px) and (orientation:landscape){ /* too narrow for two columns below the first screen */
+  .sq-after .sq-wrap,.sq-stack-grid,.sq-register-grid{grid-template-columns:minmax(0,1fr)}
+  .sq-insights,#proof .sq-events{grid-column:1;grid-row:auto;margin-top:16px}
+  .sq-audience{grid-column:1}
+  .team-page .team-grid,.team-page .team-grid-2,.team-page .team-grid-4{grid-template-columns:repeat(3,minmax(0,1fr))}
 }

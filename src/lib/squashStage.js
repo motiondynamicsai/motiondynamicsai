@@ -207,7 +207,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       capNow = capNow ? capNow + (capBelow - capNow) * (1 - Math.exp(-Math.min(0.05, (now - capAt) / 1000) * 14)) : capBelow; capAt = now;
       if (Math.abs(capBelow - capNow) < 0.3) capNow = capBelow;
       if (phoneFit && phoneFit.W === W && phoneFit.vis === vis && phoneFit.cap === capNow) return;
-      phoneFit = { ...phoneStackFit(W, vis, W >= 720 ? { left: fr.x, right: W - fr.x - fr.w, top: 91 + 12, bottom: 36, air: 12 } : { left: 8, right: 8, top: capNow, bottom: 30, air: 12 }), W, vis, cap: capNow };
+      phoneFit = { ...phoneStackFit(W, vis, wide() ? { left: fr.x, right: W - fr.x - fr.w, top: 91 + 12, bottom: 36, air: 12 } : { left: 8, right: 8, top: capNow, bottom: 30, air: 12 }), W, vis, cap: capNow };
     };
     const synth = (x, y, level) => { // in screen px
       if (narrow()) { const q = stackUnit(x, y, 0); return [phoneFit.ox + phoneFit.F * q[0], phoneFit.oy(level) + phoneFit.F * q[1]]; }
@@ -236,7 +236,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
     const COURT = { width: 1880, x: 2732, y: 745 }; // plate px: the floor's widest span plus a margin, and the court's centre
     const RALLY = { width: 2030, x: 2640, y: 804 }; // plate px in play: everything the rally draws, from the left of the back wall to the floor's right corner
     // Wide screens: words on the left, the court on the right, one still frame from rest through play.
-    const BAND = { top: 0.15, bottom: 0.595 }, BAR = 91, scrim = $('.sq-scrim'), wide = () => W >= 720;
+    const BAND = { top: 0.15, bottom: 0.595 }, BAR = 91, scrim = $('.sq-scrim'), wideQuery = window.matchMedia('(min-width:720px),(max-height:500px) and (orientation:landscape)'), wide = () => wideQuery.matches;
     const fr = { x: 16, w: W - 32 };
     const placeFrame = () => {
       if (!wide()) { fr.x = 16; fr.w = W - 32; scrim.style.borderLeftWidth = scrim.style.borderRightWidth = ''; return; }

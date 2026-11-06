@@ -100,7 +100,7 @@ export default function SquashLanding() {
   };
   const playStack = () => {
     const courts = stackCanvas.current;
-    if (window.matchMedia('(max-width:719px)').matches) { // phones: all three courts, centred in the screen under the bar
+    if (!window.matchMedia('(min-width:720px),(max-height:500px) and (orientation:landscape)').matches) { // phones: all three courts, centred in the screen under the bar
       const box = courts.getBoundingClientRect(), bar = root.current.querySelector('.sq-bar').getBoundingClientRect().bottom;
       window.scrollTo({ top: window.scrollY + box.top - bar - Math.max(0, (window.innerHeight - bar - box.height) / 2) });
     } else courts.scrollIntoView({ block: 'center' });
