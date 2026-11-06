@@ -779,3 +779,8 @@
 @media (max-width:719px){
   .team-page .team-contact h2{margin:0 0 16px}
 }
+/* phones: portrait cut-outs have soft bottom corners built into the file: crop them so the photo ends on a straight line */
+@media (max-width:719px){
+  .sq-chrome~main .member-detail-grid>img{clip-path:inset(0 0 14px 0);margin-bottom:-14px}
+  .sq-chrome~main.member-detail>.text-link svg{margin-left:-1px}
+}
