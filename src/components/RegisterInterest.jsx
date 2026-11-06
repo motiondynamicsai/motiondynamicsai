@@ -25,7 +25,7 @@ export default function RegisterInterest({ variant = 'hero', source }) {
   };
 
   if (status === 'done') {
-    return <div className={`sq-form sq-form-${variant} is-done`} role="status">
+    return <div className={`sq-form sq-form-${variant} is-done`} role="status" tabIndex={-1} ref={(el) => el?.focus({ preventScroll: true })}>
       <span className="sq-check" aria-hidden="true">✓</span>
       <div><strong>Thanks for your interest{name ? `, ${name}` : ''}!</strong><p>We’ll be in touch shortly about the launch. Please use this same email when you sign up, so we can unlock your offer: one match analysed free and 50% off.</p></div>
     </div>;

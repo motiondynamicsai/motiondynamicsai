@@ -10,8 +10,9 @@
     <meta name="theme-color" content="#05070d" />
     <style>html.dark-first{background:#05070d}</style>
     <script>
-      // Landing only: paint dark from the first frame (the team pages keep their light background).
+      // Paint the right colours from the first frame: dark landing, light team pages.
       if (location.pathname === '/') document.documentElement.className = 'dark-first';
+      else document.querySelector('meta[name="theme-color"]').content = '#f7f6f2';
     </script>
     <link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
