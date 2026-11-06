@@ -466,7 +466,7 @@
   .sq-hero .sq-offer{margin-top:0}
 }
 @media (max-width:719px) and (min-width:341px) and (orientation:portrait) and (max-height:639px){.sq-slot{padding-bottom:6px}} /* keeps Play clear of the offer box */
-@media (max-width:719px){.sq-hero .sq-play .ic::after{display:none}}
+@media (max-width:719px){.sq-play .ic::after{display:none}}
 .sq-cap-tag,.sq-cap-2{display:none}
 /* the rally on phones reads like a broadcast graphic: the top banner's red and gold, then a two-line punch */
 @media (max-width:719px){
