@@ -498,6 +498,9 @@
   .sq-register .kick{position:relative;width:max-content;padding:5px 18px 5px 20px;background:var(--gold);color:#05070d;font-size:11px;font-weight:750;letter-spacing:.07em;line-height:1;text-transform:uppercase;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
   .sq-register .kick::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
   .sq-register h2{margin-top:12px}
+  .sq-register{padding-top:32px;padding-bottom:32px}
+  #register{scroll-margin-top:-44px}
+  .sq-register-grid{gap:16px}
   .sq-form-panel .sq-field span{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0)} /* the prompt inside each field says it once */
   .sq-form-panel .sq-field input[name=name]::placeholder{color:rgba(255,255,255,.5)}
 }
@@ -509,7 +512,7 @@
   .sq-deal.sq-deal-reg>span{font-size:14px}
   .sq-perks li:not(:last-child){position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%)}
   .sq-perks{margin-top:14px}
-  .sq-perks li:last-child .sq-perk-rest{display:inline}
+  .sq-perks li:last-child .sq-perk-rest{display:block}
   .sq-perks li:last-child{font-weight:450;color:rgba(255,255,255,.8)}
 }
 .sq-ev-gx{display:none}
