@@ -770,3 +770,9 @@
   .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 13%,#000 13%,#000 58.5%,transparent 58.5%);mask-image:linear-gradient(180deg,transparent 13%,#000 13%,#000 58.5%,transparent 58.5%)}
   .sq-scrim{box-sizing:border-box;border-inline:16px solid var(--ink)}
 }
+/* phones: the scoreboard is the same box as the others: corner 14, inset 14, solid fill */
+@media (max-width:719px){
+  .sq-box{padding:8px 14px 6px;border-radius:14px;border-color:var(--rule);background:#0b0e16}
+  .sq-box .names{margin:0 -14px;padding:0 14px 7px}
+  .sq-event .sub{margin-left:2px}
+}
