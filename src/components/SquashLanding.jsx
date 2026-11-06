@@ -106,7 +106,11 @@ export default function SquashLanding() {
     stage.current.play();
   };
   const playStack = () => {
-    stackCanvas.current.scrollIntoView({ block: 'center' });
+    const courts = stackCanvas.current;
+    if (window.matchMedia('(max-width:719px)').matches) { // phones: all three courts, centred in the screen under the bar
+      const box = courts.getBoundingClientRect(), bar = root.current.querySelector('.sq-bar').getBoundingClientRect().bottom;
+      window.scrollTo({ top: window.scrollY + box.top - bar - Math.max(0, (window.innerHeight - bar - box.height) / 2) });
+    } else courts.scrollIntoView({ block: 'center' });
     stack.current.play();
   };
   const stop = () => stage.current.stop();
