@@ -633,7 +633,7 @@
 }
 /* phones: the stacked courts sit on one dim picture of the court, top of the first court to bottom of the last, same as the end of the rally */
 @media (max-width:719px) and (orientation:portrait){
-  .sq-stack canvas{background:linear-gradient(rgba(5,7,13,.92),rgba(5,7,13,.92)),url(/media/squash/squash-2560.jpg) 76% 24%/auto 219.8% no-repeat}
+  .sq-stack canvas{background:linear-gradient(rgba(5,7,13,.92),rgba(5,7,13,.92)),url(/media/squash/squash-2560.jpg) 46% 24%/auto 219.8% no-repeat}
 }
 /* phones: the offer box reads like the broadcast banner, with the two numbers big */
 @media (max-width:719px) and (orientation:portrait){

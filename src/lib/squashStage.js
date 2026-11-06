@@ -59,9 +59,9 @@ export function drawPhoneCourt(ctx, pt, game, { reveal, alpha, cw }) { // dots o
 }
 export function drawPhoneLabel(ctx, x, y, g, a, b, alpha) {
   ctx.globalAlpha = alpha; ctx.textBaseline = 'middle';
-  ctx.font = '400 13px Outfit, system-ui, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.72)'; ctx.fillText(`Game ${g}`, x, y - 22);
-  ctx.font = '600 24px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${a}%`, x, y + 1);
-  ctx.font = '400 15px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgb(${COL.B})`; ctx.fillText(`${b}%`, x, y + 22);
+  ctx.font = '400 13px Outfit, system-ui, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.72)'; ctx.fillText(`Game ${g}`, x, y - 20);
+  ctx.font = '600 20px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${a}%`, x, y + 1);
+  ctx.font = '600 20px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgb(${COL.B})`; ctx.fillText(`${b}%`, x, y + 22);
   ctx.globalAlpha = 1;
 }
 
@@ -290,7 +290,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
         if (narrow() && phoneFit && plate.complete) { // one dim picture of the court behind all three, as in the stacked courts section
           const ch = (phoneFit.mid(0) - phoneFit.mid(2)) / 2 - 12, top = phoneFit.mid(2) - ch / 2 - 6, dh = 2 * (ch + 12) + ch + 12, dw = W - 32;
           const iw = plate.naturalWidth, ih = plate.naturalHeight, sh = ih * 0.455, sw = sh * (dw / dh);
-          ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalAlpha = 0.08 * pl; ctx.drawImage(plate, iw * 0.7115 - sw / 2, ih * 0.13, sw, sh, 16, top, dw, dh); ctx.restore();
+          ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalAlpha = 0.08 * pl; ctx.drawImage(plate, iw * 0.47 - sw / 2, ih * 0.13, sw, sh, 16, top, dw, dh); ctx.restore();
         }
         if (narrow()) settlePhoneStack();
         const labels = []; // drawn after every court so the next plane can't paint over them
@@ -338,6 +338,8 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
             ctx.fillStyle = 'rgba(255,255,255,.72)'; ctx.fillText(surname[w], x + 18, y);
             x += 18 + tw + 20;
           }
+          ctx.font = '400 13px Outfit, system-ui, sans-serif'; const key = '% past the short line', kw = ctx.measureText(key).width;
+          if (x + kw <= W - 16) { ctx.fillStyle = 'rgba(255,255,255,.72)'; ctx.fillText(key, W - 16 - kw, y); }
           ctx.globalAlpha = 1;
         }
         PX = px0; ctx.restore();
@@ -359,7 +361,7 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       const wallAvg = (w) => { const l = sh(w).filter((s) => s.wt <= rt); return l.length ? l.reduce((a, s) => a + s.wh, 0) / l.length : 0; };
       const deep = (w) => sh(w).filter((s) => s.fb && s.ft <= rt && s.fb[1] > 5.44).length;
       h2h(0, 'Shots', sh('A').length, sh('B').length);
-      h2h(1, narrow() ? 'Meters run' : 'Metres run', distAt('A', rt) - distAt('A', T0), distAt('B', rt) - distAt('B', T0), 1);
+      h2h(1, narrow() ? 'Distance run' : 'Metres run', distAt('A', rt) - distAt('A', T0), distAt('B', rt) - distAt('B', T0), 1, narrow() ? ' m' : '');
       h2h(2, 'Height on the wall', wallAvg('A'), wallAvg('B'), 2, ' m');
       h2h(3, 'Past the short line', deep('A'), deep('B'));
       if (t >= SQ_ALL) { setHTML('.sq-event', `The finish <span class="sub">· last ${SHOWN} of ${shots.length} shots</span>`); boxEl.style.setProperty('--hit', `rgb(${COL.B})`); }
