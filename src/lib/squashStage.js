@@ -286,7 +286,12 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       // the match: one court per game lifts off the floor and stacks, drive bounces as a heatmap
       if (pl > 0) {
         ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const px0 = PX; PX = 1;
-        ctx.fillStyle = `rgba(5,7,13,${(narrow() ? 0.88 : 0.72) * pl})`; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = `rgba(5,7,13,${(narrow() ? 1 : 0.72) * pl})`; ctx.fillRect(0, 0, W, H);
+        if (narrow() && phoneFit && plate.complete) { // one dim picture of the court behind all three, as in the stacked courts section
+          const ch = (phoneFit.mid(0) - phoneFit.mid(2)) / 2 - 12, top = phoneFit.mid(2) - ch / 2 - 6, dh = 2 * (ch + 12) + ch + 12, dw = W - 32;
+          const iw = plate.naturalWidth, ih = plate.naturalHeight, sh = ih * 0.455, sw = sh * (dw / dh);
+          ctx.save(); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.globalAlpha = 0.08 * pl; ctx.drawImage(plate, iw * 0.7115 - sw / 2, ih * 0.13, sw, sh, 16, top, dw, dh); ctx.restore();
+        }
         if (narrow()) settlePhoneStack();
         const labels = []; // drawn after every court so the next plane can't paint over them
         [3, 2, 1].forEach((g) => {

@@ -630,10 +630,9 @@
   .sq-insights h3{font-size:clamp(20px,6.1vw,28px);white-space:nowrap}
   .sq-audience{margin-top:0;padding-top:16px}
 }
-/* phones: the stacked courts sit over the same dim court as the end of the rally */
+/* phones: the stacked courts sit on one dim picture of the court, top of the first court to bottom of the last, same as the end of the rally */
 @media (max-width:719px) and (orientation:portrait){
-  .sq-stack{position:relative;isolation:isolate}
-  .sq-stack::before{content:"";position:absolute;z-index:-1;left:16px;right:16px;top:32vw;height:105.6vw;background:url(/media/squash/squash-2560.jpg) calc(-80vw - 16px) 0/189.2vw auto no-repeat;opacity:.12;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent 13%,#000 13%,#000 58.5%,transparent 58.5%);mask-image:linear-gradient(180deg,transparent 13%,#000 13%,#000 58.5%,transparent 58.5%)}
+  .sq-stack canvas{background:linear-gradient(rgba(5,7,13,.92),rgba(5,7,13,.92)),url(/media/squash/squash-2560.jpg) 76% 24%/auto 219.8% no-repeat}
 }
 /* phones: the offer box reads like the broadcast banner, with the two numbers big */
 @media (max-width:719px) and (orientation:portrait){
