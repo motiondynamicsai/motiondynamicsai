@@ -142,8 +142,7 @@
 .sq-after h2 em{color:#8a8f99;font-weight:350}
 .sq-insights{display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-top:64px}
 .sq-insights article{border-top:1px solid var(--ink);padding-top:18px}
-.sq-insights span{font-size:14px;color:#8a8f99}
-.sq-insights h3{font-size:24px;font-weight:600;margin:10px 0 10px}
+.sq-insights h3{font-size:24px;font-weight:600;margin:0 0 10px}
 .sq-insights p{font-size:16.5px;line-height:1.55;color:#4a4e58;margin:0}
 .sq-audience{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:48px;font-size:15px;color:#5b5f6a}
 .sq-audience b{font-weight:550;color:var(--ink);border:1px solid #d5d7dc;padding:7px 14px;border-radius:999px}
@@ -349,11 +348,10 @@
   .sq-after h2 em{display:block;max-width:9.5em;margin-top:4px;text-wrap:wrap} /* the width breaks each grey phrase after "player" and "U.S. Open" */
 
   .sq-insights{gap:0;margin-top:28px;border-top:1px solid var(--ink)}
-  .sq-insights article{display:grid;grid-template-columns:46px 1fr;align-items:baseline;padding:18px 0;border-top:1px solid #e3e5e9}
+  .sq-insights article{padding:18px 0;border-top:1px solid #e3e5e9}
   .sq-insights article:first-child{border-top:0}
-  .sq-insights span{color:#6a6f7a;font-size:28px;line-height:1;font-weight:350;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
   .sq-insights h3{font-size:clamp(19px,5.4vw,23px);line-height:1.15;margin:0}
-  .sq-insights p{grid-column:2;font-size:15px;line-height:1.45;margin-top:6px;text-wrap:pretty}
+  .sq-insights p{font-size:15px;line-height:1.45;margin-top:6px;text-wrap:pretty}
 
   .sq-audience{display:grid;grid-template-columns:auto auto auto;justify-content:space-between;gap:8px 6px;margin-top:10px;padding-top:18px;border-top:1px solid #e3e5e9;font-size:clamp(12.5px,3.4vw,14.5px)}
   .sq-audience span{grid-column:1/-1;font-size:15px}

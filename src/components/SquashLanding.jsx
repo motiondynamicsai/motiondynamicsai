@@ -184,7 +184,7 @@ export default function SquashLanding() {
         <div className="sq-wrap">
           <div className="kick">What you get</div>
           <h2>The insight the pros get. <em>Built for the player you’re becoming.</em></h2>
-          <div className="sq-insights">{insights.map((item, i) => <article key={item.title}><span>0{i + 1}</span><h3>{item.title}</h3><p>{item.copy}</p></article>)}</div>
+          <div className="sq-insights">{insights.map((item) => <article key={item.title}><h3>{item.title}</h3><p>{item.copy}</p></article>)}</div>
           <div className="sq-audience"><span>For</span><b>Junior players</b><b>Parents</b><b>Coaches & academies</b></div>
         </div>
       </section>
