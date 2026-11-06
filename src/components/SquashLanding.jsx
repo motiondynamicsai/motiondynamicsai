@@ -184,7 +184,7 @@ export default function SquashLanding() {
       <section className="sq-after" id="insights">
         <div className="sq-wrap">
           <div className="kick">What you get</div>
-          <h2>The insight the pros get. <em>Built for the player you’re becoming.</em></h2>
+          <h2><span className="sq-desk-only">The insight the pros get. <em>Built for the player you’re becoming.</em></span><span className="sq-phone-only">See what the pros see. <em>On your own matches.</em></span></h2>
           <div className="sq-insights">{insights.map((item) => <article key={item.title} className={item.phoneOnly ? 'sq-phone-only' : undefined}><h3>{item.title}</h3>{item.copy && <p>{item.copy}</p>}</article>)}</div>
           <div className="sq-audience"><span>For</span><b>Junior players</b><b>Parents</b><b>Coaches & academies</b></div>
         </div>
@@ -193,7 +193,7 @@ export default function SquashLanding() {
       <section className="sq-after sq-proof" id="proof">
         <div className="sq-wrap">
           <div className="kick">On the PSA World Tour</div>
-          <h2>Powering analytics at the top of the game. <em>Live at the U.S. Open this week.</em></h2>
+          <h2><span className="sq-desk-only">Powering analytics at the top of the game. </span><span className="sq-phone-only">The tracking behind PSA coverage. </span><em>Live at the U.S. Open this week.</em></h2>
           <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b>{event.live && <i aria-hidden="true" />}<span>{event.note}</span>{event.live && <BroadcastBanner className="sq-ev-gx" aria-hidden="true" />}</div>)}</div>
         </div>
       </section>
@@ -207,7 +207,7 @@ export default function SquashLanding() {
             <ul className="sq-perks">
               <li><b>One match analysed free.</b><span className="sq-perk-rest"> Send us a match, get the full breakdown.</span></li>
               <li><b>50% off</b><span className="sq-perk-rest"> when we launch, locked in as a founding member.</span></li>
-              <li><b>Just your name and email.</b><span className="sq-perk-rest"> No payment, no commitment.</span></li>
+              <li><b>Just your name and email.</b><span className="sq-perk-rest"> <span className="sq-desk-only">No payment, no commitment.</span><span className="sq-phone-only">Nothing to pay.</span></span></li>
             </ul>
           </div>
           <RegisterInterest variant="panel" source="register-section" />
