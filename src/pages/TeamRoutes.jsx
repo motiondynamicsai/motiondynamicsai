@@ -1,16 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
 import { FiArrowLeft, FiArrowUpRight } from 'react-icons/fi';
 import { Navigation, SiteFooter } from '../components/SiteChrome';
-import AngelStaff from '../assets/Staff images/Angel-cutout.png';
-import DiarStaff from '../assets/Staff images/Diar-NoBG.png';
-import ErfanStaff from '../assets/Staff images/Erfan-NoBG.png';
-import GeniaStaff from '../assets/Staff images/Genia-NoBG.png';
-import JonCookStaff from '../assets/Staff images/JonCook-NoBG.png';
-import JonStaff from '../assets/Staff images/Jon-NoBG.png';
-import MaxStaff from '../assets/Staff images/Max-NoBG.png';
-import MaxWardStaff from '../assets/Staff images/MaxWard-NoBG.png';
-import MelikaStaff from '../assets/Staff images/Melika-NoBG.png';
-import StuStaff from '../assets/Staff images/Stu-NoBG.png';
+import AngelStaff from '../assets/Staff images/Angel-cutout.webp';
+import DiarStaff from '../assets/Staff images/Diar-NoBG.webp';
+import ErfanStaff from '../assets/Staff images/Erfan-NoBG.webp';
+import GeniaStaff from '../assets/Staff images/Genia-NoBG.webp';
+import JonCookStaff from '../assets/Staff images/JonCook-NoBG.webp';
+import JonStaff from '../assets/Staff images/Jon-NoBG.webp';
+import MaxStaff from '../assets/Staff images/Max-NoBG.webp';
+import MaxWardStaff from '../assets/Staff images/MaxWard-NoBG.webp';
+import MelikaStaff from '../assets/Staff images/Melika-NoBG.webp';
+import StuStaff from '../assets/Staff images/Stu-NoBG.webp';
 
 const team = [
   {
