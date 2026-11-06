@@ -703,3 +703,12 @@
 @media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
   .sq-hero .sq-field input,.sq-hero .sq-fields .sq-btn{height:clamp(50px,6.8svh,64px)}
 }
+/* phones: tour rows are the same rows as What you get. The banner is the line above them, so no second rule. */
+@media (max-width:719px){
+  #proof .sq-events{border-top:0}
+  .sq-events .live{padding:0}
+  .sq-events div:not(.live){padding:16px 0}
+  .sq-events .live+div{border-top:0}
+  .sq-events b{font-size:clamp(20px,6.1vw,28px);font-weight:600;line-height:1.15;letter-spacing:-.02em}
+  .sq-insights h3{letter-spacing:-.02em}
+}
