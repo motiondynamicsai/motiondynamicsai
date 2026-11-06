@@ -466,12 +466,6 @@
   .sq-hero .sq-offer{margin-top:0}
 }
 @media (max-width:719px) and (min-width:341px) and (orientation:portrait) and (max-height:639px){.sq-slot{padding-bottom:6px}} /* keeps Play clear of the offer box */
-/* tall phones: at rest the stage ends under the form, so the next section shows instead of a black gap. Play takes the full screen. */
-@media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
-  .sq-stage{--rest:calc(453px + 77.9vw)}
-  .sq-stage:not(.is-playing){height:var(--rest)}
-  .sq-hero{bottom:auto;height:calc(var(--rest) - 95px)}
-}
 @media (max-width:719px){.sq-hero .sq-play .ic::after{display:none}}
 .sq-cap-tag,.sq-cap-2{display:none}
 /* the rally on phones reads like a broadcast graphic: the top banner's red and gold, then a two-line punch */
@@ -512,6 +506,18 @@
   .sq-hero:has(.is-done) .sq-deal{display:none}
   .sq-hero .sq-fields{border-radius:0 0 14px 14px}
   .sq-hero:has(.is-error) .sq-slot{min-height:0;padding:0 0 8px;align-items:flex-end} /* the error line takes the room: Play rests on the court */
+}
+/* tall phones: the first screen fills the phone, and the spare height goes to the offer and Play */
+@media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
+  .sq-hero .sq-tag{padding-top:6px;padding-bottom:6px;font-size:12px}
+  .sq-deal{padding-top:9px}
+  .sq-deal>span{font-size:13.5px}
+  .sq-deal b{font-size:clamp(28px,3.9svh,38px);margin-bottom:2px}
+  .sq-hero .sq-fields{gap:8px;padding-top:9px}
+  .sq-hero .sq-field input{height:clamp(50px,6.6svh,64px);font-size:17px}
+  .sq-hero .sq-fields .sq-btn{height:clamp(52px,7.2svh,68px);font-size:17px}
+  .sq-hero .sq-play{padding:6px 20px 6px 6px;font-size:16px}
+  .sq-hero .sq-play .ic{width:44px;height:44px}
 }
 @media (max-width:360px) and (orientation:portrait){.sq-deal>span{font-size:11px}.sq-deal>span+span{padding-left:10px}.sq-deal b{font-size:22px}}
 .sq-static .sq-hero .sq-play{display:none}
