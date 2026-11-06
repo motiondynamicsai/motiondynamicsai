@@ -117,7 +117,7 @@ export default function SquashLanding() {
   return <div className="sq" ref={root}>
     <a className="sq-skip" href="#register">Skip to register</a>
     <header ref={bar} className={`sq-bar${solid ? ' solid' : ''}${playing ? ' live' : ''}${menu ? ' open' : ''}`}>
-      <div className="sq-notice"><span className="dot" aria-hidden="true" /><span><b>U.S. Open</b> · 1–7 November 2026 · Philadelphia<span className="sq-notice-extra"> · our analytics are on court</span></span></div>
+      <div className="sq-notice"><span className="dot" aria-hidden="true" /><span><b>U.S. Open</b> · 1–7 November 2026 · Philadelphia<span className="sq-notice-extra"> · our analytics are on court</span></span><span className="sq-gx"><span className="gx gx-live"><i aria-hidden="true" />LIVE</span><span className="gx gx-event">U.S. OPEN</span><span className="gx gx-rest"><span>1–7 NOV 2026</span><span>PHILADELPHIA</span></span></span></div>
       <nav aria-label="Main">
         <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><Mark /><span><b>motion</b> <i>dynamics</i></span></Link>
         <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a><button ref={menuBtn} className="sq-menu-btn" type="button" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="sq-menu" onClick={() => (menu ? closeMenu() : setMenu(true))}>{menu ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
@@ -138,8 +138,8 @@ export default function SquashLanding() {
 
         <div className="sq-hero">
           <div className="sq-kicker">Squash analytics · Juniors, parents & coaches</div>
-          <h1><span className="l"><span>Pro-level analytics.</span></span><span className="l"><span>Supercharge your game.</span></span></h1>
-          <p className="sq-lede">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players. See every shot, every movement and exactly what to work on next.</p>
+          <h1><span className="l"><span>Pro-level analytics.</span></span><span className="l"><span>Supercharge your game.</span></span><span className="sq-h-phone"><span className="sq-h-pro">PRO-LEVEL</span> <span className="sq-h-sq">squash analytics</span> <span className="sq-h-aud">For juniors, parents &amp; coaches</span></span></h1>
+          <p className="sq-lede"><span className="sq-lede-full">The real-time tracking behind PSA coverage at the U.S. Open, now for junior players. See every shot, every movement and exactly what to work on next.</span><span className="sq-lede-phone">See every shot, every movement and what to work on next.</span></p>
           <div className="sq-offer"><span className="sq-tag">Founding offer</span><span className="sq-offer-lead">Register now:</span><span className="sq-offer-deal"><b>one match analysed free</b> + <b>50% off</b></span></div>
           <RegisterInterest variant="hero" source="hero" />
           <div className="sq-slot"><button className="sq-play" type="button" onClick={play}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Watch a pro rally, tracked</button></div>
