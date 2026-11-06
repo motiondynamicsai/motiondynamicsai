@@ -813,3 +813,7 @@
   .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 57%,transparent 57%);mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 57%,transparent 57%)}
   .sq-slot{padding-top:calc(51vw - 4px)}
 }
+/* phones: portraits fill their panel edge to edge, so the cut-out's straight sides never show */
+@media (max-width:719px){
+  .team-page .member-photo>img{object-fit:cover;object-position:top center}
+}
