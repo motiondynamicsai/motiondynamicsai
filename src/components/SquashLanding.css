@@ -775,3 +775,7 @@
   .sq-box .names{margin:0 -14px;padding:0 14px 7px}
   .sq-event .sub{margin-left:2px}
 }
+/* phones: heading and button on the Team page's closing block keep their gap */
+@media (max-width:719px){
+  .team-page .team-contact h2{margin:0 0 16px}
+}
