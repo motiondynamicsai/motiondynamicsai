@@ -2,12 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/motion-dynamics-mark.png" />
+    <link rel="icon" type="image/png" href="/favicon-192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="kU_Gc8iIkmwQ67ro4Pdmog45Yq5Zh3lb22UitH6_hnE" />
     <title>Motion Dynamics · Pro-level squash analytics for juniors</title>
     <meta name="description" content="The real-time squash analytics behind PSA coverage, now for junior players, parents and coaches. Register your interest for a free match analysis and 50% off." />
     <meta name="theme-color" content="#05070d" />
+    <style>html.dark-first{background:#05070d}</style>
+    <script>
+      // Landing only: paint dark from the first frame (the team pages keep their light background).
+      if (location.pathname === '/') document.documentElement.className = 'dark-first';
+    </script>
+    <link rel="preload" href="/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div id="root"></div>
