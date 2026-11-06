@@ -59,9 +59,9 @@ export function drawPhoneCourt(ctx, pt, game, { reveal, alpha, cw }) { // dots o
 }
 export function drawPhoneLabel(ctx, x, y, g, a, b, alpha) {
   ctx.globalAlpha = alpha; ctx.textBaseline = 'middle';
-  ctx.font = '500 12.5px Outfit, system-ui, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillText(`Game ${g}`, x, y - 21);
-  ctx.font = '600 22px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${a}%`, x, y + 1);
-  ctx.font = '450 15px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgba(${COL.B},.95)`; ctx.fillText(`${b}%`, x, y + 21);
+  ctx.font = '400 13px Outfit, system-ui, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.72)'; ctx.fillText(`Game ${g}`, x, y - 22);
+  ctx.font = '600 24px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgb(${COL.A})`; ctx.fillText(`${a}%`, x, y + 1);
+  ctx.font = '400 15px Outfit, system-ui, sans-serif'; ctx.fillStyle = `rgb(${COL.B})`; ctx.fillText(`${b}%`, x, y + 22);
   ctx.globalAlpha = 1;
 }
 
@@ -324,14 +324,14 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
         });
         labels.forEach((draw) => draw());
         if (narrow() && stackFontsReady() && labels.length) { // the stats box has gone by now: the colours still need naming
-          const a = ramp(t, PL + 1.6, 1.2), y = Math.min(H, window.innerHeight) - 15, cx = phoneFit.centre;
-          ctx.globalAlpha = a; ctx.font = '500 13px Outfit, system-ui, sans-serif'; ctx.textBaseline = 'middle';
+          const a = ramp(t, PL + 1.6, 1.2), y = Math.min(H, window.innerHeight) - 15;
+          ctx.globalAlpha = a; ctx.font = '400 15px Outfit, system-ui, sans-serif'; ctx.textBaseline = 'middle';
           const m = ctx.measureText(surname.A).width, e = ctx.measureText(surname.B).width;
-          let x = cx - (9 + 6 + m + 18 + 9 + 6 + e) / 2;
+          let x = 16;
           for (const [w, tw] of [['A', m], ['B', e]]) {
-            ctx.fillStyle = `rgb(${COL[w]})`; ctx.beginPath(); ctx.arc(x + 4.5, y, 4.5, 0, 7); ctx.fill();
-            ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.fillText(surname[w], x + 15, y);
-            x += 15 + tw + 18;
+            ctx.fillStyle = `rgb(${COL[w]})`; ctx.beginPath(); ctx.arc(x + 5, y, 5, 0, 7); ctx.fill();
+            ctx.fillStyle = 'rgba(255,255,255,.72)'; ctx.fillText(surname[w], x + 18, y);
+            x += 18 + tw + 20;
           }
           ctx.globalAlpha = 1;
         }
