@@ -524,7 +524,7 @@
   .sq-chrome~main .kicker::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--ball);clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
   .sq-chrome~main h1{color:#fff}
   .sq-chrome~main h1 em,.sq-chrome~main h2 em{font-style:normal;font-weight:500;color:rgba(255,255,255,.7)}
-  .sq-chrome~main .button{display:flex;align-items:center;justify-content:center;width:100%;height:54px;padding:0 24px;border:0;border-radius:14px;background:#fff;color:#05070d;font-size:17px;font-weight:600}
+  .sq-chrome~main .button{display:flex;align-items:center;justify-content:center;width:100%;height:52px;padding:0 24px;border:0;background:#fff;color:#05070d;font-size:16px;font-weight:600}
   .sq-chrome~main .button svg{display:none}
   .team-page .page-heading{width:auto;margin:0;padding:24px 16px}
   .team-page .page-heading>p:last-child{display:none}
@@ -654,9 +654,7 @@
   .sq-deal{padding-top:9px}
   .sq-deal>span{font-size:13.5px}
   .sq-deal b{font-size:clamp(28px,3.9svh,38px);margin-bottom:2px}
-  .sq-hero .sq-fields{gap:8px;padding-top:9px}
-  .sq-hero .sq-field input{height:clamp(50px,6.6svh,64px);font-size:17px}
-  .sq-hero .sq-fields .sq-btn{height:clamp(52px,7.2svh,68px);font-size:17px}
+  .sq-hero .sq-field input,.sq-hero .sq-fields .sq-btn{height:clamp(50px,6.8svh,64px)}
   .sq-hero .sq-play{padding:6px 20px 6px 6px;font-size:16px}
   .sq-hero .sq-play .ic{width:44px;height:44px}
 }
@@ -692,4 +690,16 @@
   .sq-deal.sq-deal-reg{padding-inline:0}
   .sq-deal.sq-deal-reg>span{padding-left:0}
   .sq-deal.sq-deal-reg>span+span{padding-left:13px}
+}
+/* phones: one button. Text 16, weight 600, the same height as the fields beside it. */
+@media (max-width:719px){
+  .sq .sq-btn,.sq .sq-fields .sq-btn,.sq-form-panel .sq-btn,.sq-menu .cta,.sq-cap-ctas .sq-btn{font-size:16px;font-weight:600}
+  .sq-hero .sq-field input,.sq-hero .sq-fields .sq-btn{height:44px}
+  .sq-form-panel .sq-field input,.sq-form-panel .sq-btn,.sq-menu .cta{height:52px;min-height:52px;margin-top:0}
+  .sq-cap-ctas .sq-btn{height:44px;padding:0 16px}
+  .sq-menu a:not(.cta){font-size:17px;font-weight:500}
+  .sq-menu .cta{margin-top:8px}
+}
+@media (max-width:719px) and (orientation:portrait) and (min-height:800px) and (max-aspect-ratio:1/2){
+  .sq-hero .sq-field input,.sq-hero .sq-fields .sq-btn{height:clamp(50px,6.8svh,64px)}
 }
