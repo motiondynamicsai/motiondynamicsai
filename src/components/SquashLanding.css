@@ -756,10 +756,9 @@
   .sq-h-sq,.sq-cap h2{letter-spacing:-.02em}
 }
 @media (max-width:719px){.sq-cap-ctas .sq-btn .sq-desk-only{display:none}}
-/* phones: one plain box edge. The tag is the gold, and it sits square in the corner like a tab. */
+/* phones: one plain box edge. The tag is the gold. */
 @media (max-width:719px){
   .sq-hero .sq-offer,.sq-form-panel .sq-fields,.sq-form-panel.is-done{border-top-color:var(--rule)}
-  .sq-hero .sq-offer{border-top-left-radius:0}
 }
 /* phones: the menu icon's lines end on the page margin, not its invisible box */
 @media (max-width:719px){.sq-menu-btn{margin-right:-13px}}
