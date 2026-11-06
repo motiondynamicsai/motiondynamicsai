@@ -4,6 +4,7 @@ import { FiMenu, FiX } from 'react-icons/fi';
 import { mountSquashStage } from '../lib/squashStage';
 import { mountCourtStack } from '../lib/squashStack';
 import RegisterInterest from './RegisterInterest';
+import { BroadcastBanner, MdMark } from './SiteChrome';
 import './SquashLanding.css';
 
 const events = [
@@ -21,9 +22,6 @@ const insights = [
   { title: 'Build your profile over time', phoneOnly: true },
 ];
 
-function Mark() {
-  return <svg viewBox="22.25 22.33 825.54 824.55" aria-hidden="true"><use href="/media/squash/md-mark.svg#md-mark" /></svg>;
-}
 
 const scrollToRegister = (event) => {
   event.preventDefault();
@@ -118,14 +116,14 @@ export default function SquashLanding() {
   return <div className="sq" ref={root}>
     <a className="sq-skip" href="#register">Skip to register</a>
     <header ref={bar} className={`sq-bar${solid ? ' solid' : ''}${playing ? ' live' : ''}${menu ? ' open' : ''}`}>
-      <div className="sq-notice"><span className="dot" aria-hidden="true" /><span><b>U.S. Open</b> · 1–7 November 2026 · Philadelphia<span className="sq-notice-extra"> · our analytics are on court</span></span><span className="sq-gx"><span className="gx gx-live"><i aria-hidden="true" />LIVE</span><span className="gx gx-event">U.S. OPEN</span><span className="gx gx-rest"><b>NOV 1–7</b><i aria-hidden="true" /><span>PHILADELPHIA</span></span></span></div>
+      <div className="sq-notice"><span className="dot" aria-hidden="true" /><span><b>U.S. Open</b> · 1–7 November 2026 · Philadelphia<span className="sq-notice-extra"> · our analytics are on court</span></span><BroadcastBanner /></div>
       <nav aria-label="Main">
-        <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><Mark /><span><b>motion</b> <i>dynamics</i></span></Link>
+        <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><MdMark /><span><b>motion</b> <i>dynamics</i></span></Link>
         <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a><button ref={menuBtn} className="sq-menu-btn" type="button" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="sq-menu" onClick={() => (menu ? closeMenu() : setMenu(true))}>{menu ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
       </nav>
       <div className="sq-menu" id="sq-menu" ref={menuEl} hidden={!menu} onClick={(event) => { if (event.target === event.currentTarget) closeMenu(); }}>
         <a href="#insights" onClick={goTo('insights')}>What you get</a>
-        <a href="#proof" onClick={goTo('proof')}>On the PSA tour</a>
+        <a href="#proof" onClick={goTo('proof')}>On the PSA World Tour</a>
         <Link to="/team" onClick={() => setMenu(false)}>Our team</Link>
         <a className="cta" href="#register" onClick={(event) => { setMenu(false); scrollToRegister(event); }}>Register interest</a>
       </div>
@@ -195,7 +193,7 @@ export default function SquashLanding() {
         <div className="sq-wrap">
           <div className="kick">On the PSA World Tour</div>
           <h2>Powering analytics at the top of the game. <em>Live at the U.S. Open this week.</em></h2>
-          <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b>{event.live && <i aria-hidden="true" />}<span>{event.note}</span>{event.live && <span className="sq-gx sq-ev-gx" aria-hidden="true"><span className="gx gx-live"><i aria-hidden="true" />LIVE</span><span className="gx gx-event">U.S. OPEN</span><span className="gx gx-rest"><b>NOV 1–7</b><i aria-hidden="true" /><span>PHILADELPHIA</span></span></span>}</div>)}</div>
+          <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b>{event.live && <i aria-hidden="true" />}<span>{event.note}</span>{event.live && <BroadcastBanner className="sq-ev-gx" aria-hidden="true" />}</div>)}</div>
         </div>
       </section>
 
@@ -217,7 +215,7 @@ export default function SquashLanding() {
     </main>
 
     <footer className="sq-footer">
-      <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><Mark /><span><b>motion</b> <i>dynamics</i></span></Link>
+      <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><MdMark /><span><b>motion</b> <i>dynamics</i></span></Link>
       <div><Link to="/team">Our team</Link><a href="mailto:contact@motiondynamics.ai">contact@motiondynamics.ai</a><small>© {new Date().getFullYear()} Motion Dynamics</small></div>
     </footer>
   </div>;

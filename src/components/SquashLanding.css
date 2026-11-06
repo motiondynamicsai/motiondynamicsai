@@ -493,6 +493,15 @@
 }
 .sq-deal{display:none}
 .sq-phone-only{display:none}
+.sq-chrome{display:none}
+/* phones: the home page's header on every page */
+@media (max-width:719px){
+  .sq-chrome{display:block}
+  .site-header{display:none}
+  .sq-chrome .sq-bar{background:#05070d}
+  .sq-chrome .sq-menu{padding-top:91px}
+  .sq-chrome~main{margin-top:91px}
+}
 /* phones: flat colour only. No glow, no blur, nothing that pulses. */
 @media (max-width:719px){
   .sq-register{background:var(--ink)}
