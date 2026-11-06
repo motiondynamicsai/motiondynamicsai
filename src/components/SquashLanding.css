@@ -278,9 +278,28 @@
   .sq-stack .sq-play{order:6;align-self:center;margin-top:14px}
   .sq-stack .sq-play::before{display:none}
 
-  .sq-footer{flex-direction:column;align-items:flex-start;gap:14px}
-  .sq-footer div{gap:4px 20px}
-  .sq-footer a{display:inline-flex;align-items:center;min-height:44px}
+  .sq-register{padding:64px 16px 48px;scroll-margin-top:0}
+  .sq-register-grid{gap:22px}
+  .sq-register h2{font-size:clamp(28px,8.4vw,36px);margin-top:8px}
+  .sq-perks{margin-top:16px;gap:10px}
+  .sq-perks li{font-size:15px;line-height:1.4;padding-left:32px}
+  .sq-form-panel .sq-fields{padding:12px;gap:8px}
+  .sq-form-panel .sq-field span{font-size:14px;color:#c9ced9;margin:0 0 5px 4px}
+  .sq-form-panel .sq-field input{height:52px;font-size:17px;scroll-margin:96px 0 24px}
+  .sq-form-panel .sq-field input[name=name]::placeholder{color:transparent}
+  .sq-form-panel .sq-field input:focus{box-shadow:inset 0 0 0 2px var(--gold),0 0 0 3px rgba(240,194,75,.28)}
+  .sq-form-panel .sq-btn{height:54px;margin-top:4px}
+  .sq-form-panel .sq-form-note:not(.is-error){display:none}
+  .sq-form-panel .sq-form-note.is-error{margin:12px 4px 0;font-size:15px;line-height:1.45;padding:12px 14px;border-radius:12px;background:rgba(255,120,118,.1);border:1px solid rgba(255,179,178,.4)}
+  .sq-form-panel .sq-form-note.is-error a{display:inline-block;padding:10px 0;overflow-wrap:anywhere}
+  .sq-form-panel.is-done{padding:18px 16px}
+  .sq-form-panel.is-done p{font-size:15px}
+  .sq-footer{flex-direction:column;align-items:flex-start;gap:6px;padding:20px 16px 28px}
+  .sq-footer .sq-brand{min-height:44px;display:inline-flex;align-items:center}
+  .sq-footer div{flex-direction:column;align-items:flex-start;gap:0;width:100%}
+  .sq-footer a{display:inline-flex;align-items:center;min-height:44px;max-width:100%}
+  .sq-footer a[href^=mailto]{font-size:clamp(13px,4.3vw,15px);white-space:nowrap}
+  .sq-footer small{margin-top:6px;font-size:13px}
 }
 /* phones with a tall screen have room to stack the fields; short ones drop the explainer before they squeeze the court */
 @media (max-width:719px) and (min-height:760px){
