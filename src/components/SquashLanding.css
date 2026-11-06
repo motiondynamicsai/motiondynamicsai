@@ -817,3 +817,7 @@
 @media (max-width:719px){
   .team-page .member-photo>img{object-fit:cover;object-position:top center}
 }
+/* phones: two-line headings break evenly, with no lone word on the second line */
+@media (max-width:719px){
+  .sq-after h2,.sq-stack h2,.sq-register h2,.sq-chrome~main h1,.team-page .team-contact h2{text-wrap:balance}
+}
