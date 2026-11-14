@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiMenu, FiRotateCw, FiX } from 'react-icons/fi';
 import { mountSquashStage } from '../lib/squashStage';
 import { mountCourtStack } from '../lib/squashStack';
+import { LabSection, SportPlaceholder } from './MoreSections';
 import RegisterInterest from './RegisterInterest';
 import { BroadcastBanner, MdMark, PageFooter } from './SiteChrome';
 import './SquashLanding.css';
@@ -118,11 +119,14 @@ export default function SquashLanding() {
       <div className="sq-notice"><BroadcastBanner /></div>
       <nav aria-label="Main">
         <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><MdMark /><span><b>motion</b> <i>dynamics</i></span></Link>
-        <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a><button ref={menuBtn} className="sq-menu-btn" type="button" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="sq-menu" onClick={() => (menu ? closeMenu() : setMenu(true))}>{menu ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
+        <div className="sq-links"><a href="#insights">What you get</a><a href="#proof">On the PSA tour</a><a className="sq-x" href="#lab">Lab</a><a className="sq-x" href="#cricket">Cricket</a><a className="sq-x" href="#golf">Golf</a><Link to="/team">Our team</Link><a className="cta" href="#register" onClick={scrollToRegister}>Register interest</a><button ref={menuBtn} className="sq-menu-btn" type="button" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="sq-menu" onClick={() => (menu ? closeMenu() : setMenu(true))}>{menu ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
       </nav>
       <div className="sq-menu" id="sq-menu" ref={menuEl} hidden={!menu} onClick={(event) => { if (event.target === event.currentTarget) closeMenu(); }}>
         <a href="#insights" onClick={goTo('insights')}>What you get</a>
         <a href="#proof" onClick={goTo('proof')}>On the PSA World Tour</a>
+        <a href="#lab" onClick={goTo('lab')}>Performance lab</a>
+        <a href="#cricket" onClick={goTo('cricket')}>Cricket</a>
+        <a href="#golf" onClick={goTo('golf')}>Golf</a>
         <Link to="/team" onClick={() => setMenu(false)}>Our team</Link>
         <a className="cta" href="#register" onClick={(event) => { setMenu(false); scrollToRegister(event); }}>Register interest</a>
       </div>
@@ -191,6 +195,10 @@ export default function SquashLanding() {
           <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b>{event.live && <i aria-hidden="true" />}<span>{event.note}</span>{event.live && <BroadcastBanner className="sq-ev-gx" aria-hidden="true" />}</div>)}</div>
         </div>
       </section>
+
+      <LabSection />
+      <SportPlaceholder id="cricket" sport="Cricket" title={<>Cricket, captured. <em>Club sessions and recorded data.</em></>} tiles={['Club sessions', 'Recorded data', 'Images and video']} />
+      <SportPlaceholder id="golf" sport="Golf" title={<>Golf, in 3D. <em>The full swing, frame by frame.</em></>} tiles={['Swing capture', 'Recorded data', 'Images and video']} />
 
       <section className="sq-register" id="register" aria-labelledby="register-title">
         <div className="sq-wrap sq-register-grid">
