@@ -23,7 +23,7 @@ const team = [
     group: 'Core team',
     image: DiarStaff,
     content:
-      'Diar Abdlkarim is a sensorimotor neuroscientist at the University of Birmingham, where he founded and leads the markerless Movement Lab and is a research fellow on an ARIA-funded program decoding natural movement with non-invasive brain-computer interfaces. At Meta Reality Labs he measured the noise in camera-based hand tracking and set the filtering thresholds that now ship on every Quest headset. His work spans motion capture, EEG, haptics, and immersive technology, and he has co-founded two companies, Motion Dynamics and Obi Robotics.',
+      'Diar Abdlkarim is a sensorimotor neuroscientist at the University of Birmingham, where he founded and leads the markerless Movement Lab and is a research fellow on an ARIA-funded program decoding natural movement with non-invasive brain-computer interfaces. At Meta Reality Labs he measured the noise in camera-based hand tracking and set the filtering thresholds that now ship on every Quest headset. His work spans motion capture, EEG, haptics, and immersive technology, all of which feed into Motion Dynamics, the company he co-founded.',
   },
   {
     id: 'stuart-macgregor',
