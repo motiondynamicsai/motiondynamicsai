@@ -1,4 +1,6 @@
 // Sections after the squash story: the performance lab, then cricket and golf (placeholders until their material is in)
+import { useEffect, useRef } from 'react';
+
 const lab = [
   { img: '/media/lab/lab-projected-lines.webp', title: 'Projected test zones', text: 'Ceiling projectors draw each test zone, and any sport’s lines, to official size.', alt: 'A test boundary projected from the truss around six force plates' },
   { img: '/media/lab/lab-3d-coaching.webp', title: '3D coaching', text: 'Turn the athlete in 3D and see the force under each foot.', alt: 'A coach and athlete reviewing a 3D tennis forehand on a screen' },
@@ -43,10 +45,31 @@ export function CricketSection() {
   </section>;
 }
 
+// Muted loop that plays only while on screen, and stays on its poster for reduced motion
+function TileVideo({ src, poster, label }) {
+  const videoRef = useRef(null);
+  useEffect(() => {
+    const video = videoRef.current;
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let visible = false;
+    const sync = () => {
+      if (visible && !preference.matches && !document.hidden) video.play().catch(() => {});
+      else video.pause();
+    };
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); }, { threshold: 0.15 });
+    observer.observe(video);
+    preference.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    return () => { observer.disconnect(); preference.removeEventListener('change', sync); document.removeEventListener('visibilitychange', sync); video.pause(); };
+  }, []);
+  return <video ref={videoRef} src={src} poster={poster} muted loop playsInline preload="metadata" aria-label={label} />;
+}
+
 function SoonTile({ tile }) {
   if (typeof tile === 'string') tile = { title: tile };
   return <div className={tile.img ? 'has-img' : undefined}>
-    {tile.img && <img src={tile.img} alt={tile.alt} loading="lazy" decoding="async" />}
+    {tile.video ? <TileVideo src={tile.video} poster={tile.img} label={tile.alt} />
+      : tile.img && <img src={tile.img} alt={tile.alt} loading="lazy" decoding="async" />}
     <span>{tile.title}</span>
     <small>{tile.text ? `${tile.text} ` : ''}Coming soon</small>
   </div>;
