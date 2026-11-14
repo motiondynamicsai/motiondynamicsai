@@ -18,12 +18,12 @@ const team = [
   {
     id: 'diar-abdlkarim',
     name: 'Diar Abdlkarim',
-    title: 'Postdoctoral Research Fellow',
+    title: 'Sensorimotor Neuroscientist, University of Birmingham',
     subtitle: 'Founder and leader',
     group: 'Core team',
     image: DiarStaff,
     content:
-      'Diar Abdlkarim is a postdoctoral research fellow at the University of Birmingham, currently working on immersive augmented and virtual reality technologies. He brings research, software development, motion capture, and psychophysics together to create scientific experiences from first principles.',
+      'Diar Abdlkarim is a sensorimotor neuroscientist at the University of Birmingham, where he founded and leads the markerless Movement Lab and is a research fellow on an ARIA-funded program decoding natural movement with non-invasive brain-computer interfaces. At Meta Reality Labs he measured the noise in camera-based hand tracking and set the filtering thresholds that now ship on every Quest headset. His work spans motion capture, EEG, haptics, and immersive technology, and he has co-founded two companies, Motion Dynamics and Obi Robotics.',
   },
   {
     id: 'stuart-macgregor',
@@ -70,12 +70,12 @@ const team = [
   {
     id: 'genia-penksik',
     name: 'Genia Penksik',
-    title: 'Technical Consultant',
-    subtitle: 'Co-founder',
+    title: 'Simulation and Tracking Engineer',
+    subtitle: 'Technical support',
     group: 'Technical team',
     image: GeniaStaff,
     content:
-      'Genia Penksik is a co-founder and technical consultant, supporting the team as it turns motion data into useful tools for athletes, coaches, and broadcast partners.',
+      'Genia Penksik provides technical support across Motion Dynamics, with expertise in coding, tracking, and game development. He builds the physics-enabled simulations the team uses to test, model, and show movement.',
   },
   {
     id: 'john-cook',
