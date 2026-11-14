@@ -154,10 +154,15 @@
 .sq-lab-note a:hover{text-decoration:underline}
 /* cricket and golf: placeholders until their material is in */
 .sq-soon+.sq-soon::before{content:"";position:absolute;inset:0 0 auto;height:1px;background:#e3e5e9}
-.sq-soon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px}
+.sq-soon-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:64px}
 .sq-soon-grid div{display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:16/10;padding:20px;border:1px dashed #b9bdc6;border-radius:8px;background:#f4f5f7}
-.sq-soon-grid span{font-weight:600;font-size:19px;letter-spacing:-.01em}
+.sq-soon-grid span{font-weight:600;font-size:19px;letter-spacing:-.01em;overflow-wrap:anywhere}
 .sq-soon-grid small{font-size:14px;color:#5b5f6a}
+.sq-soon-grid .has-img{aspect-ratio:16/10;position:relative;justify-content:flex-end;overflow:hidden;border:0;background:#11141c;color:#fff}
+.sq-soon-grid .has-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sq-soon-grid .has-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,13,0) 40%,rgba(5,7,13,.85) 100%)}
+.sq-soon-grid .has-img span,.sq-soon-grid .has-img small{position:relative;z-index:1}
+.sq-soon-grid .has-img small{color:rgba(255,255,255,.8);margin-top:4px}
 .sq-cricket-main{margin:64px 0 0}
 .sq-cricket-main img{display:block;width:100%;height:auto;border-radius:8px;background:#11141c}
 .sq-cricket-main figcaption{margin-top:18px;font-size:16.5px;line-height:1.55;color:#5b5f6a}
@@ -167,6 +172,7 @@
 .sq-cricket-grid img{aspect-ratio:16/10}
 .sq-cricket-soon{grid-template-columns:1fr;margin-top:40px}
 .sq-cricket-soon div{aspect-ratio:auto;min-height:110px}
+@media (min-width:561px){.sq-cricket-soon .has-img{aspect-ratio:21/9}}
 @media (max-width:1240px){.sq-links .sq-x{display:none}}
 /* the bar keeps its original links until there is room; the menu and the scroll reach the rest */
 .sq-events{display:grid;grid-template-columns:repeat(6,1fr);margin-top:64px;border-top:1px solid var(--ink)}
@@ -787,7 +793,7 @@
   .sq-lab-grid{grid-template-columns:1fr 1fr;margin-top:40px}
   .sq-lab-grid img{aspect-ratio:16/10}
   .sq-lab-note{margin-top:28px}
-  .sq-soon-grid{grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .sq-soon-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
   #insights .sq-insights{margin-top:0}
   .sq-insights{display:block;border-top:1px solid var(--ink)}
   .sq-insights article{padding:16px 0;border-top:1px solid #e3e5e9}
@@ -869,3 +875,4 @@
 @media (min-width:720px) and (max-width:1023px){ /* a narrow left column: the bars keep their room */
   .sq-row{grid-template-columns:56px 1fr 104px 1fr 56px;column-gap:4px}
 }
+@media (min-width:720px) and (max-width:1100px){.sq-soon-grid{grid-template-columns:minmax(0,1fr)}.sq-soon-grid .has-img{aspect-ratio:21/9}.sq-soon-grid div{min-height:110px}} /* the right column is too narrow for three tiles here */

@@ -38,9 +38,18 @@ export function CricketSection() {
         <figcaption><b>Batting, scored as it happens.</b> Every delivery is logged as it is faced, with head and balance, control and bat speed on screen for the coach before the next ball.</figcaption>
       </figure>
       <div className="sq-lab-grid sq-cricket-grid">{cricket.map((item) => <article key={item.title}><img src={item.img} alt={item.alt} loading="lazy" decoding="async" /><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
-      <div className="sq-soon-grid sq-cricket-soon"><div><span>Bowling</span><small>Run-up, action and release, live in the nets. Coming soon</small></div></div>
+      <div className="sq-soon-grid sq-cricket-soon"><SoonTile tile={{ title: 'Bowling', text: 'Run-up, action and release, live in the nets.', img: '/media/cricket/cricket-bowling.webp', alt: 'A bowler in delivery stride at a stumps setup outside the stands at Edgbaston' }} /></div>
     </div>
   </section>;
+}
+
+function SoonTile({ tile }) {
+  if (typeof tile === 'string') tile = { title: tile };
+  return <div className={tile.img ? 'has-img' : undefined}>
+    {tile.img && <img src={tile.img} alt={tile.alt} loading="lazy" decoding="async" />}
+    <span>{tile.title}</span>
+    <small>{tile.text ? `${tile.text} ` : ''}Coming soon</small>
+  </div>;
 }
 
 export function SportPlaceholder({ id, sport, title, tiles }) {
@@ -48,7 +57,7 @@ export function SportPlaceholder({ id, sport, title, tiles }) {
     <div className="sq-wrap">
       <div className="kick">{sport}</div>
       <h2 id={`${id}-title`}>{title}</h2>
-      <div className="sq-soon-grid">{tiles.map((tile) => <div key={tile}><span>{tile}</span><small>Coming soon</small></div>)}</div>
+      <div className="sq-soon-grid">{tiles.map((tile) => <SoonTile key={tile.title || tile} tile={tile} />)}</div>
     </div>
   </section>;
 }

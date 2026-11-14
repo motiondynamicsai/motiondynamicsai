@@ -198,7 +198,11 @@ export default function SquashLanding() {
 
       <LabSection />
       <CricketSection />
-      <SportPlaceholder id="golf" sport="Golf" title={<>Golf, in 3D. <em>The full swing, frame by frame.</em></>} tiles={['Swing capture', 'Recorded data', 'Images and video']} />
+      <SportPlaceholder id="golf" sport="Golf" title={<>Golf, in 3D. <em>The full swing, frame by frame.</em></>} tiles={[
+        { title: 'Swing capture', img: '/media/golf/golf-swing-strobe.webp', alt: 'A strobe of one golf swing, every club position layered over the player' },
+        { title: '3D swing model', img: '/media/golf/golf-3d-model.webp', alt: 'A 3D skeleton of a golfer with forward tilt, X-factor, pelvis rotation and wrist speed beside it' },
+        'Range sessions',
+      ]} />
 
       <section className="sq-register" id="register" aria-labelledby="register-title">
         <div className="sq-wrap sq-register-grid">
