@@ -112,10 +112,10 @@ export const demos = [
 
 export const team = [
   {
-    id: "Diar Karim",
+    id: "Diar Abdlkarim",
     content:
-      "Diar Karim is a postdoctoral research scientist at the University of Birmingham (UK) currently working on  immersive augmented and virtual reality technologies training ensemble musicians with virtual players in real-time. I use my skills in research-or software development, expertise in motion capture and psychophysics to create scientific exper from first principles.",
-    name: "Diar Karim",
+      "Diar Abdlkarim is a postdoctoral research scientist at the University of Birmingham (UK) currently working on  immersive augmented and virtual reality technologies training ensemble musicians with virtual players in real-time. I use my skills in research-or software development, expertise in motion capture and psychophysics to create scientific exper from first principles.",
+    name: "Diar Abdlkarim",
     title: "Post-doctoral Research Fellow",
     subtitle: "Founder and leader",
     img: Diar,

@@ -9,7 +9,7 @@ import { BroadcastBanner, MdMark, PageFooter } from './SiteChrome';
 import './SquashLanding.css';
 
 const events = [
-  { name: 'U.S. Open 2026', note: 'Philadelphia · live now', live: true },
+  { name: 'U.S. Open 2026', note: 'Philadelphia · Nov 1 to 7', live: true },
   { name: 'CIB Egyptian Open', note: 'PSA' },
   { name: 'Qatar Classic', note: 'PSA' },
   { name: 'London Classic', note: 'PSA' },
@@ -192,7 +192,7 @@ export default function SquashLanding() {
         <div className="sq-wrap">
           <div className="kick">On the PSA World Tour</div>
           <h2>The tracking behind PSA coverage.</h2>
-          <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b>{event.live && <i aria-hidden="true" />}<span>{event.note}</span>{event.live && <BroadcastBanner className="sq-ev-gx" aria-hidden="true" />}</div>)}</div>
+          <div className="sq-events">{events.map((event) => <div key={event.name} className={event.live ? 'live' : ''}><b>{event.name}</b><span>{event.note}</span>{event.live && <BroadcastBanner className="sq-ev-gx" tag="PSA" event="U.S. OPEN" dates="NOV 1 TO 7" aria-hidden="true" />}</div>)}</div>
         </div>
       </section>
 
@@ -200,7 +200,7 @@ export default function SquashLanding() {
       <CricketSection />
       <SportPlaceholder id="golf" sport="Golf" title={<>Golf, in 3D. <em>The full swing, frame by frame.</em></>} tiles={[
         { title: 'Swing capture', img: '/media/golf/golf-swing-strobe.webp', alt: 'A strobe of one golf swing, every club position layered over the player' },
-        { title: '3D swing model', img: '/media/golf/golf-3d-model.webp', alt: 'A 3D skeleton of a golfer with forward tilt, X-factor, pelvis rotation and wrist speed beside it' },
+        { title: '3D swing model', img: '/media/golf/golf-3d-model.webp', alt: 'A 3D skeleton of a golfer with forward tilt, X-factor, pelvis rotation, and wrist speed beside it' },
         'Range sessions',
       ]} />
 

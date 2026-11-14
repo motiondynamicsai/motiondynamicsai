@@ -7,8 +7,11 @@ export function MdMark() {
   return <svg viewBox="22.25 22.33 825.54 824.55" aria-hidden="true"><use href="/media/squash/md-mark.svg#md-mark" /></svg>;
 }
 
-export function BroadcastBanner({ className = '', ...props }) {
-  return <span className={`sq-gx ${className}`.trim()} {...props}><span className="gx gx-live"><i aria-hidden="true" />LIVE</span><span className="gx gx-event">U.S. OPEN</span><span className="gx gx-rest"><b>NOV 1–7</b><i aria-hidden="true" /><span>PHILADELPHIA</span></span></span>;
+// the strip over every page announces the next event; the PSA list reuses it for the last one
+const NEXT_EVENT = { tag: 'UP NEXT', event: 'US JUNIOR OPEN', dates: 'DEC 18 TO 23', place: 'PHILADELPHIA' };
+
+export function BroadcastBanner({ className = '', tag = NEXT_EVENT.tag, event = NEXT_EVENT.event, dates = NEXT_EVENT.dates, place = NEXT_EVENT.place, ...props }) {
+  return <span className={`sq-gx ${className}`.trim()} {...props}><span className="gx gx-live"><i aria-hidden="true" />{tag}</span><span className="gx gx-event">{event}</span><span className="gx gx-rest"><b>{dates}</b><i aria-hidden="true" /><span>{place}</span></span></span>;
 }
 
 /* every page opens with the home page's header, the banner over the gold mark and white wordmark */
@@ -28,11 +31,14 @@ function SiteHeader() {
       <div className="sq-notice"><BroadcastBanner /></div>
       <nav aria-label="Main">
         <Link className="sq-brand" to="/" aria-label="Motion Dynamics home"><MdMark /><span><b>motion</b> <i>dynamics</i></span></Link>
-        <div className="sq-links"><a href="/#insights">What you get</a><a href="/#proof">On the PSA tour</a><Link to="/team">Our team</Link><a className="cta" href="/#register">Register interest</a><button className="sq-menu-btn" type="button" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="sq-menu-page" onClick={() => setOpen(!open)}>{open ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
+        <div className="sq-links"><a href="/#insights">What you get</a><a href="/#proof">On the PSA tour</a><a className="sq-x" href="/#lab">Lab</a><a className="sq-x" href="/#cricket">Cricket</a><a className="sq-x" href="/#golf">Golf</a><Link to="/team">Our team</Link><a className="cta" href="/#register">Register interest</a><button className="sq-menu-btn" type="button" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="sq-menu-page" onClick={() => setOpen(!open)}>{open ? <FiX aria-hidden="true" /> : <FiMenu aria-hidden="true" />}</button></div>
       </nav>
       <div className="sq-menu" id="sq-menu-page" hidden={!open}>
         <a href="/#insights">What you get</a>
         <a href="/#proof">On the PSA World Tour</a>
+        <a href="/#lab">Performance lab</a>
+        <a href="/#cricket">Cricket</a>
+        <a href="/#golf">Golf</a>
         <Link to="/team" onClick={() => setOpen(false)}>Our team</Link>
         <a className="cta" href="/#register">Register interest</a>
       </div>

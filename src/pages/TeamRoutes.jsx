@@ -1,4 +1,5 @@
-import { Link, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Navigation, SiteFooter } from '../components/SiteChrome';
 import AngelStaff from '../assets/Staff images/Angel-cutout.webp';
@@ -14,14 +15,14 @@ import StuStaff from '../assets/Staff images/Stu-NoBG.webp';
 
 const team = [
   {
-    id: 'diar-karim',
-    name: 'Diar Karim',
-    title: 'Post-doctoral Research Fellow',
+    id: 'diar-abdlkarim',
+    name: 'Diar Abdlkarim',
+    title: 'Postdoctoral Research Fellow',
     subtitle: 'Founder and leader',
     group: 'Core team',
     image: DiarStaff,
     content:
-      'Diar Karim is a postdoctoral research scientist at the University of Birmingham currently working on immersive augmented and virtual reality technologies. He brings research, software development, motion capture, and psychophysics together to create scientific experiences from first principles.',
+      'Diar Abdlkarim is a postdoctoral research fellow at the University of Birmingham, currently working on immersive augmented and virtual reality technologies. He brings research, software development, motion capture, and psychophysics together to create scientific experiences from first principles.',
   },
   {
     id: 'stuart-macgregor',
@@ -53,7 +54,7 @@ const team = [
     summary:
       'Associate Professor exploring how the brain combines sensory information for perception and action.',
     content:
-      'Max Di Luca is an Associate Professor at the University of Birmingham in the CNCR research centre. Using psychophysical methods and computational models, he investigates how the human brain processes multisensory information for perception and action. He earned the Laurea in Psychology from the Universita di Trieste and a PhD in Cognitive Science from Brown University, and has worked with the Max Planck Institute, Oculus Research, and Facebook Reality Labs.',
+      'Max Di Luca is an Associate Professor at the University of Birmingham in the CNCR research centre. Using psychophysical methods and computational models, he investigates how the human brain processes multisensory information for perception and action. He earned the Laurea in Psychology from the Università di Trieste and a PhD in Cognitive Science from Brown University, and has worked with the Max Planck Institute, Oculus Research, and Facebook Reality Labs.',
   },
   {
     id: 'genia-penksik',
@@ -63,7 +64,7 @@ const team = [
     group: 'Technical team',
     image: GeniaStaff,
     content:
-      'Genia Penksik is a research assistant and co-founder, supporting the team as it turns motion data into useful tools for athletes, coaches, and broadcast partners.',
+      'Genia Penksik is a co-founder and technical consultant, supporting the team as it turns motion data into useful tools for athletes, coaches, and broadcast partners.',
   },
   {
     id: 'john-cook',
@@ -95,7 +96,7 @@ const team = [
   {
     id: 'melika',
     name: 'Melika',
-    title: 'Full stack developer',
+    title: 'Full Stack Developer',
     subtitle: 'Motion intelligence',
     group: 'Technical team',
     image: MelikaStaff,
@@ -104,7 +105,7 @@ const team = [
   {
     id: 'erfan',
     name: 'Erfan',
-    title: 'Full stack developer',
+    title: 'Full Stack Developer',
     subtitle: 'Motion intelligence',
     group: 'Technical team',
     image: ErfanStaff,
@@ -113,14 +114,20 @@ const team = [
 ];
 
 const teamSections = [
-  { number: '01', title: 'Core team', ids: ['diar-karim', 'stuart-macgregor'] },
+  { number: '01', title: 'Core team', ids: ['diar-abdlkarim', 'stuart-macgregor'] },
   { number: '02', title: 'Business support', ids: ['max-di-luca', 'john-cook', 'max-ward'] },
   { number: '03', title: 'Technical team', ids: ['angel', 'genia-penksik', 'melika', 'erfan'] },
   { number: '04', title: 'Collaborators', ids: ['jonathan-tate'] },
 ];
 
 
+// each page names itself in the browser tab; the landing sets its own title when it mounts
+function usePageTitle(title) {
+  useEffect(() => { document.title = title; }, [title]);
+}
+
 export function TeamPage() {
+  usePageTitle('Our team · Motion Dynamics');
   return <><Navigation /><main id="main" className="team-page">
     <header className="page-heading container" id="top"><p className="kicker">Our team</p><h1>The people behind the tracking.</h1><p>Meet the researchers, engineers, and sports specialists turning movement into understanding.</p></header>
     <div className="container team-groups">{teamSections.map((section) => <section className="team-group" key={section.title}><h2>{section.title}</h2><div className={`team-grid team-grid-${section.ids.length}`}>{section.ids.map((id) => { const member = team.find((person) => person.id === id); return <Link className="member" key={member.id} to={`/team/${member.id}`} aria-label={`View profile for ${member.name}`}><div className="member-photo"><img src={member.image} alt={member.name} loading="lazy" /></div><div className="member-copy"><h3>{member.name}</h3><p>{member.title}</p><span>{member.subtitle}</span></div></Link>; })}</div></section>)}</div>
@@ -131,11 +138,14 @@ export function TeamPage() {
 export function TeamMemberPage() {
   const { id } = useParams();
   const member = team.find((person) => person.id === id);
+  usePageTitle(member ? `${member.name} · Motion Dynamics` : 'Page not found · Motion Dynamics');
+  if (id === 'diar-karim') return <Navigate to="/team/diar-abdlkarim" replace />; // the old profile address
   if (!member) return <NotFound />;
   return <><Navigation /><main id="main" className="member-detail container"><Link className="text-link" to="/team"><FiArrowLeft aria-hidden="true" /> Back to our team</Link><div className="member-detail-grid"><div><p className="kicker">{member.group}</p><h1>{member.name}</h1><p className="detail-role">{member.title}</p><span>{member.subtitle}</span><p className="detail-copy">{member.content}</p><a className="button button-red" href="mailto:contact@motiondynamics.ai">Get in touch</a></div><img src={member.image} alt={member.name} /></div></main><SiteFooter /></>;
 }
 
 export function NotFound() {
+  usePageTitle('Page not found · Motion Dynamics');
   return <><Navigation /><main id="main" className="not-found container"><p className="kicker">Page not found</p><h1>This page is<br />out of play.</h1><Link className="button button-red" to="/">Back to the homepage</Link></main><SiteFooter /></>;
 }
 

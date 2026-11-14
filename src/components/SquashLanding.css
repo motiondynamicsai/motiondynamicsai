@@ -178,7 +178,6 @@
 .sq-events{display:grid;grid-template-columns:repeat(6,1fr);margin-top:64px;border-top:1px solid var(--ink)}
 .sq-events div{padding:18px 18px 0 0;font-size:15px;color:#5b5f6a}
 .sq-events b{display:block;color:var(--ink);margin-bottom:4px}
-.sq-events .live{color:#c4302f}
 .sq-events .live i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ball);margin-right:7px;vertical-align:middle;animation:sq-pulse 1.8s ease-in-out infinite}
 
 /* register */
@@ -533,6 +532,7 @@
   .sq-perks li:last-child .sq-perk-rest{display:block}
   .sq-perks li:last-child{font-weight:450;color:rgba(255,255,255,.8)}
 .sq-ev-gx{display:none}
+.sq-ev-gx .gx-live i{display:none!important} /* a past event: no live dot */
 /* phones: the live event in the tour list is the top banner again, not a line of red text */
   .sq-events .live>b,.sq-events .live>i,.sq-events .live>span:not(.sq-ev-gx){position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip-path:inset(50%)}
   .sq-events .live>.sq-ev-gx{display:flex;position:static;width:auto;height:44px;clip-path:none;overflow:hidden;background:#0b0e16;border-bottom:2px solid var(--gold);font-size:12px;font-weight:600;letter-spacing:.07em;line-height:1;color:#fff;white-space:nowrap}
@@ -794,6 +794,8 @@
   .sq-lab-grid img{aspect-ratio:16/10}
   .sq-lab-note{margin-top:28px}
   .sq-soon-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .sq-soon-grid:not(.sq-cricket-soon):has(.has-img){grid-template-columns:repeat(2,minmax(0,1fr))} /* pictures get room to read; a tile without one runs the full width under them */
+  .sq-soon-grid .has-img~div:not(.has-img){grid-column:1/-1;aspect-ratio:auto;min-height:110px}
   #insights .sq-insights{margin-top:0}
   .sq-insights{display:block;border-top:1px solid var(--ink)}
   .sq-insights article{padding:16px 0;border-top:1px solid #e3e5e9}
@@ -834,7 +836,7 @@
   .team-page .team-contact{margin:0 var(--margin)}
   .member-detail.container{box-sizing:border-box;min-height:calc(100svh - 91px - 77px);padding:8px var(--margin) 32px}
   .sq-chrome~main .member-detail-grid{display:grid;grid-template-columns:var(--col) minmax(0,1fr);column-gap:var(--gap);align-items:start}
-  .sq-chrome~main .member-detail-grid>img{order:0;width:100%;height:max(480px,calc(100svh - 252px));object-fit:cover;object-position:top}
+  .sq-chrome~main .member-detail-grid>img{order:0;width:100%;height:max(480px,calc(100svh - 252px));object-fit:contain;object-position:center bottom}
   .sq-chrome~main .button{width:max-content;padding:0 32px}
   .not-found.container{padding:clamp(32px,4vw,56px) var(--margin);min-height:calc(100svh - 91px - 77px)}
 }
@@ -875,4 +877,5 @@
 @media (min-width:720px) and (max-width:1023px){ /* a narrow left column: the bars keep their room */
   .sq-row{grid-template-columns:56px 1fr 104px 1fr 56px;column-gap:4px}
 }
-@media (min-width:720px) and (max-width:1100px){.sq-soon-grid{grid-template-columns:minmax(0,1fr)}.sq-soon-grid div{aspect-ratio:auto;min-height:110px}.sq-soon-grid .has-img{aspect-ratio:16/9}} /* the right column is too narrow for three tiles here */
+@media (min-width:720px) and (max-width:1100px){.sq-soon-grid,.sq-soon-grid:not(.sq-cricket-soon):has(.has-img){grid-template-columns:minmax(0,1fr)}.sq-soon-grid div{aspect-ratio:auto;min-height:110px}.sq-soon-grid .has-img{aspect-ratio:16/9}} /* the right column is too narrow for three tiles here */
+@media (max-width:719px){.sq-notice .gx-rest>i,.sq-notice .gx-rest>span{display:none}} /* phones: the strip keeps the event and its dates; the city waits for a wider screen */
