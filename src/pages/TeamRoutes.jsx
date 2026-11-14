@@ -11,6 +11,7 @@ import JonStaff from '../assets/Staff images/Jon-NoBG.webp';
 import MaxStaff from '../assets/Staff images/Max-NoBG.webp';
 import MaxWardStaff from '../assets/Staff images/MaxWard-NoBG.webp';
 import MelikaStaff from '../assets/Staff images/Melika-NoBG.webp';
+import SeanStaff from '../assets/Staff images/Sean-NoBG.webp';
 import StuStaff from '../assets/Staff images/Stu-NoBG.webp';
 
 const team = [
@@ -35,14 +36,24 @@ const team = [
       "Stuart MacGregor is a professional squash player and research assistant at the University of Birmingham. With a BSc in Human Biology and a Masters in Computer Science, Stuart's interests lie in artificial intelligence, motion capture, and their applications in enhancing sports experiences.",
   },
   {
+    id: 'sean-wilkinson',
+    name: 'Sean Wilkinson',
+    title: 'Head Squash Coach, Princeton University',
+    subtitle: 'Head of North America',
+    group: 'Core team',
+    image: SeanStaff,
+    content:
+      'Sean Wilkinson is the Head Squash Coach at Princeton University and leads Motion Dynamics in North America. He shapes the company’s US strategy, advises the founders, and has opened doors right across American squash, from college programs to the junior game.',
+  },
+  {
     id: 'jonathan-tate',
     name: 'Jonathan Tate',
-    title: 'University of Birmingham Head Squash Coach',
-    subtitle: 'Director',
-    group: 'Collaborators',
+    title: 'Head Squash Coach, University of Birmingham',
+    subtitle: 'Director, Squash Partnerships',
+    group: 'Core team',
     image: JonStaff,
     content:
-      'Jonathan Tate is the Head Squash Coach at the University of Birmingham and a director at Motion Dynamics, connecting high-performance coaching with the practical needs of athletes and teams.',
+      'Jonathan Tate is the Head Squash Coach at the University of Birmingham and a director at Motion Dynamics, where he leads squash partnerships. One of the best-connected people in the game, he has introduced the team to most of the coaches, clubs, and players it works with in squash.',
   },
   {
     id: 'max-di-luca',
@@ -85,41 +96,43 @@ const team = [
     content: 'Max Ward brings business and commercial insight to the team, helping turn motion intelligence into useful partnerships and products.',
   },
   {
-    id: 'angel',
-    name: 'Angel',
+    id: 'angel-yao',
+    name: 'Angel Yao',
     title: 'Machine Learning Engineer',
     subtitle: 'Motion intelligence',
     group: 'Technical team',
     image: AngelStaff,
-    content: 'Angel contributes to the technical work behind Motion Dynamics, helping make movement data clear, useful, and ready for real-world applications.',
+    content: 'Angel Yao contributes to the technical work behind Motion Dynamics, helping make movement data clear, useful, and ready for real-world applications.',
   },
   {
-    id: 'melika',
-    name: 'Melika',
+    id: 'melika-hashemi',
+    name: 'Melika Hashemi',
     title: 'Full Stack Developer',
     subtitle: 'Motion intelligence',
     group: 'Technical team',
     image: MelikaStaff,
-    content: 'Melika contributes to the research and product thinking that turns computer vision into better tools for athletes, coaches, and partners.',
+    content: 'Melika Hashemi contributes to the research and product thinking that turns computer vision into better tools for athletes, coaches, and partners.',
   },
   {
-    id: 'erfan',
-    name: 'Erfan',
+    id: 'erfan-echresh',
+    name: 'Erfan Echresh',
     title: 'Full Stack Developer',
     subtitle: 'Motion intelligence',
     group: 'Technical team',
     image: ErfanStaff,
-    content: 'Erfan helps build the systems that transform live video and movement into actionable intelligence.',
+    content: 'Erfan Echresh helps build the systems that transform live video and movement into actionable intelligence.',
   },
 ];
 
 const teamSections = [
-  { number: '01', title: 'Core team', ids: ['diar-abdlkarim', 'stuart-macgregor'] },
+  { number: '01', title: 'Core team', ids: ['diar-abdlkarim', 'stuart-macgregor', 'sean-wilkinson', 'jonathan-tate'] },
   { number: '02', title: 'Business support', ids: ['max-di-luca', 'john-cook', 'max-ward'] },
-  { number: '03', title: 'Technical team', ids: ['angel', 'genia-penksik', 'melika', 'erfan'] },
-  { number: '04', title: 'Collaborators', ids: ['jonathan-tate'] },
+  { number: '03', title: 'Technical team', ids: ['angel-yao', 'genia-penksik', 'melika-hashemi', 'erfan-echresh'] },
 ];
 
+
+// profile addresses from before a name was corrected or completed
+const movedProfiles = { 'diar-karim': 'diar-abdlkarim', angel: 'angel-yao', melika: 'melika-hashemi', erfan: 'erfan-echresh' };
 
 // each page names itself in the browser tab; the landing sets its own title when it mounts
 function usePageTitle(title) {
@@ -139,7 +152,7 @@ export function TeamMemberPage() {
   const { id } = useParams();
   const member = team.find((person) => person.id === id);
   usePageTitle(member ? `${member.name} · Motion Dynamics` : 'Page not found · Motion Dynamics');
-  if (id === 'diar-karim') return <Navigate to="/team/diar-abdlkarim" replace />; // the old profile address
+  if (movedProfiles[id]) return <Navigate to={`/team/${movedProfiles[id]}`} replace />;
   if (!member) return <NotFound />;
   return <><Navigation /><main id="main" className="member-detail container"><Link className="text-link" to="/team"><FiArrowLeft aria-hidden="true" /> Back to our team</Link><div className="member-detail-grid"><div><p className="kicker">{member.group}</p><h1>{member.name}</h1><p className="detail-role">{member.title}</p><span>{member.subtitle}</span><p className="detail-copy">{member.content}</p><a className="button button-red" href="mailto:contact@motiondynamics.ai">Get in touch</a></div><img src={member.image} alt={member.name} /></div></main><SiteFooter /></>;
 }
