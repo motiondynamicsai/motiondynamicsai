@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiMenu, FiRotateCw, FiX } from 'react-icons/fi';
 import { mountSquashStage } from '../lib/squashStage';
 import { mountCourtStack } from '../lib/squashStack';
-import { LabSection, SportPlaceholder } from './MoreSections';
+import { CricketSection, LabSection, SportPlaceholder } from './MoreSections';
 import RegisterInterest from './RegisterInterest';
 import { BroadcastBanner, MdMark, PageFooter } from './SiteChrome';
 import './SquashLanding.css';
@@ -197,7 +197,7 @@ export default function SquashLanding() {
       </section>
 
       <LabSection />
-      <SportPlaceholder id="cricket" sport="Cricket" title={<>Cricket, captured. <em>Club sessions and recorded data.</em></>} tiles={['Club sessions', 'Recorded data', 'Images and video']} />
+      <CricketSection />
       <SportPlaceholder id="golf" sport="Golf" title={<>Golf, in 3D. <em>The full swing, frame by frame.</em></>} tiles={['Swing capture', 'Recorded data', 'Images and video']} />
 
       <section className="sq-register" id="register" aria-labelledby="register-title">

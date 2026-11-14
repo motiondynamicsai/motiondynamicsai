@@ -158,8 +158,17 @@
 .sq-soon-grid div{display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:16/10;padding:20px;border:1px dashed #b9bdc6;border-radius:8px;background:#f4f5f7}
 .sq-soon-grid span{font-weight:600;font-size:19px;letter-spacing:-.01em}
 .sq-soon-grid small{font-size:14px;color:#5b5f6a}
+.sq-cricket-main{margin:64px 0 0}
+.sq-cricket-main img{display:block;width:100%;height:auto;border-radius:8px;background:#11141c}
+.sq-cricket-main figcaption{margin-top:18px;font-size:16.5px;line-height:1.55;color:#5b5f6a}
+.sq-cricket-main b{color:var(--ink);font-weight:600}
+.sq-cricket-grid{grid-template-columns:1fr 1fr}
+.sq-cricket-grid p{color:#5b5f6a}
+.sq-cricket-grid img{aspect-ratio:16/10}
+.sq-cricket-soon{grid-template-columns:1fr;margin-top:40px}
+.sq-cricket-soon div{aspect-ratio:auto;min-height:110px}
 @media (max-width:1240px){.sq-links .sq-x{display:none}}
-@media (max-width:560px){.sq-lab-grid{grid-template-columns:1fr;gap:32px}.sq-lab-grid img{aspect-ratio:16/10}} /* the bar keeps its original links until there is room; the menu and the scroll reach the rest */
+/* the bar keeps its original links until there is room; the menu and the scroll reach the rest */
 .sq-events{display:grid;grid-template-columns:repeat(6,1fr);margin-top:64px;border-top:1px solid var(--ink)}
 .sq-events div{padding:18px 18px 0 0;font-size:15px;color:#5b5f6a}
 .sq-events b{display:block;color:var(--ink);margin-bottom:4px}
@@ -179,6 +188,7 @@
 .sq-footer a:hover{color:#fff}
 
 @media (max-width:1100px){.sq-events{grid-template-columns:repeat(3,1fr);row-gap:24px}.sq-lab-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.sq-lab-grid{grid-template-columns:1fr;gap:32px}.sq-lab-grid img{aspect-ratio:16/10}}
 @media (max-width:900px){
   .sq-links a:not(.cta){display:none}
   .sq-links{gap:8px}
@@ -769,8 +779,9 @@
   .sq-after .kick{grid-column:1;grid-row:1}
   .sq-after h2{grid-column:1;grid-row:2}
   .sq-insights,#proof .sq-events{grid-column:2;grid-row:1/span 3;margin-top:0}
-  .sq-lab-facts,.sq-lab-grid,.sq-lab-note,.sq-soon-grid{grid-column:2}
-  .sq-lab-facts,.sq-soon-grid{grid-row:1/span 3;align-self:start;margin-top:0}
+  .sq-lab-facts,.sq-lab-grid,.sq-lab-note,.sq-soon-grid,.sq-cricket-main{grid-column:2}
+  .sq-lab-facts,.sq-soon-grid,.sq-cricket-main{grid-row:1/span 3;align-self:start;margin-top:0}
+  .sq-soon-grid.sq-cricket-soon{grid-row:auto;grid-template-columns:1fr;margin-top:40px}
   .sq-lab-facts{border-top:0}
   .sq-lab-facts b{font-size:clamp(20px,2vw,28px)}
   .sq-lab-grid{grid-template-columns:1fr 1fr;margin-top:40px}
@@ -851,7 +862,7 @@
 }
 @media (max-width:719px) and (max-height:500px) and (orientation:landscape){ /* too narrow for two columns below the first screen */
   .sq-after .sq-wrap,.sq-stack-grid,.sq-register-grid{grid-template-columns:minmax(0,1fr)}
-  .sq-insights,#proof .sq-events,.sq-lab-facts,.sq-lab-grid,.sq-lab-note,.sq-soon-grid{grid-column:1;grid-row:auto;margin-top:16px}
+  .sq-insights,#proof .sq-events,.sq-lab-facts,.sq-lab-grid,.sq-lab-note,.sq-soon-grid,.sq-cricket-main{grid-column:1;grid-row:auto;margin-top:16px}
   .sq-audience{grid-column:1}
   .team-page .team-grid,.team-page .team-grid-2,.team-page .team-grid-4{grid-template-columns:repeat(3,minmax(0,1fr))}
 }

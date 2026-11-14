@@ -23,6 +23,26 @@ export function LabSection() {
   </section>;
 }
 
+const cricket = [
+  { img: '/media/cricket/cricket-head-balance.webp', title: 'Head and balance', text: 'Pose tracking reads stance, stride and contact, so the coach sees the moment the head falls away.', alt: 'A batter in the nets with a pose skeleton drawn over the body' },
+  { img: '/media/cricket/cricket-ball-tracking.webp', title: 'Side-on ball tracking', text: 'The ball is followed from the bowler to the bat, with the line it took and where it met the bat.', alt: 'A net session filmed side-on with the ball circled and its path traced down the pitch' },
+];
+
+export function CricketSection() {
+  return <section className="sq-after sq-soon sq-cricket" id="cricket" aria-labelledby="cricket-title">
+    <div className="sq-wrap">
+      <div className="kick">Cricket</div>
+      <h2 id="cricket-title">Cricket, in real time. <em>Feedback on every ball in the nets.</em></h2>
+      <figure className="sq-cricket-main">
+        <img src="/media/cricket/cricket-live-session.webp" alt="The live batting dashboard from a net session, with scores for each delivery, a pose overlay and a phase strip" loading="lazy" decoding="async" />
+        <figcaption><b>Batting, scored as it happens.</b> Every delivery is logged as it is faced, with head and balance, control and bat speed on screen for the coach before the next ball.</figcaption>
+      </figure>
+      <div className="sq-lab-grid sq-cricket-grid">{cricket.map((item) => <article key={item.title}><img src={item.img} alt={item.alt} loading="lazy" decoding="async" /><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
+      <div className="sq-soon-grid sq-cricket-soon"><div><span>Bowling</span><small>Run-up, action and release, live in the nets. Coming soon</small></div></div>
+    </div>
+  </section>;
+}
+
 export function SportPlaceholder({ id, sport, title, tiles }) {
   return <section className="sq-after sq-soon" id={id} aria-labelledby={`${id}-title`}>
     <div className="sq-wrap">
