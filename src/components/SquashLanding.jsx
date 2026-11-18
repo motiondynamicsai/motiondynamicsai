@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiMenu, FiRotateCw, FiX } from 'react-icons/fi';
 import { mountSquashStage } from '../lib/squashStage';
-import { mountCourtStack } from '../lib/squashStack';
+import FilmRoom from './FilmRoom';
 import { CricketSection, LabSection, SportPlaceholder } from './MoreSections';
 import RegisterInterest from './RegisterInterest';
 import { BroadcastBanner, MdMark, PageFooter } from './SiteChrome';
@@ -33,8 +33,6 @@ const scrollToRegister = (event) => {
 export default function SquashLanding() {
   const root = useRef(null);
   const stage = useRef(null);
-  const stackCanvas = useRef(null);
-  const stack = useRef(null);
   const [beat, setBeat] = useState({ title: '', cta: false, index: 0 });
   const [solid, setSolid] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -46,10 +44,6 @@ export default function SquashLanding() {
   useEffect(() => {
     stage.current = mountSquashStage(root.current, { onBeat: setBeat, onPlaying: setPlaying });
     return () => stage.current.destroy();
-  }, []);
-  useEffect(() => {
-    stack.current = mountCourtStack(stackCanvas.current);
-    return () => stack.current.destroy();
   }, []);
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 40);
@@ -97,14 +91,6 @@ export default function SquashLanding() {
   const play = () => { // on short screens Play can sit below the fold: bring the whole stage into view first
     window.scrollTo({ top: 0 });
     stage.current.play();
-  };
-  const playStack = () => {
-    const courts = stackCanvas.current;
-    if (!window.matchMedia('(min-width:720px),(max-height:500px) and (orientation:landscape)').matches) { // phones: all three courts, centred in the screen under the bar
-      const box = courts.getBoundingClientRect(), bar = root.current.querySelector('.sq-bar').getBoundingClientRect().bottom;
-      window.scrollTo({ top: window.scrollY + box.top - bar - Math.max(0, (window.innerHeight - bar - box.height) / 2) });
-    } else courts.scrollIntoView({ block: 'center' });
-    stack.current.play();
   };
   const stop = () => stage.current.stop();
   useEffect(() => {
@@ -170,13 +156,11 @@ export default function SquashLanding() {
       <section className="sq-stack" aria-labelledby="stack-title">
         <div className="sq-wrap sq-stack-grid">
           <div>
-            <div className="kick">Game by game</div>
-            <h2 id="stack-title">Stack the games and the pattern shows.</h2>
-            <div className="sq-legend"><span style={{ '--c': 'rgb(143,184,255)' }}>Mueller</span><span style={{ '--c': 'rgb(240,194,75)' }}>El Hammamy</span></div>
-            <div className="sq-key"><span><b>Dot</b> where a drive bounced</span><span><b>%</b> drives past the short line</span></div>
-            <button className="sq-play" type="button" onClick={playStack}><span className="ic" aria-hidden="true"><svg viewBox="0 0 12 14"><path d="M1 1.2v11.6L11 7z" /></svg></span>Play the stack</button>
+            <div className="kick">Coach platform</div>
+            <h2 id="stack-title">The film room. <em>Every rally, one click away.</em></h2>
+            <ul className="sq-film-points"><li><b>Filter</b> winners, errors, either player</li><li><b>Play</b> every clip, back to back</li><li><b>Compare</b> the numbers side by side</li></ul>
           </div>
-          <canvas ref={stackCanvas} role="img" aria-label="Three squash courts stacked, one per game, with a dot where each drive bounced" />
+          <FilmRoom />
         </div>
       </section>
 
