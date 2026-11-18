@@ -135,6 +135,7 @@ export default function SquashLanding() {
     <div className="sq-track">
       <section className="sq-stage" aria-label="A real pro rally, tracked by Motion Dynamics">
         <picture><source media="(max-width: 720px)" srcSet="/media/squash/squash-2560.jpg" /><img className="sq-plate" src="/media/squash/squash.jpg" alt="" width="3840" height="2143" fetchpriority="high" /></picture>
+        <video className="sq-reel" loop playsInline disablePictureInPicture aria-hidden="true" tabIndex={-1} />
         <canvas className="sq-overlay" aria-hidden="true" />
         <div className="sq-scrim" />
 

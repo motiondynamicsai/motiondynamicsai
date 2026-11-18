@@ -110,6 +110,16 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   let disposed = false, raf = 0, W = 0, H = 0, dpr = 1, PX = 1, CAMNOW = null;
   const fold = document.createElement('div'); fold.style.cssText = 'position:absolute;width:0;height:100svh;visibility:hidden;pointer-events:none'; stage.append(fold);
   const visibleHeight = () => fold.offsetHeight; // the screen above a floating browser toolbar: the stage runs on underneath it
+  // wide screens: a looping reel stands in for the still court at rest; phones keep the court and never fetch it
+  const reel = $('.sq-reel'), reelQuery = window.matchMedia('(min-width:720px),(max-height:500px) and (orientation:landscape)');
+  let reelOn = false;
+  const loadReel = () => {
+    if (!reel || reel.poster || !reelQuery.matches) return;
+    reel.muted = true; reel.poster = `${MEDIA}hero-reel-poster.webp`;
+    if (reduce || navigator.connection?.saveData) return; // the poster alone: no motion, no megabytes
+    reel.preload = 'auto'; reel.src = `${MEDIA}hero-reel-${window.innerWidth * (window.devicePixelRatio || 1) > 2000 ? 1280 : 960}.mp4`; // the reel fills about half the screen
+  };
+  loadReel(); reelQuery.addEventListener('change', loadReel);
   let pos = Number(new URLSearchParams(window.location.search).get('p')) || 0, dir = 0; // ?p=2.5 opens part-way in
 
   const poly = (pts, close) => { ctx.beginPath(); pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); if (close) ctx.closePath(); };
@@ -226,6 +236,8 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       const col = hero.getBoundingClientRect().right, m = hero.getBoundingClientRect().left, gap = Math.max(24, Math.min(56, W * 0.035)), ratio = (BAND.bottom - BAND.top) * SQ.h / RALLY.width;
       const avail = W - col - gap - m; fr.w = Math.round(Math.min(avail, (H - BAR - 112) / ratio)); fr.x = Math.round(col + gap + avail - fr.w);
       const h = fr.w * ratio, top = Math.round(BAR + (H - BAR - 64 - h) / 2);
+      const rw = Math.round(Math.min(avail, ((H - BAR - 112) * 16) / 9)), rh = (rw * 9) / 16, rtop = Math.round(BAR + (H - BAR - 64 - rh) / 2); // the reel is 16:9, a touch taller than the court's frame
+      stage.style.setProperty('--reel-x', `${col + gap + avail - rw}px`); stage.style.setProperty('--reel-w', `${rw}px`); stage.style.setProperty('--reel-top', `${rtop}px`); stage.style.setProperty('--reel-bot', `${Math.round(rtop + rh)}px`);
       band.slot = band.play = top + h / 2; scrim.style.borderLeftWidth = `${fr.x}px`; scrim.style.borderRightWidth = `${Math.round(W - fr.x - fr.w)}px`;
       stage.style.setProperty('--pic-x', `${fr.x}px`); stage.style.setProperty('--pic-w', `${fr.w}px`); stage.style.setProperty('--pic-top', `${top}px`); stage.style.setProperty('--pic-bot', `${Math.round(top + h)}px`);
     };
@@ -380,6 +392,11 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
       hero.style.opacity = ho === 1 ? '' : ho; stage.style.setProperty('--ho', ho); hero.style.setProperty('--lift', `${h * 60}px`); hero.style.visibility = ho ? 'visible' : 'hidden';
       stage.classList.toggle('is-playing', h > 0);
       cv.style.opacity = 1 - ho; // the clean court at rest; the tracking arrives with Play
+      if (reel) { // wide: the reel at rest, crossfading to the court as Play takes over
+        const on = wide(); reel.style.opacity = on ? ho : 0; plate.style.opacity = on ? 1 - ho : '';
+        const run = on && ho > 0 && onScreen && !!reel.src;
+        if (run !== reelOn) { reelOn = run; if (run) reel.play().catch(() => {}); else reel.pause(); } // a refused autoplay (iOS low power) leaves the poster
+      }
       const co = clamp((h - 0.55) / 0.35, 0, 1);
       cap.style.opacity = co; cap.style.visibility = co ? 'visible' : 'hidden';
       boxEl.style.opacity = co * (1 - ramp(st.t, PL, 1)); // the stacked courts need the room
@@ -412,6 +429,6 @@ export function mountSquashStage(root, { onBeat, onPlaying } = {}) {
   return {
     play() { if (pos >= END) pos = 1; dir = 1; onPlaying?.(true); wake(); }, // replays skip the hero fade
     stop() { pos = Math.min(pos, 1); dir = -1; onPlaying?.(false); wake(); },
-    destroy() { disposed = true; fold.remove(); cancelAnimationFrame(raf); window.removeEventListener('resize', size); cleanups.forEach((f) => f()); rowsEl.replaceChildren(); },
+    destroy() { disposed = true; fold.remove(); reelQuery.removeEventListener('change', loadReel); reel?.pause(); cancelAnimationFrame(raf); window.removeEventListener('resize', size); cleanups.forEach((f) => f()); rowsEl.replaceChildren(); },
   };
 }

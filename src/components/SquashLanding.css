@@ -33,6 +33,7 @@
 .sq-track{position:relative}
 .sq-stage{position:relative;height:100vh;height:100svh;min-height:600px;overflow:hidden;background:var(--ink)}
 .sq-plate{position:absolute;left:0;top:0;width:3840px;height:2143px;max-width:none;transform-origin:0 0;will-change:transform;user-select:none;pointer-events:none;visibility:hidden}
+.sq-reel{display:none}
 .sq-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
 .sq-scrim{position:absolute;inset:0;pointer-events:none;z-index:3;background:
   linear-gradient(90deg,rgba(5,7,13,.94) 0%,rgba(5,7,13,.76) 30%,rgba(5,7,13,.2) 54%,rgba(5,7,13,0) 64%),
@@ -584,6 +585,7 @@
 @media (max-width:340px){.sq-events .live .gx-rest b{font-size:10.5px}.sq-events .live .gx-rest span{font-size:9.5px}}
 @media (max-width:360px) and (orientation:portrait){.sq-deal>span{font-size:11px}.sq-deal>span+span{padding-left:10px}.sq-deal b{font-size:22px}}
 .sq-static .sq-hero .sq-play{display:none}
+.sq-static .sq-reel{display:none}
 .sq-static .sq-plate{visibility:visible;width:100%;height:100%;object-fit:cover;transform:none!important}
 @media (prefers-reduced-motion:reduce){.sq *,.sq *::before,.sq *::after{transition:none!important}.sq h1 .l span,.sq-offer,.sq-hero .sq-form,.sq-play{animation:none;transform:none}.sq-play .ic::after,.sq-notice .dot,.sq-events .live i{animation:none}}
 /* phones: the thank-you and the error sit on the same left edge as everything else */
@@ -737,6 +739,7 @@
   .sq-scrim{background:none;box-sizing:border-box;border-style:solid;border-color:var(--ink);border-width:0}
   .sq-scrim::after{display:none}
   .sq-plate{-webkit-mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%);mask-image:linear-gradient(180deg,transparent 15%,#000 15%,#000 59.5%,transparent 59.5%)}
+  .sq-reel{display:block;position:absolute;left:var(--reel-x);top:var(--reel-top);width:var(--reel-w);height:auto;aspect-ratio:16/9;object-fit:cover;background:var(--ink);opacity:0;z-index:4;pointer-events:none} /* above the scrim's frame, below the hero */
   .sq-hero{left:var(--margin);right:auto;top:91px;bottom:0;width:var(--col);max-width:none;display:flex;flex-direction:column;justify-content:center;transform:none}
   .sq-hero h1{margin:0;text-shadow:none}
   .sq-h-pro,.sq-h-sq{display:block;font-size:clamp(38px,4.7vw,68px);font-weight:600;letter-spacing:-.02em;line-height:1.04}
@@ -757,7 +760,7 @@
   .sq-hero .sq-form-note.is-error{position:absolute;left:0;right:0;top:100%;margin:8px 0 0}
   .sq-hero .sq-form.is-done{box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;min-height:183px;border-top:0;border-radius:0 0 14px 14px;padding:10px 20px 14px}
   .sq-hero:has(.is-done) .sq-deal{display:none}
-  .sq-slot{position:absolute;left:calc(var(--pic-x) - var(--margin));width:var(--pic-w);top:calc(var(--pic-bot) - 91px + 16px);display:flex;justify-content:center;min-height:0;padding:0}
+  .sq-slot{position:absolute;left:calc(var(--reel-x) - var(--margin));width:var(--reel-w);top:calc(var(--reel-bot) - 91px + 16px);display:flex;justify-content:center;min-height:0;padding:0}
   .sq-hero .sq-play{margin:0;position:relative}
   .sq-hero .sq-play::before{display:none}
   .sq-hero:has(.is-error) .sq-slot{visibility:visible;min-height:0;padding:0}
